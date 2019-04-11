@@ -1,1 +1,15 @@
 TODO:
+
+- Google Rezensionen für Cocktails
+
+T- Etablissement	ID, Namen, Ort, Strasse, Cocktails(Getränke)
+T- Getränke	    	ID, Namen, Inhalt(Getränke)
+T- Kommentar		ID, ID(FK, Account), Timestamp, Bezug(Fachlich: was wird bewertet), Text
+T- Bewertung		ID, ID(FK, Account), Timestamp, Bezug(Fachlich: was wird bewertet), Wert[1-5]
+T- Account		    ID, Name, Vorname, E-Mail
+
+
+Bewertung:
+Etablissement generell
+Cocktail/Getränk in Etablissement X
+
