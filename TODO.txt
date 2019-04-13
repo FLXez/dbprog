@@ -3,6 +3,7 @@ TODO:
 - Google Rezensionen für Cocktails
 
 T- Etablissement	ID, Namen, Ort, Strasse, Cocktails(Getränke)
+T- Cocktailkarte	ID, ID(FK, Etablissement), ID(FK, Getränke), Preis
 T- Getränke	    	ID, Namen, Inhalt(Getränke)
 T- Inhaltsstoffe	ID, Namen, Beschreibung, Alkoholhaltig
 T- Zusammensetzung	ID, ID(FK, Getränke), ID(FK, Inhaltsstoffe)
