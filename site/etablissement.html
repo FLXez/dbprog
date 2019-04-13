@@ -46,11 +46,25 @@
                     <li class="nav-item">
                         <a class="nav-link" href="index.html">Start</a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="etablissement.html">Etablissements<span class="sr-only">(current)</span></a>
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="#" id="etablissementDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Etablissements
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="etablissementDropdown">
+                            <a class="dropdown-item" href="etablissement.html">Übersicht</a>
+                            <a class="dropdown-item" href="#">Neues Etablissement</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="cocktails.html">Cocktails</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="cocktailsDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Cocktails
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="cocktailsDropdown">
+                            <a class="dropdown-item" href="cocktails.html">Übersicht</a>
+                            <a class="dropdown-item" href="#">Neuer Cocktail</a>
+                        </div>
                     </li>
                 </ul>
                 <form class="form-inline mt-2 mt-md-0">
@@ -64,9 +78,9 @@
     <main role="main">
         <!-- Top 3 Cocktails -->
 
-            <hr class="featurette-divider">
+        <hr class="featurette-divider">
 
-            <!-- /END THE FEATURETTES -->
+        <!-- /END THE FEATURETTES -->
 
         <!-- /.container -->
 
