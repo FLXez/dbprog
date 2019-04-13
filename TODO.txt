@@ -4,8 +4,10 @@ TODO:
 
 T- Etablissement	ID, Namen, Ort, Strasse, Cocktails(Getränke)
 T- Getränke	    	ID, Namen, Inhalt(Getränke)
-T- Kommentar		ID, ID(FK, Account), Timestamp, Bezug(Fachlich: was wird bewertet), Text
-T- Bewertung		ID, ID(FK, Account), Timestamp, Bezug(Fachlich: was wird bewertet), Wert[1-5]
+T- Inhaltsstoffe	ID, Namen, Beschreibung, Alkoholhaltig
+T- Zusammensetzung	ID, ID(FK, Getränke), ID(FK, Inhaltsstoffe)
+T- Kommentar		ID, ID(FK, Account), Timestamp, Bezug(Fachlich: was wird bewertet), BezugID, Text
+T- Bewertung		ID, ID(FK, Account), Timestamp, Bezug(Fachlich: was wird bewertet), BezugID, Wert[1-5]
 T- Account		    ID, Name, Vorname, E-Mail
 
 
