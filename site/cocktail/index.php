@@ -63,14 +63,13 @@
                         </div>
                     </li>
                 </ul>
-                <button class="btn btn-outline-light" type="button">Anmelden</button>
+                <a href="../main/signin.php" class="btn btn-outline-light" role="button" aria-pressed="true">Anmelden</a>  
             </div>
         </nav>
     </header>
 
     <main role="main">
         <!-- Top 3 Cocktails -->
-        <p>bla</p>
         <hr class="featurette-divider">
 
         <!-- /END THE FEATURETTES -->

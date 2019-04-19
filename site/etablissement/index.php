@@ -63,7 +63,7 @@
                         </div>
                     </li>
                 </ul>
-                <button class="btn btn-outline-light" type="button">Anmelden</button>
+                <a href="../main/signin.php" class="btn btn-outline-light" role="button" aria-pressed="true">Anmelden</a>  
             </div>
         </nav>
     </header>
