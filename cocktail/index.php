@@ -44,20 +44,20 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="../main/index.html">Start</a>
+                        <a class="nav-link" href="../main/">Start</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="etablissementDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="" id="etablissementDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Etablissements
                         </a>
                         <div class="dropdown-menu" aria-labelledby="etablissementDropdown">
-                            <a class="dropdown-item" href="../etablissement/index.html">Übersicht</a>
+                            <a class="dropdown-item" href="../etablissement/">Übersicht</a>
                             <a class="dropdown-item" href="#">Neues Etablissement</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown active">
-                        <a class="nav-link dropdown-toggle" href="#" id="cocktailDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="" id="cocktailDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Cocktails
                         </a>
