@@ -21,6 +21,9 @@ body {
 ------------------------- */
 
 .register-divider {
-  margin: 5rem 0;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  margin-left: 5rem;
+  margin-right: 5rem;
   text-align: center;
 }

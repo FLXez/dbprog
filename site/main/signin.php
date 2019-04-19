@@ -49,6 +49,7 @@
             </div>
         </nav>
     </header>
+    <h2 class="register-divider">Anmelden...</h2>
     <div class="card" style="">
         <div class="card-body" style="">
             <form class="form-inline form-center">
@@ -72,64 +73,54 @@
         </div>
     </div>
     <!--- Hier Registrieren -->
-    <h2 class="register-divider">Oder Registrieren?</h2>
-
-    <form style="">
-        <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-            <div class="col-sm-10">
-                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-            <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-            </div>
-        </div>
-        <fieldset class="form-group">
-            <div class="row">
-                <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
-                <div class="col-sm-10">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                        <label class="form-check-label" for="gridRadios1">
-                            First radio
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                        <label class="form-check-label" for="gridRadios2">
-                            Second radio
-                        </label>
-                    </div>
-                    <div class="form-check disabled">
-                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
-                        <label class="form-check-label" for="gridRadios3">
-                            Third disabled radio
-                        </label>
+    <h2 class="register-divider">... oder Registrieren?</h2>
+    <div class="card" style="">
+        <div class="card-body" style="">
+            <form style="">
+                <div class="form-group row">
+                    <label for="registerUsername" class="col-sm-2 col-form-label">Username</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="registerUsername" placeholder="Username">
                     </div>
                 </div>
-            </div>
-        </fieldset>
-        <div class="form-group row">
-            <div class="col-sm-2">Checkbox</div>
-            <div class="col-sm-10">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="gridCheck1">
-                    <label class="form-check-label" for="gridCheck1">
-                        Example checkbox
-                    </label>
+                <div class="form-group row">
+                    <label for="registerEmail" class="col-sm-2 col-form-label">E-Mail</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" id="registerEmail" placeholder="E-Mail">
+                    </div>
                 </div>
-            </div>
+                <div class="form-group row">
+                    <label for="registerPasswort" class="col-sm-2 col-form-label">Passwort</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="registerPasswort" placeholder="Passwort">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <!--- Weil Platz sonst kaputt -->
+                    <label for="registerPasswortConfirm" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="registerPasswortConfirm" placeholder="Passwort wiederholen">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck1">
+                            <label class="form-check-label" for="gridCheck1">
+                                Ich habe die <a href="">AGB's</a> gelesen und zur Kenntnis genommen.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Registrieren</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="form-group row">
-            <div class="col-sm-10">
-                <button type="submit" class="btn btn-primary">Sign in</button>
-            </div>
-        </div>
-    </form>
-
+    </div>
 
 </body>
 
