@@ -1,1 +1,1 @@
-ordner für css
+Saemtliche CSS hier rein, unter umstaenden Struktur parallel zum Ordner "site" aufbauen.

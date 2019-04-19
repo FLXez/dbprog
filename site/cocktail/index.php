@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
-    <title>Hameln Etablissements</title>
+    <title>Hameln Cocktails</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -30,7 +30,7 @@
         }
     </style>
     <!-- Custom styles for this template -->
-    <link href="../css/etablissement.css" rel="stylesheet">
+    <link href="../../css/cocktail.css" rel="stylesheet">
 </head>
 
 <body>
@@ -46,23 +46,23 @@
                     <li class="nav-item">
                         <a class="nav-link" href="../main/">Start</a>
                     </li>
-                    <li class="nav-item dropdown active">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="" id="etablissementDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Etablissements
                         </a>
                         <div class="dropdown-menu" aria-labelledby="etablissementDropdown">
-                            <a class="dropdown-item" href="">Übersicht</a>
+                            <a class="dropdown-item" href="../etablissement/">Übersicht</a>
                             <a class="dropdown-item" href="#">Neues Etablissement</a>
                         </div>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown active">
                         <a class="nav-link dropdown-toggle" href="" id="cocktailDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Cocktails
                         </a>
                         <div class="dropdown-menu" aria-labelledby="cocktailDropdown">
-                            <a class="dropdown-item" href="../cocktail/">Übersicht</a>
+                            <a class="dropdown-item" href="">Übersicht</a>
                             <a class="dropdown-item" href="#">Neuer Cocktail</a>
                         </div>
                     </li>
