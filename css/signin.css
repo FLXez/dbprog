@@ -7,14 +7,17 @@ body {
   padding-top: 5rem;
   padding-bottom: 3rem;
   margin: auto;
-  width: 50%;
   color: #5a5a5a;
 
 }
 
 .form-center {
   margin: auto;
-  width: 80%;
+  align-content: center;
+}
+
+.panel-group [aria-expanded=true]{
+  pointer-events: none;
 }
 
 /* Featurettes
