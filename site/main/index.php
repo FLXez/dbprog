@@ -1,4 +1,18 @@
-﻿<!doctype html>
+﻿<?php
+//Ist eine Session offen?
+session_start();
+
+$angemeldet = false;
+
+if (isset($_SESSION['username'])) {
+    $angemeldet = true;
+    $username = $_SESSION['username'];
+} else {
+    $angemeldet = false;
+}
+?>
+
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -13,6 +27,21 @@
 
 
     <style>
+        a.wel-me:link {
+            color: #FFFFFF;
+            text-decoration: underline;
+        }
+
+        a.wel-me:visited {
+            color: #FFFFFF;
+            text-decoration: underline;
+        }
+
+        a.wel-me:hover {
+            color: #afafaf;
+            text-decoration: underline;
+        }
+
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -63,7 +92,14 @@
                         </div>
                     </li>
                 </ul>
-                <a href="signin.php" class="btn btn-outline-light" role="button" aria-pressed="true">Anmelden</a>        
+                <?php
+                if ($angemeldet) {
+                    echo '<h5 style="color: white" class="col-auto">Hallo, <a href="#" class="wel-me">' . $username . '!</a></h5>';
+                    echo '<a href="signout.php" class="btn btn-outline-light" id="abmelden" role="button" aria-pressed="true">Abmelden</a>';
+                } else {
+                    echo '<a href="signin.php" class="btn btn-outline-light" role="button" aria-pressed="true">Anmelden</a>';
+                }
+                ?>
             </div>
         </nav>
     </header>
