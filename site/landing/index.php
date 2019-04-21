@@ -24,24 +24,8 @@ if (isset($_SESSION['username'])) {
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
+    <!-- CSS aus Template übernommen, placeholder -->
     <style>
-        a.wel-me:link {
-            color: #FFFFFF;
-            text-decoration: underline;
-        }
-
-        a.wel-me:visited {
-            color: #FFFFFF;
-            text-decoration: underline;
-        }
-
-        a.wel-me:hover {
-            color: #afafaf;
-            text-decoration: underline;
-        }
-
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -57,12 +41,14 @@ if (isset($_SESSION['username'])) {
             }
         }
     </style>
-    <!-- Custom styles for this template -->
-    <link href="../../css/main.css" rel="stylesheet">
+    <!-- Landing CSS -->
+    <link href="../../css/landing.css" rel="stylesheet">
+    <!-- CSS Toolbox -->
+    <link href="../../css/csstoolbox.css" rel="stylesheet"> 
 </head>
 
 <body>
-    <header>
+    <header role="header">
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <a class="navbar-brand" href="#Easteregg">Hameln E&C</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,18 +80,16 @@ if (isset($_SESSION['username'])) {
                 </ul>
                 <?php
                 if ($angemeldet) {
-                    echo '<h5 style="color: white" class="col-auto">Hallo, <a href="#" class="wel-me">' . $username . '!</a></h5>';
-                    echo '<a href="signout.php" class="btn btn-outline-light" id="abmelden" role="button" aria-pressed="true">Abmelden</a>';
+                    echo '<h5 class="col-auto ct-white">Hallo, <a href="../user/" class="wel-me">' . $username . '!</a></h5>';
+                    echo '<a href="../user/signout.php" class="btn btn-outline-light" id="abmelden" role="button" aria-pressed="true">Abmelden</a>';
                 } else {
-                    echo '<a href="signin.php" class="btn btn-outline-light" role="button" aria-pressed="true">Anmelden</a>';
+                    echo '<a href="../user/signin.php" class="btn btn-outline-light" role="button" aria-pressed="true">Anmelden</a>';
                 }
                 ?>
             </div>
         </nav>
     </header>
-
     <main role="main">
-        <!-- Top 3 Cocktails -->
         <div id="carousel" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#carousel" data-slide-to="0" class="active"></li>
@@ -158,13 +142,7 @@ if (isset($_SESSION['username'])) {
                 <span class="sr-only">Weiter</span>
             </a>
         </div>
-
-
-        <!-- Marketing messaging and featurettes
-  ================================================== -->
-        <!-- Wrap the rest of the page in another container to center all the content. -->
-        <div class="container marketing">
-            <!-- Three columns of text below the carousel -->
+        <div class="container marketing">        
             <div class="row">
                 <div class="col-lg-4">
                     <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
@@ -174,7 +152,7 @@ if (isset($_SESSION['username'])) {
                     <h2>Etablissement X</h2>
                     <p>Kurzbeschreibung des Etablissements</p>
                     <p><a class="btn btn-secondary" href="#" role="button">Weitere Informationen &raquo;</a></p>
-                </div><!-- /.col-lg-4 -->
+                </div>
                 <div class="col-lg-4">
                     <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
                         <title>Placeholder</title>
@@ -183,7 +161,7 @@ if (isset($_SESSION['username'])) {
                     <h2>Etablissement Y</h2>
                     <p>Kurzbeschreibung des Etablissements</p>
                     <p><a class="btn btn-secondary" href="#" role="button">Weitere Informationen &raquo;</a></p>
-                </div><!-- /.col-lg-4 -->
+                </div>
                 <div class="col-lg-4">
                     <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
                         <title>Placeholder</title>
@@ -192,19 +170,18 @@ if (isset($_SESSION['username'])) {
                     <h2>Etablissement Ich denke nicht nach wenn ich Kopiere</h2>
                     <p>Felix hatte nicht nachgedacht beim kopieren. 4 Sterne. Würde ich nicht wieder hingehen.</p>
                     <p><a class="btn btn-secondary" href="#" role="button">Weitere Informationen &raquo;</a></p>
-                </div><!-- /.col-lg-4 -->
-            </div><!-- /.row -->
+                </div>
+            </div>
 
+            <!-- Die drei Texte unten -->
 
-            <!-- START THE FEATURETTES -->
-
-            <hr class="featurette-divider">
+            <hr class="ct-hr-divider">
             <div class="container">
                 <div class="row justify-content-center">
                     <h1>Über diese Website</h1>
                 </div>
             </div>
-            <hr class="featurette-divider">
+            <hr class="ct-hr-divider">
             <div class="row featurette">
                 <div class="col-md-7">
                     <h2 class="featurette-heading">Diese Seite...</h2>
@@ -221,7 +198,7 @@ if (isset($_SESSION['username'])) {
                 </div>
             </div>
 
-            <hr class="featurette-divider">
+            <hr class="ct-hr-divider">
 
             <div class="row featurette">
                 <div class="col-md-7 order-md-2">
@@ -237,7 +214,7 @@ if (isset($_SESSION['username'])) {
                 </div>
             </div>
 
-            <hr class="featurette-divider">
+            <hr class="ct-hr-divider">
 
             <div class="row featurette">
                 <div class="col-md-7">
@@ -253,16 +230,10 @@ if (isset($_SESSION['username'])) {
                     </svg>
                 </div>
             </div>
-
-            <hr class="featurette-divider">
-
-            <!-- /END THE FEATURETTES -->
-
-        </div><!-- /.container -->
-
-
-        <!-- FOOTER -->
-        <footer class="container">
+            <hr class="ct-hr-divider">
+        </div>
+        <!-- Footer, aktuell noch geklaut -->
+        <footer role="footer" class="container">
             <p class="float-right"><a href="#">Back to top</a></p>
             <p>&copy; 2019 Schwanger Cocktails. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
         </footer>
