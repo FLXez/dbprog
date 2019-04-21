@@ -16,7 +16,7 @@ if (isset($_GET['login'])) {
     //Überprüfung des Passworts
     if ($user !== false && password_verify($passwort, $user['passwort'])) {
         $_SESSION['username'] = $user['username'];
-        header('Location: index.php');
+        header('Location: ../landing/index.php  ');
     } else {
         $loginError = true;
         $message = "Username oder/und Passwort ungültig!";

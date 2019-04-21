@@ -70,6 +70,7 @@ if (isset($_SESSION['username'])) {
         </nav>
     </header>
     <main role="main">
+        
     </main>
     <footer role="footer">
     </footer>

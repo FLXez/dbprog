@@ -1,7 +1,7 @@
 <?php
 session_start();
 session_destroy();
-header("refresh:5;url=index.php");
+header("refresh:5;url=../landing/index.php");
 ?>
 <!doctype html>
 <html lang="en">
