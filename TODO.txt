@@ -15,10 +15,3 @@ T- Users		    ID, Name, E-Mail, Password, TS_Einfuegung, TS_Update
 Bewertung:
 Etablissement generell
 Cocktail/Getränk in Etablissement X
-
-
-Signin 
-"CREATOR" Tag HTML
-Login
-Logoff
-User-Area
