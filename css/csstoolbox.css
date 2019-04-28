@@ -1,6 +1,8 @@
 /*Alles mit "ct-" einleiten, damit es unter den diversen css sheets eindeutig wird*/
 
+
 /*"Hallo, X!" in Navbar, X unterstrichen und weiß (da anklickbar)*/
+
 a.wel-me:link {
     color: #FFFFFF;
     text-decoration: underline;
@@ -16,37 +18,48 @@ a.wel-me:hover {
     text-decoration: underline;
 }
 
+
 /*Platz für Navbar und eventuellen Footer, zudem etwas helleren Text.*/
+
 body {
     padding-top: 3rem;
     padding-bottom: 3rem;
     margin: auto;
     color: #5a5a5a;
-  
-  }
+}
+
 
 /*Mach es weiß*/
-.ct-white{
+
+.ct-white {
     color: white;
 }
 
+
 /*Text zentrieren*/
+
 .ct-text-center {
     text-align: center;
 }
 
+
 /*Formular zentrieren (user/signin.php)*/
+
 .ct-form-center {
     margin: auto;
     align-content: center;
 }
 
+
 /*Wenn <hr> zum "dividen" genutzt wird (landing/index.php)*/
+
 .ct-hr-divider {
     margin: 5rem 0;
 }
 
+
 /*Wenn text zum "dividen" genutzt wird (user/signin.php)*/
+
 .ct-text-divider {
     margin-top: 2rem;
     margin-bottom: 1rem;
@@ -55,7 +68,20 @@ body {
     text-align: center;
 }
 
+
 /*Panel gruppieren (user/signin.php)*/
-.ct-panel-group [aria-expanded=true]{
+
+.ct-panel-group [aria-expanded=true] {
     pointer-events: none;
+}
+
+.ct-mid-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ct-font-size-2 {
+    font-size: 2rem;
 }

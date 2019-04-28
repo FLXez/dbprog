@@ -1,10 +1,13 @@
 <?php
-session_start();
-session_destroy();
+include('../../php/sessioncheck.php');
+$headerActive = "user";
 header("refresh:5;url=../landing/index.php");
+if ($angemeldet) {
+    session_destroy();
+}
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="de">
 
 <head>
     <meta charset="utf-8">
@@ -20,45 +23,31 @@ header("refresh:5;url=../landing/index.php");
 </head>
 
 <body class="center-block">
-    <header role="header">
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="#Easteregg">Hameln E&C</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../landing/">Start</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="" id="etablissementDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Etablissements
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="etablissementDropdown">
-                            <a class="dropdown-item" href="../etablissement/">Übersicht</a>
-                            <a class="dropdown-item" href="#">Neues Etablissement</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="" id="cocktailDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Cocktails
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="cocktailDropdown">
-                            <a class="dropdown-item" href="../cocktail/">Übersicht</a>
-                            <a class="dropdown-item" href="#">Neuer Cocktail</a>
-                        </div>
-                    </li>
-                </ul>
-                <a href="signin.php" class="btn btn-outline-light" role="button" aria-pressed="true">Anmelden</a>
-            </div>
-        </nav>
-    </header>
+    <?php
+    include('../../php/buildHeader.php');
+    ?>
     <main role="main">
-        <h2 class="ct-text-divider">Erfolgreich abgemeldet!</h2>
-        <div class="alert alert-info col-auto ct-text-center" role="alert">Automatische Weiterleitung in 5 Sekunden.<br>Falls die automatische Weiterleitung nicht funktionieren sollte, klicken sie bitte <a href="../landing/index.php" class="alert-link">hier</a>.</div>
+        <?php
+        if ($angemeldet){
+            echo 
+            '
+            <h2 class="ct-text-divider">Erfolgreich abgemeldet!</h2>
+            <div class="alert alert-info col-auto ct-text-center" role="alert">Automatische Weiterleitung in 5 Sekunden.<br>Falls die automatische Weiterleitung nicht funktionieren sollte, klicken sie bitte <a href="../landing/index.php" class="alert-link">hier</a>.</div>
+            ';
+        } else {
+            echo 
+            '
+            <h2 class="ct-text-divider">Kein angemeldeter User gefunden.</h2>
+            <div class="alert alert-info col-auto ct-text-center" role="alert">Automatische Weiterleitung in 5 Sekunden.<br>Falls die automatische Weiterleitung nicht funktionieren sollte, klicken sie bitte <a href="../landing/index.php" class="alert-link">hier</a>.</div>
+            ';
+        }
+        ?>
     </main>
-    <footer role="footer">
+    <hr class="ct-hr-divider ml-5 mr-5">
+    <footer role="footer" class="container">
+        <?php
+        include('../../php/buildFooter.php');
+        ?>
     </footer>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
