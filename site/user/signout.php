@@ -1,9 +1,10 @@
 <?php
 include('../../php/sessioncheck.php');
 $headerActive = "user";
-header("refresh:5;url=../landing/index.php");
-if ($angemeldet) {
+$signout = true;
+if ($angemeldet){
     session_destroy();
+    header("refresh:5;url=../landing/index.php");
 }
 ?>
 <!doctype html>

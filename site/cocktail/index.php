@@ -1,6 +1,7 @@
 ﻿<?php
 include('../../php/sessioncheck.php');
 $headerActive = "cocktail";
+$signout = false;
 ?>
 <!doctype html>
 <html lang="de">

@@ -54,7 +54,17 @@ body {
 /*Wenn <hr> zum "dividen" genutzt wird (landing/index.php)*/
 
 .ct-hr-divider {
-    margin: 5rem 0;
+    margin: 5rem;
+}
+
+.ct-hr-divider-2 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.ct-hr-divider-3 {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
 }
 
 

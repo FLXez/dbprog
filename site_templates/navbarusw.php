@@ -2,6 +2,7 @@
 include('../../php/sessioncheck.php');
 //headerActive: landing, etablissement, cocktails, user, EMPTY
 $headerActive = "";
+$signout = false;
 ?>
 <!doctype html>
 <html lang="de">

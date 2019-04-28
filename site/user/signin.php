@@ -1,13 +1,14 @@
 <?php
 include('../../php/sessioncheck.php');
 $headerActive = "user";
+$signout = false;
 //TODO: Angemeldet unten Seite anders aufbauen
 if (!$angemeldet) {
 
     $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
     $message = "";
     $loginError = false;
-    $registerError = false;
+    $regError = false;
     $result = "";
     if (isset($_GET['login'])) {
         $loginUsername = $_POST['loginUsername'];
@@ -34,17 +35,17 @@ if (!$angemeldet) {
         $errEmail = false;
         $regPasswort = $_POST['registerPasswort'];
         $errPasswort = false;
-        $regPasswortc = $_POST['registerPasswortConfirm'];
-        $errPasswortc = false;
+        $regPasswortconfirm = $_POST['registerPasswortConfirm'];
+        $errPasswortconfirm = false;
 
-        if ($regPasswort != $regPasswortc) {
+        if ($regPasswort != $regPasswortconfirm) {
             $message = "Die Passwörter stimmen nicht überein.<br>";
-            $errPasswortc = true;
-            $registerError = true;
+            $errPasswortconfirm = true;
+            $regError = true;
         }
 
         //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
-        if (!$registerError) {
+        if (!$regError) {
             $statement = $pdo->prepare("SELECT * FROM users WHERE email = :email");
             $result = $statement->execute(array('email' => $regEmail));
             $user = $statement->fetch();
@@ -52,7 +53,7 @@ if (!$angemeldet) {
             if ($user !== false) {
                 $message .= "Diese E-Mail-Adresse ist bereits vergeben.<br>";
                 $errEmail = true;
-                $registerError = true;
+                $regError = true;
             }
 
             $statement = $pdo->prepare("SELECT * FROM users WHERE username = :username");
@@ -62,7 +63,7 @@ if (!$angemeldet) {
             if ($user !== false) {
                 $message .= "Dieser Username ist bereits vergeben.<br>";
                 $errEmail = true;
-                $registerError = true;
+                $regError = true;
             }
         }
 
@@ -76,6 +77,7 @@ if (!$angemeldet) {
             if ($result) {
                 $message = "Du wurdest erfolgreich registriert.";
             } else {
+                $regError = true;
                 $message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
             }
         }
@@ -107,7 +109,7 @@ if (!$angemeldet) {
     <main role="main">
         <?php
         if (!$angemeldet) {
-            if ($loginError or $registerError) {
+            if ($regError or $loginError) {
                 echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
                 echo $message;
                 echo '</div>';
