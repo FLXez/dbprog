@@ -43,7 +43,7 @@ CREATE TABLE `bewertung` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `eta_id` int(11) NOT NULL,
   `cocktail_id` int(11) NOT NULL,
-  `text` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `text` text COLLATE utf8_unicode_ci NOT NULL,
   `wert` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -55,9 +55,19 @@ CREATE TABLE `bewertung` (
 
 CREATE TABLE `cocktail` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `beschreibung` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `cocktail`
+--
+
+INSERT INTO `cocktail` (`id`, `name`, `beschreibung`) VALUES
+(1, 'So ein Cocktail', 'Hier könnte Ihre Werbung stehen.'),
+(2, 'Anderer Cocktail', 'Blahblah'),
+(3, 'Cocktail ABC', 'Was ist das für ein Müll'),
+(4, 'Der name sollte maybe unique sein?', 'not sure tho\r\n');
 
 -- --------------------------------------------------------
 
@@ -72,6 +82,17 @@ CREATE TABLE `cocktailkarte` (
   `preis` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Daten für Tabelle `cocktailkarte`
+--
+
+INSERT INTO `cocktailkarte` (`id`, `eta_id`, `cocktail_id`, `preis`) VALUES
+(1, 1, 2, '5.00'),
+(2, 1, 4, '123.00'),
+(3, 1, 1, '16.00'),
+(5, 2, 3, '12.00'),
+(7, 2, 4, '44.55');
+
 -- --------------------------------------------------------
 
 --
@@ -80,11 +101,19 @@ CREATE TABLE `cocktailkarte` (
 
 CREATE TABLE `etablissement` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `ort` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `anschrift` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `ort` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `anschrift` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `verifiziert` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `etablissement`
+--
+
+INSERT INTO `etablissement` (`id`, `name`, `ort`, `anschrift`, `verifiziert`) VALUES
+(1, 'Isoein Laden', 'Hameln', 'blabla straße 192', 0),
+(2, 'Baka', 'Dortmund', 'Die eine Straße 10', 1);
 
 -- --------------------------------------------------------
 
@@ -94,10 +123,20 @@ CREATE TABLE `etablissement` (
 
 CREATE TABLE `inhaltsstoffe` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `beschreibung` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `beschreibung` text COLLATE utf8_unicode_ci NOT NULL,
   `alkoholhaltig` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `inhaltsstoffe`
+--
+
+INSERT INTO `inhaltsstoffe` (`id`, `name`, `beschreibung`, `alkoholhaltig`) VALUES
+(1, 'Cola', 'Cola eben', 0),
+(2, 'Rum', 'ALKOHOL', 1),
+(3, 'Ouzo', 'Welcher Wahnsinnige kippt Ouzo in Cocktails??', 1),
+(4, 'Hat Alkohol', 'True', 1);
 
 -- --------------------------------------------------------
 
@@ -110,6 +149,19 @@ CREATE TABLE `rezept` (
   `cocktail_id` int(11) NOT NULL,
   `inhalts_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `rezept`
+--
+
+INSERT INTO `rezept` (`id`, `cocktail_id`, `inhalts_id`) VALUES
+(9, 1, 4),
+(1, 2, 1),
+(2, 2, 3),
+(7, 3, 1),
+(8, 3, 2),
+(11, 4, 2),
+(10, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -152,13 +204,15 @@ ALTER TABLE `bewertung`
 -- Indizes für die Tabelle `cocktail`
 --
 ALTER TABLE `cocktail`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indizes für die Tabelle `cocktailkarte`
 --
 ALTER TABLE `cocktailkarte`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `eta_id` (`eta_id`,`cocktail_id`),
   ADD KEY `fk_karte_cocktail` (`cocktail_id`),
   ADD KEY `fk_karte_eta` (`eta_id`);
 
@@ -179,6 +233,7 @@ ALTER TABLE `inhaltsstoffe`
 --
 ALTER TABLE `rezept`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `cocktail_id` (`cocktail_id`,`inhalts_id`),
   ADD KEY `fk_rezept_cocktail` (`cocktail_id`),
   ADD KEY `fk_rezept_inhalt` (`inhalts_id`);
 
@@ -202,27 +257,27 @@ ALTER TABLE `bewertung`
 -- AUTO_INCREMENT für Tabelle `cocktail`
 --
 ALTER TABLE `cocktail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT für Tabelle `cocktailkarte`
 --
 ALTER TABLE `cocktailkarte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT für Tabelle `etablissement`
 --
 ALTER TABLE `etablissement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT für Tabelle `inhaltsstoffe`
 --
 ALTER TABLE `inhaltsstoffe`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT für Tabelle `rezept`
 --
 ALTER TABLE `rezept`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT für Tabelle `users`
 --
