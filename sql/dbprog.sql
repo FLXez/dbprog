@@ -24,13 +24,13 @@ SET time_zone = "+00:00";
 -- Alte Tabellenstruktur löschen
 --
 
-DROP TABLE `bewertung`
-DROP TABLE `cocktail`
-DROP TABLE `cocktailkarte`
-DROP TABLE `etablissement`
-DROP TABLE `inhaltsstoffe`
-DROP TABLE `rezept`
-DROP TABLE `users`
+DROP TABLE `bewertung`;
+DROP TABLE `cocktail`;
+DROP TABLE `cocktailkarte`;
+DROP TABLE `etablissement`;
+DROP TABLE `inhaltsstoffe`;
+DROP TABLE `rezept`;
+DROP TABLE `users`;
 -- --------------------------------------------------------
 
 --
