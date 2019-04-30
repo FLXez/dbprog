@@ -1,5 +1,19 @@
 <?php
+$searchActive = "";
+$cocktailActive = "";
+$etablissementActive = "";
+$uberUnsActive = "";
 //baut den Header auf.
+if ($activeHead == "search") {
+    $searchActive = "active";
+} elseif ($activeHead == "etablissement") {
+    $etablissementActive = "active";
+} elseif ($activeHead == "cocktail") {
+    $cocktailActive = "active";
+} elseif ($activeHead == "uberUns") {
+    $uberUnsActive = "active";
+}
+
 echo '
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="../landing/">Hameln E&C</a>
@@ -14,8 +28,8 @@ echo '
                 <li class="nav-item dropdown  '.$etablissementActive.'">
                     <a class="nav-link dropdown-toggle" href="" id="etablissementDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Etablissements</a>
                     <div class="dropdown-menu" aria-labelledby="etablissementDropdown">
-                        <a class="dropdown-item" href="../etablissement/">Übersicht</a>
-                        <a class="dropdown-item" href="#">Neues Etablissement</a>
+                        <a class="dropdown-item" href="../landing/etablissement.php">Übersicht</a>
+                        <a class="dropdown-item" href="../landing/neuesEtablissement.php">Neues Etablissement</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown '.$cocktailActive.'">
