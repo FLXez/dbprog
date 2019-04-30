@@ -127,64 +127,7 @@ $signout = false;
                     <p><a class="btn btn-secondary" href="#" role="button">Weitere Informationen &raquo;</a></p>
                 </div>
             </div>
-
-            <!-- Die drei Texte unten -->
-
-            <hr class="ct-hr-divider">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <h1>Über diese Website</h1>
-                </div>
-            </div>
-            <hr class="ct-hr-divider">
-            <div class="row featurette">
-                <div class="col-md-7">
-                    <h2 class="featurette-heading">Diese Seite...</h2>
-                    <p class="lead">... ist auf Basis eines Projekts in der Uni entstanden. <br> <i>"Was wäre, wenn ich
-                            trinken
-                            gehen will und genau weiß, wo welcher Cocktail wie gut schmeckt?"</i> <br>Das war die Idee,
-                        die zur Entstehung dieser Website geführt hat.</p>
-                </div>
-                <div class="col-md-5">
-                    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
-                    </svg>
-                </div>
-            </div>
-
-            <hr class="ct-hr-divider">
-
-            <div class="row featurette">
-                <div class="col-md-7 order-md-2">
-                    <h2 class="featurette-heading">Das Team...</h2>
-                    <p class="lead">... besteht aus Philipp Potraz, Felix Pause und Cedrick Bargel. Wir drei lieben
-                        Cocktails mindestens genauso sehr wie ihr!</p>
-                </div>
-                <div class="col-md-5 order-md-1">
-                    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
-                    </svg>
-                </div>
-            </div>
-
-            <hr class="ct-hr-divider">
-
-            <div class="row featurette">
-                <div class="col-md-7">
-                    <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-                    <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
-                        euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
-                        tellus ac cursus commodo.</p>
-                </div>
-                <div class="col-md-5">
-                    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
-                    </svg>
-                </div>
-            </div>
+  
         </div>
     </main>
     <hr class="ct-hr-divider ml-5 mr-5">
