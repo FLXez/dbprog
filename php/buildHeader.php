@@ -23,7 +23,7 @@ echo '
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item ' . $searchActive . '">
-                    <a class="nav-link" href="../search/">Suche</a>
+                    <a class="nav-link" href="../landing/search.php">Suche</a>
                 </li>
                 <li class="nav-item dropdown  ' . $etablissementActive . '">
                     <a class="nav-link dropdown-toggle" href="" id="etablissementDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Etablissements</a>
@@ -36,7 +36,7 @@ echo '
                     <a class="nav-link dropdown-toggle" href="" id="cocktailDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cocktails
                     </a>
                     <div class="dropdown-menu" aria-labelledby="cocktailDropdown">
-                        <a class="dropdown-item" href="../cocktail/">Übersicht</a>
+                        <a class="dropdown-item" href="../landing/cocktail.php">Übersicht</a>
                         <a class="dropdown-item" href="#">Neuer Cocktail</a>
                     </div>
                 </li>
@@ -44,17 +44,17 @@ echo '
 				<a class="nav-link dropdown-toggle" href="" id="uberUnsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Über Uns
                     </a>
 					 <div class="dropdown-menu" aria-labelledby="uberUnsDropdown">
-                        <a class="dropdown-item" href="../thingsNoOneWillRead/team.php">Das Team</a>
-                        <a class="dropdown-item" href="../thingsNoOneWillRead/motivation.php">Motivation</a>
-						<a class="dropdown-item" href="../thingsNoOneWillRead/impressum.php">Impressum</a>
+                        <a class="dropdown-item" href="../landing/team.php">Das Team</a>
+                        <a class="dropdown-item" href="../landing/motivation.php">Motivation</a>
+						<a class="dropdown-item" href="../landing/impressum.php">Impressum</a>
                     </div>
 				</li>
             </ul>';
 if ($angemeldet and !$signout) {
-    echo '<h5 class="col-auto ct-white">Hallo, <a href="../user/" class="wel-me">' . $username . '!</a></h5>';
-    echo '<a href="../user/signout.php" class="btn btn-outline-light" id="abmelden" role="button" aria-pressed="true">Abmelden</a>';
+    echo '<h5 class="col-auto ct-white">Hallo, <a href="../landing/einstellungen.php" class="wel-me">' . $username . '!</a></h5>';
+    echo '<a href="../landing/signout.php" class="btn btn-outline-light" id="abmelden" role="button" aria-pressed="true">Abmelden</a>';
 } else {
-    echo '<a href="../user/signin.php" class="btn btn-outline-light" role="button" aria-pressed="true">Anmelden</a>';
+    echo '<a href="../landing/signin.php" class="btn btn-outline-light" role="button" aria-pressed="true">Anmelden</a>';
 }
 echo '
         </div>

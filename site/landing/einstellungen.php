@@ -134,7 +134,7 @@ if ($angemeldet) {
             <?php
             if($angemeldet) {
                 echo '
-                <h2 class="ml-4">Profil</h2>
+                <h2 class="ml-4">Einstellungen</h2>
                 <hr>
                 <div>
                     <form class="mr-5 ml-5 mt-2" action="?emailchange=1" method="post">
