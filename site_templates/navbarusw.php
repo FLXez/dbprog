@@ -1,10 +1,7 @@
 <?php
 include('../../php/sessioncheck.php');
-//headerActive: landing, etablissement, cocktails, user, EMPTY
-$searchActive = "";
-$etablissementActive = "";
-$cocktailActive = "";
-$uberUnsActive ="";
+//activeHead setzen.
+$activeHead = "";
 $signout = false;
 ?>
 <!doctype html>

@@ -1,9 +1,6 @@
 <?php
 include('../../php/sessioncheck.php');
-$searchActive = "active";
-$etablissementActive = "";
-$cocktailActive = "";
-$uberUnsActive ="";
+$activeHead = "search";
 $signout = false;
 ?>
 <!doctype html>

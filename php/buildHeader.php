@@ -1,5 +1,19 @@
 <?php
+$searchActive = "";
+$cocktailActive = "";
+$etablissementActive = "";
+$uberUnsActive = "";
 //baut den Header auf.
+if ($activeHead == "search") {
+    $searchActive = "active";
+} elseif ($activeHead == "etablissement") {
+    $etablissementActive = "active";
+} elseif ($activeHead == "cocktail") {
+    $cocktailActive = "active";
+} elseif ($activeHead == "uberUns") {
+    $uberUnsActive = "active";
+}
+
 echo '
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="../landing/">Hameln E&C</a>
@@ -8,17 +22,17 @@ echo '
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item '.$searchActive.'">
+                <li class="nav-item ' . $searchActive . '">
                     <a class="nav-link" href="../search/">Suche</a>
                 </li>
-                <li class="nav-item dropdown  '.$etablissementActive.'">
+                <li class="nav-item dropdown  ' . $etablissementActive . '">
                     <a class="nav-link dropdown-toggle" href="" id="etablissementDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Etablissements</a>
                     <div class="dropdown-menu" aria-labelledby="etablissementDropdown">
                         <a class="dropdown-item" href="../etablissement/">Übersicht</a>
                         <a class="dropdown-item" href="#">Neues Etablissement</a>
                     </div>
                 </li>
-                <li class="nav-item dropdown '.$cocktailActive.'">
+                <li class="nav-item dropdown ' . $cocktailActive . '">
                     <a class="nav-link dropdown-toggle" href="" id="cocktailDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cocktails
                     </a>
                     <div class="dropdown-menu" aria-labelledby="cocktailDropdown">
@@ -26,7 +40,7 @@ echo '
                         <a class="dropdown-item" href="#">Neuer Cocktail</a>
                     </div>
                 </li>
-				<li class="nav-item dropdown '.$uberUnsActive.'">
+				<li class="nav-item dropdown ' . $uberUnsActive . '">
 				<a class="nav-link dropdown-toggle" href="" id="uberUnsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Über Uns
                     </a>
 					 <div class="dropdown-menu" aria-labelledby="uberUnsDropdown">
@@ -38,9 +52,9 @@ echo '
             </ul>';
 if ($angemeldet and !$signout) {
     echo '<h5 class="col-auto ct-white">Hallo, <a href="../user/" class="wel-me">' . $username . '!</a></h5>';
-    echo '<a href="../user/signout.php" class="btn btn-outline-light" id="abmelden" role="button" aria-pressed="true">Abmelden</a>';            
+    echo '<a href="../user/signout.php" class="btn btn-outline-light" id="abmelden" role="button" aria-pressed="true">Abmelden</a>';
 } else {
-    echo '<a href="../user/signin.php" class="btn btn-outline-light" role="button" aria-pressed="true">Anmelden</a>';    
+    echo '<a href="../user/signin.php" class="btn btn-outline-light" role="button" aria-pressed="true">Anmelden</a>';
 }
 echo '
         </div>

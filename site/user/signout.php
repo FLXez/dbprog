@@ -1,9 +1,6 @@
 <?php
 include('../../php/sessioncheck.php');
-$searchActive = "";
-$etablissementActive = "";
-$cocktailActive = "";
-$uberUnsActive ="";
+$activeHead = "user";
 $signout = true;
 if ($angemeldet){
     session_destroy();
