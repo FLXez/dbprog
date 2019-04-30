@@ -1,6 +1,8 @@
 ﻿<?php
 include('../../php/sessioncheck.php');
-$headerActive = "landing";
+$searchActive = "";
+$etablissementActive = "";
+$cocktailActive = "";
 $signout = false;
 ?>
 <!doctype html>
