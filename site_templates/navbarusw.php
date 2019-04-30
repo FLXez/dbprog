@@ -4,6 +4,7 @@ include('../../php/sessioncheck.php');
 $searchActive = "";
 $etablissementActive = "";
 $cocktailActive = "";
+$uberUnsActive ="";
 $signout = false;
 ?>
 <!doctype html>

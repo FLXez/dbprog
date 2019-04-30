@@ -26,6 +26,15 @@ echo '
                         <a class="dropdown-item" href="#">Neuer Cocktail</a>
                     </div>
                 </li>
+				<li class="nav-item dropdown '.$uberUnsActive.'">
+				<a class="nav-link dropdown-toggle" href="" id="uberUnsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Über Uns
+                    </a>
+					 <div class="dropdown-menu" aria-labelledby="uberUnsDropdown">
+                        <a class="dropdown-item" href="../thingsNoOneWillRead/team.php">Das Team</a>
+                        <a class="dropdown-item" href="../thingsNoOneWillRead/motivation.php">Motivation</a>
+						<a class="dropdown-item" href="../thingsNoOneWillRead/impressum.php">Impressum</a>
+                    </div>
+				</li>
             </ul>';
 if ($angemeldet and !$signout) {
     echo '<h5 class="col-auto ct-white">Hallo, <a href="../user/" class="wel-me">' . $username . '!</a></h5>';

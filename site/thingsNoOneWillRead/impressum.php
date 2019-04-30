@@ -1,9 +1,10 @@
 <?php
 include('../../php/sessioncheck.php');
-$searchActive = "active";
+//headerActive: landing, etablissement, cocktails, user, EMPTY
+$searchActive = "";
 $etablissementActive = "";
 $cocktailActive = "";
-$uberUnsActive ="";
+$uberUnsActive ="active";
 $signout = false;
 ?>
 <!doctype html>

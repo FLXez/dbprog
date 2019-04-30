@@ -3,6 +3,7 @@ include('../../php/sessioncheck.php');
 $searchActive = "";
 $etablissementActive = "active";
 $cocktailActive = "";
+$uberUnsActive ="";
 $signout = false;
 ?>
 <!doctype html>

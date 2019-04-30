@@ -3,6 +3,7 @@ include('../../php/sessioncheck.php');
 $searchActive = "";
 $etablissementActive = "";
 $cocktailActive = "";
+$uberUnsActive ="";
 $signout = true;
 if ($angemeldet){
     session_destroy();

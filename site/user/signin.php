@@ -3,6 +3,7 @@ include('../../php/sessioncheck.php');
 $searchActive = "";
 $etablissementActive = "";
 $cocktailActive = "";
+$uberUnsActive ="";
 $signout = false;
 //TODO: Angemeldet unten Seite anders aufbauen
 if (!$angemeldet) {
