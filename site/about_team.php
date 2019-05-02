@@ -28,6 +28,13 @@ $signout = false;
         ?>
     </header>
     <main role="main">
+    <main role="main">
+        <div class="mt-5 ml-5 mr-5">
+            <div class="card card-body">
+                <h2 class="ml-4">Das Team</h2>
+                <hr>
+            </div>
+        </div>
     </main>
     <hr class="ct-hr-divider ml-5 mr-5">
     <footer role="footer" class="container">

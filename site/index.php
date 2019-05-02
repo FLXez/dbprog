@@ -100,6 +100,8 @@ $signout = false;
             </a>
         </div>
         <div class="container marketing">
+            <h3 class="mt-2 ct-text-center">Unsere Werbepartner:</h3>
+            <p class="ct-text-center mb-5"><small>... auch wir müssen von irgendwas leben, okay?</small></p>
             <div class="row">
                 <div class="col-lg-4">
                     <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
