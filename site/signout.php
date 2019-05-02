@@ -2,9 +2,9 @@
 include('../php/sessioncheck.php');
 $activeHead = "user";
 $signout = true;
-if ($angemeldet){
+if ($angemeldet) {
     session_destroy();
-    header("refresh:5;url=../landing/index.php");
+    header("refresh:5;url=../site/index.php");
 }
 ?>
 <!doctype html>
@@ -19,6 +19,8 @@ if ($angemeldet){
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- FontAwesome (icons) -->
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
     <!-- CSS Toolbox -->
     <link href="../css/csstoolbox.css" rel="stylesheet">
 </head>
@@ -29,17 +31,17 @@ if ($angemeldet){
     ?>
     <main role="main">
         <?php
-        if ($angemeldet){
-            echo 
-            '
+        if ($angemeldet) {
+            echo
+                '
             <h2 class="ct-text-divider">Erfolgreich abgemeldet!</h2>
-            <div class="alert alert-info col-auto ct-text-center" role="alert">Automatische Weiterleitung in 5 Sekunden.<br>Falls die automatische Weiterleitung nicht funktionieren sollte, klicken sie bitte <a href="../landing/index.php" class="alert-link">hier</a>.</div>
+            <div class="alert alert-info col-auto ct-text-center" role="alert">Automatische Weiterleitung in 5 Sekunden.<br>Falls die automatische Weiterleitung nicht funktionieren sollte, klicken sie bitte <a href="../site/index.php" class="alert-link">hier</a>.</div>
             ';
         } else {
-            echo 
-            '
+            echo
+                '
             <h2 class="ct-text-divider">Kein angemeldeter User gefunden.</h2>
-            <div class="alert alert-info col-auto ct-text-center" role="alert">Automatische Weiterleitung in 5 Sekunden.<br>Falls die automatische Weiterleitung nicht funktionieren sollte, klicken sie bitte <a href="../landing/index.php" class="alert-link">hier</a>.</div>
+            <div class="alert alert-info col-auto ct-text-center" role="alert">Automatische Weiterleitung in 5 Sekunden.<br>Falls die automatische Weiterleitung nicht funktionieren sollte, klicken sie bitte <a href="../site/index.php" class="alert-link">hier</a>.</div>
             ';
         }
         ?>

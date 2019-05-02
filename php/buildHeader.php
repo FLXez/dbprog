@@ -51,10 +51,10 @@ echo '
 				</li>
             </ul>';
 if ($angemeldet and !$signout) {
-    echo '<h5 class="col-auto ct-white">Hallo, <a href="../site/einstellungen.php" class="wel-me">' . $username . '!</a></h5>';
-    echo '<a href="../site/signout.php" class="btn btn-outline-light" id="abmelden" role="button" aria-pressed="true">Abmelden</a>';
+    echo '<a href="../site/profil_main.php" class="profil-nav mr-3"><i class="far fa-user"></i> Profil</a>';
+    echo '<a href="../site/signout.php" class="profil-nav"><i class="fas fa-lock"></i> Abmelden</a>';
 } else {
-    echo '<a href="../site/signin.php" class="btn btn-outline-light" role="button" aria-pressed="true">Anmelden</a>';
+    echo '<a href="../site/signin.php" class="profil-nav"><i class="fas fa-unlock"></i> Anmelden</a>';
 }
 echo '
         </div>

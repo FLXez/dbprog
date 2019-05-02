@@ -1,6 +1,6 @@
-﻿<?php
+<?php
 include('../php/sessioncheck.php');
-$activeHead = "etablissement";
+$activeHead = "user";
 $signout = false;
 ?>
 <!doctype html>
@@ -11,8 +11,7 @@ $signout = false;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
-    <title>Etablissement - Main</title>
-
+    <title>Profil</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- FontAwesome (icons) -->
@@ -21,8 +20,8 @@ $signout = false;
     <link href="../css/csstoolbox.css" rel="stylesheet">
 </head>
 
-<body>
-    <header>
+<body class="center-block">
+    <header role="header">
         <?php
         include('../php/buildHeader.php');
         ?>

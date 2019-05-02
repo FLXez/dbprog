@@ -53,7 +53,7 @@ if ($angemeldet) {
         $result = $statement->execute(array('username' => $username));
         $user = $statement->fetch();
 
-        if (password_verify($neupw, $user['passwort'])) { 
+        if (password_verify($neupw, $user['passwort'])) {
             $pwchangeError = true;
             $message = "Das neue Passwort darf nicht mit dem Alten übereinstimmen.<br>";
         }
@@ -63,12 +63,12 @@ if ($angemeldet) {
             $message .= "Die Eingaben für das neue Passwort stimmen nicht überein.<br>";
         }
 
-        if ($altpw == $neupw & $neupw == $neupwconfirm){
+        if ($altpw == $neupw & $neupw == $neupwconfirm) {
             $pwchangeError = true;
-            $message = "Bitte die Eingaben überprüfen.<br>";            
+            $message = "Bitte die Eingaben überprüfen.<br>";
         }
 
-        if (!$pwchangeError){
+        if (!$pwchangeError) {
             if (password_verify($altpw, $user['passwort'])) {
                 $neuPasswort_hash = password_hash($neupw, PASSWORD_DEFAULT);
                 $statement = $pdo->prepare("UPDATE users SET passwort = :passwort, updated_at = CURRENT_TIMESTAMP WHERE username = :username");
@@ -98,6 +98,8 @@ if ($angemeldet) {
     <title>Profil - Einstellungen</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- FontAwesome (icons) -->
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
     <!-- CSS Toolbox -->
     <link href="../css/csstoolbox.css" rel="stylesheet">
 </head>
@@ -124,16 +126,16 @@ if ($angemeldet) {
                     echo $message;
                     echo '</div>';
                 }
-                echo 
-                '
+                echo
+                    '
                 
                 ';
             }
             ?>
             <div class="card card-body">
-            <?php
-            if($angemeldet) {
-                echo '
+                <?php
+                if ($angemeldet) {
+                    echo '
                 <h2 class="ml-4">Einstellungen</h2>
                 <hr>
                 <div>
@@ -170,10 +172,10 @@ if ($angemeldet) {
                     </form>
                     <br>
                 </div>';
-            } else {
-                echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
-            }
-            ?>
+                } else {
+                    echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
+                }
+                ?>
             </div>
         </div>
     </main>

@@ -21,7 +21,7 @@ if (!$angemeldet) {
         //Überprüfung des Passworts
         if ($user !== false && password_verify($passwort, $user['passwort'])) {
             $_SESSION['username'] = $user['username'];
-            header('Location: ../landing/index.php  ');
+            header('Location: ../site/index.php  ');
         } else {
             $loginError = true;
             $message = "Username oder/und Passwort ungültig!";
@@ -96,6 +96,8 @@ if (!$angemeldet) {
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- FontAwesome (icons) -->
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
     <!-- CSS Toolbox -->
     <link href="../css/csstoolbox.css" rel="stylesheet">
 </head>
@@ -196,8 +198,8 @@ if (!$angemeldet) {
         </div>';
         } else {
             header("refresh:5;url=../landing/index.php");
-            echo 
-            '
+            echo
+                '
             <h2 class="ct-text-divider">Sie sind bereits angemeldet.</h2>
             <div class="alert alert-info col-auto ct-text-center" role="alert">Automatische Weiterleitung in 5 Sekunden.<br>Falls die automatische Weiterleitung nicht funktionieren sollte, klicken sie bitte <a href="../landing/index.php" class="alert-link">hier</a>.</div>
             ';
