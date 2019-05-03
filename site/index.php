@@ -211,8 +211,7 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
             </a>
         </div>
         <div class="container marketing">
-            <h3 class="mt-2 ct-text-center">Unsere Werbepartner:</h3>
-            <p class="ct-text-center mb-5"><small>... auch wir müssen von irgendwas leben, okay?</small></p>
+            <h3 class="mt-2 ct-text-center">Empfehlungen der User</h3>
             <div class="row">
                 <div class="col-lg-4">
                     <?php
