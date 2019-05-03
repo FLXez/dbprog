@@ -12,7 +12,7 @@ if ($angemeldet) {
         $upnname = $_POST['upnname'];
         $upalter = $_POST['upalter'];
         $upberuf = $_POST['upberuf'];
-        $statement = $pdo->prepare("UPDATE users SET vorname = :vorname, nachname = :nachname, age = :age, beruf = :beruf WHERE username = :username");
+        $statement = $pdo->prepare("UPDATE user SET vorname = :vorname, nachname = :nachname, age = :age, beruf = :beruf WHERE username = :username");
         $result = $statement->execute(array('vorname' => $upvname, 'nachname' => $upnname, 'age' => $upalter, 'beruf' => $upberuf, 'username' => $username));
         $emailInUse = $statement->fetch();
     }
