@@ -1,9 +1,38 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "cocktail";
+
+if($angemeldet){
+$pdo = new PDO('mysql:host=localhost;dbname=dbprog','root','');
+
+	if(isset($_POST['upload'])){
+	$file_name = $_FILES['file']['name'];
+	$file_type = $_FILES['file']['type'];
+	$file_size = $_FILES['file']['size'];
+	$file_tem_loc = $_FILES['file']['tmp_name'];
+	$file_store = "../z_testkram/".$file_name;
+
+	
+	move_uploaded_file($file_tem_loc, $file_store);
+
+	}
+
+	if(isset($_GET['cocktailZuEtabAdd'])){
+	
+	}
+
+	if(isset($_GET['newCock'])){
+	
+	}
+	
+	
+}
+
 ?>
 <!doctype html>
 <html lang="de">
+
+
 
 <head>
     <meta charset="utf-8">
@@ -31,6 +60,53 @@ $activeHead = "cocktail";
         <div class="mt-5 ml-5 mr-5">
             <div class="card card-body">
                 <h2 class="ml-4">Neuen Cocktail</h2>
+				<?php
+						if($angemeldet){
+						echo '<div class="mr-5 ml-5 mt-2">
+
+						
+						<div class="form-group">
+							<label for="nameCock"> Name </label>
+							<input type="text" maxlength="50" class="form-control" id="nameCock" name="nameCock"  placeholder="Cocktail">
+						</div>
+						<div class="form-group">
+							<label for="zutatenCock"> ZutatenCock </label>
+							<input type="text" maxlength="50" class="form-control" id="zutatenCock" name="zutatenCock"  placeholder="Wie wir das lösen bereden wir noch">
+						</div>
+						<form action="?" method="POST" enctype="multipart/form-data">
+						<div class="form-group-2">
+							<label for="image"> Bild </label>
+							<br>
+							<input type="file" name="file">
+							<input type="submit" name="upload" value="Upload Image"> 
+							
+						</div>
+						<form action="?cocktailZuEtabAdd=1" method="POST">
+						<div class="form-group-3">
+						<br>
+							<label for="etab"> Etablissements </label>
+							<select class="form-control" id="EtablissementAdder">
+							<option>hier muss eine schleife über die datenbank gehen</option>
+							<option>die itteriert über alle existenten etabs</option>
+							<option> und lässt den user diese dann hier einfügen direkt so lol</option>
+							</select>
+							<button type="submit" class="btn btn-primary">Hinzufügen</button>
+						</div>
+
+						<form action="?newCock=1" method="post">
+						<div class="form-group">
+							<br>
+							<button type="submit" class="btn btn-primary"> Erstellen</button>
+						</div>
+						
+						';
+
+
+
+						}else{
+							echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
+						}					
+						?>
                 <hr>
             </div>
         </div>
