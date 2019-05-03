@@ -31,7 +31,10 @@ DROP TABLE `etablissement`;
 DROP TABLE `inhaltsstoffe`;
 DROP TABLE `rezept`;
 DROP TABLE `users`;
+
+--
 -- --------------------------------------------------------
+--
 
 --
 -- Tabellenstruktur für Tabelle `bewertung`
@@ -46,6 +49,14 @@ CREATE TABLE `bewertung` (
   `text` text COLLATE utf8_unicode_ci NOT NULL,
   `wert` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `bewertung`
+--
+
+INSERT INTO `bewertung` (`id`, `user_id`, `timestamp`, `eta_id`, `cocktail_id`, `text`, `wert`) VALUES
+(1, 1, '2019-05-03 08:22:26', 1, 3, 'Schmeckt wohl.', 5),
+(2, 1, '2019-05-03 08:22:53', 2, 4, 'Was das denn', 1);
 
 -- --------------------------------------------------------
 
@@ -174,6 +185,10 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `passwort` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `vorname` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nachname` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `age` tinyint(3) DEFAULT NULL,
+  `beruf` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -182,10 +197,10 @@ CREATE TABLE `users` (
 -- Daten für Tabelle `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `passwort`, `username`, `created_at`, `updated_at`) VALUES
-(1, 'test@test.de', '$2y$10$qCgb4MKzbMKAqUU2LOFBQ.wGoAD6yBElFA7V7EPwK.QGCViJjx4mu', 'test', '2019-04-19 10:05:39', NULL),
-(7, 'flx@ez.de', '$2y$10$9pjjjlrzkrEpEP4zM/wCLuLDwPKlpIGZram8X1oLwTTY/dCIWQhpC', 'FLX', '2019-04-20 11:20:32', NULL),
-(8, 'dude@test.de', '$2y$10$wMPXp/feXw5UcqzuDcK7qOm18xYQq.diCzJ1jtgZA.nCf075ScgvK', 'dude', '2019-04-21 14:44:15', NULL);
+INSERT INTO `users` (`id`, `email`, `passwort`, `username`, `vorname`, `nachname`, `age`, `beruf`, `created_at`, `updated_at`) VALUES
+(1, 'test@test.de', '$2y$10$qCgb4MKzbMKAqUU2LOFBQ.wGoAD6yBElFA7V7EPwK.QGCViJjx4mu', 'test', 'Test-Account', 'Sampled', 127, 'Tester', '2019-04-19 10:05:39', '2019-04-28 13:00:17'),
+(7, 'flx@ez.de', '$2y$10$9pjjjlrzkrEpEP4zM/wCLuLDwPKlpIGZram8X1oLwTTY/dCIWQhpC', 'FLX', 'Felix', 'Pause', 21, 'Developer of this shit.', '2019-04-20 11:20:32', '2019-04-30 07:46:35'),
+(8, 'dude@dude.dude', '$2y$10$m53ZQ.6xRPIcwKqFVDKZhu5wlWB5jZNI80NY18sDqB2wDu8NieUjG', 'dude', NULL, NULL, NULL, NULL, '2019-04-21 14:44:15', '2019-04-28 14:16:25');
 
 --
 -- Indizes der exportierten Tabellen
@@ -196,6 +211,7 @@ INSERT INTO `users` (`id`, `email`, `passwort`, `username`, `created_at`, `updat
 --
 ALTER TABLE `bewertung`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_id` (`user_id`,`eta_id`,`cocktail_id`),
   ADD KEY `fk_bewertung_eta` (`eta_id`),
   ADD KEY `fk_bewertung_user` (`user_id`),
   ADD KEY `fk_bewertung_cocktail` (`cocktail_id`);
@@ -252,7 +268,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT für Tabelle `bewertung`
 --
 ALTER TABLE `bewertung`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT für Tabelle `cocktail`
 --
