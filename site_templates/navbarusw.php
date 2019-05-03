@@ -2,7 +2,6 @@
 include('../../php/sessioncheck.php');
 //activeHead setzen.
 $activeHead = "";
-$signout = false;
 ?>
 <!doctype html>
 <html lang="de">

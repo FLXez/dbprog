@@ -1,7 +1,6 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "user";
-$signout = false;
 //TODO: Angemeldet unten Seite anders aufbauen
 if (!$angemeldet) {
 
