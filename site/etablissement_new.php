@@ -17,6 +17,16 @@ $pdo = new PDO('mysql:host=localhost;dbname=dbprog','root','');
 	move_uploaded_file($file_tem_loc, $file_store);
 
 	}
+
+	if(isset($_GET['cocktailAdd'])){
+	
+	}
+
+	if(isset($_GET['newEtab'])){
+	
+	}
+	
+	
 }
 
 
@@ -55,6 +65,7 @@ $pdo = new PDO('mysql:host=localhost;dbname=dbprog','root','');
 						if($angemeldet){
 						echo '<div class="mr-5 ml-5 mt-2">
 
+						
 						<div class="form-group">
 							<label for="nameEtab"> Name </label>
 							<input type="text" maxlength="50" class="form-control" id="nameEtab" name="nameEtab"  placeholder="Etablissement">
@@ -71,6 +82,23 @@ $pdo = new PDO('mysql:host=localhost;dbname=dbprog','root','');
 							<input type="file" name="file">
 							<input type="submit" name="upload" value="Upload Image"> 
 							
+						</div>
+						<form action="?cocktailAdd=1" method="POST">
+						<div class="form-group-3">
+						<br>
+							<label for="cocktails"> Cocktails </label>
+							<select class="form-control" id="CocktailAdder">
+							<option>hier muss eine schleife über die datenbank gehen</option>
+							<option>die itteriert über alle existenten cocktails</option>
+							<option> und lässt den user diese dann hier einfügen direkt so lol</option>
+							</select>
+							<button type="submit" class="btn btn-primary">Hinzufügen</button>
+						</div>
+
+						<form action="?newEtab=1" method="post">
+						<div class="form-group">
+							<br>
+							<button type="submit" class="btn btn-primary"> Erstellen</button>
 						</div>
 						
 						';
