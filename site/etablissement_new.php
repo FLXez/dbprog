@@ -1,7 +1,26 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "etablissement";
-$signout = false;
+  
+
+if($angemeldet){
+$pdo = new PDO('mysql:host=localhost;dbname=dbprog','root','');
+
+	if(isset($_POST['upload'])){
+	$file_name = $_FILES['file']['name'];
+	$file_type = $_FILES['file']['type'];
+	$file_size = $_FILES['file']['size'];
+	$file_tem_loc = $_FILES['file']['tmp_name'];
+	$file_store = "../z_testkram/".$file_name;
+
+	
+	move_uploaded_file($file_tem_loc, $file_store);
+
+	}
+}
+
+
+
 ?>
 <!doctype html>
 <html lang="de">
@@ -32,6 +51,37 @@ $signout = false;
             <div class="mt-5 ml-5 mr-5">
                 <div class="card card-body">
                     <h2 class="ml-4">Neues Etablissement</h2>
+						<?php
+						if($angemeldet){
+						echo '<div class="mr-5 ml-5 mt-2">
+
+						<div class="form-group">
+							<label for="nameEtab"> Name </label>
+							<input type="text" maxlength="50" class="form-control" id="nameEtab" name="nameEtab"  placeholder="Etablissement">
+						</div>
+						<div class="form-group">
+							<label for="adresseEtab"> Adresse </label>
+							<input type="text" maxlength="50" class="form-control" id="strasseEtab" name="strasseEtab"  placeholder="Stra&szlig;e">
+							<input type="text" maxlength="50" class="form-control" id="plzStadtEtab" name="plzStadtEtab"  placeholder="Postleitzahl Stadt">
+						</div>
+						<form action="?" method="POST" enctype="multipart/form-data">
+						<div class="form-group-2">
+							<label for="image"> Bild </label>
+							<br>
+							<input type="file" name="file">
+							<input type="submit" name="upload" value="Upload Image"> 
+							
+						</div>
+						
+						';
+
+
+
+						}else{
+							echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
+						}					
+						?>
+
                     <hr>
                 </div>
             </div>
