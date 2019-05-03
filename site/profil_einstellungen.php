@@ -18,7 +18,7 @@ if ($angemeldet) {
         $emailpw = $_POST['emailpw'];
         $errEmailpw = false;
 
-        $statement = $pdo->prepare("SELECT email FROM users WHERE email = :email");
+        $statement = $pdo->prepare("SELECT email FROM user WHERE email = :email");
         $result = $statement->execute(array('email' => $neuemail));
         $emailInUse = $statement->fetch();
         if ($emailInUse == true) {
@@ -26,7 +26,7 @@ if ($angemeldet) {
             $emailchangeError = true;
             $message = "Die E-Mail Addresse ist bereits einem User zugewiesen.";
         } else {
-            $statement = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+            $statement = $pdo->prepare("SELECT * FROM user WHERE username = :username");
             $result = $statement->execute(array('username' => $username));
             $emailfetch = $statement->fetch();
 
@@ -49,7 +49,7 @@ if ($angemeldet) {
         $neupw = $_POST['neupw'];
         $neupwconfirm = $_POST['neupwconfirm'];
 
-        $statement = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+        $statement = $pdo->prepare("SELECT * FROM user WHERE username = :username");
         $result = $statement->execute(array('username' => $username));
         $user = $statement->fetch();
 
@@ -114,7 +114,7 @@ if ($angemeldet) {
         <div class="mt-5 ml-5 mr-5">
             <?php
             if ($angemeldet) {
-                $statement = $pdo->prepare("SELECT email FROM users WHERE username = :username");
+                $statement = $pdo->prepare("SELECT email FROM user WHERE username = :username");
                 $result = $statement->execute(array('username' => $username));
                 $emailaddr = $statement->fetch();
                 if ($emailchangeError or $pwchangeError) {

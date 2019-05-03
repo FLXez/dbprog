@@ -6,13 +6,13 @@ $signout = false;
 if ($angemeldet) {
 
     $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
-    $statement = $pdo->prepare("SELECT id FROM users WHERE username = :username");
+    $statement = $pdo->prepare("SELECT id FROM user WHERE username = :username");
     $result = $statement->execute(array('username' => $username));
     $userFetch = $statement->fetch();
 
     $userid = $userFetch["id"];
 
-    $statement = $pdo->prepare("SELECT bewertung.timestamp, etablissement.name, cocktail.name, bewertung.text, bewertung.wert FROM bewertung JOIN cocktail ON bewertung.cocktail_id = cocktail.id JOIN etablissement on bewertung.eta_id = etablissement.id WHERE user_id = :userid");
+    $statement = $pdo->prepare("SELECT bewertung.timestamp, etablissement.name, cocktail.name, bewertung.text, bewertung.wert FROM bewertung_cocktail JOIN cocktail ON bewertung.cocktail_id = cocktail.id JOIN etablissement on bewertung.eta_id = etablissement.id WHERE user_id = :userid");
     $result = $statement->execute(array('userid' => $userid));
     $ratingFetch = $statement->fetchAll();
     $ratingFetchLength = count($ratingFetch);

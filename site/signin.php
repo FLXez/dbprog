@@ -14,7 +14,7 @@ if (!$angemeldet) {
         $loginUsername = $_POST['loginUsername'];
         $passwort = $_POST['loginPasswort'];
 
-        $statement = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+        $statement = $pdo->prepare("SELECT * FROM user WHERE username = :username");
         $result = $statement->execute(array('username' => $loginUsername));
         $user = $statement->fetch();
 
@@ -46,7 +46,7 @@ if (!$angemeldet) {
 
         //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
         if (!$regError) {
-            $statement = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+            $statement = $pdo->prepare("SELECT * FROM user WHERE email = :email");
             $result = $statement->execute(array('email' => $regEmail));
             $user = $statement->fetch();
 
@@ -56,7 +56,7 @@ if (!$angemeldet) {
                 $regError = true;
             }
 
-            $statement = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+            $statement = $pdo->prepare("SELECT * FROM user WHERE username = :username");
             $result = $statement->execute(array('username' => $regUsername));
             $user = $statement->fetch();
 
