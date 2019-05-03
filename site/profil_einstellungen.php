@@ -31,7 +31,7 @@ if ($angemeldet) {
             $emailfetch = $statement->fetch();
 
             if ($emailfetch == true && password_verify($emailpw, $emailfetch['passwort'])) {
-                $statement = $pdo->prepare("UPDATE users SET email = :email, updated_at = CURRENT_TIMESTAMP WHERE username = :username");
+                $statement = $pdo->prepare("UPDATE user SET email = :email, updated_at = CURRENT_TIMESTAMP WHERE username = :username");
                 $result = $statement->execute(array('email' => $neuemail, 'username' => $username));
                 $updatefetch = $statement->fetch();
                 $success = true;
@@ -71,7 +71,7 @@ if ($angemeldet) {
         if (!$pwchangeError) {
             if (password_verify($altpw, $user['passwort'])) {
                 $neuPasswort_hash = password_hash($neupw, PASSWORD_DEFAULT);
-                $statement = $pdo->prepare("UPDATE users SET passwort = :passwort, updated_at = CURRENT_TIMESTAMP WHERE username = :username");
+                $statement = $pdo->prepare("UPDATE user SET passwort = :passwort, updated_at = CURRENT_TIMESTAMP WHERE username = :username");
                 $result = $statement->execute(array('passwort' => $neuPasswort_hash, 'username' => $username));
 
                 if ($result) {
