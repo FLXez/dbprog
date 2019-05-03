@@ -136,7 +136,12 @@ if ($angemeldet) {
                 <?php
                 if ($angemeldet) {
                     echo '
-                <h2 class="ml-4">Einstellungen</h2>
+                    <nav class="nav nav-pills flex-column flex-sm-row">
+                        <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_main.php">Profil</a>
+                        <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_ratings.php">Meine Ratings</a>
+                        <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_beitraege.php">Meine Beiträge</a>
+                        <a class="flex-sm-fill text-sm-center nav-link active" href="../site/profil_einstellungen.php">Einstellungen</a>
+                    </nav>
                 <hr>
                 <div>
                     <form class="mr-5 ml-5 mt-2" action="?emailchange=1" method="post">

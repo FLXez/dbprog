@@ -11,7 +11,7 @@ $signout = false;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
-    <title>Profil</title>
+    <title>Profil - Meine Beiträge</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- FontAwesome (icons) -->
@@ -33,9 +33,9 @@ $signout = false;
                 echo '
                 <div class="card card-body mr-2">
                     <nav class="nav nav-pills flex-column flex-sm-row">
-                        <a class="flex-sm-fill text-sm-center nav-link active" href="../site/profil_main.php">Profil</a>
+                        <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_main.php">Profil</a>
                         <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_ratings.php">Meine Ratings</a>
-                        <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_beitraege.php">Meine Beiträge</a>
+                        <a class="flex-sm-fill text-sm-center nav-link active" href="../site/profil_beitraege.php">Meine Beiträge</a>
                         <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_einstellungen.php">Einstellungen</a>
                     </nav>
                     <hr>
