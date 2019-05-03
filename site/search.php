@@ -1,7 +1,6 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "search";
-$signout = false;
 ?>
 <!doctype html>
 <html lang="de">

@@ -1,7 +1,112 @@
 ﻿<?php
 include('../php/sessioncheck.php');
 $activeHead = "landing";
-$signout = false;
+
+$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+
+$statement = $pdo->prepare(
+			"SELECT DISTINCT
+				e.id,
+				e.name
+			FROM etablissement e
+			JOIN etablissement_img ei ON
+				e.id = ei.eta_id
+			JOIN bewertung_etablissement be ON
+				e.id = be.eta_id
+			WHERE
+				e.verifiziert = 1 AND
+				be.wert in ('3','4','5')");
+$result = $statement->execute();
+$eta_ids = $statement->fetchAll();
+$eta_ids_count = count($eta_ids);
+
+$eta1 = $eta_ids[rand(1, $eta_ids_count)-1];
+$eta2 = $eta1;
+$eta3 = $eta1;
+
+while ($eta2[0] == $eta1[0])
+{
+	$eta2 = $eta_ids[rand(1, $eta_ids_count)-1];
+}
+
+while ($eta3[0] == $eta1[0] || $eta3[0] == $eta2[0])
+{
+	$eta3 = $eta_ids[rand(1, $eta_ids_count)-1];
+}
+
+$statement = $pdo->prepare(
+			"SELECT 
+				ei.id
+			FROM etablissement_img ei
+			WHERE
+				ei.eta_id = :eta_id");
+$result = $statement->execute(array('eta_id' => $eta1[0]));
+$eta_img_id1 = $statement->fetch();
+
+$statement = $pdo->prepare(
+			"SELECT 
+				ei.id
+			FROM etablissement_img ei
+			WHERE
+				ei.eta_id = :eta_id");
+$result = $statement->execute(array('eta_id' => $eta2[0]));
+$eta_img_id2 = $statement->fetch();
+
+$statement = $pdo->prepare(
+			"SELECT 
+				ei.id
+			FROM etablissement_img ei
+			WHERE
+				ei.eta_id = :eta_id");
+$result = $statement->execute(array('eta_id' => $eta3[0]));
+$eta_img_id3 = $statement->fetch();
+
+
+$statement = $pdo->prepare(
+			"SELECT
+				be.text,
+				u.username
+			FROM bewertung_etablissement be
+			JOIN user u ON
+				be.user_id = u.id
+			WHERE
+				be.eta_id = :eta_id");
+$result = $statement->execute(array('eta_id' => $eta1[0]));
+$bew1Fetch = $statement->fetchAll();
+$bew1Fetch_count = count($bew1Fetch);
+
+$bew1 = $bew1Fetch[rand(1, $bew1Fetch_count)-1];
+
+$statement = $pdo->prepare(
+			"SELECT
+				be.text,
+				u.username
+			FROM bewertung_etablissement be
+			JOIN user u ON
+				be.user_id = u.id
+			WHERE
+				be.eta_id = :eta_id");
+$result = $statement->execute(array('eta_id' => $eta2[0]));
+$bew2Fetch = $statement->fetchAll();
+$bew2Fetch_count = count($bew2Fetch);
+
+$bew2 = $bew2Fetch[rand(1, $bew2Fetch_count)-1];
+
+$statement = $pdo->prepare(
+			"SELECT
+				be.text,
+				u.username
+			FROM bewertung_etablissement be
+			JOIN user u ON
+				be.user_id = u.id
+			WHERE
+				be.eta_id = :eta_id");
+$result = $statement->execute(array('eta_id' => $eta3[0]));
+$bew3Fetch = $statement->fetchAll();
+$bew3Fetch_count = count($bew3Fetch);
+
+$bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
+
 ?>
 <!doctype html>
 <html lang="de">
@@ -110,22 +215,28 @@ $signout = false;
             <p class="ct-text-center mb-5"><small>... auch wir müssen von irgendwas leben, okay?</small></p>
             <div class="row">
                 <div class="col-lg-4">
-                    <img src="../res/diwans.jpg" class="rounded-circle" height="200px" width="200px">
-                    <h2>Diwans</h2>
-                    <p>DANK DIWANS KANN ICH WIEDER SEHEN!</p>
+                    <?php
+					echo '<img src="../php/eta_img.php?eta_img_id=' . $eta_img_id1[0] . '" class="rounded-circle" height="200px" width="200px">';
+					echo '<h2>' . $eta1[1] .'</h2>';
+                    echo '<p>' . $bew1[0] . ' <br>(von ' . $bew1[1] . ')</p>';
+					?>
                     <p><a class="btn btn-secondary" href="#" role="button">Weitere Informationen &raquo;</a></p>
                 </div>
                 <div class="col-lg-4">
-                <img src="../res/melounge.jpg" class="rounded-circle" height="200px" width="200px">
-                    <h2>Me Lounge</h2>
-                    <p>Um ehrlich zu sein, waren wir da noch nie...</p>
+					<?php
+					echo '<img src="../php/eta_img.php?eta_img_id=' . $eta_img_id2[0] . '" class="rounded-circle" height="200px" width="200px">';
+					echo '<h2>' . $eta2[1] .'</h2>';
+                    echo '<p>' . $bew2[0] . ' <br>(von ' . $bew2[1] . ')</p>';
+					?>
                     <p><a class="btn btn-secondary" href="#" role="button">Weitere Informationen &raquo;</a></p>
                 </div>
                 <div class="col-lg-4">
-                <img src="../res/mexcal.jpg" class="rounded-circle" height="200px" width="200px">
-                    <h2>Mexcal</h2>
-                    <p>Der größte Teil Mexikos (88 %) ist allein dem nordamerikanischen Kontinent zugeordnet, während der südliche Teil bereits zur Landbrücke Zentralamerikas zählt (die ebenfalls dem nordamerikanischen Kontinent zugerechnet wird). ... Weiterhin grenzt Mexiko im Südosten an Guatemala mit 962 km und an Belize (250 km).</p>
-                    <p><a class="btn btn-secondary" href="#" role="button">Weitere Informationen &raquo;</a></p>
+					<?php
+					echo '<img src="../php/eta_img.php?eta_img_id=' . $eta_img_id3[0] . '" class="rounded-circle" height="200px" width="200px">';
+					echo '<h2>' . $eta3[1] .'</h2>';
+                    echo '<p>' . $bew3[0] . ' <br>(von ' . $bew3[1] . ')</p>';
+					?>
+					<p><a class="btn btn-secondary" href="#" role="button">Weitere Informationen &raquo;</a></p>
                 </div>
             </div>
   
