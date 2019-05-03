@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 27. Apr 2019 um 16:51
+-- Erstellungszeit: 03. Mai 2019 um 14:22
 -- Server-Version: 10.1.21-MariaDB
 -- PHP-Version: 7.1.1
 
@@ -17,46 +17,59 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Datenbank: `dbprog`
+-- Datenbank: `dbprog` clearen
 --
 
---
--- Alte Tabellenstruktur löschen
---
+DROP DATABASE `dbprog`;
+CREATE DATABASE `dbprog`;
 
-DROP TABLE `bewertung`;
-DROP TABLE `cocktail`;
-DROP TABLE `cocktailkarte`;
-DROP TABLE `etablissement`;
-DROP TABLE `inhaltsstoffe`;
-DROP TABLE `rezept`;
-DROP TABLE `users`;
-
---
 -- --------------------------------------------------------
---
 
 --
--- Tabellenstruktur für Tabelle `bewertung`
+-- Tabellenstruktur für Tabelle `bewertung_cocktail`
 --
 
-CREATE TABLE `bewertung` (
+CREATE TABLE `bewertung_cocktail` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `eta_id` int(11) NOT NULL,
   `cocktail_id` int(11) NOT NULL,
   `text` text COLLATE utf8_unicode_ci NOT NULL,
-  `wert` tinyint(1) NOT NULL
+  `wert` enum('1','2','3','4','5') COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Daten für Tabelle `bewertung`
+-- Daten für Tabelle `bewertung_cocktail`
 --
 
-INSERT INTO `bewertung` (`id`, `user_id`, `timestamp`, `eta_id`, `cocktail_id`, `text`, `wert`) VALUES
-(1, 1, '2019-05-03 08:22:26', 1, 3, 'Schmeckt wohl.', 5),
-(2, 1, '2019-05-03 08:22:53', 2, 4, 'Was das denn', 1);
+INSERT INTO `bewertung_cocktail` (`id`, `user_id`, `timestamp`, `eta_id`, `cocktail_id`, `text`, `wert`) VALUES
+(1, 1, '2019-05-03 08:22:26', 1, 3, 'Schmeckt wohl.', '5'),
+(2, 1, '2019-05-03 08:22:53', 2, 4, 'Was das denn', '1'),
+(3, 1, '2019-05-03 12:21:38', 2, 2, 'Test', '');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `bewertung_etablissement`
+--
+
+CREATE TABLE `bewertung_etablissement` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `eta_id` int(11) NOT NULL,
+  `text` text COLLATE utf8_unicode_ci NOT NULL,
+  `wert` enum('1','2','3','4','5') COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+
+--
+-- Daten für Tabelle `bewertung_etablissement`
+--
+
+INSERT INTO `bewertung_etablissement` (`id`, `user_id`, `timestamp`, `eta_id`, `text`, `wert`) VALUES
+(1, 1, '2019-05-03 12:10:27', 1, 'Ganz nett', '2'),
+(2, 7, '2019-05-03 12:10:43', 2, 'Geiler Scheiß', '5');
 
 -- --------------------------------------------------------
 
@@ -129,10 +142,10 @@ INSERT INTO `etablissement` (`id`, `name`, `ort`, `anschrift`, `verifiziert`) VA
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `inhaltsstoffe`
+-- Tabellenstruktur für Tabelle `inhaltsstoff`
 --
 
-CREATE TABLE `inhaltsstoffe` (
+CREATE TABLE `inhaltsstoff` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL,
@@ -140,10 +153,10 @@ CREATE TABLE `inhaltsstoffe` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Daten für Tabelle `inhaltsstoffe`
+-- Daten für Tabelle `inhaltsstoff`
 --
 
-INSERT INTO `inhaltsstoffe` (`id`, `name`, `beschreibung`, `alkoholhaltig`) VALUES
+INSERT INTO `inhaltsstoff` (`id`, `name`, `beschreibung`, `alkoholhaltig`) VALUES
 (1, 'Cola', 'Cola eben', 0),
 (2, 'Rum', 'ALKOHOL', 1),
 (3, 'Ouzo', 'Welcher Wahnsinnige kippt Ouzo in Cocktails??', 1),
@@ -177,10 +190,10 @@ INSERT INTO `rezept` (`id`, `cocktail_id`, `inhalts_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `users`
+-- Tabellenstruktur für Tabelle `user`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `passwort` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -194,10 +207,10 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Daten für Tabelle `users`
+-- Daten für Tabelle `user`
 --
 
-INSERT INTO `users` (`id`, `email`, `passwort`, `username`, `vorname`, `nachname`, `age`, `beruf`, `created_at`, `updated_at`) VALUES
+INSERT INTO `user` (`id`, `email`, `passwort`, `username`, `vorname`, `nachname`, `age`, `beruf`, `created_at`, `updated_at`) VALUES
 (1, 'test@test.de', '$2y$10$qCgb4MKzbMKAqUU2LOFBQ.wGoAD6yBElFA7V7EPwK.QGCViJjx4mu', 'test', 'Test-Account', 'Sampled', 127, 'Tester', '2019-04-19 10:05:39', '2019-04-28 13:00:17'),
 (7, 'flx@ez.de', '$2y$10$9pjjjlrzkrEpEP4zM/wCLuLDwPKlpIGZram8X1oLwTTY/dCIWQhpC', 'FLX', 'Felix', 'Pause', 21, 'Developer of this shit.', '2019-04-20 11:20:32', '2019-04-30 07:46:35'),
 (8, 'dude@dude.dude', '$2y$10$m53ZQ.6xRPIcwKqFVDKZhu5wlWB5jZNI80NY18sDqB2wDu8NieUjG', 'dude', NULL, NULL, NULL, NULL, '2019-04-21 14:44:15', '2019-04-28 14:16:25');
@@ -207,14 +220,22 @@ INSERT INTO `users` (`id`, `email`, `passwort`, `username`, `vorname`, `nachname
 --
 
 --
--- Indizes für die Tabelle `bewertung`
+-- Indizes für die Tabelle `bewertung_cocktail`
 --
-ALTER TABLE `bewertung`
+ALTER TABLE `bewertung_cocktail`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `user_id` (`user_id`,`eta_id`,`cocktail_id`),
   ADD KEY `fk_bewertung_eta` (`eta_id`),
   ADD KEY `fk_bewertung_user` (`user_id`),
   ADD KEY `fk_bewertung_cocktail` (`cocktail_id`);
+
+--
+-- Indizes für die Tabelle `bewertung_etablissement`
+--
+ALTER TABLE `bewertung_etablissement`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_id` (`user_id`,`eta_id`),
+  ADD KEY `fk_bew_eta_eta` (`eta_id`);
 
 --
 -- Indizes für die Tabelle `cocktail`
@@ -239,9 +260,9 @@ ALTER TABLE `etablissement`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indizes für die Tabelle `inhaltsstoffe`
+-- Indizes für die Tabelle `inhaltsstoff`
 --
-ALTER TABLE `inhaltsstoffe`
+ALTER TABLE `inhaltsstoff`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -254,9 +275,9 @@ ALTER TABLE `rezept`
   ADD KEY `fk_rezept_inhalt` (`inhalts_id`);
 
 --
--- Indizes für die Tabelle `users`
+-- Indizes für die Tabelle `user`
 --
-ALTER TABLE `users`
+ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
@@ -265,10 +286,15 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT für Tabelle `bewertung`
+-- AUTO_INCREMENT für Tabelle `bewertung_cocktail`
 --
-ALTER TABLE `bewertung`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `bewertung_cocktail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT für Tabelle `bewertung_etablissement`
+--
+ALTER TABLE `bewertung_etablissement`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT für Tabelle `cocktail`
 --
@@ -285,9 +311,9 @@ ALTER TABLE `cocktailkarte`
 ALTER TABLE `etablissement`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT für Tabelle `inhaltsstoffe`
+-- AUTO_INCREMENT für Tabelle `inhaltsstoff`
 --
-ALTER TABLE `inhaltsstoffe`
+ALTER TABLE `inhaltsstoff`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT für Tabelle `rezept`
@@ -295,21 +321,28 @@ ALTER TABLE `inhaltsstoffe`
 ALTER TABLE `rezept`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
--- AUTO_INCREMENT für Tabelle `users`
+-- AUTO_INCREMENT für Tabelle `user`
 --
-ALTER TABLE `users`
+ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- Constraints der exportierten Tabellen
 --
 
 --
--- Constraints der Tabelle `bewertung`
+-- Constraints der Tabelle `bewertung_cocktail`
 --
-ALTER TABLE `bewertung`
-  ADD CONSTRAINT `fk_bewertung_cocktail` FOREIGN KEY (`cocktail_id`) REFERENCES `cocktail` (`id`),
-  ADD CONSTRAINT `fk_bewertung_eta` FOREIGN KEY (`eta_id`) REFERENCES `etablissement` (`id`),
-  ADD CONSTRAINT `fk_bewertung_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+ALTER TABLE `bewertung_cocktail`
+  ADD CONSTRAINT `fk_bew_cock_cocktail` FOREIGN KEY (`cocktail_id`) REFERENCES `cocktail` (`id`),
+  ADD CONSTRAINT `fk_bew_cock_eta` FOREIGN KEY (`eta_id`) REFERENCES `etablissement` (`id`),
+  ADD CONSTRAINT `fk_bew_cock_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints der Tabelle `bewertung_etablissement`
+--
+ALTER TABLE `bewertung_etablissement`
+  ADD CONSTRAINT `fk_bew_eta_eta` FOREIGN KEY (`eta_id`) REFERENCES `etablissement` (`id`),
+  ADD CONSTRAINT `fk_bew_eta_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints der Tabelle `cocktailkarte`
@@ -323,7 +356,7 @@ ALTER TABLE `cocktailkarte`
 --
 ALTER TABLE `rezept`
   ADD CONSTRAINT `fk_rezept_cocktail` FOREIGN KEY (`cocktail_id`) REFERENCES `cocktail` (`id`),
-  ADD CONSTRAINT `fk_rezept_inhalt` FOREIGN KEY (`inhalts_id`) REFERENCES `inhaltsstoffe` (`id`);
+  ADD CONSTRAINT `fk_rezept_inhalt` FOREIGN KEY (`inhalts_id`) REFERENCES `inhaltsstoff` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
