@@ -1,7 +1,6 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "user";
-$signout = false;
 
 if ($angemeldet) {
 
@@ -12,7 +11,7 @@ if ($angemeldet) {
 
     $userid = $userFetch["id"];
 
-    $statement = $pdo->prepare("SELECT bewertung_cocktail.timestamp, etablissement.name, cocktail.name, bewertung_cocktail.text, bewertung_cocktail.wert FROM bewertung_cocktail JOIN cocktail ON bewertung_cocktail.cocktail_id = cocktail.id JOIN etablissement on bewertung_cocktail.eta_id = etablissement.id WHERE user_id = :userid");
+    $statement = $pdo->prepare("SELECT bewertung_cocktail.timestamp, etablissement.name, cocktail.name, bewertung_cocktail.text, bewertung_cocktail.wert FROM bewertung_cocktail JOIN cocktail ON bewertung_cocktail.cocktail_id = cocktail.id JOIN etablissement on bewertung_cocktail.eta_id = etablissement.id WHERE bewertung_cocktail.user_id = :userid");
     $result = $statement->execute(array('userid' => $userid));
     $ratingFetch = $statement->fetchAll();
     $ratingFetchLength = count($ratingFetch);
@@ -27,7 +26,8 @@ if ($angemeldet) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
-    <title>Profil - Cocktailbewertungen</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../res/favicon.ico">
+    <title>Profil - Cocktail-Bewertungen</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- FontAwesome (icons) -->

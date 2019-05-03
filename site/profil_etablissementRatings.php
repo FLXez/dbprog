@@ -1,7 +1,22 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "user";
-$signout = false;
+
+if ($angemeldet) {
+
+    $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+    $statement = $pdo->prepare("SELECT id FROM user WHERE username = :username");
+    $result = $statement->execute(array('username' => $username));
+    $userFetch = $statement->fetch();
+
+    $userid = $userFetch["id"];
+
+    $statement = $pdo->prepare("SELECT bewertung_etablissement.timestamp, etablissement.name, bewertung_etablissement.text, bewertung_etablissement.wert FROM bewertung_etablissement JOIN etablissement on bewertung_etablissement.eta_id = etablissement.id WHERE bewertung_etablissement.user_id = :userid");
+    $result = $statement->execute(array('userid' => $userid));
+    $ratingFetch = $statement->fetchAll();
+    $ratingFetchLength = count($ratingFetch);
+}
+
 ?>
 <!doctype html>
 <html lang="de">
@@ -11,7 +26,8 @@ $signout = false;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
-    <title>Profil - Meine Beiträge</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../res/favicon.ico">
+    <title>Profil - Etablissement-Bewertungen</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- FontAwesome (icons) -->
@@ -39,9 +55,34 @@ $signout = false;
                         <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_einstellungen.php">Einstellungen</a>
                     </nav>
                     <hr>
-                    <div class="mr-5 ml-5 mt-2">
-                        Inhalt hier.
-                    </div>';
+                    <div class="mr-5 ml-5 mt-2">';
+                    echo '
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Zeitpunkt</th>
+                                <th scope="col">Etablissement</th>
+                                <th scope="col">Text</th>
+                                <th scope="col">Bewertung</th>
+                            </tr>
+                        </thead> 
+                        <tbody>';
+                    $i = 0;
+                    $rownum = 1;
+                    while ($i < $ratingFetchLength) {
+                        echo '<tr>';
+                        echo '<th scope="row">' . $rownum;
+                        '</th>';
+                        echo '<td>' . $ratingFetch[$i][0] . '</td>';
+                        echo '<td>' . $ratingFetch[$i][1] . '</td>';
+                        echo '<td>' . $ratingFetch[$i][2] . '</td>';
+                        echo '<td>' . $ratingFetch[$i][3] . '</td>';
+                        echo '</tr>';
+                        $rownum++;
+                        $i++;
+                    }
+                    echo '</tbody></table></div>';                    
                 } else {
                     echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
                 }

@@ -1,7 +1,6 @@
 ﻿<?php
 include('../php/sessioncheck.php');
 $activeHead = "etablissement";
-$signout = false;
 ?>
 <!doctype html>
 <html lang="de">
