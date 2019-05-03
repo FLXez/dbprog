@@ -92,6 +92,7 @@ if (!$angemeldet) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
+    <link rel="shortcut icon" type="image/x-icon" href="../res/favicon.ico">
     <title>Hameln E&C - Anmelden</title>
 
     <!-- Bootstrap core CSS -->
