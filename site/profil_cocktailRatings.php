@@ -12,7 +12,7 @@ if ($angemeldet) {
 
     $userid = $userFetch["id"];
 
-    $statement = $pdo->prepare("SELECT bewertung.timestamp, etablissement.name, cocktail.name, bewertung.text, bewertung.wert FROM bewertung_cocktail JOIN cocktail ON bewertung.cocktail_id = cocktail.id JOIN etablissement on bewertung.eta_id = etablissement.id WHERE user_id = :userid");
+    $statement = $pdo->prepare("SELECT bewertung_cocktail.timestamp, etablissement.name, cocktail.name, bewertung_cocktail.text, bewertung_cocktail.wert FROM bewertung_cocktail JOIN cocktail ON bewertung_cocktail.cocktail_id = cocktail.id JOIN etablissement on bewertung_cocktail.eta_id = etablissement.id WHERE user_id = :userid");
     $result = $statement->execute(array('userid' => $userid));
     $ratingFetch = $statement->fetchAll();
     $ratingFetchLength = count($ratingFetch);
