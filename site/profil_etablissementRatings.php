@@ -11,7 +11,7 @@ $signout = false;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
-    <title>Profil - meine Ratings</title>
+    <title>Profil - Meine Beiträge</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- FontAwesome (icons) -->
@@ -28,26 +28,25 @@ $signout = false;
     </header>
     <main role="main">
         <div class="mt-5 ml-5 mr-5">
-            <?php
-            if ($angemeldet) {
-                echo '
-                <div class="card card-body mr-2">
+            <div class="card card-body mr-2">
+                <?php
+                if ($angemeldet) {
+                    echo '
                     <nav class="nav nav-pills flex-column flex-sm-row">
                         <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_main.php">Profil</a>
-                        <a class="flex-sm-fill text-sm-center nav-link active" href="../site/profil_ratings.php">Meine Ratings</a>
-                        <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_beitraege.php">Meine Beiträge</a>
+                        <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_cocktailRatings.php">Cocktail-Bewertungen</a>
+                        <a class="flex-sm-fill text-sm-center nav-link active" href="../site/profil_etablissementRatings.php">Etablissement-Bewertungen</a>
                         <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_einstellungen.php">Einstellungen</a>
                     </nav>
                     <hr>
                     <div class="mr-5 ml-5 mt-2">
                         Inhalt hier.
-                    </div                        
-                </div>';
-            } else {
-
-                echo '<div class="card card-body"><h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2></div>';
-            }
-            ?>
+                    </div>';
+                } else {
+                    echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
+                }
+                ?>
+            </div>
         </div>
     </main>
     <hr class="ct-hr-divider ml-5 mr-5">

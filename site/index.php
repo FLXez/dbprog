@@ -56,7 +56,9 @@ $signout = false;
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-                        <rect width="100%" height="100%" fill="#777" /></svg>
+                        <image xlink:href="https://cdn2.rsc.org.uk/sitefinity/images/catering/Eating-Drinking/_cocktails.jpg?sfvrsn=26240121_0" width="100%"/>
+                        <rect width="100%" height="100%" fill="#777"  fill-opacity="0.5" />
+                    </svg>
                     <div class="container">
                         <div class="carousel-caption text-left">
                             <h1>Beste Cocktails in 2019</h1>
@@ -67,7 +69,9 @@ $signout = false;
                 </div>
                 <div class="carousel-item">
                     <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-                        <rect width="100%" height="100%" fill="#777" /></svg>
+                    <image xlink:href="https://static.vinepair.com/wp-content/uploads/2015/06/fake-cocktail-bar-liqueurs.jpg" width="100%"/>
+                        <rect width="100%" height="100%" fill="#777"  fill-opacity="0.5" />
+                        </svg>
                     <div class="container">
                         <div class="carousel-caption">
                             <h1>Wo schmecken die Cocktails am besten?</h1>
@@ -79,7 +83,9 @@ $signout = false;
                 </div>
                 <div class="carousel-item">
                     <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-                        <rect width="100%" height="100%" fill="#777" /></svg>
+                        <image xlink:href="../res/rating.svg" width="100%"/>
+                        <rect width="100%" height="100%" fill="#777"  fill-opacity="0.5" />
+                    </svg>
                     <div class="container">
                         <div class="carousel-caption text-right">
                             <h1>Du möchtest auch bewerten? FlExIbLeLaBeLs</h1>
@@ -104,30 +110,21 @@ $signout = false;
             <p class="ct-text-center mb-5"><small>... auch wir müssen von irgendwas leben, okay?</small></p>
             <div class="row">
                 <div class="col-lg-4">
-                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
-                    </svg>
-                    <h2>Etablissement X</h2>
-                    <p>Kurzbeschreibung des Etablissements</p>
+                    <img src="../res/diwans.jpg" class="rounded-circle" height="200px" width="200px">
+                    <h2>Diwans</h2>
+                    <p>DANK DIWANS KANN ICH WIEDER SEHEN!</p>
                     <p><a class="btn btn-secondary" href="#" role="button">Weitere Informationen &raquo;</a></p>
                 </div>
                 <div class="col-lg-4">
-                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
-                    </svg>
-                    <h2>Etablissement Y</h2>
-                    <p>Kurzbeschreibung des Etablissements</p>
+                <img src="../res/melounge.jpg" class="rounded-circle" height="200px" width="200px">
+                    <h2>Me Lounge</h2>
+                    <p>Um ehrlich zu sein, waren wir da noch nie...</p>
                     <p><a class="btn btn-secondary" href="#" role="button">Weitere Informationen &raquo;</a></p>
                 </div>
                 <div class="col-lg-4">
-                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
-                    </svg>
-                    <h2>Etablissement Ich denke nicht nach wenn ich Kopiere</h2>
-                    <p>Felix hatte nicht nachgedacht beim kopieren. 4 Sterne. Würde ich nicht wieder hingehen.</p>
+                <img src="../res/mexcal.jpg" class="rounded-circle" height="200px" width="200px">
+                    <h2>Mexcal</h2>
+                    <p>Der größte Teil Mexikos (88 %) ist allein dem nordamerikanischen Kontinent zugeordnet, während der südliche Teil bereits zur Landbrücke Zentralamerikas zählt (die ebenfalls dem nordamerikanischen Kontinent zugerechnet wird). ... Weiterhin grenzt Mexiko im Südosten an Guatemala mit 962 km und an Belize (250 km).</p>
                     <p><a class="btn btn-secondary" href="#" role="button">Weitere Informationen &raquo;</a></p>
                 </div>
             </div>

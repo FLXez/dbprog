@@ -6,20 +6,16 @@ $signout = false;
 if ($angemeldet) {
 
     $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
-
-    if (isset($_GET['updateinfo'])) { 
-        $upvname = $_POST['upvname'];
-        $upnname = $_POST['upnname'];
-        $upalter = $_POST['upalter'];
-        $upberuf = $_POST['upberuf'];
-        $statement = $pdo->prepare("UPDATE users SET vorname = :vorname, nachname = :nachname, age = :age, beruf = :beruf WHERE username = :username");
-        $result = $statement->execute(array('vorname' => $upvname, 'nachname' => $upnname, 'age' => $upalter, 'beruf' => $upberuf, 'username' => $username));
-        $emailInUse = $statement->fetch();
-    }
-
-    $statement = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+    $statement = $pdo->prepare("SELECT id FROM users WHERE username = :username");
     $result = $statement->execute(array('username' => $username));
-    $userinfo = $statement->fetch();
+    $userFetch = $statement->fetch();
+
+    $userid = $userFetch["id"];
+
+    $statement = $pdo->prepare("SELECT bewertung.timestamp, etablissement.name, cocktail.name, bewertung.text, bewertung.wert FROM bewertung JOIN cocktail ON bewertung.cocktail_id = cocktail.id JOIN etablissement on bewertung.eta_id = etablissement.id WHERE user_id = :userid");
+    $result = $statement->execute(array('userid' => $userid));
+    $ratingFetch = $statement->fetchAll();
+    $ratingFetchLength = count($ratingFetch);
 }
 
 ?>
@@ -31,7 +27,7 @@ if ($angemeldet) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
-    <title>Profil</title>
+    <title>Profil - Cocktailbewertungen</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- FontAwesome (icons) -->
@@ -53,35 +49,42 @@ if ($angemeldet) {
                 if ($angemeldet) {
                     echo '
                     <nav class="nav nav-pills flex-column flex-sm-row">
-                        <a class="flex-sm-fill text-sm-center nav-link active" href="../site/profil_main.php">Profil</a>
-                        <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_cocktailRatings.php">Cocktail-Bewertungen</a>
+                        <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_main.php">Profil</a>
+                        <a class="flex-sm-fill text-sm-center nav-link active" href="../site/profil_cocktailRatings.php">Cocktail-Bewertungen</a>
                         <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_etablissementRatings.php">Etablissement-Bewertungen</a>
                         <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_einstellungen.php">Einstellungen</a>
                     </nav>
                     <hr>
-                    <div class="mr-5 ml-5 mt-2">
-                        <h5>Persönliche Informationen - Alle Angaben sind freiwillig</h5>
-                        <hr>
-                        <form action="?updateinfo=1" method="post">
-                        <div class="form-group">
-                            <label for="upvname">Vorname</label>
-                            <input type="text" maxlength="50" class="form-control" id="upvname" name="upvname" value="' . $userinfo['vorname'] . '" placeholder="Vorname">
-                        </div>
-                        <div class="form-group">
-                            <label for="upnname">Nachname</label>
-                            <input type="text" maxlength="50" class="form-control" id="upnname" name="upnname" value="' . $userinfo['nachname'] . '" placeholder="Nachname">
-                        </div>
-                        <div class="form-group">
-                            <label for="upalter">Alter</label>
-                            <input type="number" max="127" class="form-control" id="upalter" name="upalter" value="' . $userinfo['age'] . '" placeholder="Alter">
-                        </div>
-                        <div class="form-group">
-                            <label for="upberuf">Beruf</label>
-                            <input type="text" maxlength="50" class="form-control" id="upberuf" name="upberuf" value="' . $userinfo['beruf'] . '" placeholder="Beruf">
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-2">Informationen aktualisieren</button>
-                    </form>
-                    </div>';
+                    <div class="mr-5 ml-5 mt-2">';
+                    echo '
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Zeitpunkt</th>
+                                <th scope="col">Etablissement</th>
+                                <th scope="col">Cocktail</th>
+                                <th scope="col">Text</th>
+                                <th scope="col">Bewertung</th>
+                            </tr>
+                        </thead> 
+                        <tbody>';
+                    $i = 0;
+                    $rownum = 1;
+                    while ($i < $ratingFetchLength) {
+                        echo '<tr>';
+                        echo '<th scope="row">' . $rownum;
+                        '</th>';
+                        echo '<td>' . $ratingFetch[$i][0] . '</td>';
+                        echo '<td>' . $ratingFetch[$i][1] . '</td>';
+                        echo '<td>' . $ratingFetch[$i][2] . '</td>';
+                        echo '<td>' . $ratingFetch[$i][3] . '</td>';
+                        echo '<td>' . $ratingFetch[$i][4] . '</td>';
+                        echo '</tr>';
+                        $rownum++;
+                        $i++;
+                    }
+                    echo '</tbody></table></div>';
                 } else {
                     echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
                 }

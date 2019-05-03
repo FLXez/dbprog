@@ -138,8 +138,8 @@ if ($angemeldet) {
                     echo '
                     <nav class="nav nav-pills flex-column flex-sm-row">
                         <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_main.php">Profil</a>
-                        <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_ratings.php">Meine Ratings</a>
-                        <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_beitraege.php">Meine Beiträge</a>
+                        <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_cocktailRatings.php">Cocktail-Bewertungen</a>
+                        <a class="flex-sm-fill text-sm-center nav-link" href="../site/profil_etablissementRatings.php">Etablissement-Bewertungen</a>
                         <a class="flex-sm-fill text-sm-center nav-link active" href="../site/profil_einstellungen.php">Einstellungen</a>
                     </nav>
                 <hr>
