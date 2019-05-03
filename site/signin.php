@@ -121,81 +121,54 @@ if (!$angemeldet) {
                 echo '</div>';
             }
             echo '
-        <div id="formswitch" class="ct-panel-group mr-5 ml-5">
-            <h2 class="ct-text-divider"><a class="ct-panel-group" id="loginOpener" data-toggle="collapse" href="#loginForm" aria-expanded="true" aria-controls="loginForm">
-                    Anmelden</a>...</h2>
-            <!--- Hier Anmelden -->
-            <div id="loginForm" class="collapse show mr-5 ml-5" aria-labelledby="loginOpener" data-parent="#formswitch">
+            <div class="ml-5 mr-5 mt-5">
                 <div class="card card-body">
-                    <form class="form-inline ct-form-center" action="?login=1" method="post">
-                        <div class="input-group mb-2 mr-sm-2">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">Username</div>
-                            </div>
-                            <input type="text" class="form-control" name="loginUsername" required>
-                        </div>
-                        <div class="input-group mb-2 mr-sm-2">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">Passwort</div>
-                            </div>
-                            <input type="password" class="form-control" name="loginPasswort" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary mb-2">Anmelden</button>
-                    </form>
-                </div>
-            </div>
-            <!--- Hier Registrieren -->
-            <h2 class="ct-text-divider">... oder <a class="ct-panel-group" id="registerOpener" data-toggle="collapse" href="#registerForm" aria-expanded="false" aria-controls="registerForm">
-                    Registrieren</a>?</h2>
-            <div id="registerForm" class="collapse mr-5 ml-5" aria-labelledby="loginOpener" data-parent="#formswitch">
-                <div class="card card-body">
-                    <form class="container" action="?register=1" method="post">
-                        <div class="form-group row justify-content-md-center">
-                            <label for="registerUsername" class="col-sm-2 col-form-label">Username</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" name="registerUsername" placeholder="Username" required>
-                            </div>
-                        </div>
-                        <div class="form-group row justify-content-md-center">
-                            <label for="registerEmail" class="col-sm-2 col-form-label">E-Mail</label>
-                            <div class="col-sm-6">
-                                <input type="email" class="form-control" name="registerEmail" placeholder="E-Mail" required>
-                            </div>
-                        </div>
-                        <div class="form-group row justify-content-md-center">
-                            <label for="registerPasswort" class="col-sm-2 col-form-label">Passwort</label>
-                            <div class="col-sm-6">
-                                <input type="password" class="form-control" name="registerPasswort" placeholder="Passwort" required>
-                            </div>
-                        </div>
-                        <div class="form-group row justify-content-md-center">
-                            <!--- Weil Platz sonst kaputt -->
-                            <label for="registerPasswortConfirm" class="col-sm-2 col-form-label"></label>
-                            <div class="col-sm-6">
-                                <input type="password" class="form-control" name="registerPasswortConfirm" placeholder="Passwort wiederholen" required>
-                            </div>
-                        </div>
-                        <div class="form-group row justify-content-md-center">
-                            <div class="col-sm-2"></div>
-                            <div class="col-sm-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="agbcheck" required>
-                                    <label class="form-check-label " for="gridCheck1">
-                                        Ich habe die <a href="">AGBs</a> gelesen und zur Kenntnis genommen.
-                                    </label>
+                    <ul class="nav nav-pills flex-column flex-sm-row" id="singin-tab" role="tablist">
+                        <li class="flex-sm-fill text-sm-center nav-item">
+                            <a class="nav-link active" id="signin-login-tab" data-toggle="pill" href="#signin-login" role="tab" aria-controls="signin-login" aria-selected="true">Anmelden</a>
+                        </li>
+                        <li class="flex-sm-fill text-sm-center nav-item">
+                            <a class="nav-link" id="signin-register-tab" data-toggle="pill" href="#signin-register" role="tab" aria-controls="signin-register" aria-selected="false">Registrieren</a>
+                        </li>
+                    </ul>
+                    <hr>
+                    <div class="tab-content" id="signin-tabContent">
+                        <div class="tab-pane fade show active" id="signin-login" role="tabpanel" aria-labelledby="signin-login-tab">
+                            <form class="mr-5 ml-5 mt-2" action="?login=1" method="post">
+                                <div class="form-group">
+                                    <label for="loginUsername">Username</label>
+                                    <input type="text" class="form-control" id="loginUsername" placeholder="Username" name="loginUsername" required>
                                 </div>
-                            </div>
+                                <div class="form-group">
+                                    <label for="loginPasswort">Passwort</label>
+                                    <input type="text" class="form-control" id="loginPasswort" placeholder="Passwort" required name="loginPasswort">
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-2">Anmelden</button>
+                            </form>
                         </div>
-                        <div class="form-group row justify-content-md-center">
-                            <div class="col-sm-2"></div>
-                            <div class="col-sm-6">
-                                <button type="submit" class="btn btn-primary">Registrieren</button>
-                            </div>
+                        <div class="tab-pane fade" id="signin-register" role="tabpanel" aria-labelledby="signin-register-tab">
+                            <form class="mr-5 ml-5 mt-2" action="?register=1" method="post">
+                                <div class="form-group">
+                                    <label for="registerUsername">Username</label>
+                                    <input type="text" class="form-control" id="registerUsername" placeholder="Username" name="registerUsername" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="registerEmail">E-Mail Adresse</label>
+                                    <input type="email" class="form-control" id="registerEmail" placeholder="E-Mail" name="registerEmail" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="registerPasswort">Passwort</label>
+                                    <input type="password" class="form-control" id="registerPasswort" placeholder="Passwort" name="registerPasswort" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" id="registerPasswortConfirm" placeholder="Passwort wiederholen" name="registerPasswortConfirm" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary ">Registrieren</button>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
-        </div>';
+            </div>';
         } else {
             header("refresh:5;url=../site/index.php");
             echo
