@@ -9,13 +9,12 @@ $statement = $pdo->prepare(
 				e.id,
 				e.name
 			FROM etablissement e
-			JOIN etablissement_img ei ON
-				e.id = ei.eta_id
 			JOIN bewertung_etablissement be ON
 				e.id = be.eta_id
 			WHERE
 				e.verifiziert = 1 AND
-				be.wert in ('3','4','5')");
+				be.wert in ('3','4','5') AND
+				e.img IS NOT NULL");
 $result = $statement->execute();
 $eta_ids = $statement->fetchAll();
 $eta_ids_count = count($eta_ids);
@@ -33,34 +32,6 @@ while ($eta3[0] == $eta1[0] || $eta3[0] == $eta2[0])
 {
 	$eta3 = $eta_ids[rand(1, $eta_ids_count)-1];
 }
-
-$statement = $pdo->prepare(
-			"SELECT 
-				ei.id
-			FROM etablissement_img ei
-			WHERE
-				ei.eta_id = :eta_id");
-$result = $statement->execute(array('eta_id' => $eta1[0]));
-$eta_img_id1 = $statement->fetch();
-
-$statement = $pdo->prepare(
-			"SELECT 
-				ei.id
-			FROM etablissement_img ei
-			WHERE
-				ei.eta_id = :eta_id");
-$result = $statement->execute(array('eta_id' => $eta2[0]));
-$eta_img_id2 = $statement->fetch();
-
-$statement = $pdo->prepare(
-			"SELECT 
-				ei.id
-			FROM etablissement_img ei
-			WHERE
-				ei.eta_id = :eta_id");
-$result = $statement->execute(array('eta_id' => $eta3[0]));
-$eta_img_id3 = $statement->fetch();
-
 
 $statement = $pdo->prepare(
 			"SELECT
@@ -215,7 +186,7 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
             <div class="row">
                 <div class="col-lg-4">
                     <?php
-					echo '<img src="../php/img.php?eta_img_id=' . $eta_img_id1[0] . '" class="rounded-circle" height="200px" width="200px">';
+					echo '<img src="../php/get_img.php?eta_id=' . $eta1[0] . '" class="rounded-circle" height="200px" width="200px">';
 					echo '<h2>' . $eta1[1] .'</h2>';
                     echo '<p>' . $bew1[0] . ' <br>(von ' . $bew1[1] . ')</p>';
 					?>
@@ -223,7 +194,7 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
                 </div>
                 <div class="col-lg-4">
 					<?php
-					echo '<img src="../php/img.php?eta_img_id=' . $eta_img_id2[0] . '" class="rounded-circle" height="200px" width="200px">';
+					echo '<img src="../php/get_img.php?eta_id=' . $eta2[0] . '" class="rounded-circle" height="200px" width="200px">';
 					echo '<h2>' . $eta2[1] .'</h2>';
                     echo '<p>' . $bew2[0] . ' <br>(von ' . $bew2[1] . ')</p>';
 					?>
@@ -231,7 +202,7 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
                 </div>
                 <div class="col-lg-4">
 					<?php
-					echo '<img src="../php/img.php?eta_img_id=' . $eta_img_id3[0] . '" class="rounded-circle" height="200px" width="200px">';
+					echo '<img src="../php/get_img.php?eta_id=' . $eta3[0] . '" class="rounded-circle" height="200px" width="200px">';
 					echo '<h2>' . $eta3[1] .'</h2>';
                     echo '<p>' . $bew3[0] . ' <br>(von ' . $bew3[1] . ')</p>';
 					?>
