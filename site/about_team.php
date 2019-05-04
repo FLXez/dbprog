@@ -31,7 +31,25 @@ $activeHead = "uberUns";
         <div class="mt-5 ml-5 mr-5">
             <div class="card card-body">
                 <h2 class="ml-4">Das Team</h2>
+				Das Team hat kein Bock auf diese Seite. Mach sie dir doch selber.
                 <hr>
+
+				Nein Spaß Bruder, das Team besteht aus mir, dem Esel, ave mir. <br>
+				<div style="text-align: center;">
+				Ich sehe mich schon ziemlich zentral, wo auch sonst.
+				</div>
+				<br>
+				Des weiteren haben wir Felix Pause. <br>
+				Ja, wir haben trotzdem einiges geschafft, obwohl die Kommunikation mit einem derart altem Dinosaurier aus der Cobold eh Cobol Umgebung sich als schwierig erweist.
+				<br>
+				<br>
+				Aber wir hatten auch himmlischen Segen, schließlich ist Jesus unser Head-Entwickler.
+				<br>
+				Freaking Jesus Folks. 
+				<br>
+				<div style="text-align: center;">
+				Achja, und mich. Natürlich. Jeder weiß, wer ich bin.
+				</div>
             </div>
         </div>
     </main>

@@ -32,6 +32,8 @@ $activeHead = "uberUns";
             <div class="card card-body">
                 <h2 class="ml-4">Impressum</h2>
                 <hr>
+
+				Ich habe Legit 0 AHNUNG was hier rein muss.
             </div>
         </div>
     </main>

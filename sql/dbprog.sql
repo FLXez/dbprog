@@ -226,7 +226,8 @@ INSERT INTO `user` (`id`, `email`, `passwort`, `username`, `vorname`, `nachname`
 (1, 'test@test.de', '$2y$10$qCgb4MKzbMKAqUU2LOFBQ.wGoAD6yBElFA7V7EPwK.QGCViJjx4mu', 'test', 'Test-Account', 'Sampled', 127, 'Tester', '2019-04-19 10:05:39', '2019-04-28 13:00:17'),
 (7, 'flx@ez.de', '$2y$10$9pjjjlrzkrEpEP4zM/wCLuLDwPKlpIGZram8X1oLwTTY/dCIWQhpC', 'FLX', 'Felix', 'Pause', 21, 'Developer of this shit.', '2019-04-20 11:20:32', '2019-04-30 07:46:35'),
 (8, 'dude@dude.dude', '$2y$10$m53ZQ.6xRPIcwKqFVDKZhu5wlWB5jZNI80NY18sDqB2wDu8NieUjG', 'dude', NULL, NULL, NULL, NULL, '2019-04-21 14:44:15', '2019-04-28 14:16:25'),
-(9, 'cedrickbargel@gmail.com', '$2y$10$R83OGvfXXVG8x85bqKL/h.EE805uz7bXvM5ZEHLApzWnI3xCTtaeK', 'Schnitzel', NULL, NULL, NULL, NULL, '2019-05-03 12:31:14', NULL);
+(9, 'cedrickbargel@gmail.com', '$2y$10$R83OGvfXXVG8x85bqKL/h.EE805uz7bXvM5ZEHLApzWnI3xCTtaeK', 'Schnitzel', NULL, NULL, NULL, NULL, '2019-05-03 12:31:14', NULL),
+(10, 'felixmama@dolf.in', '$2y$10$Ef0r225AeeXm9WHJNAzRhuMB50dI346j5eDBU/Upvmhu7E/CtTmc6', 'FelixMama', NULL, NULL, NULL, NULL, '2019-05-04 14:40:15', NULL);
 
 --
 -- Indizes der exportierten Tabellen
