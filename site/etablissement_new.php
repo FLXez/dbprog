@@ -5,6 +5,9 @@ $activeHead = "etablissement";
 
 if($angemeldet){
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog','root','');
+$insertError = false;
+$notNewError = false;
+$message = "";
 
 	if(isset($_POST['upload'])){
 	$file_name = $_FILES['file']['name'];
@@ -19,19 +22,30 @@ $pdo = new PDO('mysql:host=localhost;dbname=dbprog','root','');
 	}
 
 	if(isset($_GET['newEtab'])){
+
 			$nameEtab = $_POST['nameEtab'];
-			echo $nameEtab;
 			$strasse = $_POST['strasseEtab'];
-			echo $strasse;
 			$plzStadt = $_POST['plzStadtEtab'];
 
 			$statement = $pdo->prepare("Select * From etablissement WHERE name = :name AND anschrift =:anschrift");
 			$result = $statement -> execute(array('name'=>$nameEtab, 'anschrift' => $strasse));
-			echo $result;
+			$notNewError = $statement -> fetch();
+			
+			if($notNewError == false){
+				$statement = $pdo ->prepare("INSERT INTO etablissement(name, ort, anschrift) VALUES (:name, :ort, :anschrift)");
+				$result = $statement ->execute(array('name' => $nameEtab, 'ort' => $plzStadt , 'anschrift' => $strasse));
+				$insertError = $statement -> fetch();
+
+					if($insertError == false){
+						$message = "Erfolgreich angelegt";				
+					}else{
+					$message = "Ein technsicher Fehler ist aufgetreten";
+					}
+			}else{
+				$message ="Dieses Etablissement ist bereits vorhanden.";
+			}
 			
 	}
-	
-	
 }
 
 
@@ -68,6 +82,12 @@ $pdo = new PDO('mysql:host=localhost;dbname=dbprog','root','');
                     <h2 class="ml-4">Neues Etablissement</h2>
 						<?php
 						if($angemeldet){
+							if ($notNewError or $insertError) {
+								echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
+								echo $message;
+								echo '</div>';
+							} 
+
 						echo '<div class="mr-5 ml-5 mt-2">
 
 						<form action="?" method="POST" enctype="multipart/form-data">
