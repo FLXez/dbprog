@@ -5,16 +5,14 @@ $activeHead = "etablissement";
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $statement = $pdo->prepare("
 					SELECT 
+						e.id,
 						e.name,
 						e.ort,
 						e.anschrift,
 						e.verifiziert,
-						ei.id,
 						AVG(sub_be.wert),
-						e.id
+						e.img
 					FROM etablissement e
-					LEFT JOIN etablissement_img ei ON
-						e.id = ei.eta_id
 					LEFT JOIN 
 						(
 						SELECT 
@@ -26,11 +24,12 @@ $statement = $pdo->prepare("
 					ON
 						e.id = sub_be.eta_id
 					GROUP BY
+						e.id,
 						e.name,
 						e.ort,
 						e.anschrift,
 						e.verifiziert,
-						ei.id");
+						e.img");
 $result = $statement->execute();
 $etaFetch = $statement->fetchAll();
 $etaCount = count($etaFetch);
@@ -70,18 +69,18 @@ $etaCount = count($etaFetch);
 				for ($i = 0; $i < $etaCount; $i++)
 				{
 					echo '<div class="card" style="width: 18rem;">';
-					if ($etaFetch[$i][4] == null)
+					if ($etaFetch[$i][6] == null)
 						echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 					else 
-						echo '<img src="../php/img.php?eta_img_id=' . $etaFetch[$i][4] . '" class="card-img-top">';
+						echo '<img src="../php/img.php?eta_id=' . $etaFetch[$i][0] . '" class="card-img-top">';
 					echo '<div class="card-body">
 							<div class="row">
 								<div class="col">
-									<h5 class="card-title">' . $etaFetch[$i][0] . '</h5>
+									<h5 class="card-title">' . $etaFetch[$i][1] . '</h5>
 								</div>
 								<div class="col">';
 
-				if ($etaFetch[$i][3] == 1)
+				if ($etaFetch[$i][4] == 1)
 				{
 					echo '<img src="../res/verifiziert.png" height="32px" width="32px">';
 				}
@@ -89,11 +88,11 @@ $etaCount = count($etaFetch);
 				echo			'</div>
 								<div class="w-100"></div>
 								<div class="col">
-									<p class="card-text">' . $etaFetch[$i][1] . '<br>' . $etaFetch[$i][2] . '<br></p>
+									<p class="card-text">' . $etaFetch[$i][2] . '<br>' . $etaFetch[$i][3] . '<br></p>
 								</div>
 								<div class="w-100"></div>
 								<div class="col">
-									<a href="./etablissement_details.php?eta_id=' . $etaFetch[$i][6] . '" class="btn btn-primary">Details</a>
+									<a href="./etablissement_details.php?eta_id=' . $etaFetch[$i][0] . '" class="btn btn-primary">Details</a>
 								</div>
 								<div class="col">
 									<h5 class="rating-num">' . number_format($etaFetch[$i][5], 1) . '</h5>
