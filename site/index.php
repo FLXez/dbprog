@@ -189,24 +189,21 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
 					echo '<img src="../php/get_img.php?eta_id=' . $eta1[0] . '" class="rounded-circle" height="200px" width="200px">';
 					echo '<h2>' . $eta1[1] .'</h2>';
                     echo '<p>' . $bew1[0] . ' <br>(von ' . $bew1[1] . ')</p>';
-					?>
-                    <p><a class="btn btn-secondary" href="#" role="button">Weitere Informationen &raquo;</a></p>
+					echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta1[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
                 </div>
                 <div class="col-lg-4">
 					<?php
 					echo '<img src="../php/get_img.php?eta_id=' . $eta2[0] . '" class="rounded-circle" height="200px" width="200px">';
 					echo '<h2>' . $eta2[1] .'</h2>';
                     echo '<p>' . $bew2[0] . ' <br>(von ' . $bew2[1] . ')</p>';
-					?>
-                    <p><a class="btn btn-secondary" href="#" role="button">Weitere Informationen &raquo;</a></p>
+					echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta2[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
                 </div>
                 <div class="col-lg-4">
 					<?php
 					echo '<img src="../php/get_img.php?eta_id=' . $eta3[0] . '" class="rounded-circle" height="200px" width="200px">';
 					echo '<h2>' . $eta3[1] .'</h2>';
                     echo '<p>' . $bew3[0] . ' <br>(von ' . $bew3[1] . ')</p>';
-					?>
-					<p><a class="btn btn-secondary" href="#" role="button">Weitere Informationen &raquo;</a></p>
+					echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta3[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
                 </div>
             </div>
   
