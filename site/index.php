@@ -5,7 +5,7 @@ $activeHead = "landing";
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 
 $statement = $pdo->prepare(
-			"SELECT DISTINCT
+    "SELECT DISTINCT
 				e.id,
 				e.name
 			FROM etablissement e
@@ -14,69 +14,71 @@ $statement = $pdo->prepare(
 			WHERE
 				e.verifiziert = 1 AND
 				be.wert in ('3','4','5') AND
-				e.img IS NOT NULL");
+				e.img IS NOT NULL"
+);
 $result = $statement->execute();
 $eta_ids = $statement->fetchAll();
 $eta_ids_count = count($eta_ids);
 
-$eta1 = $eta_ids[rand(1, $eta_ids_count)-1];
+$eta1 = $eta_ids[rand(1, $eta_ids_count) - 1];
 $eta2 = $eta1;
 $eta3 = $eta1;
 
-while ($eta2[0] == $eta1[0])
-{
-	$eta2 = $eta_ids[rand(1, $eta_ids_count)-1];
+while ($eta2[0] == $eta1[0]) {
+    $eta2 = $eta_ids[rand(1, $eta_ids_count) - 1];
 }
 
-while ($eta3[0] == $eta1[0] || $eta3[0] == $eta2[0])
-{
-	$eta3 = $eta_ids[rand(1, $eta_ids_count)-1];
+while ($eta3[0] == $eta1[0] || $eta3[0] == $eta2[0]) {
+    $eta3 = $eta_ids[rand(1, $eta_ids_count) - 1];
 }
 
 $statement = $pdo->prepare(
-			"SELECT
+    "SELECT
 				be.text,
 				u.username
 			FROM bewertung_etablissement be
 			JOIN user u ON
 				be.user_id = u.id
 			WHERE
-				be.eta_id = :eta_id");
+				be.eta_id = :eta_id"
+);
 $result = $statement->execute(array('eta_id' => $eta1[0]));
 $bew1Fetch = $statement->fetchAll();
 $bew1Fetch_count = count($bew1Fetch);
 
-$bew1 = $bew1Fetch[rand(1, $bew1Fetch_count)-1];
+$bew1 = $bew1Fetch[rand(1, $bew1Fetch_count) - 1];
 
 $statement = $pdo->prepare(
-			"SELECT
+    "SELECT
 				be.text,
 				u.username
 			FROM bewertung_etablissement be
 			JOIN user u ON
 				be.user_id = u.id
 			WHERE
-				be.eta_id = :eta_id");
+				be.eta_id = :eta_id"
+);
 $result = $statement->execute(array('eta_id' => $eta2[0]));
 $bew2Fetch = $statement->fetchAll();
 $bew2Fetch_count = count($bew2Fetch);
 
-$bew2 = $bew2Fetch[rand(1, $bew2Fetch_count)-1];
+$bew2 = $bew2Fetch[rand(1, $bew2Fetch_count) - 1];
 
 $statement = $pdo->prepare(
-			"SELECT
+    "SELECT
 				be.text,
 				u.username
 			FROM bewertung_etablissement be
 			JOIN user u ON
 				be.user_id = u.id
 			WHERE
-				be.eta_id = :eta_id");
+				be.eta_id = :eta_id"
+);
 $result = $statement->execute(array('eta_id' => $eta3[0]));
 $bew3Fetch = $statement->fetchAll();
 $bew3Fetch_count = count($bew3Fetch);
 
-$bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
+$bew3 = $bew3Fetch[rand(1, $bew3Fetch_count) - 1];
 
 ?>
 <!doctype html>
@@ -87,6 +89,7 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
+    <link rel="shortcut icon" type="image/x-icon" href="../res/favicon.ico">
     <title>Hameln E&C</title>
 
     <!-- Bootstrap core CSS -->
@@ -132,8 +135,8 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-                        <image xlink:href="https://cdn2.rsc.org.uk/sitefinity/images/catering/Eating-Drinking/_cocktails.jpg?sfvrsn=26240121_0" width="100%"/>
-                        <rect width="100%" height="100%" fill="#777"  fill-opacity="0.5" />
+                        <image xlink:href="https://cdn2.rsc.org.uk/sitefinity/images/catering/Eating-Drinking/_cocktails.jpg?sfvrsn=26240121_0" width="100%" />
+                        <rect width="100%" height="100%" fill="#777" fill-opacity="0.5" />
                     </svg>
                     <div class="container">
                         <div class="carousel-caption text-left">
@@ -145,9 +148,9 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
                 </div>
                 <div class="carousel-item">
                     <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-                    <image xlink:href="https://static.vinepair.com/wp-content/uploads/2015/06/fake-cocktail-bar-liqueurs.jpg" width="100%"/>
-                        <rect width="100%" height="100%" fill="#777"  fill-opacity="0.5" />
-                        </svg>
+                        <image xlink:href="https://static.vinepair.com/wp-content/uploads/2015/06/fake-cocktail-bar-liqueurs.jpg" width="100%" />
+                        <rect width="100%" height="100%" fill="#777" fill-opacity="0.5" />
+                    </svg>
                     <div class="container">
                         <div class="carousel-caption">
                             <h1>Wo schmecken die Cocktails am besten?</h1>
@@ -159,8 +162,8 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
                 </div>
                 <div class="carousel-item">
                     <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-                        <image xlink:href="../res/rating.svg" width="100%"/>
-                        <rect width="100%" height="100%" fill="#777"  fill-opacity="0.5" />
+                        <image xlink:href="../res/rating.svg" width="100%" />
+                        <rect width="100%" height="100%" fill="#777" fill-opacity="0.5" />
                     </svg>
                     <div class="container">
                         <div class="carousel-caption text-right">
@@ -186,27 +189,27 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
             <div class="row">
                 <div class="col-lg-4">
                     <?php
-					echo '<img src="../php/get_img.php?eta_id=' . $eta1[0] . '" class="rounded-circle" height="200px" width="200px">';
-					echo '<h2>' . $eta1[1] .'</h2>';
+                    echo '<img src="../php/get_img.php?eta_id=' . $eta1[0] . '" class="rounded-circle" height="200px" width="200px">';
+                    echo '<h2>' . $eta1[1] . '</h2>';
                     echo '<p>' . $bew1[0] . ' <br>(von ' . $bew1[1] . ')</p>';
-					echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta1[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
+                    echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta1[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
                 </div>
                 <div class="col-lg-4">
-					<?php
-					echo '<img src="../php/get_img.php?eta_id=' . $eta2[0] . '" class="rounded-circle" height="200px" width="200px">';
-					echo '<h2>' . $eta2[1] .'</h2>';
+                    <?php
+                    echo '<img src="../php/get_img.php?eta_id=' . $eta2[0] . '" class="rounded-circle" height="200px" width="200px">';
+                    echo '<h2>' . $eta2[1] . '</h2>';
                     echo '<p>' . $bew2[0] . ' <br>(von ' . $bew2[1] . ')</p>';
-					echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta2[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
+                    echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta2[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
                 </div>
                 <div class="col-lg-4">
-					<?php
-					echo '<img src="../php/get_img.php?eta_id=' . $eta3[0] . '" class="rounded-circle" height="200px" width="200px">';
-					echo '<h2>' . $eta3[1] .'</h2>';
+                    <?php
+                    echo '<img src="../php/get_img.php?eta_id=' . $eta3[0] . '" class="rounded-circle" height="200px" width="200px">';
+                    echo '<h2>' . $eta3[1] . '</h2>';
                     echo '<p>' . $bew3[0] . ' <br>(von ' . $bew3[1] . ')</p>';
-					echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta3[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
+                    echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta3[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
                 </div>
             </div>
-  
+
         </div>
     </main>
     <hr class="ct-hr-divider ml-5 mr-5">

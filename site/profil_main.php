@@ -6,7 +6,7 @@ if ($angemeldet) {
 
     $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 
-    if (isset($_GET['updateinfo'])) { 
+    if (isset($_GET['updateinfo'])) {
         $upvname = $_POST['upvname'];
         $upnname = $_POST['upnname'];
         $upalter = $_POST['upalter'];

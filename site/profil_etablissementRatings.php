@@ -82,7 +82,7 @@ if ($angemeldet) {
                         $rownum++;
                         $i++;
                     }
-                    echo '</tbody></table></div>';                    
+                    echo '</tbody></table></div>';
                 } else {
                     echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
                 }

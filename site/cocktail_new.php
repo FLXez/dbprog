@@ -51,13 +51,12 @@ if ($angemeldet) {
 <!doctype html>
 <html lang="de">
 
-
-
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
+	<link rel="shortcut icon" type="image/x-icon" href="../res/favicon.ico">
 	<title>Cocktail - Neuer Cocktail</title>
 
 	<!-- Bootstrap core CSS -->
@@ -85,7 +84,8 @@ if ($angemeldet) {
 						echo '</div>';
 					}
 					echo '
-                <h2 class="ml-4">Neuen Cocktail</h2>
+				<h2 class="ml-4">Neuen Cocktail</h2>
+				<hr>
 						
 						<div class="mr-5 ml-5 mt-2">
 
