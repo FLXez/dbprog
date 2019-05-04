@@ -18,12 +18,17 @@ $pdo = new PDO('mysql:host=localhost;dbname=dbprog','root','');
 
 	}
 
-	if(isset($_GET['cocktailAdd'])){
-	
-	}
-
 	if(isset($_GET['newEtab'])){
-	
+			$nameEtab = $_POST['nameEtab'];
+			echo $nameEtab;
+			$strasse = $_POST['strasseEtab'];
+			echo $strasse;
+			$plzStadt = $_POST['plzStadtEtab'];
+
+			$statement = $pdo->prepare("Select * From etablissement WHERE name = :name AND anschrift =:anschrift");
+			$result = $statement -> execute(array('name'=>$nameEtab, 'anschrift' => $strasse));
+			echo $result;
+			
 	}
 	
 	
@@ -65,16 +70,6 @@ $pdo = new PDO('mysql:host=localhost;dbname=dbprog','root','');
 						if($angemeldet){
 						echo '<div class="mr-5 ml-5 mt-2">
 
-						
-						<div class="form-group">
-							<label for="nameEtab"> Name </label>
-							<input type="text" maxlength="50" class="form-control" id="nameEtab" name="nameEtab"  placeholder="Etablissement">
-						</div>
-						<div class="form-group">
-							<label for="adresseEtab"> Adresse </label>
-							<input type="text" maxlength="50" class="form-control" id="strasseEtab" name="strasseEtab"  placeholder="Stra&szlig;e">
-							<input type="text" maxlength="50" class="form-control" id="plzStadtEtab" name="plzStadtEtab"  placeholder="Postleitzahl Stadt">
-						</div>
 						<form action="?" method="POST" enctype="multipart/form-data">
 						<div class="form-group-2">
 							<label for="image"> Bild </label>
@@ -83,23 +78,29 @@ $pdo = new PDO('mysql:host=localhost;dbname=dbprog','root','');
 							<input type="submit" name="upload" value="Upload Image"> 
 							
 						</div>
-						<form action="?cocktailAdd=1" method="POST">
-						<div class="form-group-3">
-						<br>
-							<label for="cocktails"> Cocktails </label>
-							<select class="form-control" id="CocktailAdder">
-							<option>hier muss eine schleife über die datenbank gehen</option>
-							<option>die itteriert über alle existenten cocktails</option>
-							<option> und lässt den user diese dann hier einfügen direkt so lol</option>
-							</select>
-							<button type="submit" class="btn btn-primary">Hinzufügen</button>
+						</form>
+						
+						<form action="?newEtab=1" method="post">
+						<div class="form-group">
+							<label for="nameEtab"> Name </label>
+							<input type="text" maxlength="50" class="form-control" id="nameEtab" name="nameEtab"  placeholder="Etablissement">
 						</div>
 
-						<form action="?newEtab=1" method="post">
+
+						<div class="form-group">
+							<label for="adresseEtab"> Adresse </label>
+							<input type="text" maxlength="50" class="form-control" id="strasseEtab" name="strasseEtab"  placeholder="Stra&szlig;e">
+							<input type="text" maxlength="50" class="form-control" id="plzStadtEtab" name="plzStadtEtab"  placeholder="Postleitzahl Stadt">
+						</div>
+
 						<div class="form-group">
 							<br>
 							<button type="submit" class="btn btn-primary"> Erstellen</button>
 						</div>
+						</form>
+
+
+
 						
 						';
 
