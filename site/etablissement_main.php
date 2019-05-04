@@ -1,6 +1,38 @@
 ﻿<?php
 include('../php/sessioncheck.php');
 $activeHead = "etablissement";
+
+$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+$statement = $pdo->prepare("
+					SELECT 
+						e.name,
+						e.ort,
+						e.anschrift,
+						e.verifiziert,
+						ei.id,
+						AVG(sub_be.wert)
+					FROM etablissement e
+					LEFT JOIN etablissement_img ei ON
+						e.id = ei.eta_id
+					LEFT JOIN 
+						(
+						SELECT 
+							be.eta_id, 
+							CAST(be.wert AS INTEGER) AS wert
+						FROM
+							bewertung_etablissement be
+						) sub_be
+					ON
+						e.id = sub_be.eta_id
+					GROUP BY
+						e.name,
+						e.ort,
+						e.anschrift,
+						e.verifiziert,
+						ei.id");
+$result = $statement->execute();
+$etaFetch = $statement->fetchAll();
+$etaCount = count($etaFetch);
 ?>
 <!doctype html>
 <html lang="de">
@@ -30,8 +62,44 @@ $activeHead = "etablissement";
     <main role="main">
         <div class="mt-5 ml-5 mr-5">
             <div class="card card-body">
-                <h2 class="ml-4">Alle Etablissements</h2>
+                <h2 class="ml-4">Etablissements</h2>
                 <hr>
+				<div class="row">
+				<?php
+				for ($i = 0; $i < $etaCount; $i++)
+				{
+					echo '
+					<div class="card" style="width: 18rem;">
+						<img src="../php/img.php?eta_img_id=' . $etaFetch[$i][4] . '" class="card-img-top" alt="...">
+						<div class="card-body">
+							<div class="row">
+								<div class="col">
+									<h5 class="card-title">' . $etaFetch[$i][0] . '</h5>
+								</div>
+								<div class="col">';
+				if ($etaFetch[$i][3] == 1)
+				{
+					echo '<img src="../res/verifiziert.png" height="32px" width="32px">';
+				}
+
+				echo			'</div>
+								<div class="w-100"></div>
+								<div class="col">
+									<p class="card-text">' . $etaFetch[$i][1] . '<br>' . $etaFetch[$i][2] . '<br></p>
+								</div>
+								<div class="w-100"></div>
+								<div class="col">
+									<a href="#" class="btn btn-primary">Details</a>
+								</div>
+								<div class="col">
+									Bewertung
+								</div>
+							</div>
+						</div>
+					</div>';
+				}
+				?>
+				</div>
             </div>
         </div>
     </main>
