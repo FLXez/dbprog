@@ -32,6 +32,7 @@ $activeHead = "uberUns";
             <div class="card card-body">
                 <h2 class="ml-4">Das Team</h2>
 				Das Team hat kein Bock auf diese Seite. Mach sie dir doch selber.
+                <hr>
 
 				Nein Spaß Bruder, das Team besteht aus mir, dem Esel, ave mir. <br>
 				<div style="text-align: center;">
@@ -49,7 +50,6 @@ $activeHead = "uberUns";
 				<div style="text-align: center;">
 				Achja, und mich. Natürlich. Jeder weiß, wer ich bin.
 				</div>
-                <hr>
             </div>
         </div>
     </main>
