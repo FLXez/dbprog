@@ -68,7 +68,7 @@ $etaCount = count($etaFetch);
 				<?php
 				for ($i = 0; $i < $etaCount; $i++)
 				{
-					echo '<div class="card" style="width: 18rem;">';
+					echo '<div class="card ml-4 mr-4 mt-4 mb-4" style="width: 19rem;">';
 					if ($etaFetch[$i][6] == null)
 						echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 					else 
