@@ -92,7 +92,26 @@ $etaCount = count($etaFetch);
 									<a href="#" class="btn btn-primary">Details</a>
 								</div>
 								<div class="col">
-									Bewertung
+									<h5 class="rating-num">' . number_format($etaFetch[$i][5], 1) . '</h5>
+									<div class="rating">';
+
+				if ($etaFetch[$i][5] >= 1)				echo '<i class="fas fa-star"></i>';
+					else								echo '<i class="far fa-star"></i>';
+				if ($etaFetch[$i][5] >= 1.75)			echo '<i class="fas fa-star"></i>';
+					elseif ($etaFetch[$i][5] >= 1.25)	echo '<i class="fas fa-star-half-alt"></i>';
+					else								echo '<i class="far fa-star"></i>';
+				if ($etaFetch[$i][5] >= 2.75)			echo '<i class="fas fa-star"></i>';
+					elseif ($etaFetch[$i][5] >= 2.25)	echo '<i class="fas fa-star-half-alt"></i>';
+					else								echo '<i class="far fa-star"></i>';
+				if ($etaFetch[$i][5] >= 3.75)			echo '<i class="fas fa-star"></i>';
+					elseif ($etaFetch[$i][5] >= 3.25)	echo '<i class="fas fa-star-half-alt"></i>';
+					else								echo '<i class="far fa-star"></i>';
+				if ($etaFetch[$i][5] >= 4.75)			echo '<i class="fas fa-star"></i>';
+					elseif ($etaFetch[$i][5] >= 4.25)	echo '<i class="fas fa-star-half-alt"></i>';
+					else								echo '<i class="far fa-star"></i>';
+				
+
+				echo			'</div>
 								</div>
 							</div>
 						</div>
