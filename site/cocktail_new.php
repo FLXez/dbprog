@@ -16,13 +16,21 @@ $message = "";
 			$nameCock = $_POST['nameCock'];
 			$beschreibungCock = $_POST['beschreibungCock'];
 
+			$file_name = $_FILES['file']['name'];
+			$file_type = $_FILES['file']['type'];
+			$file_size = $_FILES['file']['size'];
+			$file_tem_loc = $_FILES['file']['tmp_name'];
+
+			$handle = fopen($file_tem_loc,'r');
+			$content = fread($handle, $file_size);
+
 			$statement = $pdo->prepare("Select * From cocktail WHERE name = :name AND beschreibung = :beschreibung");
 			$result = $statement -> execute(array('name'=>$nameCock, 'beschreibung' => $beschreibungCock));
 			$notNewError = $statement -> fetch();
 			
 			if($notNewError == false){
-				$statement = $pdo ->prepare("INSERT INTO cocktail(name, beschreibung) VALUES (:name, :beschreibung)");
-				$result = $statement ->execute(array('name' => $nameCock, 'beschreibung' => $beschreibungCock));
+				$statement = $pdo ->prepare("INSERT INTO cocktail(name, beschreibung, img) VALUES (:name, :beschreibung, :img)");
+				$result = $statement ->execute(array('name' => $nameCock, 'beschreibung' => $beschreibungCock, 'img'=> $content));
 				$insertError = $statement -> fetch();
 
 					if($insertError == false){
@@ -32,15 +40,7 @@ $message = "";
 					}
 			}else{
 				$message ="Dieser Cocktail ist bereits vorhanden.";
-			}
-
-
-
-			$file_name = $_FILES['file']['name'];
-			$file_type = $_FILES['file']['type'];
-			$file_size = $_FILES['file']['size'];
-			$file_tem_loc = $_FILES['file']['tmp_name'];
-			
+			}		
 	}
 }
 	
@@ -107,7 +107,7 @@ $message = "";
 						
 						<div class="form-group">
 							<label for="beschreibungCock"> Beschreibung </label>
-							<input type="text" maxlength="50" class="form-control" id="beschreibungCock" name="beschreibungCock"  placeholder="Wie wir das lösen bereden wir noch">
+							<input type="text" maxlength="50" class="form-control" id="beschreibungCock" name="beschreibungCock"  placeholder="Beschreibung">
 						</div>
 
 

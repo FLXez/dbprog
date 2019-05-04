@@ -23,13 +23,16 @@ $message = "";
 			$file_size = $_FILES['file']['size'];
 			$file_tem_loc = $_FILES['file']['tmp_name']; 
 
+			$handle = fopen($file_tem_loc,'r');
+			$content = fread($handle, $file_size);
+
 			$statement = $pdo->prepare("Select * From etablissement WHERE name = :name AND anschrift =:anschrift");
 			$result = $statement -> execute(array('name'=>$nameEtab, 'anschrift' => $strasse));
 			$notNewError = $statement -> fetch();
 			
 			if($notNewError == false){
 				$statement = $pdo ->prepare("INSERT INTO etablissement(name, ort, anschrift, img) VALUES (:name, :ort, :anschrift, :img)");
-				$result = $statement ->execute(array('name' => $nameEtab, 'ort' => $plzStadt , 'anschrift' => $strasse, 'img'=> $file_tem_loc));
+				$result = $statement ->execute(array('name' => $nameEtab, 'ort' => $plzStadt , 'anschrift' => $strasse, 'img'=> $content));
 				$insertError = $statement -> fetch();
 
 					if($insertError == false){
