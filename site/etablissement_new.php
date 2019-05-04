@@ -9,17 +9,8 @@ $insertError = false;
 $notNewError = false;
 $message = "";
 
-	if(isset($_POST['upload'])){
-	$file_name = $_FILES['file']['name'];
-	$file_type = $_FILES['file']['type'];
-	$file_size = $_FILES['file']['size'];
-	$file_tem_loc = $_FILES['file']['tmp_name'];
-	$file_store = "../z_testkram/".$file_name;
 
-	
-	move_uploaded_file($file_tem_loc, $file_store);
 
-	}
 
 	if(isset($_GET['newEtab'])){
 
@@ -44,6 +35,13 @@ $message = "";
 			}else{
 				$message ="Dieses Etablissement ist bereits vorhanden.";
 			}
+
+
+
+			$file_name = $_FILES['file']['name'];
+			$file_type = $_FILES['file']['type'];
+			$file_size = $_FILES['file']['size'];
+			$file_tem_loc = $_FILES['file']['tmp_name'];
 			
 	}
 }
@@ -75,42 +73,38 @@ $message = "";
         include('../php/buildHeader.php');
         ?>
     </header>
-    <main role="main">
+   
         <main role="main">
-            <div class="mt-5 ml-5 mr-5">
-                <div class="card card-body">
-                    <h2 class="ml-4">Neues Etablissement</h2>
 						<?php
-						if($angemeldet){
+							if($angemeldet){
 							if ($notNewError or $insertError) {
 								echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
 								echo $message;
 								echo '</div>';
 							} 
+            echo '<div class="mt-5 ml-5 mr-5">
+                <div class="card card-body">
+                    <h2 class="ml-4">Neues Etablissement</h2>
 
-						echo '<div class="mr-5 ml-5 mt-2">
+						<div class="mr-5 ml-5 mt-2">
 
-						<form action="?" method="POST" enctype="multipart/form-data">
-						<div class="form-group-2">
-							<label for="image"> Bild </label>
-							<br>
-							<input type="file" name="file">
-							<input type="submit" name="upload" value="Upload Image"> 
-							
-						</div>
-						</form>
+						<form action="?newEtab=1" method="POST" enctype="multipart/form-data">
 						
-						<form action="?newEtab=1" method="post">
 						<div class="form-group">
 							<label for="nameEtab"> Name </label>
-							<input type="text" maxlength="50" class="form-control" id="nameEtab" name="nameEtab"  placeholder="Etablissement">
+							<input type="text" maxlength="50" class="form-control" id="nameEtab" name="nameEtab"  placeholder="Etablissement" required>
 						</div>
 
+						<div class="form-group">
+							<label for="image"> Bild </label>
+							<br>
+							<input type="file" name="file"> 	
+						</div>
 
 						<div class="form-group">
 							<label for="adresseEtab"> Adresse </label>
-							<input type="text" maxlength="50" class="form-control" id="strasseEtab" name="strasseEtab"  placeholder="Stra&szlig;e">
-							<input type="text" maxlength="50" class="form-control" id="plzStadtEtab" name="plzStadtEtab"  placeholder="Postleitzahl Stadt">
+							<input type="text" maxlength="50" class="form-control" id="strasseEtab" name="strasseEtab"  placeholder="Stra&szlig;e" required>
+							<input type="text" maxlength="50" class="form-control" id="plzStadtEtab" name="plzStadtEtab"  placeholder="Postleitzahl Stadt" required>
 						</div>
 
 						<div class="form-group">
@@ -129,11 +123,11 @@ $message = "";
 						}else{
 							echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
 						}					
-						?>
-
+						echo'
                     <hr>
                 </div>
-            </div>
+            </div>'
+						?>
         </main>
         <hr class="ct-hr-divider ml-5 mr-5">
         <footer role="footer" class="container">
