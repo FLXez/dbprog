@@ -73,7 +73,7 @@ $bewFetch = $statement->fetchAll();
 						if ($etaFetch[4] == null)
 							echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else 
-							echo '<img src="../php/get_img.php?eta_id=' . $etaFetch[$i][0] . '" class="card-img-top">';
+							echo '<img src="../php/get_img.php?eta_id=' . $etaFetch[0] . '" class="card-img-top">';
 						?>
 					</div>
 					<div class="col-md-8">
