@@ -76,6 +76,7 @@ $message = "";
     </header>
    
         <main role="main">
+            <div class="mt-5 ml-5 mr-5">
 						<?php
 							if($angemeldet){
 							if ($notNewError or $insertError) {
@@ -83,8 +84,7 @@ $message = "";
 								echo $message;
 								echo '</div>';
 							} 
-            echo '<div class="mt-5 ml-5 mr-5">
-                <div class="card card-body">
+                echo '<div class="card card-body">
                     <h2 class="ml-4">Neues Etablissement</h2>
 
 						<div class="mr-5 ml-5 mt-2">
@@ -126,9 +126,9 @@ $message = "";
 						}					
 						echo'
                     <hr>
-                </div>
-            </div>'
+                </div>'
 						?>
+            </div>
         </main>
         <hr class="ct-hr-divider ml-5 mr-5">
         <footer role="footer" class="container">
