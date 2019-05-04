@@ -72,7 +72,7 @@ $etaCount = count($etaFetch);
 					if ($etaFetch[$i][6] == null)
 						echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 					else 
-						echo '<img src="../php/img.php?eta_id=' . $etaFetch[$i][0] . '" class="card-img-top">';
+						echo '<img src="../php/get_img.php?eta_id=' . $etaFetch[$i][0] . '" class="card-img-top">';
 					echo '<div class="card-body">
 							<div class="row">
 								<div class="col">

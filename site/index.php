@@ -186,7 +186,7 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
             <div class="row">
                 <div class="col-lg-4">
                     <?php
-					echo '<img src="../php/img.php?eta_id=' . $eta1[0] . '" class="rounded-circle" height="200px" width="200px">';
+					echo '<img src="../php/get_img.php?eta_id=' . $eta1[0] . '" class="rounded-circle" height="200px" width="200px">';
 					echo '<h2>' . $eta1[1] .'</h2>';
                     echo '<p>' . $bew1[0] . ' <br>(von ' . $bew1[1] . ')</p>';
 					?>
@@ -194,7 +194,7 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
                 </div>
                 <div class="col-lg-4">
 					<?php
-					echo '<img src="../php/img.php?eta_id=' . $eta2[0] . '" class="rounded-circle" height="200px" width="200px">';
+					echo '<img src="../php/get_img.php?eta_id=' . $eta2[0] . '" class="rounded-circle" height="200px" width="200px">';
 					echo '<h2>' . $eta2[1] .'</h2>';
                     echo '<p>' . $bew2[0] . ' <br>(von ' . $bew2[1] . ')</p>';
 					?>
@@ -202,7 +202,7 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count)-1];
                 </div>
                 <div class="col-lg-4">
 					<?php
-					echo '<img src="../php/img.php?eta_id=' . $eta3[0] . '" class="rounded-circle" height="200px" width="200px">';
+					echo '<img src="../php/get_img.php?eta_id=' . $eta3[0] . '" class="rounded-circle" height="200px" width="200px">';
 					echo '<h2>' . $eta3[1] .'</h2>';
                     echo '<p>' . $bew3[0] . ' <br>(von ' . $bew3[1] . ')</p>';
 					?>
