@@ -141,7 +141,7 @@ if (!$angemeldet) {
                                 </div>
                                 <div class="form-group">
                                     <label for="loginPasswort">Passwort</label>
-                                    <input type="text" class="form-control" id="loginPasswort" placeholder="Passwort" required name="loginPasswort">
+                                    <input type="password" class="form-control" id="loginPasswort" placeholder="Passwort" required name="loginPasswort">
                                 </div>
                                 <button type="submit" class="btn btn-primary mt-2">Anmelden</button>
                             </form>
