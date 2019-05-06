@@ -83,7 +83,7 @@ $bewFetch = $statement->fetchAll();
 					<div class="col-md-2">
 						<?php
 						if ($cockFetch[3] == null)
-							echo '<img src="../res/placeholder_cocktail.svg" class="card-img-top">';
+							echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else
 							echo '<img src="../php/get_img.php?cock_id=' . $cockFetch[0] . '" class="card-img-top">';
 						?>
