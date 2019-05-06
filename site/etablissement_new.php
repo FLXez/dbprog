@@ -7,6 +7,7 @@ if ($angemeldet) {
 	$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 	$insertError = false;
 	$notNewError = false;
+	$angelegt = false;
 	$message = "";
 
 
@@ -36,9 +37,10 @@ if ($angemeldet) {
 			$insertError = $statement->fetch();
 
 			if ($insertError == false) {
-				$message = "Erfolgreich angelegt";
+				$message = "Erfolgreich angelegt!";
+				$angelegt = true;
 			} else {
-				$message = "Ein technsicher Fehler ist aufgetreten";
+				$message = "Ein technsicher Fehler ist aufgetreten.";
 			}
 		} else {
 			$message = "Dieses Etablissement ist bereits vorhanden.";
@@ -77,50 +79,44 @@ if ($angemeldet) {
 
 	<main role="main">
 		<div class="mt-5 ml-5 mr-5">
+			<?php
+			if ($angemeldet) {
+				if ($notNewError or $insertError) {
+					echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';
+					echo $message;
+					echo '</div>';
+				} elseif ($angelegt) {
+					echo '<div class="alert alert-info col-auto ct-text-center mb-4" role="alert">';
+					echo $message;
+					echo '</div>';
+				}
+				echo '		
 			<div class="card card-body">
-				<?php
-				if ($angemeldet) {
-					if ($notNewError or $insertError) {
-						echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
-						echo $message;
-						echo '</div>';
-					}
-					echo '
-					<h2 class="ml-4">Neues Etablissement</h2>
-					<hr>
-
-						<div class="mr-5 ml-5 mt-2">
-
-						<form action="?newEtab=1" method="POST" enctype="multipart/form-data">
-						
+				<h2 class="ml-4">Neues Etablissement</h2>
+				<hr>
+				<div class="mr-5 ml-5 mt-2">
+					<form action="?newEtab=1" method="POST" enctype="multipart/form-data">
 						<div class="form-group">
-							<label for="nameEtab"> Name </label>
+							<label for="nameEtab">Name</label>
 							<input type="text" maxlength="50" class="form-control" id="nameEtab" name="nameEtab"  placeholder="Etablissement" required>
 						</div>
-
 						<div class="form-group">
-							<label for="image"> Bild </label>
-							<br>
-							<input type="file" name="file"> 	
+							<label for="image">Bild</label>
+							<input type="file" name="file" id="image" class="form-control-file"> 	
 						</div>
-
 						<div class="form-group">
-							<label for="adresseEtab"> Adresse </label>
+							<label for="adresseEtab">Adresse</label>
 							<input type="text" maxlength="50" class="form-control mb-2" id="strasseEtab" name="strasseEtab"  placeholder="Stra&szlig;e" required>
 							<input type="text" maxlength="50" class="form-control" id="plzStadtEtab" name="plzStadtEtab"  placeholder="Postleitzahl Stadt" required>
 						</div>
-
-						<div class="form-group">
-							<br>
-							<button type="submit" class="btn btn-primary"> Erstellen</button>
-						</div>
-						</form>		
-						';
-				} else {
-					echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
-				}
-				?>
-			</div>
+						<button type="submit" class="btn btn-primary">Erstellen</button>
+					</form>
+				</div>
+			</div>';
+			} else {
+				echo '<div class="card card-body"><h2 class="ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2></div>';
+			}
+			?>
 		</div>
 	</main>
 	<hr class="ct-hr-divider ml-5 mr-5">

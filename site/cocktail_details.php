@@ -1,6 +1,6 @@
 <?php
 include('../php/sessioncheck.php');
-$activeHead = "etablissement";
+$activeHead = "cocktail";
 
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $statement = $pdo->prepare("
@@ -60,7 +60,7 @@ $bewFetch = $statement->fetchAll();
 	<meta name="description" content="">
 	<meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
 	<link rel="shortcut icon" type="image/x-icon" href="../res/favicon.ico">
-	<title>Etablissement - Main</title>
+	<title>Cocktail - Details</title>
 
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -96,11 +96,18 @@ $bewFetch = $statement->fetchAll();
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-6">
-					<div class="card card-body">
-						<h2 class="ml-4">Cocktailkarte</h2>
-						<hr>
+			<div class="card card-body">
+				<ul class="nav nav-pills flex-column flex-sm-row" id="cockDetail-tab" role="tablist">
+					<li class="flex-sm-fill text-sm-center nav-item">
+						<a class="nav-link active" id="cocktailKarte-tab" data-toggle="pill" href="#cocktailKarte" role="tab" aria-controls="cocktailKarte" aria-selected="true">Cocktailkarte</a>
+					</li>
+					<li class="flex-sm-fill text-sm-center nav-item">
+						<a class="nav-link" id="bewertungen-tab" data-toggle="pill" href="#bewertungen" role="tab" aria-controls="bewertungen" aria-selected="false">Bewertungen</a>
+					</li>
+				</ul>
+				<hr>
+				<div class="tab-content" id="cockDetail-tabContent">
+					<div class="tab-pane fade show active" id="cocktailKarte" role="tabpanel" aria-labelledby="cocktailKarte-tab">
 						<?php echo '
 						<table class="table">
 							<thead>
@@ -126,11 +133,7 @@ $bewFetch = $statement->fetchAll();
 						echo '</tbody></table>';
 						?>
 					</div>
-				</div>
-				<div class="col-6">
-					<div class="card card-body">
-						<h2 class="ml-4">Bewertungen</h2>
-						<hr>
+					<div class="tab-pane fade" id="bewertungen" role="tabpanel" aria-labelledby="bewertungen-tab">
 						<?php echo '
 						<table class="table">
 							<thead>

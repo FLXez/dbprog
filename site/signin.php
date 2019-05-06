@@ -109,75 +109,70 @@ if (!$angemeldet) {
         ?>
     </header>
     <main role="main">
-        <?php
-        if (!$angemeldet) {
-            if ($regError or $loginError) {
-                echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
-                echo $message;
-                echo '</div>';
-            } elseif ($result) {
-                echo '<div class="alert alert-info col-auto ct-text-center" role="alert">';
-                echo $message;
-                echo '</div>';
-            }
-            echo '
-            <div class="ml-5 mr-5 mt-5">
-                <div class="card card-body">
-                    <ul class="nav nav-pills flex-column flex-sm-row" id="singin-tab" role="tablist">
-                        <li class="flex-sm-fill text-sm-center nav-item">
-                            <a class="nav-link active" id="signin-login-tab" data-toggle="pill" href="#signin-login" role="tab" aria-controls="signin-login" aria-selected="true">Anmelden</a>
-                        </li>
-                        <li class="flex-sm-fill text-sm-center nav-item">
-                            <a class="nav-link" id="signin-register-tab" data-toggle="pill" href="#signin-register" role="tab" aria-controls="signin-register" aria-selected="false">Registrieren</a>
-                        </li>
-                    </ul>
-                    <hr>
-                    <div class="tab-content" id="signin-tabContent">
-                        <div class="tab-pane fade show active" id="signin-login" role="tabpanel" aria-labelledby="signin-login-tab">
-                            <form class="mr-5 ml-5 mt-2" action="?login=1" method="post">
-                                <div class="form-group">
-                                    <label for="loginUsername">Username</label>
-                                    <input type="text" class="form-control" id="loginUsername" placeholder="Username" name="loginUsername" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="loginPasswort">Passwort</label>
-                                    <input type="password" class="form-control" id="loginPasswort" placeholder="Passwort" required name="loginPasswort">
-                                </div>
-                                <button type="submit" class="btn btn-primary mt-2">Anmelden</button>
-                            </form>
-                        </div>
-                        <div class="tab-pane fade" id="signin-register" role="tabpanel" aria-labelledby="signin-register-tab">
-                            <form class="mr-5 ml-5 mt-2" action="?register=1" method="post">
-                                <div class="form-group">
-                                    <label for="registerUsername">Username</label>
-                                    <input type="text" class="form-control" id="registerUsername" placeholder="Username" name="registerUsername" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="registerEmail">E-Mail Adresse</label>
-                                    <input type="email" class="form-control" id="registerEmail" placeholder="E-Mail" name="registerEmail" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="registerPasswort">Passwort</label>
-                                    <input type="password" class="form-control" id="registerPasswort" placeholder="Passwort" name="registerPasswort" required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" id="registerPasswortConfirm" placeholder="Passwort wiederholen" name="registerPasswortConfirm" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary ">Registrieren</button>
-                            </form>
-                        </div>
+        <div class="ml-5 mr-5 mt-5">
+            <?php
+            if (!$angemeldet) {
+                if ($regError or $loginError) {
+                    echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';
+                    echo $message;
+                    echo '</div>';
+                } elseif ($result) {
+                    echo '<div class="alert alert-info col-auto ct-text-center mb-4" role="alert">';
+                    echo $message;
+                    echo '</div>';
+                }
+                echo '
+            <div class="card card-body">
+                <ul class="nav nav-pills flex-column flex-sm-row" id="singin-tab" role="tablist">
+                    <li class="flex-sm-fill text-sm-center nav-item">
+                        <a class="nav-link active" id="signin-login-tab" data-toggle="pill" href="#signin-login" role="tab" aria-controls="signin-login" aria-selected="true">Anmelden</a>
+                    </li>
+                    <li class="flex-sm-fill text-sm-center nav-item">
+                        <a class="nav-link" id="signin-register-tab" data-toggle="pill" href="#signin-register" role="tab" aria-controls="signin-register" aria-selected="false">Registrieren</a>
+                    </li>
+                </ul>
+                <hr>
+                <div class="tab-content" id="signin-tabContent">
+                    <div class="tab-pane fade show active" id="signin-login" role="tabpanel" aria-labelledby="signin-login-tab">
+                        <form class="mr-5 ml-5 mt-2" action="?login=1" method="post">
+                            <div class="form-group">
+                                <label for="loginUsername">Username</label>
+                                <input type="text" class="form-control" id="loginUsername" placeholder="Username" name="loginUsername" required>                                
+                            </div>
+                            <div class="form-group">
+                                <label for="loginPasswort">Passwort</label>
+                                <input type="password" class="form-control" id="loginPasswort" placeholder="Passwort" required name="loginPasswort">
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Anmelden</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="signin-register" role="tabpanel" aria-labelledby="signin-register-tab">
+                        <form class="mr-5 ml-5 mt-2" action="?register=1" method="post">
+                            <div class="form-group">
+                                <label for="registerUsername">Username</label>
+                                <input type="text" class="form-control" id="registerUsername" placeholder="Username" name="registerUsername" required>                                
+                            </div>
+                            <div class="form-group">
+                                <label for="registerEmail">E-Mail Adresse</label>
+                                <input type="email" class="form-control" id="registerEmail" placeholder="E-Mail" name="registerEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerPasswort">Passwort</label>
+                                <input type="password" class="form-control" id="registerPasswort" placeholder="Passwort" name="registerPasswort" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="registerPasswortConfirm" placeholder="Passwort wiederholen" name="registerPasswortConfirm" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary ">Registrieren</button>
+                        </form>
                     </div>
                 </div>
             </div>';
-        } else {
-            header("refresh:5;url=../site/index.php");
-            echo
-                '
-            <h2 class="ct-text-divider">Sie sind bereits angemeldet.</h2>
-            <div class="alert alert-info col-auto ct-text-center" role="alert">Automatische Weiterleitung in 5 Sekunden.<br>Falls die automatische Weiterleitung nicht funktionieren sollte, klicken sie bitte <a href="../site/index.php" class="alert-link">hier</a>.</div>
-            ';
-        }
-        ?>
+            } else {
+                echo '<div class="card card-body"><h2 class="ct-text-center">Sie sind bereits angemeldet.</h2></div>';
+            }
+            ?>
+        </div>
     </main>
     <hr class="ct-hr-divider ml-5 mr-5">
     <footer role="footer" class="container">

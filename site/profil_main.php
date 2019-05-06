@@ -48,7 +48,7 @@ if ($angemeldet) {
     </header>
     <main role="main">
         <div class="mt-5 ml-5 mr-5">
-            <div class="card card-body mr-2">
+            <div class="card card-body">
                 <?php
                 if ($angemeldet) {
                     echo '
@@ -83,7 +83,7 @@ if ($angemeldet) {
                     </form>
                     </div>';
                 } else {
-                    echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
+                    echo '<h2 class="ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
                 }
                 ?>
             </div>
