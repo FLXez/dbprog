@@ -14,7 +14,6 @@ if ($angemeldet) {
     $statement = $pdo->prepare("SELECT bewertung_cocktail.timestamp, etablissement.name, cocktail.name, bewertung_cocktail.text, bewertung_cocktail.wert FROM bewertung_cocktail JOIN cocktail ON bewertung_cocktail.cocktail_id = cocktail.id JOIN etablissement on bewertung_cocktail.eta_id = etablissement.id WHERE bewertung_cocktail.user_id = :userid");
     $result = $statement->execute(array('userid' => $userid));
     $ratingFetch = $statement->fetchAll();
-    $ratingFetchLength = count($ratingFetch);
 }
 
 ?>
@@ -69,11 +68,9 @@ if ($angemeldet) {
                             </tr>
                         </thead> 
                         <tbody>';
-                    $i = 0;
-                    $rownum = 1;
-                    while ($i < $ratingFetchLength) {
+                    for ($i = 0; $i < count($ratingFetch); $i++) {
                         echo '<tr>';
-                        echo '<th scope="row">' . $rownum;
+                        echo '<th scope="row">' . ($i + 1);
                         '</th>';
                         echo '<td>' . $ratingFetch[$i][0] . '</td>';
                         echo '<td>' . $ratingFetch[$i][1] . '</td>';
@@ -81,8 +78,6 @@ if ($angemeldet) {
                         echo '<td>' . $ratingFetch[$i][3] . '</td>';
                         echo '<td>' . $ratingFetch[$i][4] . '</td>';
                         echo '</tr>';
-                        $rownum++;
-                        $i++;
                     }
                     echo '</tbody></table></div>';
                 } else {
