@@ -2,7 +2,6 @@
 include('../../php/sessioncheck.php');
 //activeHead setzen.
 $activeHead = "";
-//
 //  EYYYYYY
 //  UNTER MIR ANPASSEN!
 $_SESSION['source']= "Location: ../site/DIEneuePHP.php";
@@ -32,11 +31,15 @@ $_SESSION['source']= "Location: ../site/DIEneuePHP.php";
         ?>
     </header>
     <main role="main">
-    <main role="main">
         <div class="mt-5 ml-5 mr-5">
             <div class="card card-body">
                 <h2 class="ml-4">Template Titel</h2>
                 <hr>
+                <div class="ml-5 mr-5 mt-2">
+                    Hier inhalt lol, sofern Card-Design beibehalten werden soll. <br>
+                    Bei mehreren Tabs (wie bei profil_main.php) in die "singin.php" reinschauen, das ist am einfachsten zu kopieren. <br>
+                    Ich glaube das wars zu Design-Richtlinien. Hübsch mache ich das notfalls. Lol.
+                </div>
             </div>
         </div>
     </main>
