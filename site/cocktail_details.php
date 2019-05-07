@@ -4,16 +4,58 @@ $activeHead = "cocktail";
 $_SESSION['source']= "Location: ../site/cocktail_details.php";
 
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+
+
 $statement = $pdo->prepare("
 					SELECT 
 						c.id,
 						c.name,
 						c.beschreibung,
-						e.img
+						c.img
 					FROM cocktail c
 					WHERE c.id = :cock_id");
 $result = $statement->execute(array('cock_id' => $_GET['cock_id']));
 $cockFetch = $statement->fetch();
+
+$bew = false;
+$bew_success = false;
+$bew_error = false;
+if (isset($_GET['bewertung_abgeben']) && $angemeldet) 
+{
+	$bew = true;
+
+	$statement = $pdo->prepare("SELECT id FROM user WHERE username=:username");
+	$result = $statement->execute(array('username'=>$username));
+	$userFetch = $statement->fetch();
+
+	$user_id = $userFetch[0];
+	$bew_eta = $_POST['eta'];
+	$bew_wert = $_POST['wert'];
+	$bew_kommentar = $_POST['kommentar'];
+
+	if (!($bew_wert == '1' || $bew_wert == '2' || $bew_wert == '3' || $bew_wert == '4' || $bew_wert == '5'))
+	{
+		$bew_error = true;
+		$message = 'Ungültiger Wert eingetragen!';
+	}
+
+	if ($bew_error == false)
+	{
+		$statement = $pdo->prepare("SELECT * FROM bewertung_cocktail WHERE user_id=:user_id AND eta_id=:eta_id AND cocktail_id=:cock_id");
+		$result = $statement->execute(array('user_id' => $user_id, 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
+		$bew_vorhanden = $statement->fetch();
+
+		if ($bew_vorhanden == true) {
+			$statement = $pdo->prepare("UPDATE bewertung_cocktail SET wert=:wert, text=:kommentar WHERE user_id=:user_id AND eta_id=:eta_id AND cocktail_id=:cock_id");
+			$result = $statement->execute(array('wert'=>$bew_wert, 'kommentar'=>$bew_kommentar, 'user_id' => $user_id, 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
+			$bew_success = $statement->fetch();
+		} else {
+			$statement = $pdo->prepare("INSERT INTO bewertung_cocktail (user_id, eta_id, cocktail_id, wert, text) VALUES (:user_id, :eta_id, :cock_id, :wert, :kommentar)");
+			$result = $statement->execute(array('wert'=>$bew_wert, 'kommentar'=>$bew_kommentar, 'user_id' => $user_id, 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
+			$bew_success = $statement->fetch();
+		}
+	}
+}
 
 $statement = $pdo->prepare("
 					SELECT
@@ -44,13 +86,29 @@ $statement = $pdo->prepare("
 						u.username,
 						bc.text,
 						bc.wert,
-						be.timestamp
-					FROM bewertung_etablissement be
+						bc.timestamp,
+						e.name
+					FROM bewertung_cocktail bc
 					JOIN user u ON
-						be.user_id = u.id
-					WHERE be.eta_id = :eta_id");
-$result = $statement->execute(array('eta_id' => $_GET['cock_id']));
+						bc.user_id = u.id
+					JOIN etablissement e ON
+						bc.eta_id = e.id
+					WHERE bc.cocktail_id = :cock_id
+					ORDER BY e.name");
+$result = $statement->execute(array('cock_id' => $_GET['cock_id']));
 $bewFetch = $statement->fetchAll();
+
+$statement = $pdo->prepare("
+					SELECT 
+						e.id, 
+						e.name, 
+						e.ort 
+					FROM etablissement e
+					JOIN cocktailkarte ck ON
+						e.id = ck.eta_id
+					WHERE ck.cocktail_id = :cock_id");
+$result = $statement->execute(array('cock_id'=>$_GET['cock_id']));
+$allEtaFetch = $statement->fetchAll();
 ?>
 <!doctype html>
 <html lang="de">
@@ -79,6 +137,13 @@ $bewFetch = $statement->fetchAll();
 	</header>
 	<main role="main">
 		<div class="mt-5 ml-5 mr-5">
+			<?php
+			if ($bew == true && $bew_success == false) {
+                    echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';
+                    echo $message;
+                    echo '</div>';
+                }
+			?>
 			<div class="card mb-3" width="100%" style="max-height: 360px;">
 				<div class="row no-gutters">
 					<div class="col-md-2">
@@ -104,6 +169,9 @@ $bewFetch = $statement->fetchAll();
 					</li>
 					<li class="flex-sm-fill text-sm-center nav-item">
 						<a class="nav-link" id="bewertungen-tab" data-toggle="pill" href="#bewertungen" role="tab" aria-controls="bewertungen" aria-selected="false">Bewertungen</a>
+					</li>
+					<li class="flex-sm-fill text-sm-center nav-item">
+						<a class="nav-link" id="bewerten-tab" data-toggle="pill" href="#bewerten" role="tab" aria-controls="bewerten" aria-selected="false">Bewerten!</a>
 					</li>
 				</ul>
 				<hr>
@@ -141,6 +209,7 @@ $bewFetch = $statement->fetchAll();
 								<tr>
 									<th scope="col">#</th>
 									<th scope="col">Nutzername</th>
+									<th scope="col">Etablissement</th>
 									<th scope="col">Bewertung</th>
 									<th scope="col">Wert</th>
 									<th scope="col">Zeitpunkt</th>
@@ -152,12 +221,53 @@ $bewFetch = $statement->fetchAll();
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
 							echo '<td>' . $bewFetch[$i][0] . '</td>';
+							echo '<td>' . $bewFetch[$i][4] . '</td>';
 							echo '<td>' . $bewFetch[$i][1] . '</td>';
 							echo '<td>' . $bewFetch[$i][2] . '</td>';
 							echo '<td>' . $bewFetch[$i][3] . '</td>';
 							echo '</tr>';
 						}
 						echo '</tbody></table>';
+						?>
+					</div>
+					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">
+						<?php
+						if($angemeldet)
+						{
+							if($bew_success == false)
+							{
+								echo '
+								<form class="mr-5 ml-5 mt-2" action="?cock_id=' . $_GET['cock_id'] . '&bewertung_abgeben=1" method="post">
+									<div class="form-group">
+										<label for="eta">Wo getrunken?</label>
+										<!--<input type="text" class="form-control" id="bew_eta" placeholder="Etablissement ausw&auml;hlen" name="eta">-->
+										<select class="custom-select" name="eta" id="bew_eta">';
+										for ($i = 0; $i < count($allEtaFetch); $i++)
+										{
+											echo '<option value="' . $allEtaFetch[$i][0] . '">' . $allEtaFetch[$i][1] . ', ' . $allEtaFetch[$i][2] . '</option>';
+										}
+								echo	'</select>
+									</div>
+									<div class="form-group">
+										<label for="wert">Wie war er?</label>
+										<input type="text" class="form-control" id="bew_wert" placeholder="0 Sterne" name="wert">
+									</div>
+									<div class="form-group">
+										<label for="kommentar">Kommentar!</label>
+										<textarea class="form-control" id="bew_kommentar" aria-label="Beispieltext" name="kommentar"></textarea>
+									</div>
+									<button type="submit" class="btn btn-primary mt-2">Bewertung abschicken!</button>
+								</form>';
+							}
+							else 
+							{
+								echo '<h2 class="ml-4 ct-text-center">Bewertung erfolgreich abgegeben!</h2>';
+							}
+						}
+						else 
+						{
+							echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
+						}
 						?>
 					</div>
 				</div>
