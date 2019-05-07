@@ -132,7 +132,7 @@ $allEtaFetch = $statement->fetchAll();
 		<div class="mt-5 ml-5 mr-5">
 			<?php
 			if ($bew == true && $bew_success == false) {
-                    echo '<div class="alert alert-danger ct-text-center mb-4" role="info">';
+                    echo '<div class="alert alert-info ct-text-center mb-4" role="info">';
                     echo $message;
                     echo '</div>';
                 }
@@ -244,7 +244,7 @@ $allEtaFetch = $statement->fetchAll();
 									<div class="form-group">
 										<label for="wert">Wie war er?</label>
 										<!--<input type="text" class="form-control" id="bew_wert" placeholder="0 Sterne" name="wert">-->
-										<select class="custom-select" name="eta" id="bew_eta">
+										<select class="custom-select" name="wert" id="bew_eta">
 											<option value="1">★☆☆☆☆</option>
 											<option value="2">★★☆☆☆</option>
 											<option value="3">★★★☆☆</option>
