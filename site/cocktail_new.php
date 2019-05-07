@@ -20,8 +20,12 @@ if ($angemeldet) {
 		$file_size = $_FILES['file']['size'];
 		$file_tem_loc = $_FILES['file']['tmp_name'];
 
+		if($file_name){	
 		$handle = fopen($file_tem_loc, 'r');
 		$content = fread($handle, $file_size);
+		}else{
+			$content="";
+		}
 
 		$statement = $pdo->prepare("Select * From cocktail WHERE name = :name AND beschreibung = :beschreibung");
 		$result = $statement->execute(array('name' => $nameCock, 'beschreibung' => $beschreibungCock));
