@@ -1,6 +1,7 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "cocktail";
+$_SESSION['source']= "Location: ../site/cocktail_new.php";
 
 if ($angemeldet) {
 	$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');

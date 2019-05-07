@@ -1,6 +1,8 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "search";
+$_SESSION['source']= "Location: ../site/search.php";
+
 ?>
 <!doctype html>
 <html lang="de">

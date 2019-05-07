@@ -1,6 +1,7 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "etablissement";
+$_SESSION['source']= "Location: ../site/etablissement_new.php";
 
 
 if ($angemeldet) {
