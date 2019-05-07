@@ -20,7 +20,6 @@ $cockFetch = $statement->fetch();
 $bew = false;
 $bew_success = false;
 $bew_error = false;
-$message = 'If Abfrage wurde nicht betreten!';
 if (isset($_GET['bewertung_abgeben']) && $angemeldet) 
 {
 	$bew = true;
@@ -38,7 +37,6 @@ if (isset($_GET['bewertung_abgeben']) && $angemeldet)
 	{
 		$bew_error = true;
 		$message = 'Ungültiger Wert eingetragen!';
-		$message = $bew_eta;
 	}
 
 	if ($bew_error == false)
