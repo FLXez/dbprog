@@ -1,6 +1,21 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "search";
+$_SESSION['source']= "Location: ../site/search.php";
+
+$sucheGestartet = "";
+
+if(isset($_GET['search'])){
+$sucheGestartet = true;
+$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+$suchbegriff = $_POST['search'];
+
+$suche = $pdo -> prepare("SELECT name FROM etablissement, cocktail WHERE name = :name");
+$suche->execute(array('name'=> $suchbegriff));
+}
+
+
+
 ?>
 <!doctype html>
 <html lang="de">
@@ -27,12 +42,22 @@ $activeHead = "search";
         include('../php/buildHeader.php');
         ?>
     </header>
-    <main role="main">
         <main role="main">
             <div class="mt-5 ml-5 mr-5">
                 <div class="card card-body">
                     <h2 class="ml-4">Suche</h2>
                     <hr>
+					<form action="?search=1" method="POST">
+						<div class="form group">
+							<input type="text" maxlength="50" class="form-control" id="search" name="search"  placeholder="Was suchst du?" required>
+							<button type="submit" class="btn btn-primary mt-2">Suchen</button>
+						</div>
+					</form>
+					<?php
+					if($sucheGestartet){
+					
+					}
+					?>
                 </div>
             </div>
         </main>

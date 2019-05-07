@@ -1,6 +1,7 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "user";
+$_SESSION['source']= "Location: ../site/profil_main.php";
 
 if ($angemeldet) {
 

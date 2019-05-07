@@ -1,6 +1,7 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "etablissement";
+$_SESSION['source']= "Location: ../site/etablissement_new.php";
 
 
 if ($angemeldet) {
@@ -19,13 +20,18 @@ if ($angemeldet) {
 		$strasse = $_POST['strasseEtab'];
 		$plzStadt = $_POST['plzStadtEtab'];
 
+		
 		$file_name = $_FILES['file']['name'];
 		$file_type = $_FILES['file']['type'];
 		$file_size = $_FILES['file']['size'];
 		$file_tem_loc = $_FILES['file']['tmp_name'];
 
+		if($file_name){
 		$handle = fopen($file_tem_loc, 'r');
 		$content = fread($handle, $file_size);
+		}else{
+			$content="";
+		}
 
 		$statement = $pdo->prepare("Select * From etablissement WHERE name = :name AND anschrift =:anschrift");
 		$result = $statement->execute(array('name' => $nameEtab, 'anschrift' => $strasse));

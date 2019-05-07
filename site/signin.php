@@ -20,7 +20,11 @@ if (!$angemeldet) {
         //Überprüfung des Passworts
         if ($user !== false && password_verify($passwort, $user['passwort'])) {
             $_SESSION['username'] = $user['username'];
-            header('Location: ../site/index.php  ');
+			if(!$_SESSION['source']){
+			header("Location: ../site/index.php");
+			}else{
+            header($_SESSION['source']);
+			}
         } else {
             $loginError = true;
             $message = "Username oder/und Passwort ungültig!";

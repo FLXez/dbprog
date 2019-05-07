@@ -1,6 +1,7 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "uberUns";
+$_SESSION['source']= "Location: ../site/about_impressum.php";
 ?>
 <!doctype html>
 <html lang="de">

@@ -1,6 +1,7 @@
 ﻿<?php
 include('../php/sessioncheck.php');
 $activeHead = "landing";
+$_SESSION['source']= "Location: ../site/index.php";
 
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 
