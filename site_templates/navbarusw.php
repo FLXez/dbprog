@@ -2,6 +2,10 @@
 include('../../php/sessioncheck.php');
 //activeHead setzen.
 $activeHead = "";
+//
+//  EYYYYYY
+//  UNTER MIR ANPASSEN!
+$_SESSION['source']= "Location: ../site/DIEneuePHP.php";
 ?>
 <!doctype html>
 <html lang="de">
