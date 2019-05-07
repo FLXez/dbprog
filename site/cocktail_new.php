@@ -102,11 +102,9 @@ if ($angemeldet) {
 							<input type="text" maxlength="50" class="form-control" id="nameCock" name="nameCock"  placeholder="Cocktail">
 						</div>
 
-						<div class="input-group mb-3">
-							<div class="custom-file">
-								<input type="file" class="custom-file-input" id="file">
-								<label class="custom-file-label" for="file" aria-describedby="file" > Choose file</label>
-							</div>
+						<div class="form-group">
+							<label for="image">Bild</label>
+							<input type="file" name="file" id="image" class="form-control-file"> 	
 						</div>
 
 						<div class="form-group">
