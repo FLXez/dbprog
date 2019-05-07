@@ -3,7 +3,7 @@ include('../php/sessioncheck.php');
 $activeHead = "search";
 $_SESSION['source']= "Location: ../site/search.php";
 
-
+$sucheGestartet = "";
 
 if(isset($_GET['search'])){
 $sucheGestartet = true;
@@ -53,9 +53,11 @@ $suche->execute(array('name'=> $suchbegriff));
 							<button type="submit" class="btn btn-primary mt-2">Suchen</button>
 						</div>
 					</form>
+					<?php
 					if($sucheGestartet){
 					
 					}
+					?>
                 </div>
             </div>
         </main>
