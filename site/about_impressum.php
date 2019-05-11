@@ -1,7 +1,7 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "uberUns";
-$_SESSION['source']= "Location: ../site/about_impressum.php";
+$_SESSION['source'] = "Location: ../site/about_impressum.php";
 ?>
 <!doctype html>
 <html lang="de">
@@ -36,9 +36,12 @@ $_SESSION['source']= "Location: ../site/about_impressum.php";
                     <hr>
                     <div class="mr-5 ml-5 mt-2">
                         Ich habe Legit 0 AHNUNG was hier rein muss. <br><br>
-						Zitat Marlon LMA - "Das kannst du generieren lassen."<br>
-						<div style="text-align: center;">Zitat Phil ( sieht sich ziemlich zentral ) -</div><div style="text-align: center;">
-                             "Werd ich aber nicht :)"
+                        Zitat Marlon LMA - "Das kannst du generieren lassen."<br>
+                        <div style="text-align: center;">
+                            Zitat Phil ( sieht sich ziemlich zentral ) -
+                        </div>
+                        <div style="text-align: center;">
+                            "Werd ich aber nicht :)"
                         </div>
                     </div>
                 </div>

@@ -4,9 +4,8 @@ session_start();
 
 $angemeldet = false;
 
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['userid'])) {
     $angemeldet = true;
-    $username = $_SESSION['username'];
 } else {
     $angemeldet = false;
 }

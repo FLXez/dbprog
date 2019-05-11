@@ -19,7 +19,6 @@ if (!$angemeldet) {
 
         //Überprüfung des Passworts
         if ($user !== false && password_verify($passwort, $user['passwort'])) {
-            $_SESSION['username'] = $user['username'];
             $_SESSION['userid'] = $user['id'];
             if (!$_SESSION['source']) {
                 header("Location: ../site/index.php");

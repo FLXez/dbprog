@@ -11,25 +11,17 @@ if ($angemeldet) {
         $statement = $pdo->prepare("
                             UPDATE user 
                                 SET vorname = :vorname, nachname = :nachname, age = :age, beruf = :beruf, updated_at = CURRENT_TIMESTAMP 
-                            WHERE username = :username");
-        $result = $statement->execute(array('vorname' => $_POST['upvname'], 'nachname' => $_POST['upnname'], 'age' => $_POST['upalter'], 'beruf' =>  $_POST['upberuf'], 'username' => $username));
+                            WHERE id = :userid");
+        $result = $statement->execute(array('vorname' => $_POST['upvname'], 'nachname' => $_POST['upnname'], 'age' => $_POST['upalter'], 'beruf' =>  $_POST['upberuf'], 'userid' => $_SESSION['userid']));
         $emailInUse = $statement->fetch();
     }
 
-    $statement = $pdo->prepare("
-                        SELECT id 
-                        FROM user 
-                        WHERE username = :username");
-    $result = $statement->execute(array('username' => $username));
-    $userFetch = $statement->fetch();
-
-    $userid = $userFetch["id"];
-
+    //muss danach kommen, damit nach update die neuen infos drin stehen!
     $statement = $pdo->prepare("
                         SELECT * 
                         FROM user 
-                        WHERE id = :id");
-    $result = $statement->execute(array('id' => $userid));
+                        WHERE id = :userid");
+    $result = $statement->execute(array('userid' => $_SESSION['userid']));
     $userinfo = $statement->fetch();
 
 
@@ -42,7 +34,7 @@ if ($angemeldet) {
                             JOIN etablissement 
                                 ON bewertung_etablissement.eta_id = etablissement.id 
                         WHERE bewertung_etablissement.user_id = :userid");
-    $result = $statement->execute(array('userid' => $userid));
+    $result = $statement->execute(array('userid' => $_SESSION['userid']));
     $etabRatingFetch = $statement->fetchAll();
 
 
@@ -58,7 +50,7 @@ if ($angemeldet) {
                             JOIN etablissement 
                                 ON bewertung_cocktail.eta_id = etablissement.id 
                         WHERE bewertung_cocktail.user_id = :userid");
-    $result = $statement->execute(array('userid' => $userid));
+    $result = $statement->execute(array('userid' => $_SESSION['userid']));
     $cockRatingFetch = $statement->fetchAll();
 
     $message = "";
@@ -83,74 +75,65 @@ if ($angemeldet) {
             $errNewemail = true;
             $emailchangeError = true;
             $message = "Die E-Mail Addresse ist bereits einem User zugewiesen.";
-        } else {
+        } elseif ($userinfo == true && password_verify($emailpw, $userinfo['passwort'])) {
             $statement = $pdo->prepare("
-                                SELECT * 
-                                FROM user 
-                                WHERE username = :username");
-            $result = $statement->execute(array('username' => $username));
-            $emailfetch = $statement->fetch();
-
-            if ($emailfetch == true && password_verify($emailpw, $emailfetch['passwort'])) {
-                $statement = $pdo->prepare("
-                                    UPDATE user 
-                                        SET email = :email, updated_at = CURRENT_TIMESTAMP 
-                                    WHERE username = :username");
-                $result = $statement->execute(array('email' => $neuemail, 'username' => $username));
-                $updatefetch = $statement->fetch();
-                $success = true;
-                $message = "Die Email Adresse wurde erfolgreich geändert.";
-            } else {
-                $errEmailpw = true;
-                $emailchangeError = true;
-                $message = "Das Passwort ist falsch.";
-            }
+                                UPDATE user 
+                                    SET email = :email, updated_at = CURRENT_TIMESTAMP 
+                                WHERE userid = :userid");
+            $result = $statement->execute(array('email' => $neuemail, 'userid' => $_SESSION['userid']));
+            $emailUpdate = $statement->fetch();
+            $success = true;
+            $message = "Die Email Adresse wurde erfolgreich geändert.";
+        } else {
+            $errEmailpw = true;
+            $emailchangeError = true;
+            $message = "Das Passwort ist falsch.";
         }
     }
+}
 
-    if (isset($_GET['pwchange'])) {
-        $altpw = $_POST['altpw'];
-        $neupw = $_POST['neupw'];
-        $neupwconfirm = $_POST['neupwconfirm'];
+if (isset($_GET['pwchange'])) {
+    $altpw = $_POST['altpw'];
+    $neupw = $_POST['neupw'];
+    $neupwconfirm = $_POST['neupwconfirm'];
 
-        $statement = $pdo->prepare("
+    $statement = $pdo->prepare("
                             SELECT * 
                             FROM user
-                            WHERE username = :username");
-        $result = $statement->execute(array('username' => $username));
-        $user = $statement->fetch();
+                            WHERE userid = :userid");
+    $result = $statement->execute(array('userid' => $_SESSION['userid']));
+    $user = $statement->fetch();
 
-        if (password_verify($neupw, $user['passwort'])) {
-            $pwchangeError = true;
-            $message = "Das neue Passwort darf nicht mit dem Alten übereinstimmen.<br>";
-        }
+    if (password_verify($neupw, $user['passwort'])) {
+        $pwchangeError = true;
+        $message = "Das neue Passwort darf nicht mit dem Alten übereinstimmen.<br>";
+    }
 
-        if ($neupw != $neupwconfirm) {
-            $pwchangeError = true;
-            $message .= "Die Eingaben für das neue Passwort stimmen nicht überein.<br>";
-        }
+    if ($neupw != $neupwconfirm) {
+        $pwchangeError = true;
+        $message .= "Die Eingaben für das neue Passwort stimmen nicht überein.<br>";
+    }
 
-        if ($altpw == $neupw & $neupw == $neupwconfirm) {
-            $pwchangeError = true;
-            $message = "Bitte die Eingaben überprüfen.<br>";
-        }
+    if ($altpw == $neupw & $neupw == $neupwconfirm) {
+        $pwchangeError = true;
+        $message = "Bitte die Eingaben überprüfen.<br>";
+    }
 
-        if (!$pwchangeError) {
-            if (password_verify($altpw, $user['passwort'])) {
-                $neuPasswort_hash = password_hash($neupw, PASSWORD_DEFAULT);
-                $statement = $pdo->prepare("
+    if (!$pwchangeError) {
+        if (password_verify($altpw, $user['passwort'])) {
+            $neuPasswort_hash = password_hash($neupw, PASSWORD_DEFAULT);
+            $statement = $pdo->prepare("
                                     UPDATE user 
                                         SET passwort = :passwort, updated_at = CURRENT_TIMESTAMP 
-                                    WHERE username = :username");
-                $result = $statement->execute(array('passwort' => $neuPasswort_hash, 'username' => $username));
+                                    WHERE userid = :userid");
+            $result = $statement->execute(array('passwort' => $neuPasswort_hash, 'userid' => $_SESSION['userid']));
 
-                if ($result) {
-                    $success = true;
-                    $message = "Dein Passwort wurde erfolgreich geändert!";
-                } else {
-                    $pwchangeError = true;
-                    $message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
-                }
+            if ($result) {
+                $success = true;
+                $message = "Dein Passwort wurde erfolgreich geändert!";
+            } else {
+                $pwchangeError = true;
+                $message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
             }
         }
     }
@@ -185,12 +168,6 @@ if ($angemeldet) {
         <div class="mt-5 ml-5 mr-5">
             <?php
             if ($angemeldet) {
-                $statement = $pdo->prepare("
-                                    SELECT email 
-                                    FROM user 
-                                    WHERE username = :username");
-                $result = $statement->execute(array('username' => $username));
-                $emailaddr = $statement->fetch();
                 if ($emailchangeError or $pwchangeError) {
                     echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
                     echo $message;
@@ -305,7 +282,7 @@ if ($angemeldet) {
                         <form class="mr-5 ml-5 mt-2" action="?emailchange=1" method="post">
                             <div class="form-group">
                                 <label for="aktemail">Aktuelle E-Mail Addresse</label>
-                                <input type="text" class="form-control" id="aktemail" placeholder="' . $emailaddr['email'] . '" readonly>
+                                <input type="text" class="form-control" id="aktemail" placeholder="' . $userinfo['email'] . '" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="neuemail">Neue E-Mail Addresse eingeben</label>

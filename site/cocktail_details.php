@@ -27,28 +27,22 @@ $message = 'Fehler';
 if (isset($_GET['bewertung_abgeben']) && $angemeldet) 
 {
 	$bew = true;
-
-	$statement = $pdo->prepare("SELECT id FROM user WHERE username=:username");
-	$result = $statement->execute(array('username'=>$username));
-	$userFetch = $statement->fetch();
-
-	$user_id = $userFetch[0];
 	$bew_eta = $_POST['eta'];
 	$bew_wert = $_POST['wert'];
 	$bew_kommentar = $_POST['kommentar'];
 
 	$statement = $pdo->prepare("SELECT * FROM bewertung_cocktail WHERE user_id=:user_id AND eta_id=:eta_id AND cocktail_id=:cock_id");
-	$result = $statement->execute(array('user_id' => $user_id, 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
+	$result = $statement->execute(array('user_id' => $_SESSION['userid'], 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
 	$bew_vorhanden = $statement->fetch();
 
 	if ($bew_vorhanden == true) {
 		$statement = $pdo->prepare("UPDATE bewertung_cocktail SET wert=:wert, text=:kommentar WHERE user_id=:user_id AND eta_id=:eta_id AND cocktail_id=:cock_id");
-		$result = $statement->execute(array('wert'=>$bew_wert, 'kommentar'=>$bew_kommentar, 'user_id' => $user_id, 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
+		$result = $statement->execute(array('wert'=>$bew_wert, 'kommentar'=>$bew_kommentar, 'user_id' => $_SESSION['userid'], 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
 		$bew_success = $statement->fetch();
 		$message = 'Ihre Bewertung wurde Aktualisiert!';
 	} else {
 		$statement = $pdo->prepare("INSERT INTO bewertung_cocktail (user_id, eta_id, cocktail_id, wert, text) VALUES (:user_id, :eta_id, :cock_id, :wert, :kommentar)");
-		$result = $statement->execute(array('wert'=>$bew_wert, 'kommentar'=>$bew_kommentar, 'user_id' => $user_id, 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
+		$result = $statement->execute(array('wert'=>$bew_wert, 'kommentar'=>$bew_kommentar, 'user_id' => $_SESSION['userid'], 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
 		$bew_success = $statement->fetch();
 		$message = 'Ihre Bewertung wurde gespeichert!';
 	}
