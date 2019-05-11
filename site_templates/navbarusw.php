@@ -21,13 +21,13 @@ $_SESSION['source']= "Location: ../site/DIEneuePHP.php";
     <!-- FontAwesome (icons) -->
     <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
     <!-- CSS Toolbox -->
-    <link href="../../css/csstoolbox.css" rel="stylesheet">
+    <link href="../css/csstoolbox.css" rel="stylesheet">
 </head>
 
 <body>
     <header role="header">
         <?php
-        include('../../php/buildHeader.php');
+        include('../php/buildHeader.php');
         ?>
     </header>
     <main role="main">
