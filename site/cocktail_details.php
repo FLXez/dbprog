@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include('../php/sessioncheck.php');
 $activeHead = "cocktail";
 
@@ -19,7 +19,7 @@ $_SESSION['source']= "Location: ../site/cocktail_details.php?cock_id=" . $cockFe
 
 $bew = false;
 $bew_success = false;
-$bew_error = false;
+$message = 'Fehler';
 if (isset($_GET['bewertung_abgeben']) && $angemeldet) 
 {
 	$bew = true;
@@ -33,27 +33,20 @@ if (isset($_GET['bewertung_abgeben']) && $angemeldet)
 	$bew_wert = $_POST['wert'];
 	$bew_kommentar = $_POST['kommentar'];
 
-	if (!($bew_wert == '1' || $bew_wert == '2' || $bew_wert == '3' || $bew_wert == '4' || $bew_wert == '5'))
-	{
-		$bew_error = true;
-		$message = 'Ung�ltiger Wert eingetragen!';
-	}
+	$statement = $pdo->prepare("SELECT * FROM bewertung_cocktail WHERE user_id=:user_id AND eta_id=:eta_id AND cocktail_id=:cock_id");
+	$result = $statement->execute(array('user_id' => $user_id, 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
+	$bew_vorhanden = $statement->fetch();
 
-	if ($bew_error == false)
-	{
-		$statement = $pdo->prepare("SELECT * FROM bewertung_cocktail WHERE user_id=:user_id AND eta_id=:eta_id AND cocktail_id=:cock_id");
-		$result = $statement->execute(array('user_id' => $user_id, 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
-		$bew_vorhanden = $statement->fetch();
-
-		if ($bew_vorhanden == true) {
-			$statement = $pdo->prepare("UPDATE bewertung_cocktail SET wert=:wert, text=:kommentar WHERE user_id=:user_id AND eta_id=:eta_id AND cocktail_id=:cock_id");
-			$result = $statement->execute(array('wert'=>$bew_wert, 'kommentar'=>$bew_kommentar, 'user_id' => $user_id, 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
-			$bew_success = $statement->fetch();
-		} else {
-			$statement = $pdo->prepare("INSERT INTO bewertung_cocktail (user_id, eta_id, cocktail_id, wert, text) VALUES (:user_id, :eta_id, :cock_id, :wert, :kommentar)");
-			$result = $statement->execute(array('wert'=>$bew_wert, 'kommentar'=>$bew_kommentar, 'user_id' => $user_id, 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
-			$bew_success = $statement->fetch();
-		}
+	if ($bew_vorhanden == true) {
+		$statement = $pdo->prepare("UPDATE bewertung_cocktail SET wert=:wert, text=:kommentar WHERE user_id=:user_id AND eta_id=:eta_id AND cocktail_id=:cock_id");
+		$result = $statement->execute(array('wert'=>$bew_wert, 'kommentar'=>$bew_kommentar, 'user_id' => $user_id, 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
+		$bew_success = $statement->fetch();
+		$message = 'Ihre Bewertung wurde Aktualisiert!';
+	} else {
+		$statement = $pdo->prepare("INSERT INTO bewertung_cocktail (user_id, eta_id, cocktail_id, wert, text) VALUES (:user_id, :eta_id, :cock_id, :wert, :kommentar)");
+		$result = $statement->execute(array('wert'=>$bew_wert, 'kommentar'=>$bew_kommentar, 'user_id' => $user_id, 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
+		$bew_success = $statement->fetch();
+		$message = 'Ihre Bewertung wurde gespeichert!';
 	}
 }
 
@@ -139,7 +132,7 @@ $allEtaFetch = $statement->fetchAll();
 		<div class="mt-5 ml-5 mr-5">
 			<?php
 			if ($bew == true && $bew_success == false) {
-                    echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';
+                    echo '<div class="alert alert-info ct-text-center mb-4" role="info">';
                     echo $message;
                     echo '</div>';
                 }
@@ -250,7 +243,14 @@ $allEtaFetch = $statement->fetchAll();
 									</div>
 									<div class="form-group">
 										<label for="wert">Wie war er?</label>
-										<input type="text" class="form-control" id="bew_wert" placeholder="0 Sterne" name="wert">
+										<!--<input type="text" class="form-control" id="bew_wert" placeholder="0 Sterne" name="wert">-->
+										<select class="custom-select" name="wert" id="bew_eta">
+											<option value="1">★☆☆☆☆</option>
+											<option value="2">★★☆☆☆</option>
+											<option value="3">★★★☆☆</option>
+											<option value="4">★★★★☆</option>
+											<option value="5">★★★★★</option>
+										</select>
 									</div>
 									<div class="form-group">
 										<label for="kommentar">Kommentar!</label>
