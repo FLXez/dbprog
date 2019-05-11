@@ -18,31 +18,30 @@ $result = $statement->execute(array('cock_id' => $_GET['cock_id']));
 $cockFetch = $statement->fetch();
 
 // UFF
-$_SESSION['source']= "Location: ../site/cocktail_details.php?cock_id=" . $cockFetch[0];
+$_SESSION['source'] = "Location: ../site/cocktail_details.php?cock_id=" . $cockFetch[0];
 
 
 $bew = false;
 $bew_success = false;
 $message = 'Fehler';
-if (isset($_GET['bewertung_abgeben']) && $angemeldet) 
-{
+if (isset($_GET['bewertung_abgeben']) && $angemeldet) {
 	$bew = true;
 	$bew_eta = $_POST['eta'];
 	$bew_wert = $_POST['wert'];
 	$bew_kommentar = $_POST['kommentar'];
 
 	$statement = $pdo->prepare("SELECT * FROM bewertung_cocktail WHERE user_id=:user_id AND eta_id=:eta_id AND cocktail_id=:cock_id");
-	$result = $statement->execute(array('user_id' => $_SESSION['userid'], 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
+	$result = $statement->execute(array('user_id' => $_SESSION['userid'], 'eta_id' => $bew_eta, 'cock_id' => $_GET['cock_id']));
 	$bew_vorhanden = $statement->fetch();
 
 	if ($bew_vorhanden == true) {
 		$statement = $pdo->prepare("UPDATE bewertung_cocktail SET wert=:wert, text=:kommentar WHERE user_id=:user_id AND eta_id=:eta_id AND cocktail_id=:cock_id");
-		$result = $statement->execute(array('wert'=>$bew_wert, 'kommentar'=>$bew_kommentar, 'user_id' => $_SESSION['userid'], 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
+		$result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $_SESSION['userid'], 'eta_id' => $bew_eta, 'cock_id' => $_GET['cock_id']));
 		$bew_success = $statement->fetch();
 		$message = 'Ihre Bewertung wurde Aktualisiert!';
 	} else {
 		$statement = $pdo->prepare("INSERT INTO bewertung_cocktail (user_id, eta_id, cocktail_id, wert, text) VALUES (:user_id, :eta_id, :cock_id, :wert, :kommentar)");
-		$result = $statement->execute(array('wert'=>$bew_wert, 'kommentar'=>$bew_kommentar, 'user_id' => $_SESSION['userid'], 'eta_id'=>$bew_eta, 'cock_id'=>$_GET['cock_id']));
+		$result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $_SESSION['userid'], 'eta_id' => $bew_eta, 'cock_id' => $_GET['cock_id']));
 		$bew_success = $statement->fetch();
 		$message = 'Ihre Bewertung wurde gespeichert!';
 	}
@@ -74,12 +73,13 @@ $etaFetch = $statement->fetchAll();
 
 $statement = $pdo->prepare("
 					SELECT
-						u.username,
-						bc.text,
-						bc.wert,
-						bc.timestamp,
-						e.name,
-						bc.eta_id
+						u.username as username,
+						u.id as userid,
+						bc.text as text,
+						bc.wert as wert,
+						bc.timestamp as ts,
+						e.name as etab_name,
+						bc.eta_id as etab_id
 					FROM bewertung_cocktail bc
 					JOIN user u ON
 						bc.user_id = u.id
@@ -99,7 +99,7 @@ $statement = $pdo->prepare("
 					JOIN cocktailkarte ck ON
 						e.id = ck.eta_id
 					WHERE ck.cocktail_id = :cock_id");
-$result = $statement->execute(array('cock_id'=>$_GET['cock_id']));
+$result = $statement->execute(array('cock_id' => $_GET['cock_id']));
 $allEtaFetch = $statement->fetchAll();
 ?>
 <!doctype html>
@@ -131,10 +131,10 @@ $allEtaFetch = $statement->fetchAll();
 		<div class="mt-5 ml-5 mr-5">
 			<?php
 			if ($bew == true && $bew_success == false) {
-                    echo '<div class="alert alert-info ct-text-center mb-4" role="info">';
-                    echo $message;
-                    echo '</div>';
-                }
+				echo '<div class="alert alert-info ct-text-center mb-4" role="info">';
+				echo $message;
+				echo '</div>';
+			}
 			?>
 			<div class="card mb-3" width="100%" style="max-height: 360px;">
 				<div class="row no-gutters">
@@ -185,7 +185,7 @@ $allEtaFetch = $statement->fetchAll();
 						for ($i = 0; $i < count($etaFetch); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td>  <a class="ct-panel-group" href="etablissement_details.php?eta_id= '. $etaFetch[$i][0] .'">'. $etaFetch[$i][1] .'</a></td>';
+							echo '<td>  <a class="ct-panel-group" href="etablissement_details.php?eta_id= ' . $etaFetch[$i][0] . '">' . $etaFetch[$i][1] . '</a></td>';
 							echo '<td>' . $etaFetch[$i][2] . '</td>';
 							echo '<td>' . $etaFetch[$i][3] . '</td>';
 							echo '<td>' . $etaFetch[$i][4] . '</td>';
@@ -195,7 +195,7 @@ $allEtaFetch = $statement->fetchAll();
 
 						echo '</tbody></table>';
 
-						echo '<a class="ct-panel-group" href="cocktail_zuordnen.php?chosenCocktail='. $cockFetch[0] .'"> Cocktail einem Etablissement zuordnen </a>';
+						echo '<a class="ct-panel-group" href="cocktail_zuordnen.php?chosenCocktail=' . $cockFetch[0] . '"> Cocktail einem Etablissement zuordnen </a>';
 						?>
 					</div>
 					<div class="tab-pane fade" id="bewertungen" role="tabpanel" aria-labelledby="bewertungen-tab">
@@ -216,11 +216,11 @@ $allEtaFetch = $statement->fetchAll();
 						for ($i = 0; $i < count($bewFetch); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td>' . $bewFetch[$i][0] . '</td>';
-							echo '<td> <a class="ct-panel-group" href="etablissement_details.php?eta_id= '. $bewFetch[$i][5] .'">'. $bewFetch[$i][4] .'</a></td>';
-							echo '<td>' . $bewFetch[$i][1] . '</td>';
-							echo '<td>' . $bewFetch[$i][2] . '</td>';
-							echo '<td>' . $bewFetch[$i][3] . '</td>';
+							echo '<td> <a class="ct-panel-group" href="../site/profil_other.php?showUser=' . $bewFetch[$i]["userid"] . '">' . $bewFetch[$i]["username"] . '</a></td>';
+							echo '<td> <a class="ct-panel-group" href="../site/etablissement_details.php?eta_id= ' . $bewFetch[$i]["etab_id"] . '">' . $bewFetch[$i]["etab_name"] . '</a></td>';
+							echo '<td>' . $bewFetch[$i]["text"] . '</td>';
+							echo '<td>' . $bewFetch[$i]["wert"] . '</td>';
+							echo '<td>' . $bewFetch[$i]["ts"] . '</td>';
 							echo '</tr>';
 						}
 						echo '</tbody></table>';
@@ -228,20 +228,17 @@ $allEtaFetch = $statement->fetchAll();
 					</div>
 					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">
 						<?php
-						if($angemeldet)
-						{
-							if($bew_success == false)
-							{
+						if ($angemeldet) {
+							if ($bew_success == false) {
 								echo '
 								<form class="mr-5 ml-5 mt-2" action="?cock_id=' . $_GET['cock_id'] . '&bewertung_abgeben=1" method="post">
 									<div class="form-group">
 										<label for="eta">Wo getrunken?</label>
 										<!--<input type="text" class="form-control" id="bew_eta" placeholder="Etablissement ausw&auml;hlen" name="eta">-->
 										<select class="custom-select" name="eta" id="bew_eta">';
-										for ($i = 0; $i < count($allEtaFetch); $i++)
-										{
-											echo '<option value="' . $allEtaFetch[$i][0] . '">' . $allEtaFetch[$i][1] . ', ' . $allEtaFetch[$i][2] . '</option>';
-										}
+								for ($i = 0; $i < count($allEtaFetch); $i++) {
+									echo '<option value="' . $allEtaFetch[$i][0] . '">' . $allEtaFetch[$i][1] . ', ' . $allEtaFetch[$i][2] . '</option>';
+								}
 								echo	'</select>
 									</div>
 									<div class="form-group">
@@ -261,14 +258,10 @@ $allEtaFetch = $statement->fetchAll();
 									</div>
 									<button type="submit" class="btn btn-primary mt-2">Bewertung abschicken!</button>
 								</form>';
-							}
-							else 
-							{
+							} else {
 								echo '<h2 class="ml-4 ct-text-center">Bewertung erfolgreich abgegeben!</h2>';
 							}
-						}
-						else 
-						{
+						} else {
 							echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
 						}
 						?>
