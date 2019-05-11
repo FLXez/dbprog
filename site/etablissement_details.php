@@ -1,6 +1,7 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "etablissement";
+// Musste nach unten geschoben werden = $_SESSION['source']= "Location: ../site/etablissement_details.php?eta_id=" . $etaFetch[0];
 
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $statement = $pdo->prepare("
@@ -14,6 +15,8 @@ $statement = $pdo->prepare("
 					WHERE e.id = :eta_id");
 $result = $statement->execute(array('eta_id' => $_GET['eta_id']));
 $etaFetch = $statement->fetch();
+
+//UFF
 $_SESSION['source']= "Location: ../site/etablissement_details.php?eta_id=" . $etaFetch[0];
 
 $statement = $pdo->prepare("
@@ -111,7 +114,7 @@ $bewFetch = $statement->fetchAll();
 						for ($i = 0; $i < count($cockFetch); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td>' . $cockFetch[$i][1] . '</td>';
+							echo '<td> <a class="ct-panel-group" href="cocktail_details.php?cock_id= '. $cockFetch[$i][0] .'">' . $cockFetch[$i][1] . '</a></td>';
 							echo '<td>' . $cockFetch[$i][2] . '</td>';
 							echo '</tr>';
 						}

@@ -35,7 +35,11 @@ $_SESSION['source']= "Location: ../site/about_impressum.php";
                     <h2 class="ml-4">Impressum</h2>
                     <hr>
                     <div class="mr-5 ml-5 mt-2">
-                        Ich habe Legit 0 AHNUNG was hier rein muss.
+                        Ich habe Legit 0 AHNUNG was hier rein muss. <br><br>
+						Zitat Marlon LMA - "Das kannst du generieren lassen."<br>
+						<div style="text-align: center;">Zitat Phil ( sieht sich ziemlich zentral ) -</div><div style="text-align: center;">
+                             "Werd ich aber nicht :)"
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 ﻿<?php
 include('../php/sessioncheck.php');
 $activeHead = "cocktail";
+// Musste nach unten geschoben werden = $_SESSION['source']= "Location: ../site/cocktail_details.php?cock_id=" . $cockFetch[0];
 
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 
@@ -15,7 +16,10 @@ $statement = $pdo->prepare("
 					WHERE c.id = :cock_id");
 $result = $statement->execute(array('cock_id' => $_GET['cock_id']));
 $cockFetch = $statement->fetch();
+
+// UFF
 $_SESSION['source']= "Location: ../site/cocktail_details.php?cock_id=" . $cockFetch[0];
+
 
 $bew = false;
 $bew_success = false;
@@ -80,7 +84,8 @@ $statement = $pdo->prepare("
 						bc.text,
 						bc.wert,
 						bc.timestamp,
-						e.name
+						e.name,
+						bc.eta_id
 					FROM bewertung_cocktail bc
 					JOIN user u ON
 						bc.user_id = u.id
@@ -186,13 +191,17 @@ $allEtaFetch = $statement->fetchAll();
 						for ($i = 0; $i < count($etaFetch); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td>' . $etaFetch[$i][1] . '</td>';
+							echo '<td>  <a class="ct-panel-group" href="etablissement_details.php?eta_id= '. $etaFetch[$i][0] .'">'. $etaFetch[$i][1] .'</a></td>';
 							echo '<td>' . $etaFetch[$i][2] . '</td>';
 							echo '<td>' . $etaFetch[$i][3] . '</td>';
 							echo '<td>' . $etaFetch[$i][4] . '</td>';
 							echo '</tr>';
 						}
+
+
 						echo '</tbody></table>';
+
+						echo '<a class="ct-panel-group" href="cocktail_zuordnen.php?chosenCocktail='. $cockFetch[0] .'"> Cocktail einem Etablissement zuordnen </a>';
 						?>
 					</div>
 					<div class="tab-pane fade" id="bewertungen" role="tabpanel" aria-labelledby="bewertungen-tab">
@@ -214,7 +223,7 @@ $allEtaFetch = $statement->fetchAll();
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
 							echo '<td>' . $bewFetch[$i][0] . '</td>';
-							echo '<td>' . $bewFetch[$i][4] . '</td>';
+							echo '<td> <a class="ct-panel-group" href="etablissement_details.php?eta_id= '. $bewFetch[$i][5] .'">'. $bewFetch[$i][4] .'</a></td>';
 							echo '<td>' . $bewFetch[$i][1] . '</td>';
 							echo '<td>' . $bewFetch[$i][2] . '</td>';
 							echo '<td>' . $bewFetch[$i][3] . '</td>';

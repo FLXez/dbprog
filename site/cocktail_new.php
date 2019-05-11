@@ -5,14 +5,29 @@ $_SESSION['source']= "Location: ../site/cocktail_new.php";
 
 if ($angemeldet) {
 	$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+
 	$insertError = false;
 	$notNewError = false;
+	$doubleError = false;
+
 	$angelegt = false;
 	$message = "";
+
+	$statementEtabs = $pdo->prepare("SELECT id,
+												name,
+												ort
+										FROM etablissement ");
+		$etabResult = $statementEtabs->execute();
+		$allEtabsPos = $statementEtabs->fetchAll();
+
+
+
 
 	if (isset($_GET['newCock'])) {
 
 		$nameCock = $_POST['nameCock'];
+		$preisCock = $_POST['preisCock'];
+		$etab_zuordn = $_POST['etab'];
 		$beschreibungCock = $_POST['beschreibungCock'];
 
 		$file_name = $_FILES['file']['name'];
@@ -27,14 +42,26 @@ if ($angemeldet) {
 			$content="";
 		}
 
-		$statement = $pdo->prepare("Select * From cocktail WHERE name = :name AND beschreibung = :beschreibung");
+		$statement = $pdo->prepare("Select id From cocktail WHERE name = :name AND beschreibung = :beschreibung");
 		$result = $statement->execute(array('name' => $nameCock, 'beschreibung' => $beschreibungCock));
 		$notNewError = $statement->fetch();
+
 
 		if ($notNewError == false) {
 			$statement = $pdo->prepare("INSERT INTO cocktail(name, beschreibung, img) VALUES (:name, :beschreibung, :img)");
 			$result = $statement->execute(array('name' => $nameCock, 'beschreibung' => $beschreibungCock, 'img' => $content));
 			$insertError = $statement->fetch();
+
+
+			$statement = $pdo-> prepare("SELECT id FROM cocktail where name = :name");
+			$result = $statement -> execute(array('name'=> $nameCock));
+			$idNewCock = $statement ->fetch();
+
+
+
+			$statement = $pdo -> prepare("INSERT INTO cocktailkarte(eta_id, cocktail_id, preis) VALUES (:etab, :cocktail, :preis)");
+			$result = $statement ->execute(array('etab' => $etab_zuordn, 'cocktail' => $idNewCock[0] , 'preis' => $preisCock));
+			$insertError2 = $statement-> fetch(); 
 
 			if ($insertError == false) {
 				$angelegt = true;
@@ -43,8 +70,11 @@ if ($angemeldet) {
 				$message = "Ein technsicher Fehler ist aufgetreten.";
 			}
 		} else {
-			$message = "Dieser Cocktail ist bereits vorhanden.";
+			$message = 'Dieser Cocktail ist bereits vorhanden. <a class="ct-panel-group" href="cocktail_details.php?cock_id='. $notNewError[0]  .'"> Zum Cocktail </a>';
 		}
+
+		
+
 	}
 }
 
@@ -93,7 +123,7 @@ if ($angemeldet) {
 				}
 				echo '
 			<div class="card card-body">
-				<h2 class="ml-4">Neuen Cocktail</h2>
+				<h2 class="ml-4">Neuer Cocktail</h2>
 				<hr>
 				<div class="mr-5 ml-5 mt-2">
 					<form action="?newCock=1" method="post" enctype="multipart/form-data">
@@ -111,6 +141,22 @@ if ($angemeldet) {
 							<label for="beschreibungCock">Beschreibung</label>
 							<input type="text" maxlength="50" class="form-control" id="beschreibungCock" name="beschreibungCock"  placeholder="Beschreibung">
 						</div>
+
+						<div class="form-group">
+							<label for="preisCock">Preis</label>
+							<input type="text" maxlength="50" class="form-control" id="preisCock" name="preisCock"  placeholder="Preis">
+						</div>
+
+						<div class="form-group">
+							<label for="etab"> Etablissement Zuordnen</label>
+							<!--<input type="text" class="form-control" id="etab" placeholder="Nothing" name="wert">-->
+							<select class="custom-select" name="etab" id="etab">';
+							for($i = 0; $i <count($allEtabsPos); $i++){
+								echo '<option value="' . $allEtabsPos[$i][0] .'">'. $allEtabsPos[$i][1] .', ' . $allEtabsPos[$i][2] . '</option>';
+							}
+							echo '</select>
+						</div>
+
 						<button type="submit" class="btn btn-primary">Erstellen</button>
 					</form>
 				</div>
