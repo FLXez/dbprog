@@ -1,7 +1,6 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "cocktail";
-$_SESSION['source']= "Location: ../site/cocktail_details.php";
 
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 
@@ -16,6 +15,7 @@ $statement = $pdo->prepare("
 					WHERE c.id = :cock_id");
 $result = $statement->execute(array('cock_id' => $_GET['cock_id']));
 $cockFetch = $statement->fetch();
+$_SESSION['source']= "Location: ../site/cocktail_details.php?cock_id=" . $cockFetch[0];
 
 $bew = false;
 $bew_success = false;

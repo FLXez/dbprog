@@ -1,7 +1,6 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "etablissement";
-$_SESSION['source']= "Location: ../site/etablissement_details.php";
 
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $statement = $pdo->prepare("
@@ -15,6 +14,7 @@ $statement = $pdo->prepare("
 					WHERE e.id = :eta_id");
 $result = $statement->execute(array('eta_id' => $_GET['eta_id']));
 $etaFetch = $statement->fetch();
+$_SESSION['source']= "Location: ../site/etablissement_details.php?eta_id=" . $etaFetch[0];
 
 $statement = $pdo->prepare("
 					SELECT
