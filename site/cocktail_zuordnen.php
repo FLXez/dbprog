@@ -12,6 +12,7 @@ $statement = $pdo->prepare("SELECT name FROM cocktail WHERE id =:cockid");
 $result = $statement->execute(array('cockid' => $_GET["chosenCocktail"]));
 $cockDaten = $statement->fetch();
 
+//Work in Progress
 $statementEtabs = $pdo->prepare("SELECT e.id,
 										e.name,
 										e.ort
@@ -19,7 +20,7 @@ $statementEtabs = $pdo->prepare("SELECT e.id,
                                     RIGHT JOIN  cocktailkarte c 
                                         ON e.id = c.eta_id
                                 WHERE NOT cock_id = :cockid");
-$etabResult = $statementEtabs->execute();
+$etabResult = $statementEtabs->execute(array('cockid' => $_GET["chosenCocktail"]));
 $allEtabsPos = $statementEtabs->fetchAll();
 
 
@@ -33,6 +34,7 @@ $allEtabsPos = $statementEtabs->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
+    <link rel="shortcut icon" type="image/x-icon" href="../res/favicon.ico">
     <title>Hameln E&C</title>
 
     <!-- Bootstrap core CSS -->
@@ -40,7 +42,7 @@ $allEtabsPos = $statementEtabs->fetchAll();
     <!-- FontAwesome (icons) -->
     <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
     <!-- CSS Toolbox -->
-    <link href="../../css/csstoolbox.css" rel="stylesheet">
+    <link href="../css/csstoolbox.css" rel="stylesheet">
 </head>
 
 <body>
@@ -53,20 +55,25 @@ $allEtabsPos = $statementEtabs->fetchAll();
         <?php echo '
         <div class="mt-5 ml-5 mr-5">
             <div class="card card-body">
-                <h2 class="ml-4">  ' . $cockDaten[0] . '  einem Etablissement zuordnen:</h2>
+                <div class="row">
+                    <div class="ml-4 col-auto">
+                        <h2 class="text-primary">"' . $cockDaten[0] . '"</h2>
+                    </div>
+                    <div class="col-auto">
+                        <h2>einem Etablissement zuordnen:</h2>
+                    </div>
+                </div>
                 <hr>
                 <div class="ml-5 mr-5 mt-2">
-				
 				<div class="form-group">
-							<label for="etab"> Etablissement Zuordnen</label>
-							<select class="custom-select" name="etab" id="etab">';
+					<label for="etab"> Etablissement Zuordnen</label>
+					<select class="custom-select" name="etab" id="etab">';
         for ($i = 0; $i < count($allEtabsPos); $i++) {
             echo '<option value="' . $allEtabsPos[$i][0] . '">' . $allEtabsPos[$i][1] . ', ' . $allEtabsPos[$i][2] . '</option>';
         }
         echo '</select>
 						</div>
-
-						<button type="submit" class="btn btn-primary">Erstellen</button>
+					<button type="submit" class="btn btn-primary">Erstellen</button>
                 </div>
             </div>
         </div>'

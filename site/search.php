@@ -137,7 +137,12 @@ if (isset($_GET['search'])) {
 							<button type="submit" class="btn btn-primary mt-2">Suchen</button>
 						</div>
 					</form>
-
+				</div>
+			</div>
+			<div class="card card-body mt-3">
+				<h2 class="ml-4">Ergebnisse</h2>
+				<hr>
+				<div class="ml-5 mr-5 mt-2">
 					<?php
 					if ($sucheBeendet && $keinErgebnis == false) {
 						for ($i = 0; $i < $etabCount; $i++) {
@@ -290,6 +295,8 @@ if (isset($_GET['search'])) {
 						</div>
 					</div>';
 						}
+					} else {
+						echo 'Keine Ergebnisse.';
 					}
 					?>
 
