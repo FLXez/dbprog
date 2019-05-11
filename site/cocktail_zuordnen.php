@@ -2,22 +2,25 @@
 include('../php/sessioncheck.php');
 //activeHead setzen.
 $activeHead = "Cocktails";
-$_SESSION['source']= "Location: ../site/cocktail_zuordnen.php";
+$_SESSION['source'] = "Location: ../site/cocktail_zuordnen.php";
 
 
 
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 
-	$statement = $pdo-> prepare("SELECT name FROM cocktail WHERE id =:cockid");
-	$result = $statement->execute(array('cockid'=> $_GET["chosenCocktail"] ));
-	$cockDaten = $statement->fetch();
+$statement = $pdo->prepare("SELECT name FROM cocktail WHERE id =:cockid");
+$result = $statement->execute(array('cockid' => $_GET["chosenCocktail"]));
+$cockDaten = $statement->fetch();
 
-	$statementEtabs = $pdo->prepare("SELECT e.id,
-												e.name,
-												e.ort
-										FROM etablissement e RIGHT JOIN  cocktailkarte c ON e.id = c.eta_id WHERE NOT cock_id = :cockid");
-		$etabResult = $statementEtabs->execute();
-		$allEtabsPos = $statementEtabs->fetchAll();
+$statementEtabs = $pdo->prepare("SELECT e.id,
+										e.name,
+										e.ort
+								FROM etablissement e 
+                                    RIGHT JOIN  cocktailkarte c 
+                                        ON e.id = c.eta_id
+                                WHERE NOT cock_id = :cockid");
+$etabResult = $statementEtabs->execute();
+$allEtabsPos = $statementEtabs->fetchAll();
 
 
 ?>
@@ -47,7 +50,7 @@ $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
         ?>
     </header>
     <main role="main">
-			<?php echo'
+        <?php echo '
         <div class="mt-5 ml-5 mr-5">
             <div class="card card-body">
                 <h2 class="ml-4">  ' . $cockDaten[0] . '  einem Etablissement zuordnen:</h2>
@@ -57,17 +60,17 @@ $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 				<div class="form-group">
 							<label for="etab"> Etablissement Zuordnen</label>
 							<select class="custom-select" name="etab" id="etab">';
-							for($i = 0; $i <count($allEtabsPos); $i++){
-								echo '<option value="' . $allEtabsPos[$i][0] .'">'. $allEtabsPos[$i][1] .', ' . $allEtabsPos[$i][2] . '</option>';
-							}
-							echo '</select>
+        for ($i = 0; $i < count($allEtabsPos); $i++) {
+            echo '<option value="' . $allEtabsPos[$i][0] . '">' . $allEtabsPos[$i][1] . ', ' . $allEtabsPos[$i][2] . '</option>';
+        }
+        echo '</select>
 						</div>
 
 						<button type="submit" class="btn btn-primary">Erstellen</button>
                 </div>
             </div>
         </div>'
-		?>
+        ?>
     </main>
     <hr class="ct-hr-divider ml-5 mr-5">
     <footer role="footer" class="container">

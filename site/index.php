@@ -1,14 +1,14 @@
 ﻿<?php
 include('../php/sessioncheck.php');
 $activeHead = "landing";
-$_SESSION['source']= "Location: ../site/index.php";
+$_SESSION['source'] = "Location: ../site/index.php";
 
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 
 $statement = $pdo->prepare(
     "SELECT DISTINCT
-				e.id,
-				e.name
+				e.id as id,
+				e.name as name
 			FROM etablissement e
 			JOIN bewertung_etablissement be ON
 				e.id = be.eta_id
@@ -35,8 +35,9 @@ while ($eta3[0] == $eta1[0] || $eta3[0] == $eta2[0]) {
 
 $statement = $pdo->prepare(
     "SELECT
-				be.text,
-				u.username
+				be.text as text,
+				u.username as name,
+                u.id as id
 			FROM bewertung_etablissement be
 			JOIN user u ON
 				be.user_id = u.id
@@ -51,8 +52,9 @@ $bew1 = $bew1Fetch[rand(1, $bew1Fetch_count) - 1];
 
 $statement = $pdo->prepare(
     "SELECT
-				be.text,
-				u.username
+				be.text as text,
+				u.username as name,
+                u.id as id
 			FROM bewertung_etablissement be
 			JOIN user u ON
 				be.user_id = u.id
@@ -67,8 +69,9 @@ $bew2 = $bew2Fetch[rand(1, $bew2Fetch_count) - 1];
 
 $statement = $pdo->prepare(
     "SELECT
-				be.text,
-				u.username
+				be.text as text,
+				u.username as name,
+                u.id as id
 			FROM bewertung_etablissement be
 			JOIN user u ON
 				be.user_id = u.id
@@ -190,23 +193,23 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count) - 1];
             <div class="row">
                 <div class="col-lg-4">
                     <?php
-                    echo '<img src="../php/get_img.php?eta_id=' . $eta1[0] . '" class="rounded-circle" height="200px" width="200px">';
-                    echo '<h2>' . $eta1[1] . '</h2>';
-                    echo '<p>' . $bew1[0] . ' <br>(von ' . $bew1[1] . ')</p>';
+                    echo '<img src="../php/get_img.php?eta_id=' . $eta1["id"] . '" class="rounded-circle" height="200px" width="200px">';
+                    echo '<h2>' . $eta1["name"] . '</h2>';
+                    echo '<p>' . $bew1["text"] . ' <br>(von <a class="" href="../site/profil_other.php?showUser=' . $bew1["id"] . '">' . $bew1["name"] . '</a>)</p>';
                     echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta1[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
                 </div>
                 <div class="col-lg-4">
                     <?php
-                    echo '<img src="../php/get_img.php?eta_id=' . $eta2[0] . '" class="rounded-circle" height="200px" width="200px">';
-                    echo '<h2>' . $eta2[1] . '</h2>';
-                    echo '<p>' . $bew2[0] . ' <br>(von ' . $bew2[1] . ')</p>';
+                    echo '<img src="../php/get_img.php?eta_id=' . $eta2["id"] . '" class="rounded-circle" height="200px" width="200px">';
+                    echo '<h2>' . $eta2["name"] . '</h2>';
+                    echo '<p>' . $bew2["text"] . ' <br>(von <a class="" href="../site/profil_other.php?showUser=' . $bew2["id"] . '">' . $bew2["name"] . '</a>)</p>';
                     echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta2[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
                 </div>
                 <div class="col-lg-4">
                     <?php
-                    echo '<img src="../php/get_img.php?eta_id=' . $eta3[0] . '" class="rounded-circle" height="200px" width="200px">';
-                    echo '<h2>' . $eta3[1] . '</h2>';
-                    echo '<p>' . $bew3[0] . ' <br>(von ' . $bew3[1] . ')</p>';
+                    echo '<img src="../php/get_img.php?eta_id=' . $eta3["id"] . '" class="rounded-circle" height="200px" width="200px">';
+                    echo '<h2>' . $eta3["name"] . '</h2>';
+                    echo '<p>' . $bew3["text"] . ' <br>(von <a class="" href="../site/profil_other.php?showUser=' . $bew3["id"] . '">' . $bew3["name"] . '</a>)</p>';
                     echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta3[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
                 </div>
             </div>

@@ -1,16 +1,16 @@
 ﻿<?php
 include('../php/sessioncheck.php');
 $activeHead = "cocktail";
-$_SESSION['source']= "Location: ../site/cocktail_main.php";
+$_SESSION['source'] = "Location: ../site/cocktail_main.php";
 
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $statement = $pdo->prepare("
 					SELECT 
-						c.id,
-						c.name,
-						c.beschreibung,
-						c.img,
-						AVG(sub_bc.wert)
+						c.id as id,
+						c.name as name,
+						c.beschreibung as beschreibung,
+						c.img as img,
+						AVG(sub_bc.wert) as avgwert
 					FROM cocktail c
 					LEFT JOIN 
 						(
@@ -66,58 +66,58 @@ $cockCount = count($cockFetch);
 					for ($i = 0; $i < $cockCount; $i++) {
 						echo '
 					<div class="card ml-4 mr-4 mt-4 mb-4" style="width: 19rem;">';
-						if ($cockFetch[$i][3] == null)
+						if ($cockFetch[$i]["img"] == null)
 							echo '
 						<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else
 							echo '
-						<img src="../php/get_img.php?cock_id=' . $cockFetch[$i][0] . '" class="card-img-top">';
+						<img src="../php/get_img.php?cock_id=' . $cockFetch[$i]["id"] . '" class="card-img-top">';
 						echo '
 						<div class="card-body">
 							<div class="row">
 								<div class="col-12">
-									<h5 class="card-title">' . $cockFetch[$i][1] . '</h5>
+									<h5 class="card-title">' . $cockFetch[$i]["name"] . '</h5>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-12">
-									<p class="card-text">' . $cockFetch[$i][2] . '</p>
+									<p class="card-text">' . $cockFetch[$i]["beschreibung"] . '</p>
 								</div>
 							</div>
 							<hr>
 							<div class="row">							
 								<div class="col-4">
-									<h5 class="rating-num float-left">' . number_format($cockFetch[$i][4], 1) . '</h5>
+									<h5 class="rating-num float-left">' . number_format($cockFetch[$i]["avgwert"], 1) . '</h5>
 								</div>
 								<div class="col-8">
 									<div class="rating float-right">';
-						if ($cockFetch[$i][4] >= 1)			echo '
+						if ($cockFetch[$i]["avgwert"] >= 1)			echo '
 										<i class="fas fa-star"></i>';
-						else								echo '
+						else										echo '
 										<i class="far fa-star"></i>';
-						if ($cockFetch[$i][4] >= 1.75)		echo '
+						if ($cockFetch[$i]["avgwert"] >= 1.75)		echo '
 										<i class="fas fa-star"></i>';
-						elseif ($cockFetch[$i][4] >= 1.25)	echo '
+						elseif ($cockFetch[$i]["avgwert"] >= 1.25)	echo '
+										<i class="fas fa-star-half-alt"></i>';
+						else										echo '
+										<i class="far fa-star"></i>';
+						if ($cockFetch[$i]["avgwert"] >= 2.75)		echo '
+										<i class="fas fa-star"></i>';
+						elseif ($cockFetch[$i]["avgwert"] >= 2.25)	echo '
+										<i class="fas fa-star-half-alt"></i>';
+						else										echo '
+										<i class="far fa-star"></i>';
+						if ($cockFetch[$i]["avgwert"] >= 3.75)		echo '
+										<i class="fas fa-star"></i>';
+						elseif ($cockFetch[$i]["avgwert"] >= 3.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 						else								echo '
 										<i class="far fa-star"></i>';
-						if ($cockFetch[$i][4] >= 2.75)		echo '
+						if ($cockFetch[$i]["avgwert"] >= 4.75)		echo '
 										<i class="fas fa-star"></i>';
-						elseif ($cockFetch[$i][4] >= 2.25)	echo '
+						elseif ($cockFetch[$i]["avgwert"] >= 4.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
-						else								echo '
-										<i class="far fa-star"></i>';
-						if ($cockFetch[$i][4] >= 3.75)		echo '
-										<i class="fas fa-star"></i>';
-						elseif ($cockFetch[$i][4] >= 3.25)	echo '
-										<i class="fas fa-star-half-alt"></i>';
-						else								echo '
-										<i class="far fa-star"></i>';
-						if ($cockFetch[$i][4] >= 4.75)		echo '
-										<i class="fas fa-star"></i>';
-						elseif ($cockFetch[$i][4] >= 4.25)	echo '
-										<i class="fas fa-star-half-alt"></i>';
-						else								echo '
+						else										echo '
 										<i class="far fa-star"></i>';
 						echo '
 									</div>
@@ -126,7 +126,7 @@ $cockCount = count($cockFetch);
 							<hr>
 							<div class="row">
 								<div class="col-12">
-									<a href="./cocktail_details.php?cock_id=' . $cockFetch[$i][0] . '" class="btn btn-primary btn-block">Details</a>
+									<a href="./cocktail_details.php?cock_id=' . $cockFetch[$i]["id"] . '" class="btn btn-primary btn-block">Details</a>
 								</div>
 							</div>
 						</div>

@@ -26,32 +26,35 @@ if ($angemeldet) {
 
 
     $statement = $pdo->prepare("
-                        SELECT  bewertung_etablissement.timestamp, 
-                                etablissement.name, 
-                                bewertung_etablissement.text, 
-                                bewertung_etablissement.wert 
-                        FROM bewertung_etablissement 
-                            JOIN etablissement 
-                                ON bewertung_etablissement.eta_id = etablissement.id 
-                        WHERE bewertung_etablissement.user_id = :userid");
-    $result = $statement->execute(array('userid' => $_SESSION['userid']));
-    $etabRatingFetch = $statement->fetchAll();
+    SELECT  bewertung_cocktail.timestamp as ts, 
+            etablissement.name as etabname,
+            etablissement.id as etabid, 
+            cocktail.name as cockname, 
+            cocktail.id as cockid,
+            bewertung_cocktail.text as text, 
+            bewertung_cocktail.wert as wert 
+    FROM bewertung_cocktail 
+        JOIN cocktail 
+            ON bewertung_cocktail.cocktail_id = cocktail.id 
+        JOIN etablissement 
+            ON bewertung_cocktail.eta_id = etablissement.id 
+    WHERE bewertung_cocktail.user_id = :userid");
+    $result = $statement->execute(array('userid' => $_SESSION["userid"]));
+    $bewCockFetch = $statement->fetchAll();
 
 
     $statement = $pdo->prepare("
-                        SELECT  bewertung_cocktail.timestamp, 
-                                etablissement.name, 
-                                cocktail.name, 
-                                bewertung_cocktail.text, 
-                                bewertung_cocktail.wert 
-                        FROM bewertung_cocktail 
-                            JOIN cocktail 
-                                ON bewertung_cocktail.cocktail_id = cocktail.id 
-                            JOIN etablissement 
-                                ON bewertung_cocktail.eta_id = etablissement.id 
-                        WHERE bewertung_cocktail.user_id = :userid");
-    $result = $statement->execute(array('userid' => $_SESSION['userid']));
-    $cockRatingFetch = $statement->fetchAll();
+    SELECT  bewertung_etablissement.timestamp as ts, 
+            etablissement.name as name,
+            etablissement.id as id, 
+            bewertung_etablissement.text as text, 
+            bewertung_etablissement.wert as wert 
+    FROM bewertung_etablissement 
+        JOIN etablissement 
+            ON bewertung_etablissement.eta_id = etablissement.id 
+    WHERE bewertung_etablissement.user_id = :userid");
+    $result = $statement->execute(array('userid' => $_SESSION["userid"]));
+    $bewEtabFetch = $statement->fetchAll();
 
     $message = "";
     $emailchangeError = false;
@@ -234,15 +237,15 @@ if (isset($_GET['pwchange'])) {
                                     </tr>
                                 </thead> 
                                 <tbody>';
-                for ($i = 0; $i < count($cockRatingFetch); $i++) {
+                for ($i = 0; $i < count($bewCockFetch); $i++) {
                     echo '<tr>';
                     echo '<th scope="row">' . ($i + 1);
                     '</th>';
-                    echo '<td>' . $cockRatingFetch[$i][0] . '</td>';
-                    echo '<td>' . $cockRatingFetch[$i][1] . '</td>';
-                    echo '<td>' . $cockRatingFetch[$i][2] . '</td>';
-                    echo '<td>' . $cockRatingFetch[$i][3] . '</td>';
-                    echo '<td>' . $cockRatingFetch[$i][4] . '</td>';
+                    echo '<td>' . $bewCockFetch[$i]["ts"] . '</td>';
+                    echo '<td> <a class="" href="etablissement_details.php?eta_id= ' . $bewCockFetch[$i]["etabid"] . '">' . $bewCockFetch[$i]["etabname"] . '</a></td>';
+                    echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $bewCockFetch[$i]["cockid"] . '">' . $bewCockFetch[$i]["cockname"] . '</a></td>';
+                    echo '<td>' . $bewCockFetch[$i]["text"] . '</td>';
+                    echo '<td>' . $bewCockFetch[$i]["wert"] . '</td>';
                     echo '</tr>';
                 }
                 echo '
@@ -263,14 +266,14 @@ if (isset($_GET['pwchange'])) {
                             </tr>
                         </thead> 
                         <tbody>';
-                for ($i = 0; $i < count($etabRatingFetch); $i++) {
+                for ($i = 0; $i < count($bewEtabFetch); $i++) {
                     echo '<tr>';
                     echo '<th scope="row">' . ($i + 1);
                     '</th>';
-                    echo '<td>' . $etabRatingFetch[$i][0] . '</td>';
-                    echo '<td>' . $etabRatingFetch[$i][1] . '</td>';
-                    echo '<td>' . $etabRatingFetch[$i][2] . '</td>';
-                    echo '<td>' . $etabRatingFetch[$i][3] . '</td>';
+                    echo '<td>' . $bewEtabFetch[$i]["ts"] . '</td>';
+                    echo '<td> <a class="" href="etablissement_details.php?eta_id= ' . $bewEtabFetch[$i]["id"] . '">' . $bewEtabFetch[$i]["name"] . '</a></td>';
+                    echo '<td>' . $bewEtabFetch[$i]["text"] . '</td>';
+                    echo '<td>' . $bewEtabFetch[$i]["wert"] . '</td>';
                     echo '</tr>';
                 }
                 echo '      
@@ -314,7 +317,7 @@ if (isset($_GET['pwchange'])) {
                 </div>
             </div>';
             } else {
-                echo '<div class="card card-body"><h2 class="ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2></div>';
+                echo '<div class="card card-body"><h2 class="ct-text-center">Bitte zuerst <a class="" href="signin.php">Anmelden</a>.</h2></div>';
             }
             ?>
         </div>

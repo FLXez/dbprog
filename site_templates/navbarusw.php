@@ -4,7 +4,7 @@ include('../../php/sessioncheck.php');
 $activeHead = "";
 //  EYYYYYY
 //  UNTER MIR ANPASSEN!
-$_SESSION['source']= "Location: ../site/DIEneuePHP.php";
+$_SESSION['source'] = "Location: ../site/DIEneuePHP.php";
 ?>
 <!doctype html>
 <html lang="de">

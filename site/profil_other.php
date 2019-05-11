@@ -2,33 +2,29 @@
 include('../php/sessioncheck.php');
 $activeHead = "user";
 
+$_SESSION['source'] = "Location: ../site/profil_other.php?showUser=" . $_GET["showUser"];
+
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $statement = $pdo->prepare("
-                    SELECT username, vorname, nachname, age, beruf, created_at
+                    SELECT username as uname, 
+                           vorname as vname, 
+                           nachname as nname, 
+                           age as age, 
+                           beruf as beruf, 
+                           created_at as ts
                     FROM user 
                     WHERE id = :userid");
 $result = $statement->execute(array('userid' => $_GET["showUser"]));
 $userFetch = $statement->fetch();
 
 $statement = $pdo->prepare("
-                    SELECT  bewertung_etablissement.timestamp, 
-                            etablissement.name, 
-                            bewertung_etablissement.text, 
-                            bewertung_etablissement.wert 
-                    FROM bewertung_etablissement 
-                        JOIN etablissement 
-                            ON bewertung_etablissement.eta_id = etablissement.id 
-                    WHERE bewertung_etablissement.user_id = :userid");
-$result = $statement->execute(array('userid' => $_GET["showUser"]));
-$bewEtabFetch = $statement->fetchAll();
-
-
-$statement = $pdo->prepare("
-                    SELECT  bewertung_cocktail.timestamp, 
-                            etablissement.name, 
-                            cocktail.name, 
-                            bewertung_cocktail.text, 
-                            bewertung_cocktail.wert 
+                    SELECT  bewertung_cocktail.timestamp as ts, 
+                            etablissement.name as etabname,
+                            etablissement.id as etabid, 
+                            cocktail.name as cockname, 
+                            cocktail.id as cockid,
+                            bewertung_cocktail.text as text, 
+                            bewertung_cocktail.wert as wert 
                     FROM bewertung_cocktail 
                         JOIN cocktail 
                             ON bewertung_cocktail.cocktail_id = cocktail.id 
@@ -38,6 +34,19 @@ $statement = $pdo->prepare("
 $result = $statement->execute(array('userid' => $_GET["showUser"]));
 $bewCockFetch = $statement->fetchAll();
 
+
+$statement = $pdo->prepare("
+                    SELECT  bewertung_etablissement.timestamp as ts, 
+                            etablissement.name as name,
+                            etablissement.id as id, 
+                            bewertung_etablissement.text as text, 
+                            bewertung_etablissement.wert as wert 
+                    FROM bewertung_etablissement 
+                        JOIN etablissement 
+                            ON bewertung_etablissement.eta_id = etablissement.id 
+                    WHERE bewertung_etablissement.user_id = :userid");
+$result = $statement->execute(array('userid' => $_GET["showUser"]));
+$bewEtabFetch = $statement->fetchAll();
 ?>
 <!doctype html>
 <html lang="de">
@@ -79,7 +88,7 @@ $bewCockFetch = $statement->fetchAll();
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h1 class="card-title"> <?php echo $userFetch["username"]; ?> </h1>
+                            <h1 class="card-title"> <?php echo $userFetch["uname"]; ?> </h1>
                             <p class="card-text">
                                 <?php
                                 echo '
@@ -88,7 +97,7 @@ $bewCockFetch = $statement->fetchAll();
                                         Vorname: 
                                     </div>
                                     <div class="col-10">'
-                                    . $userFetch["vorname"] .
+                                    . $userFetch["vname"] .
                                     '</div>
                                 </div>
                                 <div class="row">
@@ -96,7 +105,7 @@ $bewCockFetch = $statement->fetchAll();
                                         Nachname: 
                                     </div>
                                     <div class="col-10">'
-                                    . $userFetch["nachname"] .
+                                    . $userFetch["nname"] .
                                     '</div>
                                 </div>
                                 <div class="row">
@@ -120,7 +129,7 @@ $bewCockFetch = $statement->fetchAll();
                                         Mitglied seit: 
                                     </div>
                                     <div class="col-10">'
-                                    . $userFetch["created_at"] .
+                                    . $userFetch["ts"] .
                                     '</div>
                                 </div>';
                                 ?>
@@ -158,11 +167,11 @@ $bewCockFetch = $statement->fetchAll();
                             echo '<tr>';
                             echo '<th scope="row">' . ($i + 1);
                             '</th>';
-                            echo '<td>' . $bewCockFetch[$i][0] . '</td>';
-                            echo '<td>' . $bewCockFetch[$i][1] . '</td>';
-                            echo '<td>' . $bewCockFetch[$i][2] . '</td>';
-                            echo '<td>' . $bewCockFetch[$i][3] . '</td>';
-                            echo '<td>' . $bewCockFetch[$i][4] . '</td>';
+                            echo '<td>' . $bewCockFetch[$i]["ts"] . '</td>';
+                            echo '<td> <a class="" href="etablissement_details.php?eta_id= ' . $bewCockFetch[$i]["etabid"] . '">' . $bewCockFetch[$i]["etabname"] . '</a></td>';
+                            echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $bewCockFetch[$i]["cockid"] . '">' . $bewCockFetch[$i]["cockname"] . '</a></td>';
+                            echo '<td>' . $bewCockFetch[$i]["text"] . '</td>';
+                            echo '<td>' . $bewCockFetch[$i]["wert"] . '</td>';
                             echo '</tr>';
                         }
                         echo '</tbody></table>';
@@ -185,10 +194,10 @@ $bewCockFetch = $statement->fetchAll();
                             echo '<tr>';
                             echo '<th scope="row">' . ($i + 1);
                             '</th>';
-                            echo '<td>' . $bewEtabFetch[$i][0] . '</td>';
-                            echo '<td>' . $bewEtabFetch[$i][1] . '</td>';
-                            echo '<td>' . $bewEtabFetch[$i][2] . '</td>';
-                            echo '<td>' . $bewEtabFetch[$i][3] . '</td>';
+                            echo '<td>' . $bewEtabFetch[$i]["ts"] . '</td>';
+                            echo '<td> <a class="" href="etablissement_details.php?eta_id= ' . $bewEtabFetch[$i]["id"] . '">' . $bewEtabFetch[$i]["name"] . '</a></td>';
+                            echo '<td>' . $bewEtabFetch[$i]["text"] . '</td>';
+                            echo '<td>' . $bewEtabFetch[$i]["wert"] . '</td>';
                             echo '</tr>';
                         }
                         echo '</tbody></table>';

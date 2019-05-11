@@ -1,24 +1,24 @@
 ﻿<?php
 include('../php/sessioncheck.php');
 $activeHead = "cocktail";
-// Musste nach unten geschoben werden = $_SESSION['source']= "Location: ../site/cocktail_details.php?cock_id=" . $cockFetch[0];
+// Musste nach unten geschoben werden = $_SESSION['source']= "Location: ../site/cocktail_details.php?cock_id=" . $cockFetch["id"];
 
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 
 
 $statement = $pdo->prepare("
 					SELECT 
-						c.id,
-						c.name,
-						c.beschreibung,
-						c.img
+						c.id as id,
+						c.name as name,
+						c.beschreibung as beschreibung,
+						c.img as img
 					FROM cocktail c
 					WHERE c.id = :cock_id");
 $result = $statement->execute(array('cock_id' => $_GET['cock_id']));
 $cockFetch = $statement->fetch();
 
 // UFF
-$_SESSION['source'] = "Location: ../site/cocktail_details.php?cock_id=" . $cockFetch[0];
+$_SESSION['source'] = "Location: ../site/cocktail_details.php?cock_id=" . $cockFetch["id"];
 
 
 $bew = false;
@@ -30,17 +30,31 @@ if (isset($_GET['bewertung_abgeben']) && $angemeldet) {
 	$bew_wert = $_POST['wert'];
 	$bew_kommentar = $_POST['kommentar'];
 
-	$statement = $pdo->prepare("SELECT * FROM bewertung_cocktail WHERE user_id=:user_id AND eta_id=:eta_id AND cocktail_id=:cock_id");
+	$statement = $pdo->prepare("
+						SELECT * 
+						FROM bewertung_cocktail 
+						WHERE user_id=:user_id 
+						  AND eta_id=:eta_id 
+						  AND cocktail_id=:cock_id");
 	$result = $statement->execute(array('user_id' => $_SESSION['userid'], 'eta_id' => $bew_eta, 'cock_id' => $_GET['cock_id']));
 	$bew_vorhanden = $statement->fetch();
 
 	if ($bew_vorhanden == true) {
-		$statement = $pdo->prepare("UPDATE bewertung_cocktail SET wert=:wert, text=:kommentar WHERE user_id=:user_id AND eta_id=:eta_id AND cocktail_id=:cock_id");
+		$statement = $pdo->prepare("
+							UPDATE bewertung_cocktail 
+							SET wert=:wert, 
+								text=:kommentar 
+							WHERE user_id=:user_id 
+							  AND eta_id=:eta_id 
+							  AND cocktail_id=:cock_id");
 		$result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $_SESSION['userid'], 'eta_id' => $bew_eta, 'cock_id' => $_GET['cock_id']));
 		$bew_success = $statement->fetch();
 		$message = 'Ihre Bewertung wurde Aktualisiert!';
 	} else {
-		$statement = $pdo->prepare("INSERT INTO bewertung_cocktail (user_id, eta_id, cocktail_id, wert, text) VALUES (:user_id, :eta_id, :cock_id, :wert, :kommentar)");
+		$statement = $pdo->prepare("
+							INSERT 
+							INTO bewertung_cocktail (user_id, eta_id, cocktail_id, wert, text) 
+							VALUES (:user_id, :eta_id, :cock_id, :wert, :kommentar)");
 		$result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $_SESSION['userid'], 'eta_id' => $bew_eta, 'cock_id' => $_GET['cock_id']));
 		$bew_success = $statement->fetch();
 		$message = 'Ihre Bewertung wurde gespeichert!';
@@ -49,18 +63,17 @@ if (isset($_GET['bewertung_abgeben']) && $angemeldet) {
 
 $statement = $pdo->prepare("
 					SELECT
-						e.id,
-						e.name,
-						e.ort,
-						ck.preis,
-						AVG(bc.wert),
-						ck.cocktail_id
+						e.id as id,
+						e.name as name,
+						e.ort as ort,
+						ck.preis as preis,
+						AVG(bc.wert) as wert
 					FROM cocktailkarte ck
-					JOIN etablissement e ON
-						e.id = ck.eta_id
-					LEFT JOIN bewertung_cocktail bc ON
-						ck.cocktail_id = bc.cocktail_id AND
-						e.id = bc.eta_id
+						JOIN etablissement e ON
+							e.id = ck.eta_id
+						LEFT JOIN bewertung_cocktail bc ON
+							ck.cocktail_id = bc.cocktail_id AND
+							e.id = bc.eta_id
 					WHERE ck.cocktail_id = :cock_id
 					GROUP BY
 						e.id,
@@ -81,10 +94,10 @@ $statement = $pdo->prepare("
 						e.name as etab_name,
 						bc.eta_id as etab_id
 					FROM bewertung_cocktail bc
-					JOIN user u ON
-						bc.user_id = u.id
-					JOIN etablissement e ON
-						bc.eta_id = e.id
+						JOIN user u 
+							ON bc.user_id = u.id
+						JOIN etablissement e 
+							ON bc.eta_id = e.id
 					WHERE bc.cocktail_id = :cock_id
 					ORDER BY e.name");
 $result = $statement->execute(array('cock_id' => $_GET['cock_id']));
@@ -92,9 +105,9 @@ $bewFetch = $statement->fetchAll();
 
 $statement = $pdo->prepare("
 					SELECT 
-						e.id, 
-						e.name, 
-						e.ort 
+						e.id as id, 
+						e.name as name, 
+						e.ort as ort
 					FROM etablissement e
 					JOIN cocktailkarte ck ON
 						e.id = ck.eta_id
@@ -140,16 +153,16 @@ $allEtaFetch = $statement->fetchAll();
 				<div class="row no-gutters">
 					<div class="col-md-2">
 						<?php
-						if ($cockFetch[3] == null)
+						if ($cockFetch["img"] == null)
 							echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else
-							echo '<img src="../php/get_img.php?cock_id=' . $cockFetch[0] . '" class="card-img-top">';
+							echo '<img src="../php/get_img.php?cock_id=' . $cockFetch["id"] . '" class="card-img-top">';
 						?>
 					</div>
 					<div class="col-md-8">
 						<div class="card-body">
-							<h5 class="card-title"> <?php echo $cockFetch[1]; ?> </h5>
-							<p class="card-text"> <?php echo $cockFetch[2]; ?> </p>
+							<h1 class="card-title"> <?php echo $cockFetch["name"]; ?> </h1>
+							<p class="card-text"> <?php echo $cockFetch["beschreibung"]; ?> </p>
 						</div>
 					</div>
 				</div>
@@ -185,17 +198,17 @@ $allEtaFetch = $statement->fetchAll();
 						for ($i = 0; $i < count($etaFetch); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td>  <a class="ct-panel-group" href="etablissement_details.php?eta_id= ' . $etaFetch[$i][0] . '">' . $etaFetch[$i][1] . '</a></td>';
-							echo '<td>' . $etaFetch[$i][2] . '</td>';
-							echo '<td>' . $etaFetch[$i][3] . '</td>';
-							echo '<td>' . $etaFetch[$i][4] . '</td>';
+							echo '<td>  <a class="" href="etablissement_details.php?eta_id= ' . $etaFetch[$i]["id"] . '">' . $etaFetch[$i]["name"] . '</a></td>';
+							echo '<td>' . $etaFetch[$i]["ort"] . '</td>';
+							echo '<td>' . $etaFetch[$i]["preis"] . '</td>';
+							echo '<td>' . $etaFetch[$i]["wert"] . '</td>';
 							echo '</tr>';
 						}
 
 
 						echo '</tbody></table>';
 
-						echo '<a class="ct-panel-group" href="cocktail_zuordnen.php?chosenCocktail=' . $cockFetch[0] . '"> Cocktail einem Etablissement zuordnen </a>';
+						echo '<a class="" href="cocktail_zuordnen.php?chosenCocktail=' . $cockFetch["id"] . '"> Cocktail einem Etablissement zuordnen </a>';
 						?>
 					</div>
 					<div class="tab-pane fade" id="bewertungen" role="tabpanel" aria-labelledby="bewertungen-tab">
@@ -216,8 +229,8 @@ $allEtaFetch = $statement->fetchAll();
 						for ($i = 0; $i < count($bewFetch); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td> <a class="ct-panel-group" href="../site/profil_other.php?showUser=' . $bewFetch[$i]["userid"] . '">' . $bewFetch[$i]["username"] . '</a></td>';
-							echo '<td> <a class="ct-panel-group" href="../site/etablissement_details.php?eta_id= ' . $bewFetch[$i]["etab_id"] . '">' . $bewFetch[$i]["etab_name"] . '</a></td>';
+							echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $bewFetch[$i]["userid"] . '">' . $bewFetch[$i]["username"] . '</a></td>';
+							echo '<td> <a class="" href="../site/etablissement_details.php?eta_id= ' . $bewFetch[$i]["etab_id"] . '">' . $bewFetch[$i]["etab_name"] . '</a></td>';
 							echo '<td>' . $bewFetch[$i]["text"] . '</td>';
 							echo '<td>' . $bewFetch[$i]["wert"] . '</td>';
 							echo '<td>' . $bewFetch[$i]["ts"] . '</td>';
@@ -237,7 +250,7 @@ $allEtaFetch = $statement->fetchAll();
 										<!--<input type="text" class="form-control" id="bew_eta" placeholder="Etablissement ausw&auml;hlen" name="eta">-->
 										<select class="custom-select" name="eta" id="bew_eta">';
 								for ($i = 0; $i < count($allEtaFetch); $i++) {
-									echo '<option value="' . $allEtaFetch[$i][0] . '">' . $allEtaFetch[$i][1] . ', ' . $allEtaFetch[$i][2] . '</option>';
+									echo '<option value="' . $allEtaFetch[$i]["id"] . '">' . $allEtaFetch[$i]["name"] . ', ' . $allEtaFetch[$i]["ort"] . '</option>';
 								}
 								echo	'</select>
 									</div>
@@ -262,7 +275,7 @@ $allEtaFetch = $statement->fetchAll();
 								echo '<h2 class="ml-4 ct-text-center">Bewertung erfolgreich abgegeben!</h2>';
 							}
 						} else {
-							echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2>';
+							echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="" href="signin.php">Anmelden</a>.</h2>';
 						}
 						?>
 					</div>
