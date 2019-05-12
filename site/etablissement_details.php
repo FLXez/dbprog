@@ -82,10 +82,15 @@ $bewFetch = $statement->fetchAll();
 							echo '<img src="../php/get_img.php?eta_id=' . $etaFetch["id"] . '" class="card-img-top">';
 						?>
 					</div>
-					<div class="col-md-8">
-						<div class="card-body">
-							<h1 class="card-title"> <?php echo $etaFetch["name"]; ?> </h1>
-							<p class="card-text"> <?php echo $etaFetch["ort"] . '<br>' . $etaFetch["anschrift"]; ?> </p>
+					<div class="col-md-10">
+						<div class="card-body d-flex flex-column" style="height: 300px;">
+							<div>
+								<h1 class="card-title"> <?php echo $etaFetch["name"]; ?> </h1>
+								<hr>
+							</div>
+							<div>
+								<p class="card-text"> <?php echo $etaFetch["ort"] . '<br>' . $etaFetch["anschrift"]; ?> </p>
+							</div>
 						</div>
 					</div>
 				</div>

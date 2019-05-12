@@ -159,10 +159,35 @@ $allEtaFetch = $statement->fetchAll();
 							echo '<img src="../php/get_img.php?cock_id=' . $cockFetch["id"] . '" class="card-img-top">';
 						?>
 					</div>
-					<div class="col-md-8">
-						<div class="card-body">
-							<h1 class="card-title"> <?php echo $cockFetch["name"]; ?> </h1>
-							<p class="card-text"> <?php echo $cockFetch["beschreibung"]; ?> </p>
+					<div class="col-md-10">
+						<div class="card-body d-flex flex-column" style="height: 300px;">
+							<div>
+								<h1 class="card-title"> <?php echo $cockFetch["name"]; ?> </h1>
+								<hr>
+							</div>
+							<div>
+								<p class="card-text"> <?php echo $cockFetch["beschreibung"]; ?> </p>
+							</div>
+							<div class="mt-auto">
+								<?php echo '							 	
+								<form>
+								<label for="etab">Cocktail einem Etablissement zuordnen:</label>
+									<div class="form-row">
+										<div class="col-4">
+										<select class="custom-select" name="etab" id="etab">';
+								for ($i = 0; $i < count($allEtabsPos); $i++) {
+									echo '
+											<option value="' . $allEtabsPos[$i][0] . '">' . $allEtabsPos[$i][1] . ', ' . $allEtabsPos[$i][2] . '</option>';
+								}
+								echo '
+										</select>
+										</div>
+										<div class="col-auto">
+											<button type="submit" class="btn btn-primary">Hinzuf&uuml;gen</button>
+										</div>
+									</div>
+								</form>'; ?>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -204,11 +229,9 @@ $allEtaFetch = $statement->fetchAll();
 							echo '<td>' . $etaFetch[$i]["wert"] . '</td>';
 							echo '</tr>';
 						}
-
-
-						echo '</tbody></table>';
-
-						echo '<a class="" href="cocktail_zuordnen.php?chosenCocktail=' . $cockFetch["id"] . '"> Cocktail einem Etablissement zuordnen </a>';
+						echo '
+							</tbody>
+						</table>';
 						?>
 					</div>
 					<div class="tab-pane fade" id="bewertungen" role="tabpanel" aria-labelledby="bewertungen-tab">

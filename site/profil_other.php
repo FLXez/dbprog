@@ -86,54 +86,59 @@ $bewEtabFetch = $statement->fetchAll();
                             echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
                         ?>
                     </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h1 class="card-title"> <?php echo $userFetch["uname"]; ?> </h1>
-                            <p class="card-text">
-                                <?php
-                                echo '
+                    <div class="col-md-10">
+                        <div class="card-body d-flex flex-column" style="height: 300px;">
+                            <div>
+                                <h1 class="card-title"> <?php echo $userFetch["uname"]; ?> </h1>
+                                <hr>
+                            </div>
+                            <div>
+                                <p class="card-text">
+                                    <?php
+                                    echo '
                                 <div class="row">
                                     <div class="col-2">
                                         Vorname: 
                                     </div>
                                     <div class="col-10">'
-                                    . $userFetch["vname"] .
-                                    '</div>
+                                        . $userFetch["vname"] .
+                                        '</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-2">
                                         Nachname: 
                                     </div>
                                     <div class="col-10">'
-                                    . $userFetch["nname"] .
-                                    '</div>
+                                        . $userFetch["nname"] .
+                                        '</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-2">
                                         Alter: 
                                     </div>
                                     <div class="col-10">'
-                                    . $userFetch["age"] .
-                                    '</div>
+                                        . $userFetch["age"] .
+                                        '</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-2">
                                         Beruf: 
                                     </div>
                                     <div class="col-10">'
-                                    . $userFetch["beruf"] .
-                                    '</div>
+                                        . $userFetch["beruf"] .
+                                        '</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-2">
                                         Mitglied seit: 
                                     </div>
                                     <div class="col-10">'
-                                    . $userFetch["ts"] .
-                                    '</div>
+                                        . $userFetch["ts"] .
+                                        '</div>
                                 </div>';
-                                ?>
-                            </p>
+                                    ?>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

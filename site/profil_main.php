@@ -209,7 +209,7 @@ if (isset($_GET['pwchange'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="upnname">Nachname</label>
-                                    <input type="text" maxlength="50" class="form-control" id="upnname" name="upnname" value="' . $userinfo['nachname'] . '" placeholder="Nachname">
+                                    <input type="text" maxlength="25" class="form-control" id="upnname" name="upnname" value="' . $userinfo['nachname'] . '" placeholder="Nachname">
                                 </div>
                                 <div class="form-group">
                                     <label for="upalter">Alter</label>
@@ -217,7 +217,7 @@ if (isset($_GET['pwchange'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="upberuf">Beruf</label>
-                                    <input type="text" maxlength="50" class="form-control" id="upberuf" name="upberuf" value="' . $userinfo['beruf'] . '" placeholder="Beruf">
+                                    <input type="text" maxlength="25" class="form-control" id="upberuf" name="upberuf" value="' . $userinfo['beruf'] . '" placeholder="Beruf">
                                 </div>
                             <button type="submit" class="btn btn-primary mt-2">Informationen aktualisieren</button>
                             </form>
@@ -289,11 +289,11 @@ if (isset($_GET['pwchange'])) {
                             </div>
                             <div class="form-group">
                                 <label for="neuemail">Neue E-Mail Addresse eingeben</label>
-                                <input type="email" class="form-control" id="neuemail" placeholder="Neue E-Mail Adresse" name="neuemail">
+                                <input type="email" class="form-control" id="neuemail" placeholder="Neue E-Mail Adresse" name="neuemail" maxlength="50">
                             </div>
                             <div class="form-group">
                                 <label for="emailpw">Aktuelles Passwort eingeben</label>
-                                <input type="password" class="form-control" id="emailpw" placeholder="Aktuelles Passwort" name="emailpw">
+                                <input type="password" class="form-control" id="emailpw" placeholder="Aktuelles Passwort" name="emailpw" maxlength="20">
                             </div>
                             <button type="submit" class="btn btn-primary mt-2">E-Mail Adresse ändern</button>
                         </form>
@@ -301,15 +301,15 @@ if (isset($_GET['pwchange'])) {
                         <form class="mr-5 ml-5 mt-2" action="?pwchange=1" method="post">
                             <div class="form-group">
                                 <label for="altpw">Altes Passwort</label>
-                                <input type="password" class="form-control" id="altpw" placeholder="Altes Passwort" name="altpw">
+                                <input type="password" class="form-control" id="altpw" placeholder="Altes Passwort" name="altpw" maxlength="20">
                             </div>
                             <div class="form-group">
                                 <label for="neupw">Neues Passwort</label>
-                                <input type="password" class="form-control" id="neupw" placeholder="Neues Passwort" name="neupw">
+                                <input type="password" class="form-control" id="neupw" placeholder="Neues Passwort" name="neupw" maxlength="20">
                             </div>
                             <div class="form-group">
                                 <label for="neupwconfirm">Neues Passwort bestätigen</label>
-                                <input type="password" class="form-control" id="neupwconfirm" placeholder="Neues Passwort bestätigen" name="neupwconfirm">
+                                <input type="password" class="form-control" id="neupwconfirm" placeholder="Neues Passwort bestätigen" name="neupwconfirm" maxlength="20">
                             </div>
                             <button type="submit" class="btn btn-primary mt-2">Passwort ändern</button>
                         </form>

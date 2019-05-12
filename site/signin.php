@@ -141,11 +141,11 @@ if (!$angemeldet) {
                         <form class="mr-5 ml-5 mt-2" action="?login=1" method="post">
                             <div class="form-group">
                                 <label for="loginUsername">Username</label>
-                                <input type="text" class="form-control" id="loginUsername" placeholder="Username" name="loginUsername" required>                                
+                                <input type="text" class="form-control" id="loginUsername" placeholder="Username" name="loginUsername" maxlength="20" required>                                
                             </div>
                             <div class="form-group">
                                 <label for="loginPasswort">Passwort</label>
-                                <input type="password" class="form-control" id="loginPasswort" placeholder="Passwort" required name="loginPasswort">
+                                <input type="password" class="form-control" id="loginPasswort" placeholder="Passwort" required name="loginPasswort" maxlength="20">
                             </div>
                             <button type="submit" class="btn btn-primary mt-2">Anmelden</button>
                         </form>
@@ -154,18 +154,18 @@ if (!$angemeldet) {
                         <form class="mr-5 ml-5 mt-2" action="?register=1" method="post">
                             <div class="form-group">
                                 <label for="registerUsername">Username</label>
-                                <input type="text" class="form-control" id="registerUsername" placeholder="Username" name="registerUsername" required>                                
+                                <input type="text" class="form-control" id="registerUsername" placeholder="Username" name="registerUsername" maxlength="25" required>                                
                             </div>
                             <div class="form-group">
                                 <label for="registerEmail">E-Mail Adresse</label>
-                                <input type="email" class="form-control" id="registerEmail" placeholder="E-Mail" name="registerEmail" required>
+                                <input type="email" class="form-control" id="registerEmail" placeholder="E-Mail" name="registerEmail" maxlenght="50" required>
                             </div>
                             <div class="form-group">
                                 <label for="registerPasswort">Passwort</label>
-                                <input type="password" class="form-control" id="registerPasswort" placeholder="Passwort" name="registerPasswort" required>
+                                <input type="password" class="form-control" id="registerPasswort" placeholder="Passwort" name="registerPasswort" maxlength="20" required>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="registerPasswortConfirm" placeholder="Passwort wiederholen" name="registerPasswortConfirm" required>
+                                <input type="password" class="form-control" id="registerPasswortConfirm" placeholder="Passwort wiederholen" name="registerPasswortConfirm" maxlength="20" required>
                             </div>
                             <button type="submit" class="btn btn-primary ">Registrieren</button>
                         </form>
