@@ -134,7 +134,12 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count) - 1];
             <ol class="carousel-indicators">
                 <li data-target="#carousel" data-slide-to="0" class="active"></li>
                 <li data-target="#carousel" data-slide-to="1"></li>
-                <li data-target="#carousel" data-slide-to="2"></li>
+				<?php
+				if(!$angemeldet){
+				echo'
+                <li data-target="#carousel" data-slide-to="2"></li>';
+				}
+				?>
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -164,6 +169,9 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count) - 1];
                         </div>
                     </div>
                 </div>
+				<?php
+				if(!$angemeldet){
+				echo '
                 <div class="carousel-item">
                     <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
                         <image xlink:href="../res/rating.svg" width="100%" />
@@ -177,7 +185,11 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count) - 1];
                             <p><a class="btn btn-lg btn-primary" href="#" role="button">Registrieren</a></p>
                         </div>
                     </div>
-                </div>
+                </div>';
+				}
+				?>
+
+
             </div>
             <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
