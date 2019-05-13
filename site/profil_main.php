@@ -200,73 +200,70 @@ if (isset($_GET['pwchange'])) {
                 <div class="tab-content" id="profil-tabContent">
                     <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
                         <div class="mr-5 ml-5 mt-2">
-                             <div class="mt-5 ml-5 mr-5">
-
-
 							 <div class="card mb-3" width="100%" style="max-height: 360px;">
                 <div class="row no-gutters">
                     <div class="col-md-2">';
-                        
-                        //Bild aus der Datenbank ziehen, later!
-                        if (true)
-                            echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
-                        else
 
-                            echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
-                        echo'
+                //Bild aus der Datenbank ziehen, later!
+                if (true)
+                    echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
+                else
+
+                    echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
+                echo '
                     </div>
                     <div class="col-md-10">
                         <div class="card-body d-flex flex-column" style="height: 230px;">
                             <div>
-                                <h1 class="card-title">'. 
-								 $userinfo["username"].' </h1>
+                                <h1 class="card-title">' .
+                    $userinfo["username"] . ' </h1>
                                 <hr>
                             </div>
                             <div>
                                 <p class="card-text">';
-                                    
-                                    echo '
+
+                echo '
                                 <div class="row">
                                     <div class="col-2">
                                         Vorname: 
                                     </div>
                                     <div class="col-10">'
-                                        . $userinfo["vorname"] .
-                                        '</div>
+                    . $userinfo["vorname"] .
+                    '</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-2">
                                         Nachname: 
                                     </div>
                                     <div class="col-10">'
-                                        . $userinfo["nachname"] .
-                                        '</div>
+                    . $userinfo["nachname"] .
+                    '</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-2">
                                         Alter: 
                                     </div>
                                     <div class="col-10">'
-                                        . $userinfo["age"] .
-                                        '</div>
+                    . $userinfo["age"] .
+                    '</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-2">
                                         Beruf: 
                                     </div>
                                     <div class="col-10">'
-                                        . $userinfo["beruf"] .
-                                        '</div>
+                    . $userinfo["beruf"] .
+                    '</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-2">
                                         Mitglied seit: 
                                     </div>
                                     <div class="col-10">'
-                                        . $userinfo["created_at"] .
-                                        '</div>
+                    . $userinfo["created_at"] .
+                    '</div>
                                 </div>';
-                                    echo'
+                echo '
                                 </p>
                             </div>
                         </div>
