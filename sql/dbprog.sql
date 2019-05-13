@@ -20,8 +20,8 @@ SET time_zone = "+00:00";
 -- Datenbank: `dbprog`
 --
 
-DROP DATABASE `dbprog`
-CREATE DATABASE `dbprog`
+DROP DATABASE `dbprog`;
+CREATE DATABASE `dbprog`;
 
 -- --------------------------------------------------------
 

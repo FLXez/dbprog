@@ -21,7 +21,7 @@ if (isset($_GET['search'])) {
 						e.verifiziert,
 						AVG(sub_be.wert),
 						e.img
-					FROM etablissement e
+					FROM etab e
 					LEFT JOIN 
 						(
 						SELECT 
@@ -53,7 +53,7 @@ if (isset($_GET['search'])) {
 						c.beschreibung,
 						c.img,
 						AVG(sub_bc.wert)
-					FROM cocktail c
+					FROM cock c
 					LEFT JOIN 
 						(
 						SELECT 
@@ -153,7 +153,7 @@ if (isset($_GET['search'])) {
 						<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 							else
 								echo '
-						<img src="../php/get_img.php?eta_id=' . $ergebnisEtab[$i][0] . '" class="card-img-top">';
+						<img src="../php/get_img.php?etab_id=' . $ergebnisEtab[$i][0] . '" class="card-img-top">';
 							echo '
 						<div class="card-body">
 							<div class="row justify-content-between">
@@ -218,7 +218,7 @@ if (isset($_GET['search'])) {
 							<hr>
 							<div class="row">
 								<div class="col-12">
-									<a href="./etablissement_details.php?eta_id=' . $ergebnisEtab[$i][0] . '" class="btn btn-primary btn-block">Details</a>
+									<a href="./etablissement_details.php?etab_id=' . $ergebnisEtab[$i][0] . '" class="btn btn-primary btn-block">Details</a>
 								</div>
 							</div>							
 						</div>
