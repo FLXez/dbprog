@@ -8,7 +8,8 @@ $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $statement = $pdo->prepare(
     "SELECT DISTINCT
 				e.id as id,
-				e.name as name
+				e.name as name,
+				e.img as img
 			FROM etab e
 			JOIN bew_etab be ON
 				e.id = be.etab_id
@@ -38,7 +39,8 @@ while ($etab3[0] == $etab1[0] || $etab3[0] == $etab2[0]) {
 $statement = $pdo->prepare(
     "SELECT DISTINCT
 				e.id as id,
-				e.name as name
+				e.name as name,
+				e.img as img
 			FROM etab e
 			JOIN bew_etab be ON
 				e.id = be.etab_id");
@@ -234,21 +236,37 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count) - 1];
             <div class="row">
                 <div class="col-lg-4">
                     <?php
+					if($etab1["img"]){
+					
                     echo '<img src="../php/get_img.php?etab_id=' . $etab1["id"] . '" class="rounded-circle" height="200px" width="200px">';
+					}else{
+					echo'
+					<img src="../res/placeholder_no_image.svg" class="rounded-circle" height="200px" width="200px">';
+					}
                     echo '<h2>' . $etab1["name"] . '</h2>';
                     echo '<p>' . $bew1["text"] . ' <br>(von <a class="" href="../site/profil_other.php?showUser=' . $bew1["id"] . '">' . $bew1["name"] . '</a>)</p>';
                     echo '<p><a class="btn btn-primary" href="./etablissement_details.php?etab_id=' . $etab1[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
                 </div>
                 <div class="col-lg-4">
                     <?php
+					if($etab2["img"]){
                     echo '<img src="../php/get_img.php?etab_id=' . $etab2["id"] . '" class="rounded-circle" height="200px" width="200px">';
+					}else{
+					echo'
+					<img src="../res/placeholder_no_image.svg" class="rounded-circle" height="200px" width="200px">';
+					}
                     echo '<h2>' . $etab2["name"] . '</h2>';
                     echo '<p>' . $bew2["text"] . ' <br>(von <a class="" href="../site/profil_other.php?showUser=' . $bew2["id"] . '">' . $bew2["name"] . '</a>)</p>';
                     echo '<p><a class="btn btn-primary" href="./etablissement_details.php?etab_id=' . $etab2[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
                 </div>
                 <div class="col-lg-4">
                     <?php
+					if($etab3["img"]){
                     echo '<img src="../php/get_img.php?etab_id=' . $etab3["id"] . '" class="rounded-circle" height="200px" width="200px">';
+					}else{
+					echo'
+					<img src="../res/placeholder_no_image.svg" class="rounded-circle" height="200px" width="200px">';
+					}
                     echo '<h2>' . $etab3["name"] . '</h2>';
                     echo '<p>' . $bew3["text"] . ' <br>(von <a class="" href="../site/profil_other.php?showUser=' . $bew3["id"] . '">' . $bew3["name"] . '</a>)</p>';
                     echo '<p><a class="btn btn-primary" href="./etablissement_details.php?etab_id=' . $etab3[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
