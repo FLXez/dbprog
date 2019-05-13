@@ -160,7 +160,7 @@ $allEtaFetch = $statement->fetchAll();
 						?>
 					</div>
 					<div class="col-md-10">
-						<div class="card-body d-flex flex-column" style="height: 300px;">
+						<div class="card-body d-flex flex-column" style="height: 230px;">
 							<div>
 								<h1 class="card-title"> <?php echo $cockFetch["name"]; ?> </h1>
 								<hr>
