@@ -9,42 +9,42 @@ $statement = $pdo->prepare(
     "SELECT DISTINCT
 				e.id as id,
 				e.name as name
-			FROM etablissement e
-			JOIN bewertung_etablissement be ON
-				e.id = be.eta_id
+			FROM etab e
+			JOIN bew_etab be ON
+				e.id = be.etab_id
 			WHERE
 				e.verifiziert = 1 AND
 				be.wert in ('3','4','5') AND
 				e.img IS NOT NULL"
 );
 $result = $statement->execute();
-$eta_ids = $statement->fetchAll();
-$eta_ids_count = count($eta_ids);
+$etab_ids = $statement->fetchAll();
+$etab_ids_count = count($etab_ids);
 
-$eta1 = $eta_ids[rand(1, $eta_ids_count) - 1];
-$eta2 = $eta1;
-$eta3 = $eta1;
+$etab1 = $etab_ids[rand(1, $etab_ids_count) - 1];
+$etab2 = $etab1;
+$etab3 = $etab1;
 
-while ($eta2[0] == $eta1[0]) {
-    $eta2 = $eta_ids[rand(1, $eta_ids_count) - 1];
-}
+//while ($etab2[0] == $etab1[0]) {
+//    $etab2 = $etab_ids[rand(1, $etab_ids_count) - 1];
+//}
 
-while ($eta3[0] == $eta1[0] || $eta3[0] == $eta2[0]) {
-    $eta3 = $eta_ids[rand(1, $eta_ids_count) - 1];
-}
+//while ($etab3[0] == $etab1[0] || $etab3[0] == $etab2[0]) {
+//    $etab3 = $etab_ids[rand(1, $etab_ids_count) - 1];
+//}
 
 $statement = $pdo->prepare(
     "SELECT
 				be.text as text,
 				u.username as name,
                 u.id as id
-			FROM bewertung_etablissement be
+			FROM bew_etab be
 			JOIN user u ON
 				be.user_id = u.id
 			WHERE
-				be.eta_id = :eta_id"
+				be.etab_id = :etab_id"
 );
-$result = $statement->execute(array('eta_id' => $eta1[0]));
+$result = $statement->execute(array('etab_id' => $etab1[0]));
 $bew1Fetch = $statement->fetchAll();
 $bew1Fetch_count = count($bew1Fetch);
 
@@ -55,13 +55,13 @@ $statement = $pdo->prepare(
 				be.text as text,
 				u.username as name,
                 u.id as id
-			FROM bewertung_etablissement be
+			FROM bew_etab be
 			JOIN user u ON
 				be.user_id = u.id
 			WHERE
-				be.eta_id = :eta_id"
+				be.etab_id = :etab_id"
 );
-$result = $statement->execute(array('eta_id' => $eta2[0]));
+$result = $statement->execute(array('etab_id' => $etab2[0]));
 $bew2Fetch = $statement->fetchAll();
 $bew2Fetch_count = count($bew2Fetch);
 
@@ -72,13 +72,13 @@ $statement = $pdo->prepare(
 				be.text as text,
 				u.username as name,
                 u.id as id
-			FROM bewertung_etablissement be
+			FROM bew_etab be
 			JOIN user u ON
 				be.user_id = u.id
 			WHERE
-				be.eta_id = :eta_id"
+				be.etab_id = :etab_id"
 );
-$result = $statement->execute(array('eta_id' => $eta3[0]));
+$result = $statement->execute(array('etab_id' => $etab3[0]));
 $bew3Fetch = $statement->fetchAll();
 $bew3Fetch_count = count($bew3Fetch);
 
@@ -193,24 +193,24 @@ $bew3 = $bew3Fetch[rand(1, $bew3Fetch_count) - 1];
             <div class="row">
                 <div class="col-lg-4">
                     <?php
-                    echo '<img src="../php/get_img.php?eta_id=' . $eta1["id"] . '" class="rounded-circle" height="200px" width="200px">';
-                    echo '<h2>' . $eta1["name"] . '</h2>';
+                    echo '<img src="../php/get_img.php?etab_id=' . $etab1["id"] . '" class="rounded-circle" height="200px" width="200px">';
+                    echo '<h2>' . $etab1["name"] . '</h2>';
                     echo '<p>' . $bew1["text"] . ' <br>(von <a class="" href="../site/profil_other.php?showUser=' . $bew1["id"] . '">' . $bew1["name"] . '</a>)</p>';
-                    echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta1[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
+                    echo '<p><a class="btn btn-primary" href="./etablissement_details.php?etab_id=' . $etab1[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
                 </div>
                 <div class="col-lg-4">
                     <?php
-                    echo '<img src="../php/get_img.php?eta_id=' . $eta2["id"] . '" class="rounded-circle" height="200px" width="200px">';
-                    echo '<h2>' . $eta2["name"] . '</h2>';
+                    echo '<img src="../php/get_img.php?etab_id=' . $etab2["id"] . '" class="rounded-circle" height="200px" width="200px">';
+                    echo '<h2>' . $etab2["name"] . '</h2>';
                     echo '<p>' . $bew2["text"] . ' <br>(von <a class="" href="../site/profil_other.php?showUser=' . $bew2["id"] . '">' . $bew2["name"] . '</a>)</p>';
-                    echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta2[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
+                    echo '<p><a class="btn btn-primary" href="./etablissement_details.php?etab_id=' . $etab2[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
                 </div>
                 <div class="col-lg-4">
                     <?php
-                    echo '<img src="../php/get_img.php?eta_id=' . $eta3["id"] . '" class="rounded-circle" height="200px" width="200px">';
-                    echo '<h2>' . $eta3["name"] . '</h2>';
+                    echo '<img src="../php/get_img.php?etab_id=' . $etab3["id"] . '" class="rounded-circle" height="200px" width="200px">';
+                    echo '<h2>' . $etab3["name"] . '</h2>';
                     echo '<p>' . $bew3["text"] . ' <br>(von <a class="" href="../site/profil_other.php?showUser=' . $bew3["id"] . '">' . $bew3["name"] . '</a>)</p>';
-                    echo '<p><a class="btn btn-primary" href="./etablissement_details.php?eta_id=' . $eta3[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
+                    echo '<p><a class="btn btn-primary" href="./etablissement_details.php?etab_id=' . $etab3[0] . '" role="button">Weitere Informationen &raquo;</a></p>'; ?>
                 </div>
             </div>
 

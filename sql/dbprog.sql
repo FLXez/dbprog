@@ -33,7 +33,7 @@ CREATE TABLE `bewertung_cocktail` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `eta_id` int(11) NOT NULL,
+  `etab_id` int(11) NOT NULL,
   `cocktail_id` int(11) NOT NULL,
   `text` text COLLATE utf8_unicode_ci NOT NULL,
   `wert` enum('1','2','3','4','5') COLLATE utf8_unicode_ci NOT NULL
@@ -43,7 +43,7 @@ CREATE TABLE `bewertung_cocktail` (
 -- Daten für Tabelle `bewertung_cocktail`
 --
 
-INSERT INTO `bewertung_cocktail` (`id`, `user_id`, `timestamp`, `eta_id`, `cocktail_id`, `text`, `wert`) VALUES
+INSERT INTO `bewertung_cocktail` (`id`, `user_id`, `timestamp`, `etab_id`, `cocktail_id`, `text`, `wert`) VALUES
 (1, 1, '2019-05-03 08:22:26', 1, 3, 'Schmeckt wohl.', '5'),
 (2, 1, '2019-05-03 08:22:53', 2, 4, 'Was das denn', '1'),
 (3, 1, '2019-05-03 12:21:38', 2, 2, 'Test', '');
@@ -58,7 +58,7 @@ CREATE TABLE `bewertung_etablissement` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `eta_id` int(11) NOT NULL,
+  `etab_id` int(11) NOT NULL,
   `text` text COLLATE utf8_unicode_ci NOT NULL,
   `wert` enum('1','2','3','4','5') COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
@@ -67,7 +67,7 @@ CREATE TABLE `bewertung_etablissement` (
 -- Daten für Tabelle `bewertung_etablissement`
 --
 
-INSERT INTO `bewertung_etablissement` (`id`, `user_id`, `timestamp`, `eta_id`, `text`, `wert`) VALUES
+INSERT INTO `bewertung_etablissement` (`id`, `user_id`, `timestamp`, `etab_id`, `text`, `wert`) VALUES
 (1, 1, '2019-05-03 12:10:27', 1, 'Ganz nett', '2'),
 (2, 7, '2019-05-03 12:10:43', 2, 'Geiler Scheiß', '5'),
 (4, 8, '2019-05-03 12:51:44', 3, 'DANK DIWANS KANN ICH WIEDER SEHEN!\r\n\r\n\r\n', '5'),
@@ -106,7 +106,7 @@ INSERT INTO `cocktail` (`id`, `name`, `beschreibung`, `img`) VALUES
 
 CREATE TABLE `cocktailkarte` (
   `id` int(11) NOT NULL,
-  `eta_id` int(11) NOT NULL,
+  `etab_id` int(11) NOT NULL,
   `cocktail_id` int(11) NOT NULL,
   `preis` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -115,7 +115,7 @@ CREATE TABLE `cocktailkarte` (
 -- Daten für Tabelle `cocktailkarte`
 --
 
-INSERT INTO `cocktailkarte` (`id`, `eta_id`, `cocktail_id`, `preis`) VALUES
+INSERT INTO `cocktailkarte` (`id`, `etab_id`, `cocktail_id`, `preis`) VALUES
 (1, 1, 2, '5.00'),
 (2, 1, 4, '123.00'),
 (3, 1, 1, '16.00'),
@@ -238,8 +238,8 @@ INSERT INTO `user` (`id`, `email`, `passwort`, `username`, `vorname`, `nachname`
 --
 ALTER TABLE `bewertung_cocktail`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_id` (`user_id`,`eta_id`,`cocktail_id`),
-  ADD KEY `fk_bewertung_eta` (`eta_id`),
+  ADD UNIQUE KEY `user_id` (`user_id`,`etab_id`,`cocktail_id`),
+  ADD KEY `fk_bewertung_eta` (`etab_id`),
   ADD KEY `fk_bewertung_user` (`user_id`),
   ADD KEY `fk_bewertung_cocktail` (`cocktail_id`);
 
@@ -248,8 +248,8 @@ ALTER TABLE `bewertung_cocktail`
 --
 ALTER TABLE `bewertung_etablissement`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_id` (`user_id`,`eta_id`),
-  ADD KEY `fk_bew_eta_eta` (`eta_id`);
+  ADD UNIQUE KEY `user_id` (`user_id`,`etab_id`),
+  ADD KEY `fk_bew_eta_eta` (`etab_id`);
 
 --
 -- Indizes für die Tabelle `cocktail`
@@ -263,9 +263,9 @@ ALTER TABLE `cocktail`
 --
 ALTER TABLE `cocktailkarte`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `eta_id` (`eta_id`,`cocktail_id`),
+  ADD UNIQUE KEY `etab_id` (`etab_id`,`cocktail_id`),
   ADD KEY `fk_karte_cocktail` (`cocktail_id`),
-  ADD KEY `fk_karte_eta` (`eta_id`);
+  ADD KEY `fk_karte_eta` (`etab_id`);
 
 --
 -- Indizes für die Tabelle `etablissement`
@@ -348,14 +348,14 @@ ALTER TABLE `user`
 --
 ALTER TABLE `bewertung_cocktail`
   ADD CONSTRAINT `fk_bew_cock_cocktail` FOREIGN KEY (`cocktail_id`) REFERENCES `cocktail` (`id`),
-  ADD CONSTRAINT `fk_bew_cock_eta` FOREIGN KEY (`eta_id`) REFERENCES `etablissement` (`id`),
+  ADD CONSTRAINT `fk_bew_cock_eta` FOREIGN KEY (`etab_id`) REFERENCES `etablissement` (`id`),
   ADD CONSTRAINT `fk_bew_cock_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints der Tabelle `bewertung_etablissement`
 --
 ALTER TABLE `bewertung_etablissement`
-  ADD CONSTRAINT `fk_bew_eta_eta` FOREIGN KEY (`eta_id`) REFERENCES `etablissement` (`id`),
+  ADD CONSTRAINT `fk_bew_eta_eta` FOREIGN KEY (`etab_id`) REFERENCES `etablissement` (`id`),
   ADD CONSTRAINT `fk_bew_eta_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
@@ -363,7 +363,7 @@ ALTER TABLE `bewertung_etablissement`
 --
 ALTER TABLE `cocktailkarte`
   ADD CONSTRAINT `fk_karte_cocktail` FOREIGN KEY (`cocktail_id`) REFERENCES `cocktail` (`id`),
-  ADD CONSTRAINT `fk_karte_eta` FOREIGN KEY (`eta_id`) REFERENCES `etablissement` (`id`);
+  ADD CONSTRAINT `fk_karte_eta` FOREIGN KEY (`etab_id`) REFERENCES `etablissement` (`id`);
 
 --
 -- Constraints der Tabelle `rezept`

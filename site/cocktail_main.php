@@ -11,17 +11,17 @@ $statement = $pdo->prepare("
 						c.beschreibung as beschreibung,
 						c.img as img,
 						AVG(sub_bc.wert) as avgwert
-					FROM cocktail c
+					FROM cock c
 					LEFT JOIN 
 						(
 						SELECT 
-							bc.cocktail_id, 
+							bc.cock_id, 
 							CAST(bc.wert AS INTEGER) AS wert
 						FROM
-							bewertung_cocktail bc
+							bew_cock bc
 						) sub_bc
 					ON
-						c.id = sub_bc.cocktail_id
+						c.id = sub_bc.cock_id
 					GROUP BY
 						c.id,
 						c.name,

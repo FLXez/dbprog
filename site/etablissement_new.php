@@ -38,7 +38,7 @@ if ($angemeldet) {
 		$notNewError = $statement->fetch();
 
 		if ($notNewError == false) {
-			$statement = $pdo->prepare("INSERT INTO etablissement(name, ort, anschrift, img) VALUES (:name, :ort, :anschrift, :img)");
+			$statement = $pdo->prepare("INSERT INTO etab(name, ort, anschrift, img) VALUES (:name, :ort, :anschrift, :img)");
 			$result = $statement->execute(array('name' => $nameEtab, 'ort' => $plzStadt, 'anschrift' => $strasse, 'img' => $content));
 			$insertError = $statement->fetch();
 

@@ -1,7 +1,7 @@
 ﻿<?php
 include('../php/sessioncheck.php');
 $activeHead = "etablissement";
-// Musste nach unten geschoben werden = $_SESSION['source']= "Location: ../site/etablissement_details.php?eta_id=" . $etaFetch[0];
+// Musste nach unten geschoben werden = $_SESSION['source']= "Location: ../site/etablissement_details.php?etab_id=" . $etabFetch[0];
 
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $bew = false;
@@ -13,29 +13,29 @@ if (isset($_GET['bewertung_abgeben']) && $angemeldet) {
 
 	$statement = $pdo->prepare("
 						SELECT * 
-						FROM bewertung_etablissement
+						FROM bew_etab
 						WHERE user_id=:user_id 
-						  AND eta_id=:eta_id ");
-	$result = $statement->execute(array('user_id' => $_SESSION['userid'], 'eta_id' => $_GET['eta_id']));
+						  AND etab_id=:etab_id ");
+	$result = $statement->execute(array('user_id' => $_SESSION['userid'], 'etab_id' => $_GET['etab_id']));
 	$bew_vorhanden = $statement->fetch();
 
 	if ($bew_vorhanden == true) {
 		$statement = $pdo->prepare("
-							UPDATE bewertung_etablissement
+							UPDATE bew_etab
 							SET wert=:wert, 
 								text=:kommentar 
 							WHERE user_id=:user_id 
-							  AND eta_id=:eta_id 
+							  AND etab_id=:etab_id 
 							  ");
-		$result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $_SESSION['userid'], 'eta_id' => $_GET['eta_id']));
+		$result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $_SESSION['userid'], 'etab_id' => $_GET['etab_id']));
 		$bew_success = $statement->fetch();
 		$message = 'Ihre Bewertung wurde Aktualisiert!';
 	} else {
 		$statement = $pdo->prepare("
 							INSERT 
-							INTO bewertung_etablissement (user_id, eta_id, wert, text) 
-							VALUES (:user_id, :eta_id, :wert, :kommentar)");
-		$result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $_SESSION['userid'], 'eta_id' =>  $_GET['eta_id']));
+							INTO bew_etab (user_id, etab_id, wert, text) 
+							VALUES (:user_id, :etab_id, :wert, :kommentar)");
+		$result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $_SESSION['userid'], 'etab_id' =>  $_GET['etab_id']));
 		$bew_success = $statement->fetch();
 		$message = 'Ihre Bewertung wurde gespeichert!';
 	}
@@ -49,24 +49,24 @@ $statement = $pdo->prepare("
 						e.anschrift as anschrift,
 						e.ort as ort,
 						e.img as img
-					FROM etablissement e
-					WHERE e.id = :eta_id");
-$result = $statement->execute(array('eta_id' => $_GET['eta_id']));
-$etaFetch = $statement->fetch();
+					FROM etab e
+					WHERE e.id = :etab_id");
+$result = $statement->execute(array('etab_id' => $_GET['etab_id']));
+$etabFetch = $statement->fetch();
 
 //UFF
-$_SESSION['source'] = "Location: ../site/etablissement_details.php?eta_id=" . $etaFetch[0];
+$_SESSION['source'] = "Location: ../site/etablissement_details.php?etab_id=" . $etabFetch[0];
 
 $statement = $pdo->prepare("
 					SELECT
 						c.id as id,
 						c.name as name,
-						ck.preis as preis
-					FROM cocktailkarte ck
-					JOIN cocktail c ON
-						c.id = ck.cocktail_id
-					WHERE ck.eta_id = :eta_id");
-$result = $statement->execute(array('eta_id' => $_GET['eta_id']));
+						ce.preis as preis
+					FROM cock_etab ce
+					JOIN cock c ON
+						c.id = ce.cock_id
+					WHERE ce.etab_id = :etab_id");
+$result = $statement->execute(array('etab_id' => $_GET['etab_id']));
 $cockFetch = $statement->fetchAll();
 
 $statement = $pdo->prepare("
@@ -76,11 +76,11 @@ $statement = $pdo->prepare("
 						be.text as text,
 						be.wert as wert,
 						be.timestamp as ts
-					FROM bewertung_etablissement be
+					FROM bew_etab be
 					JOIN user u ON
 						be.user_id = u.id
-					WHERE be.eta_id = :eta_id");
-$result = $statement->execute(array('eta_id' => $_GET['eta_id']));
+					WHERE be.etab_id = :etab_id");
+$result = $statement->execute(array('etab_id' => $_GET['etab_id']));
 $bewFetch = $statement->fetchAll();
 ?>
 <!doctype html>
@@ -121,20 +121,20 @@ $bewFetch = $statement->fetchAll();
 				<div class="row no-gutters">
 					<div class="col-md-2">
 						<?php
-						if ($etaFetch["img"] == null)
+						if ($etabFetch["img"] == null)
 							echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else
-							echo '<img src="../php/get_img.php?eta_id=' . $etaFetch["id"] . '" class="card-img-top">';
+							echo '<img src="../php/get_img.php?etab_id=' . $etabFetch["id"] . '" class="card-img-top">';
 						?>
 					</div>
 					<div class="col-md-10">
 						<div class="card-body d-flex flex-column" style="height: 230px;">
 							<div>
-								<h1 class="card-title"> <?php echo $etaFetch["name"]; ?> </h1>
+								<h1 class="card-title"> <?php echo $etabFetch["name"]; ?> </h1>
 								<hr>
 							</div>
 							<div>
-								<p class="card-text"> <?php echo $etaFetch["ort"] . '<br>' . $etaFetch["anschrift"]; ?> </p>
+								<p class="card-text"> <?php echo $etabFetch["ort"] . '<br>' . $etabFetch["anschrift"]; ?> </p>
 							</div>
 						</div>
 					</div>
@@ -205,7 +205,7 @@ $bewFetch = $statement->fetchAll();
 						if ($angemeldet) {
 							if ($bew_success == false) {
 								echo '
-								<form class="mr-5 ml-5 mt-2" action="?eta_id=' . $_GET['eta_id'] . '&bewertung_abgeben=1" method="post">
+								<form class="mr-5 ml-5 mt-2" action="?etab_id=' . $_GET['etab_id'] . '&bewertung_abgeben=1" method="post">
 									<div class="form-group">
 										<label for="wert">Wie bewerten Sie das Etablissement?</label>
 										<!--<input type="text" class="form-control" id="bew_wert" placeholder="0 Sterne" name="wert">-->

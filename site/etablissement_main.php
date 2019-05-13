@@ -13,17 +13,17 @@ $statement = $pdo->prepare("
 						e.verifiziert as verifiziert,
 						AVG(sub_be.wert) as avgwert,
 						e.img
-					FROM etablissement e
+					FROM etab e
 					LEFT JOIN 
 						(
 						SELECT 
-							be.eta_id, 
+							be.etab_id, 
 							CAST(be.wert AS INTEGER) AS wert
 						FROM
-							bewertung_etablissement be
+							bew_etab be
 						) sub_be
 					ON
-						e.id = sub_be.eta_id
+						e.id = sub_be.etab_id
 					GROUP BY
 						e.id,
 						e.name,
@@ -32,8 +32,8 @@ $statement = $pdo->prepare("
 						e.verifiziert,
 						e.img");
 $result = $statement->execute();
-$etaFetch = $statement->fetchAll();
-$etaCount = count($etaFetch);
+$etabFetch = $statement->fetchAll();
+$etaCount = count($etabFetch);
 ?>
 <!doctype html>
 <html lang="de">
@@ -70,20 +70,20 @@ $etaCount = count($etaFetch);
 					for ($i = 0; $i < $etaCount; $i++) {
 						echo '
 					<div class="card ml-4 mr-4 mt-4 mb-4" style="width: 19rem;">';
-						if ($etaFetch[$i]["img"] == null)
+						if ($etabFetch[$i]["img"] == null)
 							echo '
 						<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else
 							echo '
-						<img src="../php/get_img.php?eta_id=' . $etaFetch[$i]["id"] . '" class="card-img-top">';
+						<img src="../php/get_img.php?etab_id=' . $etabFetch[$i]["id"] . '" class="card-img-top">';
 						echo '
 						<div class="card-body">
 							<div class="row justify-content-between">
 								<div class="col-7">
-									<h5 class="card-title float-left">' . $etaFetch[$i]["name"] . '</h5>
+									<h5 class="card-title float-left">' . $etabFetch[$i]["name"] . '</h5>
 								</div>
 								<div class="col-5">';
-						if ($etaFetch[$i]["verifiziert"] == 1) {
+						if ($etabFetch[$i]["verifiziert"] == 1) {
 							echo '
 									<span class="badge badge-primary float-right">Verifiziert</span>';
 						} else {
@@ -95,41 +95,41 @@ $etaCount = count($etaFetch);
 							</div>
 							<div class="row">
 								<div class="col-12">	
-									<p class="card-text">' . $etaFetch[$i]["ort"] . '<br>' . $etaFetch[$i]["anschrift"] . '</p>
+									<p class="card-text">' . $etabFetch[$i]["ort"] . '<br>' . $etabFetch[$i]["anschrift"] . '</p>
 								</div>
 							</div>
 							<hr>
 							<div class="row">
 								<div class="col-4">
-									<h5 class="rating-num float-left">' . number_format($etaFetch[$i]["avgwert"], 1) . '</h5>
+									<h5 class="rating-num float-left">' . number_format($etabFetch[$i]["avgwert"], 1) . '</h5>
 								</div>
 								<div class="col-8">
 									<div class="rating float-right">';
-						if ($etaFetch[$i]["avgwert"] >= 1)			echo '
+						if ($etabFetch[$i]["avgwert"] >= 1)			echo '
 										<i class="fas fa-star"></i>';
 						else										echo '
 										<i class="far fa-star"></i>';
-						if ($etaFetch[$i]["avgwert"] >= 1.75)		echo '
+						if ($etabFetch[$i]["avgwert"] >= 1.75)		echo '
 										<i class="fas fa-star"></i>';
-						elseif ($etaFetch[$i]["avgwert"] >= 1.25)	echo '
+						elseif ($etabFetch[$i]["avgwert"] >= 1.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 						else										echo '
 										<i class="far fa-star"></i>';
-						if ($etaFetch[$i]["avgwert"] >= 2.75)		echo '
+						if ($etabFetch[$i]["avgwert"] >= 2.75)		echo '
 										<i class="fas fa-star"></i>';
-						elseif ($etaFetch[$i]["avgwert"] >= 2.25)	echo '
+						elseif ($etabFetch[$i]["avgwert"] >= 2.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 						else										echo '
 										<i class="far fa-star"></i>';
-						if ($etaFetch[$i]["avgwert"] >= 3.75)		echo '
+						if ($etabFetch[$i]["avgwert"] >= 3.75)		echo '
 										<i class="fas fa-star"></i>';
-						elseif ($etaFetch[$i]["avgwert"] >= 3.25)	echo '
+						elseif ($etabFetch[$i]["avgwert"] >= 3.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 						else										echo '
 										<i class="far fa-star"></i>';
-						if ($etaFetch[$i]["avgwert"] >= 4.75)		echo '
+						if ($etabFetch[$i]["avgwert"] >= 4.75)		echo '
 										<i class="fas fa-star"></i>';
-						elseif ($etaFetch[$i]["avgwert"] >= 4.25)	echo '
+						elseif ($etabFetch[$i]["avgwert"] >= 4.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 						else										echo '
 										<i class="far fa-star"></i>';
@@ -140,7 +140,7 @@ $etaCount = count($etaFetch);
 							<hr>
 							<div class="row">
 								<div class="col-12">
-									<a href="../site/etablissement_details.php?eta_id=' . $etaFetch[$i]["id"] . '" class="btn btn-primary btn-block">Details</a>
+									<a href="../site/etablissement_details.php?etab_id=' . $etabFetch[$i]["id"] . '" class="btn btn-primary btn-block">Details</a>
 								</div>
 							</div>							
 						</div>

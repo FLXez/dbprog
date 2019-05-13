@@ -14,9 +14,9 @@ if ($angemeldet) {
 	$message = "";
 
 	$statementEtabs = $pdo->prepare("SELECT id,
-												name,
-												ort
-										FROM etablissement ");
+											name,
+											ort
+									FROM etab ");
 	$etabResult = $statementEtabs->execute();
 	$allEtabsPos = $statementEtabs->fetchAll();
 
@@ -42,24 +42,24 @@ if ($angemeldet) {
 			$content = "";
 		}
 
-		$statement = $pdo->prepare("Select id From cocktail WHERE name = :name AND beschreibung = :beschreibung");
+		$statement = $pdo->prepare("Select id From cock WHERE name = :name AND beschreibung = :beschreibung");
 		$result = $statement->execute(array('name' => $nameCock, 'beschreibung' => $beschreibungCock));
 		$notNewError = $statement->fetch();
 
 
 		if ($notNewError == false) {
-			$statement = $pdo->prepare("INSERT INTO cocktail(name, beschreibung, img) VALUES (:name, :beschreibung, :img)");
+			$statement = $pdo->prepare("INSERT INTO cock(name, beschreibung, img) VALUES (:name, :beschreibung, :img)");
 			$result = $statement->execute(array('name' => $nameCock, 'beschreibung' => $beschreibungCock, 'img' => $content));
 			$insertError = $statement->fetch();
 
 
-			$statement = $pdo->prepare("SELECT id FROM cocktail where name = :name");
+			$statement = $pdo->prepare("SELECT id FROM cock where name = :name");
 			$result = $statement->execute(array('name' => $nameCock));
 			$idNewCock = $statement->fetch();
 
 
 
-			$statement = $pdo->prepare("INSERT INTO cocktailkarte(eta_id, cocktail_id, preis) VALUES (:etab, :cocktail, :preis)");
+			$statement = $pdo->prepare("INSERT INTO cock_etab(etab_id, cock_id, preis) VALUES (:etab, :cocktail, :preis)");
 			$result = $statement->execute(array('etab' => $etab_zuordn, 'cocktail' => $idNewCock[0], 'preis' => $preisCock));
 			$insertError2 = $statement->fetch();
 

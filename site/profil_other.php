@@ -18,33 +18,33 @@ $result = $statement->execute(array('userid' => $_GET["showUser"]));
 $userFetch = $statement->fetch();
 
 $statement = $pdo->prepare("
-                    SELECT  bewertung_cocktail.timestamp as ts, 
+                    SELECT  bew_cock.timestamp as ts, 
                             etablissement.name as etabname,
                             etablissement.id as etabid, 
                             cocktail.name as cockname, 
                             cocktail.id as cockid,
-                            bewertung_cocktail.text as text, 
-                            bewertung_cocktail.wert as wert 
-                    FROM bewertung_cocktail 
+                            bew_cock.text as text, 
+                            bew_cock.wert as wert 
+                    FROM bew_cock 
                         JOIN cocktail 
-                            ON bewertung_cocktail.cocktail_id = cocktail.id 
+                            ON bew_cock.cock_id = cocktail.id 
                         JOIN etablissement 
-                            ON bewertung_cocktail.eta_id = etablissement.id 
-                    WHERE bewertung_cocktail.user_id = :userid");
+                            ON bew_cock.etab_id = etablissement.id 
+                    WHERE bew_cock.user_id = :userid");
 $result = $statement->execute(array('userid' => $_GET["showUser"]));
 $bewCockFetch = $statement->fetchAll();
 
 
 $statement = $pdo->prepare("
-                    SELECT  bewertung_etablissement.timestamp as ts, 
+                    SELECT  bew_etab.timestamp as ts, 
                             etablissement.name as name,
                             etablissement.id as id, 
-                            bewertung_etablissement.text as text, 
-                            bewertung_etablissement.wert as wert 
-                    FROM bewertung_etablissement 
+                            bew_etab.text as text, 
+                            bew_etab.wert as wert 
+                    FROM bew_etab 
                         JOIN etablissement 
-                            ON bewertung_etablissement.eta_id = etablissement.id 
-                    WHERE bewertung_etablissement.user_id = :userid");
+                            ON bew_etab.etab_id = etablissement.id 
+                    WHERE bew_etab.user_id = :userid");
 $result = $statement->execute(array('userid' => $_GET["showUser"]));
 $bewEtabFetch = $statement->fetchAll();
 ?>
@@ -173,7 +173,7 @@ $bewEtabFetch = $statement->fetchAll();
                             echo '<th scope="row">' . ($i + 1);
                             '</th>';
                             echo '<td>' . $bewCockFetch[$i]["ts"] . '</td>';
-                            echo '<td> <a class="" href="etablissement_details.php?eta_id= ' . $bewCockFetch[$i]["etabid"] . '">' . $bewCockFetch[$i]["etabname"] . '</a></td>';
+                            echo '<td> <a class="" href="etablissement_details.php?etab_id= ' . $bewCockFetch[$i]["etabid"] . '">' . $bewCockFetch[$i]["etabname"] . '</a></td>';
                             echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $bewCockFetch[$i]["cockid"] . '">' . $bewCockFetch[$i]["cockname"] . '</a></td>';
                             echo '<td>' . $bewCockFetch[$i]["text"] . '</td>';
                             echo '<td>' . $bewCockFetch[$i]["wert"] . '</td>';
@@ -200,7 +200,7 @@ $bewEtabFetch = $statement->fetchAll();
                             echo '<th scope="row">' . ($i + 1);
                             '</th>';
                             echo '<td>' . $bewEtabFetch[$i]["ts"] . '</td>';
-                            echo '<td> <a class="" href="etablissement_details.php?eta_id= ' . $bewEtabFetch[$i]["id"] . '">' . $bewEtabFetch[$i]["name"] . '</a></td>';
+                            echo '<td> <a class="" href="etablissement_details.php?etab_id= ' . $bewEtabFetch[$i]["id"] . '">' . $bewEtabFetch[$i]["name"] . '</a></td>';
                             echo '<td>' . $bewEtabFetch[$i]["text"] . '</td>';
                             echo '<td>' . $bewEtabFetch[$i]["wert"] . '</td>';
                             echo '</tr>';
