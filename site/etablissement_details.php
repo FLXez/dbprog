@@ -6,24 +6,24 @@ $activeHead = "etablissement";
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $statement = $pdo->prepare("
 					SELECT 
-						e.id,
-						e.name,
-						e.anschrift,
-						e.ort,
-						e.img
+						e.id as id,
+						e.name as name,
+						e.anschrift as anschrift,
+						e.ort as ort,
+						e.img as img
 					FROM etablissement e
 					WHERE e.id = :eta_id");
 $result = $statement->execute(array('eta_id' => $_GET['eta_id']));
 $etaFetch = $statement->fetch();
 
 //UFF
-$_SESSION['source']= "Location: ../site/etablissement_details.php?eta_id=" . $etaFetch[0];
+$_SESSION['source'] = "Location: ../site/etablissement_details.php?eta_id=" . $etaFetch[0];
 
 $statement = $pdo->prepare("
 					SELECT
-						c.id,
-						c.name,
-						ck.preis
+						c.id as id,
+						c.name as name,
+						ck.preis as preis
 					FROM cocktailkarte ck
 					JOIN cocktail c ON
 						c.id = ck.cocktail_id
@@ -33,10 +33,11 @@ $cockFetch = $statement->fetchAll();
 
 $statement = $pdo->prepare("
 					SELECT
-						u.username,
-						be.text,
-						be.wert,
-						be.timestamp
+						u.username as username,
+						u.id as userid,
+						be.text as text,
+						be.wert as wert,
+						be.timestamp as ts
 					FROM bewertung_etablissement be
 					JOIN user u ON
 						be.user_id = u.id
@@ -75,16 +76,21 @@ $bewFetch = $statement->fetchAll();
 				<div class="row no-gutters">
 					<div class="col-md-2">
 						<?php
-						if ($etaFetch[4] == null)
+						if ($etaFetch["img"] == null)
 							echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else
-							echo '<img src="../php/get_img.php?eta_id=' . $etaFetch[0] . '" class="card-img-top">';
+							echo '<img src="../php/get_img.php?eta_id=' . $etaFetch["id"] . '" class="card-img-top">';
 						?>
 					</div>
-					<div class="col-md-8">
-						<div class="card-body">
-							<h5 class="card-title"> <?php echo $etaFetch[1]; ?> </h5>
-							<p class="card-text"> <?php echo $etaFetch[2] . '<br>' . $etaFetch[3]; ?> </p>
+					<div class="col-md-10">
+						<div class="card-body d-flex flex-column" style="height: 230px;">
+							<div>
+								<h1 class="card-title"> <?php echo $etaFetch["name"]; ?> </h1>
+								<hr>
+							</div>
+							<div>
+								<p class="card-text"> <?php echo $etaFetch["ort"] . '<br>' . $etaFetch["anschrift"]; ?> </p>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -114,8 +120,8 @@ $bewFetch = $statement->fetchAll();
 						for ($i = 0; $i < count($cockFetch); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td> <a class="ct-panel-group" href="cocktail_details.php?cock_id= '. $cockFetch[$i][0] .'">' . $cockFetch[$i][1] . '</a></td>';
-							echo '<td>' . $cockFetch[$i][2] . '</td>';
+							echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $cockFetch[$i]["id"] . '">' . $cockFetch[$i]["name"] . '</a></td>';
+							echo '<td>' . $cockFetch[$i]["preis"] . '</td>';
 							echo '</tr>';
 						}
 						echo '</tbody></table>';
@@ -137,10 +143,10 @@ $bewFetch = $statement->fetchAll();
 						for ($i = 0; $i < count($bewFetch); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td>' . $bewFetch[$i][0] . '</td>';
-							echo '<td>' . $bewFetch[$i][1] . '</td>';
-							echo '<td>' . $bewFetch[$i][2] . '</td>';
-							echo '<td>' . $bewFetch[$i][3] . '</td>';
+							echo '<td><a class="" href="../site/profil_other.php?showUser=' . $bewFetch[$i]["userid"] . '">' . $bewFetch[$i]["username"] . '</a></td>';
+							echo '<td>' . $bewFetch[$i]["text"] . '</td>';
+							echo '<td>' . $bewFetch[$i]["wert"] . '</td>';
+							echo '<td>' . $bewFetch[$i]["ts"] . '</td>';
 							echo '</tr>';
 						}
 						echo '</tbody></table>';

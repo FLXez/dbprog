@@ -1,7 +1,7 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "etablissement";
-$_SESSION['source']= "Location: ../site/etablissement_new.php";
+$_SESSION['source'] = "Location: ../site/etablissement_new.php";
 
 
 if ($angemeldet) {
@@ -20,17 +20,17 @@ if ($angemeldet) {
 		$strasse = $_POST['strasseEtab'];
 		$plzStadt = $_POST['plzStadtEtab'];
 
-		
+
 		$file_name = $_FILES['file']['name'];
 		$file_type = $_FILES['file']['type'];
 		$file_size = $_FILES['file']['size'];
 		$file_tem_loc = $_FILES['file']['tmp_name'];
 
-		if($file_name){
-		$handle = fopen($file_tem_loc, 'r');
-		$content = fread($handle, $file_size);
-		}else{
-			$content="";
+		if ($file_name) {
+			$handle = fopen($file_tem_loc, 'r');
+			$content = fread($handle, $file_size);
+		} else {
+			$content = "";
 		}
 
 		$statement = $pdo->prepare("Select * From etablissement WHERE name = :name AND anschrift =:anschrift");
@@ -120,7 +120,7 @@ if ($angemeldet) {
 				</div>
 			</div>';
 			} else {
-				echo '<div class="card card-body"><h2 class="ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2></div>';
+				echo '<div class="card card-body"><h2 class="ct-text-center">Bitte zuerst <a class="" href="signin.php">Anmelden</a>.</h2></div>';
 			}
 			?>
 		</div>

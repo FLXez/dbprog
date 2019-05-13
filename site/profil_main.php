@@ -1,7 +1,7 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "user";
-$_SESSION['source']= "Location: ../site/profil_main.php";
+$_SESSION['source'] = "Location: ../site/profil_main.php";
 
 if ($angemeldet) {
 
@@ -11,55 +11,50 @@ if ($angemeldet) {
         $statement = $pdo->prepare("
                             UPDATE user 
                                 SET vorname = :vorname, nachname = :nachname, age = :age, beruf = :beruf, updated_at = CURRENT_TIMESTAMP 
-                            WHERE username = :username");
-        $result = $statement->execute(array('vorname' => $_POST['upvname'], 'nachname' => $_POST['upnname'], 'age' => $_POST['upalter'], 'beruf' =>  $_POST['upberuf'], 'username' => $username));
+                            WHERE id = :userid");
+        $result = $statement->execute(array('vorname' => $_POST['upvname'], 'nachname' => $_POST['upnname'], 'age' => $_POST['upalter'], 'beruf' =>  $_POST['upberuf'], 'userid' => $_SESSION['userid']));
         $emailInUse = $statement->fetch();
     }
 
-    $statement = $pdo->prepare("
-                        SELECT id 
-                        FROM user 
-                        WHERE username = :username");
-    $result = $statement->execute(array('username' => $username));
-    $userFetch = $statement->fetch();
-
-    $userid = $userFetch["id"];
-
+    //muss danach kommen, damit nach update die neuen infos drin stehen!
     $statement = $pdo->prepare("
                         SELECT * 
                         FROM user 
-                        WHERE id = :id");
-    $result = $statement->execute(array('id' => $userid));
+                        WHERE id = :userid");
+    $result = $statement->execute(array('userid' => $_SESSION['userid']));
     $userinfo = $statement->fetch();
 
 
     $statement = $pdo->prepare("
-                        SELECT  bewertung_etablissement.timestamp, 
-                                etablissement.name, 
-                                bewertung_etablissement.text, 
-                                bewertung_etablissement.wert 
-                        FROM bewertung_etablissement 
-                            JOIN etablissement 
-                                ON bewertung_etablissement.eta_id = etablissement.id 
-                        WHERE bewertung_etablissement.user_id = :userid");
-    $result = $statement->execute(array('userid' => $userid));
-    $etabRatingFetch = $statement->fetchAll();
+    SELECT  bewertung_cocktail.timestamp as ts, 
+            etablissement.name as etabname,
+            etablissement.id as etabid, 
+            cocktail.name as cockname, 
+            cocktail.id as cockid,
+            bewertung_cocktail.text as text, 
+            bewertung_cocktail.wert as wert 
+    FROM bewertung_cocktail 
+        JOIN cocktail 
+            ON bewertung_cocktail.cocktail_id = cocktail.id 
+        JOIN etablissement 
+            ON bewertung_cocktail.eta_id = etablissement.id 
+    WHERE bewertung_cocktail.user_id = :userid");
+    $result = $statement->execute(array('userid' => $_SESSION["userid"]));
+    $bewCockFetch = $statement->fetchAll();
 
 
     $statement = $pdo->prepare("
-                        SELECT  bewertung_cocktail.timestamp, 
-                                etablissement.name, 
-                                cocktail.name, 
-                                bewertung_cocktail.text, 
-                                bewertung_cocktail.wert 
-                        FROM bewertung_cocktail 
-                            JOIN cocktail 
-                                ON bewertung_cocktail.cocktail_id = cocktail.id 
-                            JOIN etablissement 
-                                ON bewertung_cocktail.eta_id = etablissement.id 
-                        WHERE bewertung_cocktail.user_id = :userid");
-    $result = $statement->execute(array('userid' => $userid));
-    $cockRatingFetch = $statement->fetchAll();
+    SELECT  bewertung_etablissement.timestamp as ts, 
+            etablissement.name as name,
+            etablissement.id as id, 
+            bewertung_etablissement.text as text, 
+            bewertung_etablissement.wert as wert 
+    FROM bewertung_etablissement 
+        JOIN etablissement 
+            ON bewertung_etablissement.eta_id = etablissement.id 
+    WHERE bewertung_etablissement.user_id = :userid");
+    $result = $statement->execute(array('userid' => $_SESSION["userid"]));
+    $bewEtabFetch = $statement->fetchAll();
 
     $message = "";
     $emailchangeError = false;
@@ -83,114 +78,99 @@ if ($angemeldet) {
             $errNewemail = true;
             $emailchangeError = true;
             $message = "Die E-Mail Addresse ist bereits einem User zugewiesen.";
-        } else {
+        } elseif ($userinfo == true && password_verify($emailpw, $userinfo['passwort'])) {
             $statement = $pdo->prepare("
-                                SELECT * 
-                                FROM user 
-                                WHERE username = :username");
-            $result = $statement->execute(array('username' => $username));
-            $emailfetch = $statement->fetch();
-
-            if ($emailfetch == true && password_verify($emailpw, $emailfetch['passwort'])) {
-                $statement = $pdo->prepare("
-                                    UPDATE user 
-                                        SET email = :email, updated_at = CURRENT_TIMESTAMP 
-                                    WHERE username = :username");
-                $result = $statement->execute(array('email' => $neuemail, 'username' => $username));
-                $updatefetch = $statement->fetch();
-                $success = true;
-                $message = "Die Email Adresse wurde erfolgreich geändert.";
-            } else {
-                $errEmailpw = true;
-                $emailchangeError = true;
-                $message = "Das Passwort ist falsch.";
-            }
+                                UPDATE user 
+                                    SET email = :email, updated_at = CURRENT_TIMESTAMP 
+                                WHERE userid = :userid");
+            $result = $statement->execute(array('email' => $neuemail, 'userid' => $_SESSION['userid']));
+            $emailUpdate = $statement->fetch();
+            $success = true;
+            $message = "Die Email Adresse wurde erfolgreich geändert.";
+        } else {
+            $errEmailpw = true;
+            $emailchangeError = true;
+            $message = "Das Passwort ist falsch.";
         }
     }
+}
 
-    if (isset($_GET['pwchange'])) {
-        $altpw = $_POST['altpw'];
-        $neupw = $_POST['neupw'];
-        $neupwconfirm = $_POST['neupwconfirm'];
+if (isset($_GET['pwchange'])) {
+    $altpw = $_POST['altpw'];
+    $neupw = $_POST['neupw'];
+    $neupwconfirm = $_POST['neupwconfirm'];
 
-        $statement = $pdo->prepare("
+    $statement = $pdo->prepare("
                             SELECT * 
                             FROM user
-                            WHERE username = :username");
-        $result = $statement->execute(array('username' => $username));
-        $user = $statement->fetch();
+                            WHERE userid = :userid");
+    $result = $statement->execute(array('userid' => $_SESSION['userid']));
+    $user = $statement->fetch();
 
-        if (password_verify($neupw, $user['passwort'])) {
-            $pwchangeError = true;
-            $message = "Das neue Passwort darf nicht mit dem Alten übereinstimmen.<br>";
-        }
+    if (password_verify($neupw, $user['passwort'])) {
+        $pwchangeError = true;
+        $message = "Das neue Passwort darf nicht mit dem Alten übereinstimmen.<br>";
+    }
 
-        if ($neupw != $neupwconfirm) {
-            $pwchangeError = true;
-            $message .= "Die Eingaben für das neue Passwort stimmen nicht überein.<br>";
-        }
+    if ($neupw != $neupwconfirm) {
+        $pwchangeError = true;
+        $message .= "Die Eingaben für das neue Passwort stimmen nicht überein.<br>";
+    }
 
-        if ($altpw == $neupw & $neupw == $neupwconfirm) {
-            $pwchangeError = true;
-            $message = "Bitte die Eingaben überprüfen.<br>";
-        }
+    if ($altpw == $neupw & $neupw == $neupwconfirm) {
+        $pwchangeError = true;
+        $message = "Bitte die Eingaben überprüfen.<br>";
+    }
 
-        if (!$pwchangeError) {
-            if (password_verify($altpw, $user['passwort'])) {
-                $neuPasswort_hash = password_hash($neupw, PASSWORD_DEFAULT);
-                $statement = $pdo->prepare("
+    if (!$pwchangeError) {
+        if (password_verify($altpw, $user['passwort'])) {
+            $neuPasswort_hash = password_hash($neupw, PASSWORD_DEFAULT);
+            $statement = $pdo->prepare("
                                     UPDATE user 
                                         SET passwort = :passwort, updated_at = CURRENT_TIMESTAMP 
-                                    WHERE username = :username");
-                $result = $statement->execute(array('passwort' => $neuPasswort_hash, 'username' => $username));
+                                    WHERE userid = :userid");
+            $result = $statement->execute(array('passwort' => $neuPasswort_hash, 'userid' => $_SESSION['userid']));
 
-                if ($result) {
-                    $success = true;
-                    $message = "Dein Passwort wurde erfolgreich geändert!";
-                } else {
-                    $pwchangeError = true;
-                    $message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
-                }
+            if ($result) {
+                $success = true;
+                $message = "Dein Passwort wurde erfolgreich geändert!";
+            } else {
+                $pwchangeError = true;
+                $message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
             }
         }
     }
 }
 
 ?>
-    <!doctype html>
-    <html lang="de">
+<!doctype html>
+<html lang="de">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
-        <link rel="shortcut icon" type="image/x-icon" href="../res/favicon.ico">
-        <title>Profil</title>
-        <!-- Bootstrap core CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <!-- FontAwesome (icons) -->
-        <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
-        <!-- CSS Toolbox -->
-        <link href="../css/csstoolbox.css" rel="stylesheet">
-    </head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
+    <link rel="shortcut icon" type="image/x-icon" href="../res/favicon.ico">
+    <title>Profil</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- FontAwesome (icons) -->
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
+    <!-- CSS Toolbox -->
+    <link href="../css/csstoolbox.css" rel="stylesheet">
+</head>
 
-    <body class="center-block">
-        <header role="header">
-            <?php
+<body class="center-block">
+    <header role="header">
+        <?php
         include('../php/buildHeader.php');
         ?>
-        </header>
-        <main role="main">
-            <div class="mt-5 ml-5 mr-5">
+    </header>
+    <main role="main">
+        <div class="mt-5 ml-5 mr-5">
             <?php
             if ($angemeldet) {
-                $statement = $pdo->prepare("
-                                    SELECT email 
-                                    FROM user 
-                                    WHERE username = :username");
-                $result = $statement->execute(array('username' => $username));
-                $emailaddr = $statement->fetch();
                 if ($emailchangeError or $pwchangeError) {
                     echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
                     echo $message;
@@ -229,7 +209,7 @@ if ($angemeldet) {
                                 </div>
                                 <div class="form-group">
                                     <label for="upnname">Nachname</label>
-                                    <input type="text" maxlength="50" class="form-control" id="upnname" name="upnname" value="' . $userinfo['nachname'] . '" placeholder="Nachname">
+                                    <input type="text" maxlength="25" class="form-control" id="upnname" name="upnname" value="' . $userinfo['nachname'] . '" placeholder="Nachname">
                                 </div>
                                 <div class="form-group">
                                     <label for="upalter">Alter</label>
@@ -237,7 +217,7 @@ if ($angemeldet) {
                                 </div>
                                 <div class="form-group">
                                     <label for="upberuf">Beruf</label>
-                                    <input type="text" maxlength="50" class="form-control" id="upberuf" name="upberuf" value="' . $userinfo['beruf'] . '" placeholder="Beruf">
+                                    <input type="text" maxlength="25" class="form-control" id="upberuf" name="upberuf" value="' . $userinfo['beruf'] . '" placeholder="Beruf">
                                 </div>
                             <button type="submit" class="btn btn-primary mt-2">Informationen aktualisieren</button>
                             </form>
@@ -257,15 +237,15 @@ if ($angemeldet) {
                                     </tr>
                                 </thead> 
                                 <tbody>';
-                for ($i = 0; $i < count($cockRatingFetch); $i++) {
+                for ($i = 0; $i < count($bewCockFetch); $i++) {
                     echo '<tr>';
                     echo '<th scope="row">' . ($i + 1);
                     '</th>';
-                    echo '<td>' . $cockRatingFetch[$i][0] . '</td>';
-                    echo '<td>' . $cockRatingFetch[$i][1] . '</td>';
-                    echo '<td>' . $cockRatingFetch[$i][2] . '</td>';
-                    echo '<td>' . $cockRatingFetch[$i][3] . '</td>';
-                    echo '<td>' . $cockRatingFetch[$i][4] . '</td>';
+                    echo '<td>' . $bewCockFetch[$i]["ts"] . '</td>';
+                    echo '<td> <a class="" href="etablissement_details.php?eta_id= ' . $bewCockFetch[$i]["etabid"] . '">' . $bewCockFetch[$i]["etabname"] . '</a></td>';
+                    echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $bewCockFetch[$i]["cockid"] . '">' . $bewCockFetch[$i]["cockname"] . '</a></td>';
+                    echo '<td>' . $bewCockFetch[$i]["text"] . '</td>';
+                    echo '<td>' . $bewCockFetch[$i]["wert"] . '</td>';
                     echo '</tr>';
                 }
                 echo '
@@ -286,16 +266,16 @@ if ($angemeldet) {
                             </tr>
                         </thead> 
                         <tbody>';
-                    for ($i = 0; $i < count($etabRatingFetch); $i++) {
-                        echo '<tr>';
-                        echo '<th scope="row">' . ($i + 1);
-                        '</th>';
-                        echo '<td>' . $etabRatingFetch[$i][0] . '</td>';
-                        echo '<td>' . $etabRatingFetch[$i][1] . '</td>';
-                        echo '<td>' . $etabRatingFetch[$i][2] . '</td>';
-                        echo '<td>' . $etabRatingFetch[$i][3] . '</td>';
-                        echo '</tr>';
-                    }
+                for ($i = 0; $i < count($bewEtabFetch); $i++) {
+                    echo '<tr>';
+                    echo '<th scope="row">' . ($i + 1);
+                    '</th>';
+                    echo '<td>' . $bewEtabFetch[$i]["ts"] . '</td>';
+                    echo '<td> <a class="" href="etablissement_details.php?eta_id= ' . $bewEtabFetch[$i]["id"] . '">' . $bewEtabFetch[$i]["name"] . '</a></td>';
+                    echo '<td>' . $bewEtabFetch[$i]["text"] . '</td>';
+                    echo '<td>' . $bewEtabFetch[$i]["wert"] . '</td>';
+                    echo '</tr>';
+                }
                 echo '      
                                 </tbody>
                             </table>
@@ -305,15 +285,15 @@ if ($angemeldet) {
                         <form class="mr-5 ml-5 mt-2" action="?emailchange=1" method="post">
                             <div class="form-group">
                                 <label for="aktemail">Aktuelle E-Mail Addresse</label>
-                                <input type="text" class="form-control" id="aktemail" placeholder="' . $emailaddr['email'] . '" readonly>
+                                <input type="text" class="form-control" id="aktemail" placeholder="' . $userinfo['email'] . '" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="neuemail">Neue E-Mail Addresse eingeben</label>
-                                <input type="email" class="form-control" id="neuemail" placeholder="Neue E-Mail Adresse" name="neuemail">
+                                <input type="email" class="form-control" id="neuemail" placeholder="Neue E-Mail Adresse" name="neuemail" maxlength="50">
                             </div>
                             <div class="form-group">
                                 <label for="emailpw">Aktuelles Passwort eingeben</label>
-                                <input type="password" class="form-control" id="emailpw" placeholder="Aktuelles Passwort" name="emailpw">
+                                <input type="password" class="form-control" id="emailpw" placeholder="Aktuelles Passwort" name="emailpw" maxlength="20">
                             </div>
                             <button type="submit" class="btn btn-primary mt-2">E-Mail Adresse ändern</button>
                         </form>
@@ -321,15 +301,15 @@ if ($angemeldet) {
                         <form class="mr-5 ml-5 mt-2" action="?pwchange=1" method="post">
                             <div class="form-group">
                                 <label for="altpw">Altes Passwort</label>
-                                <input type="password" class="form-control" id="altpw" placeholder="Altes Passwort" name="altpw">
+                                <input type="password" class="form-control" id="altpw" placeholder="Altes Passwort" name="altpw" maxlength="20">
                             </div>
                             <div class="form-group">
                                 <label for="neupw">Neues Passwort</label>
-                                <input type="password" class="form-control" id="neupw" placeholder="Neues Passwort" name="neupw">
+                                <input type="password" class="form-control" id="neupw" placeholder="Neues Passwort" name="neupw" maxlength="20">
                             </div>
                             <div class="form-group">
                                 <label for="neupwconfirm">Neues Passwort bestätigen</label>
-                                <input type="password" class="form-control" id="neupwconfirm" placeholder="Neues Passwort bestätigen" name="neupwconfirm">
+                                <input type="password" class="form-control" id="neupwconfirm" placeholder="Neues Passwort bestätigen" name="neupwconfirm" maxlength="20">
                             </div>
                             <button type="submit" class="btn btn-primary mt-2">Passwort ändern</button>
                         </form>
@@ -337,20 +317,20 @@ if ($angemeldet) {
                 </div>
             </div>';
             } else {
-                echo '<div class="card card-body"><h2 class="ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2></div>';
+                echo '<div class="card card-body"><h2 class="ct-text-center">Bitte zuerst <a class="" href="signin.php">Anmelden</a>.</h2></div>';
             }
             ?>
-            </div>
-        </main>
-        <hr class="ct-hr-divider ml-5 mr-5">
-        <footer role="footer" class="container">
-            <?php
+        </div>
+    </main>
+    <hr class="ct-hr-divider ml-5 mr-5">
+    <footer role="footer" class="container">
+        <?php
         include('../php/buildFooter.php');
         ?>
-        </footer>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    </body>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
 
-    </html>
+</html>

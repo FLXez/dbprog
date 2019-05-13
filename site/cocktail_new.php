@@ -1,7 +1,7 @@
 <?php
 include('../php/sessioncheck.php');
 $activeHead = "cocktail";
-$_SESSION['source']= "Location: ../site/cocktail_new.php";
+$_SESSION['source'] = "Location: ../site/cocktail_new.php";
 
 if ($angemeldet) {
 	$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
@@ -17,8 +17,8 @@ if ($angemeldet) {
 												name,
 												ort
 										FROM etablissement ");
-		$etabResult = $statementEtabs->execute();
-		$allEtabsPos = $statementEtabs->fetchAll();
+	$etabResult = $statementEtabs->execute();
+	$allEtabsPos = $statementEtabs->fetchAll();
 
 
 
@@ -35,11 +35,11 @@ if ($angemeldet) {
 		$file_size = $_FILES['file']['size'];
 		$file_tem_loc = $_FILES['file']['tmp_name'];
 
-		if($file_name){	
-		$handle = fopen($file_tem_loc, 'r');
-		$content = fread($handle, $file_size);
-		}else{
-			$content="";
+		if ($file_name) {
+			$handle = fopen($file_tem_loc, 'r');
+			$content = fread($handle, $file_size);
+		} else {
+			$content = "";
 		}
 
 		$statement = $pdo->prepare("Select id From cocktail WHERE name = :name AND beschreibung = :beschreibung");
@@ -53,15 +53,15 @@ if ($angemeldet) {
 			$insertError = $statement->fetch();
 
 
-			$statement = $pdo-> prepare("SELECT id FROM cocktail where name = :name");
-			$result = $statement -> execute(array('name'=> $nameCock));
-			$idNewCock = $statement ->fetch();
+			$statement = $pdo->prepare("SELECT id FROM cocktail where name = :name");
+			$result = $statement->execute(array('name' => $nameCock));
+			$idNewCock = $statement->fetch();
 
 
 
-			$statement = $pdo -> prepare("INSERT INTO cocktailkarte(eta_id, cocktail_id, preis) VALUES (:etab, :cocktail, :preis)");
-			$result = $statement ->execute(array('etab' => $etab_zuordn, 'cocktail' => $idNewCock[0] , 'preis' => $preisCock));
-			$insertError2 = $statement-> fetch(); 
+			$statement = $pdo->prepare("INSERT INTO cocktailkarte(eta_id, cocktail_id, preis) VALUES (:etab, :cocktail, :preis)");
+			$result = $statement->execute(array('etab' => $etab_zuordn, 'cocktail' => $idNewCock[0], 'preis' => $preisCock));
+			$insertError2 = $statement->fetch();
 
 			if ($insertError == false) {
 				$angelegt = true;
@@ -70,11 +70,8 @@ if ($angemeldet) {
 				$message = "Ein technsicher Fehler ist aufgetreten.";
 			}
 		} else {
-			$message = 'Dieser Cocktail ist bereits vorhanden. <a class="ct-panel-group" href="cocktail_details.php?cock_id='. $notNewError[0]  .'"> Zum Cocktail </a>';
+			$message = 'Dieser Cocktail ist bereits vorhanden. <a class="" href="cocktail_details.php?cock_id=' . $notNewError[0]  . '"> Zum Cocktail </a>';
 		}
-
-		
-
 	}
 }
 
@@ -151,10 +148,10 @@ if ($angemeldet) {
 							<label for="etab"> Etablissement Zuordnen</label>
 							<!--<input type="text" class="form-control" id="etab" placeholder="Nothing" name="wert">-->
 							<select class="custom-select" name="etab" id="etab">';
-							for($i = 0; $i <count($allEtabsPos); $i++){
-								echo '<option value="' . $allEtabsPos[$i][0] .'">'. $allEtabsPos[$i][1] .', ' . $allEtabsPos[$i][2] . '</option>';
-							}
-							echo '</select>
+				for ($i = 0; $i < count($allEtabsPos); $i++) {
+					echo '<option value="' . $allEtabsPos[$i][0] . '">' . $allEtabsPos[$i][1] . ', ' . $allEtabsPos[$i][2] . '</option>';
+				}
+				echo '</select>
 						</div>
 
 						<button type="submit" class="btn btn-primary">Erstellen</button>
@@ -162,7 +159,7 @@ if ($angemeldet) {
 				</div>
 			</div>';
 			} else {
-				echo '<div class="card card-body"><h2 class="ct-text-center">Bitte zuerst <a class="ct-panel-group" href="signin.php">Anmelden</a>.</h2></div>';
+				echo '<div class="card card-body"><h2 class="ct-text-center">Bitte zuerst <a class="" href="signin.php">Anmelden</a>.</h2></div>';
 			}
 			?>
 		</div>

@@ -63,11 +63,6 @@
         margin-right: 5rem;
         text-align: center;
     }
-    /*Panel gruppieren (user/signin.php)*/
-    
-    .ct-panel-group [aria-expanded=true] {
-        pointer-events: none;
-    }
     
     .ct-mid-container {
         height: 100%;
