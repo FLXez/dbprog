@@ -21,17 +21,46 @@ $result = $statement->execute();
 $etab_ids = $statement->fetchAll();
 $etab_ids_count = count($etab_ids);
 
+if($etab_ids_count>3){
+
 $etab1 = $etab_ids[rand(1, $etab_ids_count) - 1];
 $etab2 = $etab1;
 $etab3 = $etab1;
 
-//while ($etab2[0] == $etab1[0]) {
-//    $etab2 = $etab_ids[rand(1, $etab_ids_count) - 1];
-//}
+while ($etab2[0] == $etab1[0]) {
+    $etab2 = $etab_ids[rand(1, $etab_ids_count) - 1];
+}
 
-//while ($etab3[0] == $etab1[0] || $etab3[0] == $etab2[0]) {
-//    $etab3 = $etab_ids[rand(1, $etab_ids_count) - 1];
-//}
+while ($etab3[0] == $etab1[0] || $etab3[0] == $etab2[0]) {
+    $etab3 = $etab_ids[rand(1, $etab_ids_count) - 1];
+}
+}else{
+$statement = $pdo->prepare(
+    "SELECT DISTINCT
+				e.id as id,
+				e.name as name
+			FROM etab e
+			JOIN bew_etab be ON
+				e.id = be.etab_id");
+$result = $statement->execute();
+$etab_ids = $statement->fetchAll();
+$etab_ids_count = count($etab_ids);
+
+
+
+$etab1 = $etab_ids[rand(1, $etab_ids_count) - 1];
+$etab2 = $etab1;
+$etab3 = $etab1;
+
+while ($etab2[0] == $etab1[0]) {
+    $etab2 = $etab_ids[rand(1, $etab_ids_count) - 1];
+}
+
+while ($etab3[0] == $etab1[0] || $etab3[0] == $etab2[0]) {
+    $etab3 = $etab_ids[rand(1, $etab_ids_count) - 1];
+
+}
+}
 
 $statement = $pdo->prepare(
     "SELECT
