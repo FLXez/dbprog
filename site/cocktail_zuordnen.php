@@ -12,12 +12,16 @@ $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 	$result = $statement->execute(array('cockid'=> $_GET["chosenCocktail"] ));
 	$cockDaten = $statement->fetch();
 
-	$statementEtabs = $pdo->prepare("SELECT e.id,
-												e.name,
-												e.ort
-										FROM etablissement e RIGHT JOIN  cocktailkarte c ON e.id = c.eta_id WHERE NOT cock_id = :cockid");
-		$etabResult = $statementEtabs->execute();
-		$allEtabsPos = $statementEtabs->fetchAll();
+	$statementEtabs = $pdo->prepare("SELECT id,
+												name,
+												ort
+										FROM etablissement");
+	$etabResult = $statementEtabs->execute();
+	$allEtabsPos = $statementEtabs->fetchAll();
+
+	$statement = $pdo-> prepare("SELECT eta_id FROM cocktailkarte WHERE cocktail_id =:cockid");
+	$result = $statement->execute(array('cockid'=> $_GET["chosenCocktail"]));
+	$notPossibleEtaIds = $statement -> fetch();
 
 
 ?>
@@ -58,7 +62,17 @@ $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 							<label for="etab"> Etablissement Zuordnen</label>
 							<select class="custom-select" name="etab" id="etab">';
 							for($i = 0; $i <count($allEtabsPos); $i++){
+								$isValid = true;
+
+								for($j = 0; $j <count($notPossibleEtaIds); $j++){
+									if($allEtabsPos[$i][0] == $notPossibleEtaIds[$j][0]){
+										$isValid=false;
+									}
+								}
+
+								if($isValid==true){
 								echo '<option value="' . $allEtabsPos[$i][0] .'">'. $allEtabsPos[$i][1] .', ' . $allEtabsPos[$i][2] . '</option>';
+								}
 							}
 							echo '</select>
 						</div>
