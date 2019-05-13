@@ -141,7 +141,7 @@ if (!$angemeldet) {
                         <form class="mr-5 ml-5 mt-2" action="?login=1" method="post">
                             <div class="form-group">
                                 <label for="loginUsername">Username</label>
-                                <input type="text" class="form-control" id="loginUsername" placeholder="Username" name="loginUsername" maxlength="20" required>                                
+                                <input type="text" class="form-control" id="loginUsername" placeholder="Username" name="loginUsername" maxlength="25" required>                                
                             </div>
                             <div class="form-group">
                                 <label for="loginPasswort">Passwort</label>
