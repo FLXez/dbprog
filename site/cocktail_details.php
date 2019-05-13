@@ -24,6 +24,22 @@ $_SESSION['source'] = "Location: ../site/cocktail_details.php?cock_id=" . $cockF
 $bew = false;
 $bew_success = false;
 $message = 'Fehler';
+
+if(isset($_GET['etabZugeordnet'])){
+	
+	$etabId = $_POST['dasZugeordnete'];
+
+	$statementinsert= $pdo-> prepare("INSERT INTO cocktailkarte(eta_id, cocktail_id, preis) VALUES(:eta_id, :cocktail_id, :preis)");
+	$result = $statementinsert->execute(array('eta_id'=> $etabId ,'cocktail_id' => $_GET['cock_id'] , 'preis' => $_POST['preisCock']));
+	$insertErr = $statementinsert->fetch();
+
+	if(!$insertErr){
+		$message = "Erfolgreich hinzugefügt.";
+	}else{
+		$message = "Insert Error festgestelllt.";
+	}
+}
+
 if (isset($_GET['bewertung_abgeben']) && $angemeldet) {
 	$bew = true;
 	$bew_eta = $_POST['eta'];
@@ -103,6 +119,8 @@ $statement = $pdo->prepare("
 $result = $statement->execute(array('cock_id' => $_GET['cock_id']));
 $bewFetch = $statement->fetchAll();
 
+
+
 $statement = $pdo->prepare("
 					SELECT 
 						e.id as id, 
@@ -114,6 +132,24 @@ $statement = $pdo->prepare("
 					WHERE ck.cocktail_id = :cock_id");
 $result = $statement->execute(array('cock_id' => $_GET['cock_id']));
 $allEtaFetch = $statement->fetchAll();
+
+
+$statement = $pdo->prepare("SELECT name FROM cocktail WHERE id =:cockid");
+$result = $statement->execute(array('cockid' => $_GET["cock_id"]));
+$cockDaten = $statement->fetch();
+
+	$statementEtabs = $pdo->prepare("SELECT id,
+												name,
+												ort
+										FROM etablissement");
+	$etabResult = $statementEtabs->execute();
+	$allEtabsPos = $statementEtabs->fetchAll();
+
+	$statement = $pdo-> prepare("SELECT eta_id FROM cocktailkarte WHERE cocktail_id =:cockid");
+	$result = $statement->execute(array('cockid'=> $_GET["cock_id"]));
+	$notPossibleEtaIds = $statement -> fetchAll();
+
+
 ?>
 <!doctype html>
 <html lang="de">
@@ -170,17 +206,29 @@ $allEtaFetch = $statement->fetchAll();
 							</div>
 							<div class="mt-auto">
 								<?php echo '							 	
-								<form>
-								<label for="etab">Cocktail einem Etablissement zuordnen:</label>
+								<form action="?cock_id=' . $_GET['cock_id'] . '&etabZugeordnet=1" method="POST">
+								<label for="etabZugeordnet">Cocktail einem Etablissement zuordnen:</label>
 									<div class="form-row">
 										<div class="col-4">
-										<select class="custom-select" name="etab" id="etab">';
-								for ($i = 0; $i < count($allEtabsPos); $i++) {
-									echo '
-											<option value="' . $allEtabsPos[$i][0] . '">' . $allEtabsPos[$i][1] . ', ' . $allEtabsPos[$i][2] . '</option>';
-								}
-								echo '
+										<select class="custom-select" name="dasZugeordnete" id="dasZugeordnete">';
+											for($i = 0; $i <count($allEtabsPos); $i++){
+													$isValid = true;
+
+													for($j = 0; $j <count($notPossibleEtaIds); $j++){
+															if($allEtabsPos[$i][0] == $notPossibleEtaIds[$j][0]){
+																	$isValid=false;
+															}
+													}
+
+													if($isValid==true){
+														echo '<option value="' . $allEtabsPos[$i][0] .'">'. $allEtabsPos[$i][1] .', ' . $allEtabsPos[$i][2] . '</option>';
+													}
+											}
+											echo '
 										</select>
+										</div>
+										<div class="col-4">
+										<input type="text" maxlength="10" class="form-control" name="preisCock" id="preisCock" placeholder="Preis" required>
 										</div>
 										<div class="col-auto">
 											<button type="submit" class="btn btn-primary">Hinzuf&uuml;gen</button>

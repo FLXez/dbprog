@@ -1,9 +1,47 @@
-<?php
+﻿<?php
 include('../php/sessioncheck.php');
 $activeHead = "etablissement";
 // Musste nach unten geschoben werden = $_SESSION['source']= "Location: ../site/etablissement_details.php?eta_id=" . $etaFetch[0];
 
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+$bew = false;
+$bew_success = false;
+if (isset($_GET['bewertung_abgeben']) && $angemeldet) {
+	$bew = true;
+	$bew_wert = $_POST['wert'];
+	$bew_kommentar = $_POST['kommentar'];
+
+	$statement = $pdo->prepare("
+						SELECT * 
+						FROM bewertung_etablissement
+						WHERE user_id=:user_id 
+						  AND eta_id=:eta_id ");
+	$result = $statement->execute(array('user_id' => $_SESSION['userid'], 'eta_id' => $_GET['eta_id']));
+	$bew_vorhanden = $statement->fetch();
+
+	if ($bew_vorhanden == true) {
+		$statement = $pdo->prepare("
+							UPDATE bewertung_etablissement
+							SET wert=:wert, 
+								text=:kommentar 
+							WHERE user_id=:user_id 
+							  AND eta_id=:eta_id 
+							  ");
+		$result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $_SESSION['userid'], 'eta_id' => $_GET['eta_id']));
+		$bew_success = $statement->fetch();
+		$message = 'Ihre Bewertung wurde Aktualisiert!';
+	} else {
+		$statement = $pdo->prepare("
+							INSERT 
+							INTO bewertung_etablissement (user_id, eta_id, wert, text) 
+							VALUES (:user_id, :eta_id, :wert, :kommentar)");
+		$result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $_SESSION['userid'], 'eta_id' =>  $_GET['eta_id']));
+		$bew_success = $statement->fetch();
+		$message = 'Ihre Bewertung wurde gespeichert!';
+	}
+}
+
+
 $statement = $pdo->prepare("
 					SELECT 
 						e.id as id,
@@ -72,6 +110,13 @@ $bewFetch = $statement->fetchAll();
 	</header>
 	<main role="main">
 		<div class="mt-5 ml-5 mr-5">
+		<?php 
+		if ($bew == true && $bew_success == false) {
+				echo '<div class="alert alert-info ct-text-center mb-4" role="info">';
+				echo $message;
+				echo '</div>';
+			}
+			?>
 			<div class="card mb-3" width="100%" style="max-height: 360px;">
 				<div class="row no-gutters">
 					<div class="col-md-2">
@@ -102,6 +147,9 @@ $bewFetch = $statement->fetchAll();
 					</li>
 					<li class="flex-sm-fill text-sm-center nav-item">
 						<a class="nav-link" id="bewertungen-tab" data-toggle="pill" href="#bewertungen" role="tab" aria-controls="bewertungen" aria-selected="false">Bewertungen</a>
+					</li>
+					<li class="flex-sm-fill text-sm-center nav-item">
+						<a class="nav-link" id="bewerten-tab" data-toggle="pill" href="#bewerten" role="tab" aria-controls="bewerten" aria-selected="false">Bewerten!</a>
 					</li>
 				</ul>
 				<hr>
@@ -150,6 +198,37 @@ $bewFetch = $statement->fetchAll();
 							echo '</tr>';
 						}
 						echo '</tbody></table>';
+						?>
+					</div>
+					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">
+						<?php
+						if ($angemeldet) {
+							if ($bew_success == false) {
+								echo '
+								<form class="mr-5 ml-5 mt-2" action="?eta_id=' . $_GET['eta_id'] . '&bewertung_abgeben=1" method="post">
+									<div class="form-group">
+										<label for="wert">Wie bewerten Sie das Etablissement?</label>
+										<!--<input type="text" class="form-control" id="bew_wert" placeholder="0 Sterne" name="wert">-->
+										<select class="custom-select" name="wert" id="bew_eta">
+											<option value="1">★☆☆☆☆</option>
+											<option value="2">★★☆☆☆</option>
+											<option value="3">★★★☆☆</option>
+											<option value="4">★★★★☆</option>
+											<option value="5">★★★★★</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="kommentar">Wieso haben Sie so bewertet?</label>
+										<textarea class="form-control" id="bew_kommentar" aria-label="Beispieltext" name="kommentar"></textarea>
+									</div>
+									<button type="submit" class="btn btn-primary mt-2">Bewertung abschicken!</button>
+								</form>';
+							} else {
+								echo '<h2 class="ml-4 ct-text-center">Bewertung erfolgreich abgegeben!</h2>';
+							}
+						} else {
+							echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="" href="signin.php">Anmelden</a>.</h2>';
+						}
 						?>
 					</div>
 				</div>

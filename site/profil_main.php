@@ -200,29 +200,83 @@ if (isset($_GET['pwchange'])) {
                 <div class="tab-content" id="profil-tabContent">
                     <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
                         <div class="mr-5 ml-5 mt-2">
-                            <h5>Persönliche Informationen - Alle Angaben sind freiwillig</h5>
-                            <hr>
-                            <form action="?updateinfo=1" method="post">
-                                <div class="form-group">
-                                    <label for="upvname">Vorname</label>
-                                    <input type="text" maxlength="50" class="form-control" id="upvname" name="upvname" value="' . $userinfo['vorname'] . '" placeholder="Vorname">
+                             <div class="mt-5 ml-5 mr-5">
+
+
+							 <div class="card mb-3" width="100%" style="max-height: 360px;">
+                <div class="row no-gutters">
+                    <div class="col-md-2">';
+                        
+                        //Bild aus der Datenbank ziehen, later!
+                        if (true)
+                            echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
+                        else
+
+                            echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
+                        echo'
+                    </div>
+                    <div class="col-md-10">
+                        <div class="card-body d-flex flex-column" style="height: 230px;">
+                            <div>
+                                <h1 class="card-title">'. 
+								 $userinfo["username"].' </h1>
+                                <hr>
+                            </div>
+                            <div>
+                                <p class="card-text">';
+                                    
+                                    echo '
+                                <div class="row">
+                                    <div class="col-2">
+                                        Vorname: 
+                                    </div>
+                                    <div class="col-10">'
+                                        . $userinfo["vorname"] .
+                                        '</div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="upnname">Nachname</label>
-                                    <input type="text" maxlength="25" class="form-control" id="upnname" name="upnname" value="' . $userinfo['nachname'] . '" placeholder="Nachname">
+                                <div class="row">
+                                    <div class="col-2">
+                                        Nachname: 
+                                    </div>
+                                    <div class="col-10">'
+                                        . $userinfo["nachname"] .
+                                        '</div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="upalter">Alter</label>
-                                    <input type="number" max="127" class="form-control" id="upalter" name="upalter" value="' . $userinfo['age'] . '" placeholder="Alter">
+                                <div class="row">
+                                    <div class="col-2">
+                                        Alter: 
+                                    </div>
+                                    <div class="col-10">'
+                                        . $userinfo["age"] .
+                                        '</div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="upberuf">Beruf</label>
-                                    <input type="text" maxlength="25" class="form-control" id="upberuf" name="upberuf" value="' . $userinfo['beruf'] . '" placeholder="Beruf">
+                                <div class="row">
+                                    <div class="col-2">
+                                        Beruf: 
+                                    </div>
+                                    <div class="col-10">'
+                                        . $userinfo["beruf"] .
+                                        '</div>
                                 </div>
-                            <button type="submit" class="btn btn-primary mt-2">Informationen aktualisieren</button>
-                            </form>
+                                <div class="row">
+                                    <div class="col-2">
+                                        Mitglied seit: 
+                                    </div>
+                                    <div class="col-10">'
+                                        . $userinfo["created_at"] .
+                                        '</div>
+                                </div>';
+                                    echo'
+                                </p>
+                            </div>
                         </div>
                     </div>
+                </div>
+							
+
+                        </div>
+                    </div>
+				</div>
                     <div class="tab-pane fade" id="cockRating" role="tabpanel" aria-labelledby="cockRating-tab">
                         <div class="mr-5 ml-5 mt-2">
                             <table class="table">
@@ -282,6 +336,30 @@ if (isset($_GET['pwchange'])) {
                         </div>
                     </div>
                     <div class="tab-pane fade" id="setting" role="tabpanel" aria-labelledby="setting-tab">
+
+                            <form  class="mr-5 ml-5 mt-2" action="?updateinfo=1" method="post">
+							<h5>Persönliche Informationen und Accounteinstellungen</h5>
+                            <hr>
+                                <div class="form-group">
+                                    <label for="upvname">Vorname</label>
+                                    <input type="text" maxlength="50" class="form-control" id="upvname" name="upvname" value="' . $userinfo['vorname'] . '" placeholder="Vorname">
+                                </div>
+                                <div class="form-group">
+                                    <label for="upnname">Nachname</label>
+                                    <input type="text" maxlength="25" class="form-control" id="upnname" name="upnname" value="' . $userinfo['nachname'] . '" placeholder="Nachname">
+                                </div>
+                                <div class="form-group">
+                                    <label for="upalter">Alter</label>
+                                    <input type="number" max="127" class="form-control" id="upalter" name="upalter" value="' . $userinfo['age'] . '" placeholder="Alter">
+                                </div>
+                                <div class="form-group">
+                                    <label for="upberuf">Beruf</label>
+                                    <input type="text" maxlength="25" class="form-control" id="upberuf" name="upberuf" value="' . $userinfo['beruf'] . '" placeholder="Beruf">
+                                </div>
+                            <button type="submit" class="btn btn-primary mt-2">Informationen aktualisieren</button>
+                            </form>
+							<hr class="ct-hr-divider-3 mr-5 ml-5">
+
                         <form class="mr-5 ml-5 mt-2" action="?emailchange=1" method="post">
                             <div class="form-group">
                                 <label for="aktemail">Aktuelle E-Mail Addresse</label>
