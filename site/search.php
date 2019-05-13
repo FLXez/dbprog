@@ -7,10 +7,10 @@ $sucheBeendet = "";
 $keinErgebnis = "";
 $message = "";
 
+$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 
 if (isset($_GET['search'])) {
-	$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
-	$suchbegriff = $_POST['search'];
+	$suchbegriff ="%". $_POST['search'] ."%";
 
 	$sucheEtab = $pdo->prepare("
 					SELECT 
@@ -25,15 +25,15 @@ if (isset($_GET['search'])) {
 					LEFT JOIN 
 						(
 						SELECT 
-							be.eta_id, 
+							be.etab_id, 
 							CAST(be.wert AS INTEGER) AS wert
 						FROM
-							bewertung_etablissement be
+							bew_etab be
 						) sub_be
 					ON
-						e.id = sub_be.eta_id
+						e.id = sub_be.etab_id
 					WHERE 
-						name = :name
+						name LIKE :name
 					GROUP BY
 						e.id,
 						e.name,
@@ -57,15 +57,15 @@ if (isset($_GET['search'])) {
 					LEFT JOIN 
 						(
 						SELECT 
-							bc.cocktail_id, 
+							bc.cock_id, 
 							CAST(bc.wert AS INTEGER) AS wert
 						FROM
-							bewertung_cocktail bc
+							bew_cock bc
 						) sub_bc
 					ON
-						c.id = sub_bc.cocktail_id
+						c.id = sub_bc.cock_id
 					WHERE
-						name = :name
+						name LIKE :name
 					GROUP BY
 						c.id,
 						c.name,
@@ -228,79 +228,79 @@ if (isset($_GET['search'])) {
 
 						for ($i = 0; $i < $cockCount; $i++) {
 							echo '
-					<div class="card ml-4 mr-4 mt-4 mb-4" style="width: 19rem;">';
-							if ($ergebnisCock[$i][3] == null)
-								echo '
-						<img src="../res/placeholder_no_image.svg" class="card-img-top">';
-							else
-								echo '
-						<img src="../php/get_img.php?cock_id=' . $ergebnisCock[$i][0] . '" class="card-img-top">';
-							echo '
-						<div class="card-body">
-							<div class="row">
-								<div class="col-12">
-									<h5 class="card-title">' . $ergebnisCock[$i][1] . '</h5>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-12">
-									<p class="card-text">' . $ergebnisCock[$i][2] . '</p>
-								</div>
-							</div>
-							<hr>
-							<div class="row">							
-								<div class="col-4">
-									<h5 class="rating-num float-left">' . number_format($ergebnisCock[$i][4], 1) . '</h5>
-								</div>
-								<div class="col-8">
-									<div class="rating float-right">';
-							if ($ergebnisCock[$i][4] >= 1)			echo '
-										<i class="fas fa-star"></i>';
-							else								echo '
-										<i class="far fa-star"></i>';
-							if ($ergebnisCock[$i][4] >= 1.75)		echo '
-										<i class="fas fa-star"></i>';
-							elseif ($ergebnisCock[$i][4] >= 1.25)	echo '
-										<i class="fas fa-star-half-alt"></i>';
-							else								echo '
-										<i class="far fa-star"></i>';
-							if ($ergebnisCock[$i][4] >= 2.75)		echo '
-										<i class="fas fa-star"></i>';
-							elseif ($ergebnisCock[$i][4] >= 2.25)	echo '
-										<i class="fas fa-star-half-alt"></i>';
-							else								echo '
-										<i class="far fa-star"></i>';
-							if ($ergebnisCock[$i][4] >= 3.75)		echo '
-										<i class="fas fa-star"></i>';
-							elseif ($ergebnisCock[$i][4] >= 3.25)	echo '
-										<i class="fas fa-star-half-alt"></i>';
-							else								echo '
-										<i class="far fa-star"></i>';
-							if ($ergebnisCock[$i][4] >= 4.75)		echo '
-										<i class="fas fa-star"></i>';
-							elseif ($ergebnisCock[$i][4] >= 4.25)	echo '
-										<i class="fas fa-star-half-alt"></i>';
-							else								echo '
-										<i class="far fa-star"></i>';
-							echo '
+								<div class="card ml-4 mr-4 mt-4 mb-4" style="width: 19rem;">';
+											if ($ergebnisCock[$i][3] == null)
+												echo '
+												<img src="../res/placeholder_no_image.svg" class="card-img-top">';
+											else
+												echo '
+												<img src="../php/get_img.php?cock_id=' . $ergebnisCock[$i][0] . '" class="card-img-top">';
+												echo '
+									<div class="card-body">
+										<div class="row">
+											<div class="col-12">
+												<h5 class="card-title">' . $ergebnisCock[$i][1] . '</h5>
+											</div>
+										</div>
+											<div class="row">
+												<div class="col-12">
+													<p class="card-text">' . $ergebnisCock[$i][2] . '</p>
+												</div>
+											</div>
+											<hr>
+											<div class="row">							
+												<div class="col-4">
+														<h5 class="rating-num float-left">' . number_format($ergebnisCock[$i][4], 1) . '</h5>
+												</div>
+												<div class="col-8">
+													<div class="rating float-right">';
+																if ($ergebnisCock[$i][4] >= 1)			echo '
+																	<i class="fas fa-star"></i>';
+																else								echo '
+																	<i class="far fa-star"></i>';
+																if ($ergebnisCock[$i][4] >= 1.75)		echo '
+																	<i class="fas fa-star"></i>';
+																elseif ($ergebnisCock[$i][4] >= 1.25)	echo '
+																	<i class="fas fa-star-half-alt"></i>';
+																else								echo '
+																	<i class="far fa-star"></i>';
+																if ($ergebnisCock[$i][4] >= 2.75)		echo '
+																	<i class="fas fa-star"></i>';
+																elseif ($ergebnisCock[$i][4] >= 2.25)	echo '
+																	<i class="fas fa-star-half-alt"></i>';
+																else								echo '
+																	<i class="far fa-star"></i>';
+																if ($ergebnisCock[$i][4] >= 3.75)		echo '
+																	<i class="fas fa-star"></i>';
+																elseif ($ergebnisCock[$i][4] >= 3.25)	echo '
+																	<i class="fas fa-star-half-alt"></i>';
+																else								echo '
+																	<i class="far fa-star"></i>';
+																if ($ergebnisCock[$i][4] >= 4.75)		echo '
+																	<i class="fas fa-star"></i>';
+																elseif ($ergebnisCock[$i][4] >= 4.25)	echo '
+																	<i class="fas fa-star-half-alt"></i>';
+																else								echo '
+																	<i class="far fa-star"></i>';
+																echo '
+													</div>
+												</div>
+											</div>
+													<hr>
+														<div class="row">
+											<div class="col-12">
+																<a href="./cocktail_details.php?cock_id=' . $ergebnisCock[$i][0] . '" class="btn btn-primary btn-block">Details</a>
+											</div>
+										</div>
 									</div>
-								</div>
-							</div>
-							<hr>
-							<div class="row">
-								<div class="col-12">
-									<a href="./cocktail_details.php?cock_id=' . $ergebnisCock[$i][0] . '" class="btn btn-primary btn-block">Details</a>
-								</div>
-							</div>
-						</div>
-					</div>';
+							</div>';
 						}
-					} else {
-						echo 'Keine Ergebnisse.';
-					}
+						} else {
+							echo 'Keine Ergebnisse.';
+							}
 					?>
 
-
+					
 				</div>
 			</div>
 		</div>
