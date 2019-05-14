@@ -4,7 +4,7 @@ $activeHead = "cocktail";
 $_SESSION['source'] = "Location: ../site/cocktail_new.php";
 
 if ($angemeldet) {
-	$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+	include('../php/db/_openConnection.php');
 
 	$insertError = false;
 	$notNewError = false;

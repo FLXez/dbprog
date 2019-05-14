@@ -3,7 +3,7 @@ include('../php/sessioncheck.php');
 $activeHead = "cocktail";
 $_SESSION['source'] = "Location: ../site/cocktail_main.php";
 
-$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+include('../php/db/_openConnection.php');
 $statement = $pdo->prepare("
 					SELECT 
 						c.id as id,

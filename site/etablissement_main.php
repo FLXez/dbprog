@@ -3,7 +3,7 @@ include('../php/sessioncheck.php');
 $activeHead = "etablissement";
 $_SESSION['source'] = "Location: ../site/etablissement_main.php";
 
-$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+include('../php/db/_openConnection.php');
 $statement = $pdo->prepare("
 					SELECT 
 						e.id as id,

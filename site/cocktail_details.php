@@ -3,7 +3,7 @@ include('../php/sessioncheck.php');
 $activeHead = "cocktail";
 // Musste nach unten geschoben werden = $_SESSION['source']= "Location: ../site/cocktail_details.php?cock_id=" . $cockFetch["id"];
 
-$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+include('../php/db/_openConnection.php');
 
 
 $statement = $pdo->prepare(

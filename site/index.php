@@ -3,7 +3,7 @@ include('../php/sessioncheck.php');
 $activeHead = "landing";
 $_SESSION['source'] = "Location: ../site/index.php";
 
-$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+include('../php/db/_openConnection.php');
 
 $statement = $pdo->prepare(
     "SELECT DISTINCT

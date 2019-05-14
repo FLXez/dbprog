@@ -7,7 +7,7 @@ $sucheBeendet = "";
 $keinErgebnis = "";
 $message = "";
 
-$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+include('../php/db/_openConnection.php');
 
 if (isset($_GET['search'])) {
 	$suchbegriff = "%" . $_POST['search'] . "%";

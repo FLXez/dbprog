@@ -3,7 +3,7 @@ include('../php/sessioncheck.php');
 $activeHead = "etablissement";
 // Musste nach unten geschoben werden = $_SESSION['source']= "Location: ../site/etablissement_details.php?etab_id=" . $etabFetch[0];
 
-$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+include('../php/db/_openConnection.php');
 $bew = false;
 $bew_success = false;
 if (isset($_GET['bewertung_abgeben']) && $angemeldet) {

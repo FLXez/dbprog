@@ -5,7 +5,7 @@ $_SESSION['source'] = "Location: ../site/etablissement_new.php";
 
 
 if ($angemeldet) {
-	$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+	include('../php/db/_openConnection.php');
 	$insertError = false;
 	$notNewError = false;
 	$angelegt = false;

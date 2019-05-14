@@ -1,5 +1,5 @@
 <?php
-$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+include('./db/_openConnection.php');
 
 if (isset($_GET['etab_id'])) {
     $result = $pdo->prepare("SELECT img FROM etab where id = :etab_id");
