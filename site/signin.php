@@ -4,83 +4,61 @@ $activeHead = "user";
 //TODO: Angemeldet unten Seite anders aufbauen
 if (!$angemeldet) {
 
-    $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+    include('../php/db/_openConnection.php');
+
     $message = "";
-    $loginError = false;
-    $regError = false;
-    $result = "";
+    $error = false;
+    $success = false;
+
     if (isset($_GET['login'])) {
-        $loginUsername = $_POST['loginUsername'];
-        $passwort = $_POST['loginPasswort'];
-
-        $statement = $pdo->prepare("SELECT * FROM user WHERE username = :username");
-        $result = $statement->execute(array('username' => $loginUsername));
-        $user = $statement->fetch();
-
-        //Überprüfung des Passworts
-        if ($user !== false && password_verify($passwort, $user['passwort'])) {
-            $_SESSION['userid'] = $user['id'];
+        $username = $_POST['login_username'];
+        //select Passwort von dem Username
+        include('../php/db/select_userPrivate.php');
+        //User existent und Passwort richtig.
+        if ($userPrivate !== false && password_verify($_POST['login_passwort'], $userPrivate['passwort'])) {
+            $_SESSION['userid'] = $userPrivate['userid'];
             if (!$_SESSION['source']) {
                 header("Location: ../site/index.php");
             } else {
                 header($_SESSION['source']);
             }
         } else {
-            $loginError = true;
+            $error = true;
             $message = "Username oder/und Passwort ungültig!";
         }
     }
 
     if (isset($_GET['register'])) {
-        $regUsername = $_POST['registerUsername'];
-        $errUsername = false;
-        $regEmail = $_POST['registerEmail'];
-        $errEmail = false;
-        $regPasswort = $_POST['registerPasswort'];
-        $errPasswort = false;
-        $regPasswortconfirm = $_POST['registerPasswortConfirm'];
-        $errPasswortconfirm = false;
 
-        if ($regPasswort != $regPasswortconfirm) {
+        if ($_POST['register_passwort'] != $_POST['register_passwort_confirm']) {
             $message = "Die Passwörter stimmen nicht überein.<br>";
-            $errPasswortconfirm = true;
-            $regError = true;
+            $error = true;
         }
-
         //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
-        if (!$regError) {
-            $statement = $pdo->prepare("SELECT * FROM user WHERE email = :email");
-            $result = $statement->execute(array('email' => $regEmail));
-            $user = $statement->fetch();
-
-            if ($user !== false) {
+        if (!$error) {
+            $newEmail = $_POST['register_email'];
+            include('../php/db/select_userEmail.php');
+            if ($userEmail) {
                 $message .= "Diese E-Mail-Adresse ist bereits vergeben.<br>";
-                $errEmail = true;
-                $regError = true;
+                $error = true;
             }
 
-            $statement = $pdo->prepare("SELECT * FROM user WHERE username = :username");
-            $result = $statement->execute(array('username' => $regUsername));
-            $user = $statement->fetch();
-
-            if ($user !== false) {
+            $newUsername = $_POST['register_username'];
+            include('../php/db/select_userUsername.php');
+            if ($userUsername) {
                 $message .= "Dieser Username ist bereits vergeben.<br>";
-                $errEmail = true;
-                $regError = true;
+                $error = true;
             }
         }
 
         //Keine Fehler, wir können den Nutzer registrieren
-        if (!$regError) {
-            $regPasswort_hash = password_hash($regPasswort, PASSWORD_DEFAULT);
-
-            $statement = $pdo->prepare("INSERT INTO user (email, passwort, username) VALUES (:email, :passwort, :username)");
-            $result = $statement->execute(array('email' => $regEmail, 'passwort' => $regPasswort_hash, 'username' => $regUsername));
-
+        if (!$error) {
+            include('../php/db/insert_user.php');
             if ($result) {
+                $success = true;
                 $message = "Du wurdest erfolgreich registriert.";
             } else {
-                $regError = true;
+                $error = true;
                 $message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
             }
         }
@@ -116,11 +94,11 @@ if (!$angemeldet) {
         <div class="ml-5 mr-5 mt-5">
             <?php
             if (!$angemeldet) {
-                if ($regError or $loginError) {
+                if ($error) {
                     echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';
                     echo $message;
                     echo '</div>';
-                } elseif ($result) {
+                } elseif ($success) {
                     echo '<div class="alert alert-info col-auto ct-text-center mb-4" role="alert">';
                     echo $message;
                     echo '</div>';
@@ -140,12 +118,12 @@ if (!$angemeldet) {
                     <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
                         <form class="mr-5 ml-5 mt-2" action="?login=1" method="post">
                             <div class="form-group">
-                                <label for="loginUsername">Username</label>
-                                <input type="text" class="form-control" id="loginUsername" placeholder="Username" name="loginUsername" maxlength="25" required>                                
+                                <label for="login_username">Username</label>
+                                <input type="text" class="form-control" id="login_username" placeholder="Username" name="login_username" maxlength="25" required>                                
                             </div>
                             <div class="form-group">
-                                <label for="loginPasswort">Passwort</label>
-                                <input type="password" class="form-control" id="loginPasswort" placeholder="Passwort" required name="loginPasswort" maxlength="20">
+                                <label for="login_passwort">Passwort</label>
+                                <input type="password" class="form-control" id="login_passwort" placeholder="Passwort" required name="login_passwort" maxlength="20">
                             </div>
                             <button type="submit" class="btn btn-primary mt-2">Anmelden</button>
                         </form>
@@ -153,21 +131,21 @@ if (!$angemeldet) {
                     <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
                         <form class="mr-5 ml-5 mt-2" action="?register=1" method="post">
                             <div class="form-group">
-                                <label for="registerUsername">Username</label>
-                                <input type="text" class="form-control" id="registerUsername" placeholder="Username" name="registerUsername" maxlength="25" required>                                
+                                <label for="register_username">Username</label>
+                                <input type="text" class="form-control" id="register_username" placeholder="Username" name="register_username" maxlength="25" required>                                
                             </div>
                             <div class="form-group">
-                                <label for="registerEmail">E-Mail Adresse</label>
-                                <input type="email" class="form-control" id="registerEmail" placeholder="E-Mail" name="registerEmail" maxlenght="50" required>
+                                <label for="register_email">E-Mail Adresse</label>
+                                <input type="email" class="form-control" id="register_email" placeholder="E-Mail" name="register_email" maxlenght="50" required>
                             </div>
                             <div class="form-group">
-                                <label for="registerPasswort">Passwort</label>
-                                <input type="password" class="form-control" id="registerPasswort" placeholder="Passwort" name="registerPasswort" maxlength="20" required>
+                                <label for="register_passwort">Passwort</label>
+                                <input type="password" class="form-control" id="register_passwort" placeholder="Passwort" name="register_passwort" maxlength="20" required>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="registerPasswortConfirm" placeholder="Passwort wiederholen" name="registerPasswortConfirm" maxlength="20" required>
+                                <input type="password" class="form-control" id="register_passwort_confirm" placeholder="Passwort wiederholen" name="register_passwort_confirm" maxlength="20" required>
                             </div>
-                            <button type="submit" class="btn btn-primary ">Registrieren</button>
+                            <button type="submit" class="btn btn-primary">Registrieren</button>
                         </form>
                     </div>
                 </div>
