@@ -4,49 +4,12 @@ $activeHead = "user";
 
 $_SESSION['source'] = "Location: ../site/profil_other.php?showUser=" . $_GET["showUser"];
 
-$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
-$statement = $pdo->prepare("
-                    SELECT username as uname, 
-                           vorname as vname, 
-                           nachname as nname, 
-                           age as age, 
-                           beruf as beruf, 
-                           created_at as ts
-                    FROM user 
-                    WHERE id = :userid");
-$result = $statement->execute(array('userid' => $_GET["showUser"]));
-$userFetch = $statement->fetch();
+include('../php/db/_openConnection.php');
 
-$statement = $pdo->prepare("
-                    SELECT  bew_cock.timestamp as ts, 
-                            etablissement.name as etabname,
-                            etablissement.id as etabid, 
-                            cocktail.name as cockname, 
-                            cocktail.id as cockid,
-                            bew_cock.text as text, 
-                            bew_cock.wert as wert 
-                    FROM bew_cock 
-                        JOIN cocktail 
-                            ON bew_cock.cock_id = cocktail.id 
-                        JOIN etablissement 
-                            ON bew_cock.etab_id = etablissement.id 
-                    WHERE bew_cock.user_id = :userid");
-$result = $statement->execute(array('userid' => $_GET["showUser"]));
-$bewCockFetch = $statement->fetchAll();
-
-
-$statement = $pdo->prepare("
-                    SELECT  bew_etab.timestamp as ts, 
-                            etablissement.name as name,
-                            etablissement.id as id, 
-                            bew_etab.text as text, 
-                            bew_etab.wert as wert 
-                    FROM bew_etab 
-                        JOIN etablissement 
-                            ON bew_etab.etab_id = etablissement.id 
-                    WHERE bew_etab.user_id = :userid");
-$result = $statement->execute(array('userid' => $_GET["showUser"]));
-$bewEtabFetch = $statement->fetchAll();
+$userid = $_GET["showUser"];
+include('../php/db/select_user.php');
+include('../php/db/select_user_bewCock.php');
+include('../php/db/select_user_bewEtab.php');
 ?>
 <!doctype html>
 <html lang="de">
@@ -87,64 +50,42 @@ $bewEtabFetch = $statement->fetchAll();
                         ?>
                     </div>
                     <div class="col-md-10">
-                        <div class="card-body d-flex flex-column" style="height: 230px;">
+                        <div class="card-body d-flex flex-column" style="max-height: 200px;">
                             <div>
-                                <h1 class="card-title"> <?php echo $userFetch["uname"]; ?> </h1>
+                                <h1 class="card-title"> <?php echo $userInfo["uname"]; ?> </h1>
                                 <hr>
                             </div>
-                            <div>
-                                <p class="card-text">
-                                    <?php
-                                    echo '
-                                <div class="row">
-                                    <div class="col-2">
-                                        Vorname: 
+                            <div class="card-text">
+                                <?php
+                                echo '
+                                    <div class="row">
+                                        <div class="col-2">Vorname: </div>
+                                        <div class="col-10">' . $userInfo["vname"] . '</div>
                                     </div>
-                                    <div class="col-10">'
-                                        . $userFetch["vname"] .
-                                        '</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        Nachname: 
+                                    <div class="row">
+                                        <div class="col-2">Nachname: </div>
+                                        <div class="col-10">' . $userInfo["nname"] . '</div>
                                     </div>
-                                    <div class="col-10">'
-                                        . $userFetch["nname"] .
-                                        '</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        Alter: 
+                                    <div class="row">
+                                        <div class="col-2">Alter: </div>
+                                        <div class="col-10">' . $userInfo["age"] . '</div>
                                     </div>
-                                    <div class="col-10">'
-                                        . $userFetch["age"] .
-                                        '</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        Beruf: 
+                                    <div class="row">
+                                        <div class="col-2">Beruf: </div>
+                                        <div class="col-10">' . $userInfo["beruf"] . '</div>
                                     </div>
-                                    <div class="col-10">'
-                                        . $userFetch["beruf"] .
-                                        '</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        Mitglied seit: 
-                                    </div>
-                                    <div class="col-10">'
-                                        . $userFetch["ts"] .
-                                        '</div>
-                                </div>';
-                                    ?>
-                                </p>
+                                    <div class="row">
+                                        <div class="col-2">Mitglied seit: </div>
+                                        <div class="col-10">' . $userInfo["ts"] . '</div>
+                                    </div>';
+                                ?>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card card-body">
-                <ul class="nav nav-pills flex-column flex-sm-row" id="bewCock-tab" role="tablist">
+                <ul class="nav nav-pills flex-column flex-sm-row" id="bewEtabCock-tab" role="tablist">
                     <li class="flex-sm-fill text-sm-center nav-item">
                         <a class="nav-link active" id="bewCock-tab" data-toggle="pill" href="#bewCock" role="tab" aria-controls="bewCock" aria-selected="true">Bewertete Cocktails</a>
                     </li>
@@ -153,7 +94,7 @@ $bewEtabFetch = $statement->fetchAll();
                     </li>
                 </ul>
                 <hr>
-                <div class="tab-content" id="bewCock-tabContent">
+                <div class="tab-content" id="bewEtabCock-tabContent">
                     <div class="tab-pane fade show active" id="bewCock" role="tabpanel" aria-labelledby="bewCock-tab">
                         <?php echo '
 						<table class="table">
@@ -168,15 +109,15 @@ $bewEtabFetch = $statement->fetchAll();
 								</tr>
 							</thead> 
 							<tbody>';
-                        for ($i = 0; $i < count($bewCockFetch); $i++) {
+                        for ($i = 0; $i < count($user_bewCock); $i++) {
                             echo '<tr>';
                             echo '<th scope="row">' . ($i + 1);
                             '</th>';
-                            echo '<td>' . $bewCockFetch[$i]["ts"] . '</td>';
-                            echo '<td> <a class="" href="etablissement_details.php?etab_id= ' . $bewCockFetch[$i]["etabid"] . '">' . $bewCockFetch[$i]["etabname"] . '</a></td>';
-                            echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $bewCockFetch[$i]["cockid"] . '">' . $bewCockFetch[$i]["cockname"] . '</a></td>';
-                            echo '<td>' . $bewCockFetch[$i]["text"] . '</td>';
-                            echo '<td>' . $bewCockFetch[$i]["wert"] . '</td>';
+                            echo '<td>' . $user_bewCock[$i]["ts"] . '</td>';
+                            echo '<td> <a class="" href="etablissement_details.php?etab_id= ' . $user_bewCock[$i]["etabid"] . '">' . $user_bewCock[$i]["etabname"] . '</a></td>';
+                            echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $user_bewCock[$i]["cockid"] . '">' . $user_bewCock[$i]["cockname"] . '</a></td>';
+                            echo '<td>' . $user_bewCock[$i]["text"] . '</td>';
+                            echo '<td>' . $user_bewCock[$i]["wert"] . '</td>';
                             echo '</tr>';
                         }
                         echo '</tbody></table>';
@@ -195,14 +136,14 @@ $bewEtabFetch = $statement->fetchAll();
 								</tr>
 							</thead> 
 							<tbody>';
-                        for ($i = 0; $i < count($bewEtabFetch); $i++) {
+                        for ($i = 0; $i < count($user_bewEtab); $i++) {
                             echo '<tr>';
                             echo '<th scope="row">' . ($i + 1);
                             '</th>';
-                            echo '<td>' . $bewEtabFetch[$i]["ts"] . '</td>';
-                            echo '<td> <a class="" href="etablissement_details.php?etab_id= ' . $bewEtabFetch[$i]["id"] . '">' . $bewEtabFetch[$i]["name"] . '</a></td>';
-                            echo '<td>' . $bewEtabFetch[$i]["text"] . '</td>';
-                            echo '<td>' . $bewEtabFetch[$i]["wert"] . '</td>';
+                            echo '<td>' . $user_bewEtab[$i]["ts"] . '</td>';
+                            echo '<td> <a class="" href="etablissement_details.php?etab_id= ' . $user_bewEtab[$i]["id"] . '">' . $user_bewEtab[$i]["name"] . '</a></td>';
+                            echo '<td>' . $user_bewEtab[$i]["text"] . '</td>';
+                            echo '<td>' . $user_bewEtab[$i]["wert"] . '</td>';
                             echo '</tr>';
                         }
                         echo '</tbody></table>';

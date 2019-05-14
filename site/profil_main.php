@@ -4,144 +4,74 @@ $activeHead = "user";
 $_SESSION['source'] = "Location: ../site/profil_main.php";
 
 if ($angemeldet) {
+    $userid = $_SESSION['userid'];
+    include('../php/db/_openConnection.php');
 
-    $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
-
-    if (isset($_GET['updateinfo'])) {
-        $statement = $pdo->prepare("
-                            UPDATE user 
-                                SET vorname = :vorname, nachname = :nachname, age = :age, beruf = :beruf, updated_at = CURRENT_TIMESTAMP 
-                            WHERE id = :userid");
-        $result = $statement->execute(array('vorname' => $_POST['upvname'], 'nachname' => $_POST['upnname'], 'age' => $_POST['upalter'], 'beruf' =>  $_POST['upberuf'], 'userid' => $_SESSION['userid']));
-        $emailInUse = $statement->fetch();
+    if (isset($_GET['update_userInfo'])) {
+        include('../php/db/update_userInfo.php');
     }
 
-    //muss danach kommen, damit nach update die neuen infos drin stehen!
-    $statement = $pdo->prepare("
-                        SELECT * 
-                        FROM user 
-                        WHERE id = :userid");
-    $result = $statement->execute(array('userid' => $_SESSION['userid']));
-    $userinfo = $statement->fetch();
+    include('../php/db/select_user_bewCock.php');
+    include('../php/db/select_user_bewEtab.php');
 
-
-    $statement = $pdo->prepare("
-    SELECT  bew_cock.timestamp as ts, 
-            etablissement.name as etabname,
-            etablissement.id as etabid, 
-            cocktail.name as cockname, 
-            cocktail.id as cockid,
-            bew_cock.text as text, 
-            bew_cock.wert as wert 
-    FROM bew_cock 
-        JOIN cocktail 
-            ON bew_cock.cock_id = cocktail.id 
-        JOIN etablissement 
-            ON bew_cock.etab_id = etablissement.id 
-    WHERE bew_cock.user_id = :userid");
-    $result = $statement->execute(array('userid' => $_SESSION["userid"]));
-    $bewCockFetch = $statement->fetchAll();
-
-
-    $statement = $pdo->prepare("
-    SELECT  bew_etab.timestamp as ts, 
-            etablissement.name as name,
-            etablissement.id as id, 
-            bew_etab.text as text, 
-            bew_etab.wert as wert 
-    FROM bew_etab 
-        JOIN etablissement 
-            ON bew_etab.etab_id = etablissement.id 
-    WHERE bew_etab.user_id = :userid");
-    $result = $statement->execute(array('userid' => $_SESSION["userid"]));
-    $bewEtabFetch = $statement->fetchAll();
 
     $message = "";
-    $emailchangeError = false;
-    $pwchangeError = false;
+    $error = false;
     $success = false;
-    $result = "";
 
-    if (isset($_GET['emailchange'])) {
-        $neuemail = $_POST['neuemail'];
-        $errNewemail = false;
-        $emailpw = $_POST['emailpw'];
-        $errEmailpw = false;
-
-        $statement = $pdo->prepare("
-                            SELECT email 
-                            FROM user 
-                            WHERE email = :email");
-        $result = $statement->execute(array('email' => $neuemail));
-        $emailInUse = $statement->fetch();
-        if ($emailInUse == true) {
-            $errNewemail = true;
-            $emailchangeError = true;
+    if (isset($_GET['update_userEmail'])) {
+        //Passwort aus der Datenbank ziehen.
+        include('../php/db/select_userPrivate.php');
+        //Wird die gewünschte neue Email bereits verwendet?
+        $newEmail = $_POST['u_ue_emailNew'];
+        include('../php/db/select_userEmail.php');
+        if ($userEmail == true) {
+            $error = true;
             $message = "Die E-Mail Addresse ist bereits einem User zugewiesen.";
-        } elseif ($userinfo == true && password_verify($emailpw, $userinfo['passwort'])) {
-            $statement = $pdo->prepare("
-                                UPDATE user 
-                                    SET email = :email, updated_at = CURRENT_TIMESTAMP 
-                                WHERE userid = :userid");
-            $result = $statement->execute(array('email' => $neuemail, 'userid' => $_SESSION['userid']));
-            $emailUpdate = $statement->fetch();
-            $success = true;
-            $message = "Die Email Adresse wurde erfolgreich geändert.";
+        } elseif (password_verify($_POST['u_ue_password'], $userPrivate['passwort'])) {
+            //gewünschte Email frei, Passwort korrekt?
+            include("../php/db/update_userEmail.php");
+            if ($result) {
+                $success = true;
+                $message = "Die Email Adresse wurde erfolgreich geändert.";
+            } else {
+                $error = true;
+                $message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
+            }
         } else {
-            $errEmailpw = true;
-            $emailchangeError = true;
+            //Passwort ist falsch
+            $error = true;
             $message = "Das Passwort ist falsch.";
         }
     }
-}
 
-if (isset($_GET['pwchange'])) {
-    $altpw = $_POST['altpw'];
-    $neupw = $_POST['neupw'];
-    $neupwconfirm = $_POST['neupwconfirm'];
+    if (isset($_GET['update_userPasswort'])) {
+        //Passwort aus der Datenbank ziehen.
+        include('../php/db/select_userPrivate.php');
 
-    $statement = $pdo->prepare("
-                            SELECT * 
-                            FROM user
-                            WHERE userid = :userid");
-    $result = $statement->execute(array('userid' => $_SESSION['userid']));
-    $user = $statement->fetch();
-
-    if (password_verify($neupw, $user['passwort'])) {
-        $pwchangeError = true;
-        $message = "Das neue Passwort darf nicht mit dem Alten übereinstimmen.<br>";
-    }
-
-    if ($neupw != $neupwconfirm) {
-        $pwchangeError = true;
-        $message .= "Die Eingaben für das neue Passwort stimmen nicht überein.<br>";
-    }
-
-    if ($altpw == $neupw & $neupw == $neupwconfirm) {
-        $pwchangeError = true;
-        $message = "Bitte die Eingaben überprüfen.<br>";
-    }
-
-    if (!$pwchangeError) {
-        if (password_verify($altpw, $user['passwort'])) {
-            $neuPasswort_hash = password_hash($neupw, PASSWORD_DEFAULT);
-            $statement = $pdo->prepare("
-                                    UPDATE user 
-                                        SET passwort = :passwort, updated_at = CURRENT_TIMESTAMP 
-                                    WHERE userid = :userid");
-            $result = $statement->execute(array('passwort' => $neuPasswort_hash, 'userid' => $_SESSION['userid']));
-
+        //Eingaben für das neue Passwort übereinstimmend?
+        if ($_POST['u_up_passNew'] != $_POST['u_up_passNew_confirm']) {
+            $error = true;
+            $message .= "Die Eingaben für das neue Passwort stimmen nicht überein.<br>";
+        } elseif (password_verify($_POST['u_up_passOld'], $userPrivate['passwort'])) {
+            //Passwort updaten
+            include('../php/db/update_userPassword.php');
             if ($result) {
                 $success = true;
                 $message = "Dein Passwort wurde erfolgreich geändert!";
             } else {
-                $pwchangeError = true;
+                $error = true;
                 $message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
             }
+        } else {
+            //Passwort ist falsch.
+            $error = true;
+            $message = "Das Passwort ist faslch.";
         }
     }
+    //Einlesen der ggf. updateten Userdaten
+    include('../php/db/select_userInfo.php');
 }
-
 ?>
 <!doctype html>
 <html lang="de">
@@ -171,7 +101,7 @@ if (isset($_GET['pwchange'])) {
         <div class="mt-5 ml-5 mr-5">
             <?php
             if ($angemeldet) {
-                if ($emailchangeError or $pwchangeError) {
+                if ($error) {
                     echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
                     echo $message;
                     echo '</div>';
@@ -181,213 +111,165 @@ if (isset($_GET['pwchange'])) {
                     echo '</div>';
                 }
                 echo '
-            <div class="card card-body">
-                <ul class="nav nav-pills flex-column flex-sm-row" id="profil-tab" role="tablist">
-                    <li class="flex-sm-fill text-sm-center nav-item">
-                        <a class="nav-link active" id="info-tab" data-toggle="pill" href="#info" role="tab" aria-controls="info" aria-selected="true">Persönliche Informationen</a>
-                    </li>
-                    <li class="flex-sm-fill text-sm-center nav-item">
-                        <a class="nav-link" id="cockRating-tab" data-toggle="pill" href="#cockRating" role="tab" aria-controls="cockRating" aria-selected="false">Cocktail Bewertungen</a>
-                    </li>
-                    <li class="flex-sm-fill text-sm-center nav-item">
-                        <a class="nav-link" id="etabRating-tab" data-toggle="pill" href="#etabRating" role="tab" aria-controls="etabRating" aria-selected="false">Etablissement Bewertungen</a>
-                    </li>
-                    <li class="flex-sm-fill text-sm-center nav-item">
-                        <a class="nav-link" id="setting-tab" data-toggle="pill" href="#setting" role="tab" aria-controls="setting" aria-selected="false">Einstellungen</a>
-                    </li>
-                </ul>
-                <hr>
-                <div class="tab-content" id="profil-tabContent">
-                    <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
-                        <div class="mr-5 ml-5 mt-2">
-							 <div class="card mb-3" width="100%" style="max-height: 360px;">
+                <div class="card mb-3" width="100%" style="max-height: 360px;">
                 <div class="row no-gutters">
                     <div class="col-md-2">';
-
                 //Bild aus der Datenbank ziehen, later!
                 if (true)
                     echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
                 else
 
                     echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
-                echo '
+                echo ' 
                     </div>
                     <div class="col-md-10">
-                        <div class="card-body d-flex flex-column" style="height: 230px;">
+                        <div class="card-body d-flex flex-column" style="max-height: 200px;">
                             <div>
-                                <h1 class="card-title">' .
-                    $userinfo["username"] . ' </h1>
+                                <h1 class="card-title">' . $userInfo["uname"] . '</h1>
                                 <hr>
                             </div>
-                            <div>
-                                <p class="card-text">';
-
-                echo '
-                                <div class="row">
-                                    <div class="col-2">
-                                        Vorname: 
+                            <div class="card-text">
+                                    <div class="row">
+                                        <div class="col-2">Vorname: </div>
+                                        <div class="col-10">' . $userInfo["vname"] . '</div>
                                     </div>
-                                    <div class="col-10">'
-                    . $userinfo["vorname"] .
-                    '</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        Nachname: 
+                                    <div class="row">
+                                        <div class="col-2">Nachname: </div>
+                                        <div class="col-10">' . $userInfo["nname"] . '</div>
                                     </div>
-                                    <div class="col-10">'
-                    . $userinfo["nachname"] .
-                    '</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        Alter: 
+                                    <div class="row">
+                                        <div class="col-2">Alter: </div>
+                                        <div class="col-10">' . $userInfo["age"] . '</div>
                                     </div>
-                                    <div class="col-10">'
-                    . $userinfo["age"] .
-                    '</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        Beruf: 
+                                    <div class="row">
+                                        <div class="col-2">Beruf: </div>
+                                        <div class="col-10">' . $userInfo["beruf"] . '</div>
                                     </div>
-                                    <div class="col-10">'
-                    . $userinfo["beruf"] .
-                    '</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        Mitglied seit: 
+                                    <div class="row">
+                                        <div class="col-2">Mitglied seit: </div>
+                                        <div class="col-10">' . $userInfo["ts"] . '</div>
                                     </div>
-                                    <div class="col-10">'
-                    . $userinfo["created_at"] .
-                    '</div>
-                                </div>';
-                echo '
-                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-							
-
-                        </div>
-                    </div>
-				</div>
-                    <div class="tab-pane fade" id="cockRating" role="tabpanel" aria-labelledby="cockRating-tab">
-                        <div class="mr-5 ml-5 mt-2">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Zeitpunkt</th>
-                                        <th scope="col">Etablissement</th>
-                                        <th scope="col">Cocktail</th>
-                                        <th scope="col">Text</th>
-                                        <th scope="col">Bewertung</th>
-                                    </tr>
-                                </thead> 
-                                <tbody>';
-                for ($i = 0; $i < count($bewCockFetch); $i++) {
-                    echo '<tr>';
-                    echo '<th scope="row">' . ($i + 1);
-                    '</th>';
-                    echo '<td>' . $bewCockFetch[$i]["ts"] . '</td>';
-                    echo '<td> <a class="" href="etablissement_details.php?etab_id= ' . $bewCockFetch[$i]["etabid"] . '">' . $bewCockFetch[$i]["etabname"] . '</a></td>';
-                    echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $bewCockFetch[$i]["cockid"] . '">' . $bewCockFetch[$i]["cockname"] . '</a></td>';
-                    echo '<td>' . $bewCockFetch[$i]["text"] . '</td>';
-                    echo '<td>' . $bewCockFetch[$i]["wert"] . '</td>';
-                    echo '</tr>';
-                }
-                echo '
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="etabRating" role="tabpanel" aria-labelledby="etabRating-tab">
-                        <div class="mr-5 ml-5 mt-2">
-                        <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Zeitpunkt</th>
-                                <th scope="col">Etablissement</th>
-                                <th scope="col">Text</th>
-                                <th scope="col">Bewertung</th>
-                            </tr>
-                        </thead> 
-                        <tbody>';
-                for ($i = 0; $i < count($bewEtabFetch); $i++) {
-                    echo '<tr>';
-                    echo '<th scope="row">' . ($i + 1);
-                    '</th>';
-                    echo '<td>' . $bewEtabFetch[$i]["ts"] . '</td>';
-                    echo '<td> <a class="" href="etablissement_details.php?etab_id= ' . $bewEtabFetch[$i]["id"] . '">' . $bewEtabFetch[$i]["name"] . '</a></td>';
-                    echo '<td>' . $bewEtabFetch[$i]["text"] . '</td>';
-                    echo '<td>' . $bewEtabFetch[$i]["wert"] . '</td>';
-                    echo '</tr>';
-                }
-                echo '      
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="setting" role="tabpanel" aria-labelledby="setting-tab">
-
-                            <form  class="mr-5 ml-5 mt-2" action="?updateinfo=1" method="post">
-							<h5>Persönliche Informationen und Accounteinstellungen</h5>
-                            <hr>
+            </div>
+            <div class="card card-body">
+                <ul class="nav nav-pills flex-column flex-sm-row" id="profil-tab" role="tablist">
+                    <li class="flex-sm-fill text-sm-center nav-item">
+                        <a class="nav-link active" id="setting-tab" data-toggle="pill" href="#setting" role="tab" aria-controls="setting" aria-selected="true">Informationen und Einstellungen</a>
+                    </li>
+                    <li class="flex-sm-fill text-sm-center nav-item">
+                        <a class="nav-link" id="bewCock-tab" data-toggle="pill" href="#bewCock" role="tab" aria-controls="bewCock" aria-selected="false">Bewertete Cocktails</a>
+                    </li>
+                    <li class="flex-sm-fill text-sm-center nav-item">
+                        <a class="nav-link" id="bewEtab-tab" data-toggle="pill" href="#bewEtab" role="tab" aria-controls="bewEtab" aria-selected="false">Bewertete Etablissements</a>
+                    </li>
+                </ul>
+                <hr>                
+                <div class="tab-content" id="profil-tabContent">
+                    <div class="tab-pane fade show active" id="setting" role="tabpanel" aria-labelledby="setting-tab">
+                        <form action="?update_userInfo=1" method="post">
                                 <div class="form-group">
-                                    <label for="upvname">Vorname</label>
-                                    <input type="text" maxlength="50" class="form-control" id="upvname" name="upvname" value="' . $userinfo['vorname'] . '" placeholder="Vorname">
+                                    <label for="u_ui_vname">Vorname</label>
+                                    <input type="text" maxlength="50" class="form-control" id="u_ui_vname" name="u_ui_vname" value="' . $userInfo['vname'] . '" placeholder="Vorname">
                                 </div>
                                 <div class="form-group">
-                                    <label for="upnname">Nachname</label>
-                                    <input type="text" maxlength="25" class="form-control" id="upnname" name="upnname" value="' . $userinfo['nachname'] . '" placeholder="Nachname">
+                                    <label for="u_ui_nname">Nachname</label>
+                                    <input type="text" maxlength="25" class="form-control" id="u_ui_nname" name="u_ui_nname" value="' . $userInfo['nname'] . '" placeholder="Nachname">
                                 </div>
                                 <div class="form-group">
-                                    <label for="upalter">Alter</label>
-                                    <input type="number" max="127" class="form-control" id="upalter" name="upalter" value="' . $userinfo['age'] . '" placeholder="Alter">
+                                    <label for="u_ui_age">Alter</label>
+                                    <input type="number" max="127" class="form-control" id="u_ui_age" name="u_ui_age" value="' . $userInfo['age'] . '" placeholder="Alter">
                                 </div>
                                 <div class="form-group">
-                                    <label for="upberuf">Beruf</label>
-                                    <input type="text" maxlength="25" class="form-control" id="upberuf" name="upberuf" value="' . $userinfo['beruf'] . '" placeholder="Beruf">
+                                    <label for="u_ui_beruf">Beruf</label>
+                                    <input type="text" maxlength="25" class="form-control" id="u_ui_beruf" name="u_ui_beruf" value="' . $userInfo['beruf'] . '" placeholder="Beruf">
                                 </div>
                             <button type="submit" class="btn btn-primary mt-2">Informationen aktualisieren</button>
-                            </form>
-							<hr class="ct-hr-divider-3 mr-5 ml-5">
-
-                        <form class="mr-5 ml-5 mt-2" action="?emailchange=1" method="post">
+                        </form>
+                        <hr class="ct-hr-divider-2">
+                        <form action="?update_userEmail=1" method="post">
                             <div class="form-group">
-                                <label for="aktemail">Aktuelle E-Mail Addresse</label>
-                                <input type="text" class="form-control" id="aktemail" placeholder="' . $userinfo['email'] . '" readonly>
+                                <label for="u_ue_emailOld">Aktuelle E-Mail Addresse</label>
+                                <input type="email" class="form-control" id="u_ue_emailOld" placeholder="' . $userInfo['email'] . '" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="neuemail">Neue E-Mail Addresse eingeben</label>
-                                <input type="email" class="form-control" id="neuemail" placeholder="Neue E-Mail Adresse" name="neuemail" maxlength="50">
+                                <label for="u_ue_emailNew">Neue E-Mail Addresse eingeben</label>
+                                <input type="email" class="form-control" id="u_ue_emailNew" placeholder="Neue E-Mail Adresse" name="u_ue_emailNew" maxlength="50">
                             </div>
                             <div class="form-group">
-                                <label for="emailpw">Aktuelles Passwort eingeben</label>
-                                <input type="password" class="form-control" id="emailpw" placeholder="Aktuelles Passwort" name="emailpw" maxlength="20">
+                                <label for="u_ue_password">Aktuelles Passwort eingeben</label>
+                                <input type="password" class="form-control" id="u_ue_password" placeholder="Aktuelles Passwort" name="u_ue_password" maxlength="20">
                             </div>
                             <button type="submit" class="btn btn-primary mt-2">E-Mail Adresse ändern</button>
                         </form>
-                        <hr class="ct-hr-divider-3 mr-5 ml-5">
-                        <form class="mr-5 ml-5 mt-2" action="?pwchange=1" method="post">
+                        <hr class="ct-hr-divider-2">
+                        <form action="?update_userPasswort=1" method="post">
                             <div class="form-group">
-                                <label for="altpw">Altes Passwort</label>
-                                <input type="password" class="form-control" id="altpw" placeholder="Altes Passwort" name="altpw" maxlength="20">
+                                <label for="u_up_passOld">Altes Passwort</label>
+                                <input type="password" class="form-control" id="u_up_passOld" placeholder="Altes Passwort" name="u_up_passOld" maxlength="20">
                             </div>
                             <div class="form-group">
-                                <label for="neupw">Neues Passwort</label>
-                                <input type="password" class="form-control" id="neupw" placeholder="Neues Passwort" name="neupw" maxlength="20">
+                                <label for="u_up_passNew">Neues Passwort</label>
+                                <input type="password" class="form-control" id="u_up_passNew" placeholder="Neues Passwort" name="u_up_passNew" maxlength="20">
                             </div>
                             <div class="form-group">
-                                <label for="neupwconfirm">Neues Passwort bestätigen</label>
-                                <input type="password" class="form-control" id="neupwconfirm" placeholder="Neues Passwort bestätigen" name="neupwconfirm" maxlength="20">
+                                <label for="u_up_passNew_confirm">Neues Passwort bestätigen</label>
+                                <input type="password" class="form-control" id="u_up_passNew_confirm" placeholder="Neues Passwort bestätigen" name="u_up_passNew_confirm" maxlength="20">
                             </div>
                             <button type="submit" class="btn btn-primary mt-2">Passwort ändern</button>
                         </form>
+                    </div>
+                    <div class="tab-pane fade" id="bewCock" role="tabpanel" aria-labelledby="bewCock-tab">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Zeitpunkt</th>
+                                    <th scope="col">Etablissement</th>
+                                    <th scope="col">Cocktail</th>
+                                    <th scope="col">Text</th>
+                                    <th scope="col">Bewertung</th>
+                                </tr>
+                            </thead> 
+                            <tbody>';
+                for ($i = 0; $i < count($user_bewCock); $i++) {
+                    echo '      <tr>';
+                    echo '          <th scope="row">' . ($i + 1) . '</th>';
+                    echo '          <td>' . $user_bewCock[$i]["ts"] . '</td>';
+                    echo '          <td> <a class="" href="etablissement_details.php?etab_id= ' . $user_bewCock[$i]["etabid"] . '">' . $user_bewCock[$i]["etabname"] . '</a></td>';
+                    echo '          <td> <a class="" href="cocktail_details.php?cock_id= ' . $user_bewCock[$i]["cockid"] . '">' . $user_bewCock[$i]["cockname"] . '</a></td>';
+                    echo '          <td>' . $user_bewCock[$i]["text"] . '</td>';
+                    echo '          <td>' . $user_bewCock[$i]["wert"] . '</td>';
+                    echo '      </tr>';
+                }
+                echo '      </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="bewEtab" role="tabpanel" aria-labelledby="bewEtab-tab">                    
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Zeitpunkt</th>
+                                    <th scope="col">Etablissement</th>
+                                    <th scope="col">Text</th>
+                                    <th scope="col">Bewertung</th>
+                                </tr>
+                            </thead> 
+                            <tbody>';
+                for ($i = 0; $i < count($user_bewEtab); $i++) {
+                    echo '      <tr>';
+                    echo '          <th scope="row">' . ($i + 1) . '</th>';
+                    echo '          <td>' . $user_bewEtab[$i]["ts"] . '</td>';
+                    echo '          <td> <a class="" href="etablissement_details.php?etab_id= ' . $user_bewEtab[$i]["id"] . '">' . $user_bewEtab[$i]["name"] . '</a></td>';
+                    echo '          <td>' . $user_bewEtab[$i]["text"] . '</td>';
+                    echo '          <td>' . $user_bewEtab[$i]["wert"] . '</td>';
+                    echo '      </tr>';
+                }
+                echo '      </tbody>
+                        </table>
                     </div>
                 </div>
             </div>';
