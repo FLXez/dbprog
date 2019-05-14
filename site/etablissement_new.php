@@ -98,9 +98,9 @@ if ($angemeldet) {
 				}
 				echo '		
 			<div class="card card-body">
-				<h2 class="ml-4">Neues Etablissement</h2>
+				<h2 class="ml-2">Neues Etablissement</h2>
 				<hr>
-				<div class="mr-5 ml-5 mt-2">
+				<div class="mr-2 ml-2 mt-2">
 					<form action="?newEtab=1" method="POST" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="nameEtab">Name</label>

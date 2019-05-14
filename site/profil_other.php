@@ -4,10 +4,8 @@ $activeHead = "user";
 
 $_SESSION['source'] = "Location: ../site/profil_other.php?showUser=" . $_GET["showUser"];
 
-include('../php/db/_openConnection.php');
-
 $userid = $_GET["showUser"];
-include('../php/db/select_user.php');
+include('../php/db/select_userInfo.php');
 include('../php/db/select_user_bewCock.php');
 include('../php/db/select_user_bewEtab.php');
 ?>

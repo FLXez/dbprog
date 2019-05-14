@@ -67,7 +67,7 @@ $statement = $pdo->prepare("
 						c.id = ce.cock_id
 					WHERE ce.etab_id = :etab_id");
 $result = $statement->execute(array('etab_id' => $_GET['etab_id']));
-$cockFetch = $statement->fetchAll();
+$cocketabFetch = $statement->fetchAll();
 
 $statement = $pdo->prepare("
 					SELECT
@@ -165,11 +165,11 @@ $bewFetch = $statement->fetchAll();
 								</tr>
 							</thead> 
 							<tbody>';
-						for ($i = 0; $i < count($cockFetch); $i++) {
+						for ($i = 0; $i < count($cocketabFetch); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $cockFetch[$i]["id"] . '">' . $cockFetch[$i]["name"] . '</a></td>';
-							echo '<td>' . $cockFetch[$i]["preis"] . '</td>';
+							echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $cocketabFetch[$i]["id"] . '">' . $cocketabFetch[$i]["name"] . '</a></td>';
+							echo '<td>' . $cocketabFetch[$i]["preis"] . '</td>';
 							echo '</tr>';
 						}
 						echo '</tbody></table>';
@@ -205,7 +205,7 @@ $bewFetch = $statement->fetchAll();
 						if ($angemeldet) {
 							if ($bew_success == false) {
 								echo '
-								<form class="mr-5 ml-5 mt-2" action="?etab_id=' . $_GET['etab_id'] . '&bewertung_abgeben=1" method="post">
+								<form class="mr-2 ml-2 mt-2" action="?etab_id=' . $_GET['etab_id'] . '&bewertung_abgeben=1" method="post">
 									<div class="form-group">
 										<label for="wert">Wie bewerten Sie das Etablissement?</label>
 										<!--<input type="text" class="form-control" id="bew_wert" placeholder="0 Sterne" name="wert">-->

@@ -3,85 +3,20 @@ include('../php/sessioncheck.php');
 $activeHead = "search";
 $_SESSION['source'] = "Location: ../site/search.php";
 
-$sucheBeendet = "";
-$keinErgebnis = "";
+$sucheBeendet = false;
+$keinErgebnis = false;
 $message = "";
-
-include('../php/db/_openConnection.php');
 
 if (isset($_GET['search'])) {
 	$suchbegriff = "%" . $_POST['search'] . "%";
+	include('../php/db/select_search.php');
 
-	$sucheEtab = $pdo->prepare("
-					SELECT 
-						e.id,
-						e.name,
-						e.ort,
-						e.anschrift,
-						e.verifiziert,
-						AVG(sub_be.wert),
-						e.img
-					FROM etab e
-					LEFT JOIN 
-						(
-						SELECT 
-							be.etab_id, 
-							CAST(be.wert AS INTEGER) AS wert
-						FROM
-							bew_etab be
-						) sub_be
-					ON
-						e.id = sub_be.etab_id
-					WHERE 
-						name LIKE :name
-					GROUP BY
-						e.id,
-						e.name,
-						e.ort,
-						e.anschrift,
-						e.verifiziert,
-						e.img");
-	$resultEtab = $sucheEtab->execute(array('name' => $suchbegriff));
-	$ergebnisEtab = $sucheEtab->fetchAll();
-	$etabCount = count($ergebnisEtab);
-
-
-	$sucheCock = $pdo->prepare("
-					SELECT 
-						c.id,
-						c.name,
-						c.beschreibung,
-						c.img,
-						AVG(sub_bc.wert)
-					FROM cock c
-					LEFT JOIN 
-						(
-						SELECT 
-							bc.cock_id, 
-							CAST(bc.wert AS INTEGER) AS wert
-						FROM
-							bew_cock bc
-						) sub_bc
-					ON
-						c.id = sub_bc.cock_id
-					WHERE
-						name LIKE :name
-					GROUP BY
-						c.id,
-						c.name,
-						c.beschreibung,
-						c.img");
-	$resultCock = $sucheCock->execute(array('name' => $suchbegriff));
-	$ergebnisCock = $sucheCock->fetchAll();
-	$cockCount = count($ergebnisCock);
-
-	if ($cockCount == 0 && $etabCount == 0) {
+	if (count($foundCock) == 0 && count($foundEtab) == 0) {
 		$keinErgebnis = true;
-		$message = "Leider nichts gefunden AMK";
+		$message = "Keine Übereinstimmungen.";
 	} else {
-		$message = "Suche abgeschlossen";
+		$message = "Suchergebnisse werden unten angezeigt!";
 	}
-
 	$sucheBeendet = true;
 }
 
@@ -128,40 +63,38 @@ if (isset($_GET['search'])) {
 			}
 			?>
 			<div class="card card-body">
-				<h2 class="ml-4">Suche</h2>
+				<h2 class="ml-2">Suche</h2>
 				<hr>
-				<div class="ml-5 mr-5 mt-2">
-					<form action="?search=1" method="POST">
-						<div class="form group">
-							<input type="text" maxlength="50" class="form-control" id="search" name="search" placeholder="Was suchst du?" required>
-							<button type="submit" class="btn btn-primary mt-2">Suchen</button>
-						</div>
-					</form>
-				</div>
+				<form class="ml-2" action="?search=1" method="POST">
+					<div class="form group">
+						<input type="text" maxlength="50" class="form-control" id="search" name="search" placeholder="Was suchst du?" required>
+						<button type="submit" class="btn btn-primary mt-2">Suchen</button>
+					</div>
+				</form>
 			</div>
 			<div class="card card-body mt-3">
-				<h2 class="ml-4">Ergebnisse</h2>
+				<h2 class="ml-2">Ergebnisse</h2>
 				<hr>
 				<div class="row">
 					<?php
 					if ($sucheBeendet && $keinErgebnis == false) {
-						for ($i = 0; $i < $etabCount; $i++) {
+						for ($i = 0; $i < count($foundEtab); $i++) {
 							echo '
 					<div class="card ml-4 mr-4 mt-4 mb-4" style="width: 19rem;">';
-							if ($ergebnisEtab[$i][6] == null)
+							if ($foundEtab[$i][6] == null)
 								echo '
 					<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 							else
 								echo '
-					<img src="../php/get_img.php?etab_id=' . $ergebnisEtab[$i][0] . '" class="card-img-top">';
+					<img src="../php/get_img.php?etab_id=' . $foundEtab[$i][0] . '" class="card-img-top">';
 							echo '
 						<div class="card-body">
 							<div class="row justify-content-between">
 								<div class="col-7">
-									<h5 class="card-title float-left">' . $ergebnisEtab[$i][1] . '</h5>
+									<h5 class="card-title float-left">' . $foundEtab[$i][1] . '</h5>
 								</div>
 								<div class="col-5">';
-							if ($ergebnisEtab[$i][4] == 1) {
+							if ($foundEtab[$i][4] == 1) {
 								echo '
 									<span class="badge badge-primary float-right">Verifiziert</span>';
 							} else {
@@ -173,41 +106,41 @@ if (isset($_GET['search'])) {
 							</div>
 							<div class="row">
 								<div class="col-12">	
-									<p class="card-text">' . $ergebnisEtab[$i][2] . '<br>' . $ergebnisEtab[$i][3] . '</p>
+									<p class="card-text">' . $foundEtab[$i][2] . '<br>' . $foundEtab[$i][3] . '</p>
 								</div>
 							</div>
 							<hr>
 							<div class="row">
 								<div class="col-4">
-									<h5 class="rating-num float-left">' . number_format($ergebnisEtab[$i][5], 1) . '</h5>
+									<h5 class="rating-num float-left">' . number_format($foundEtab[$i][5], 1) . '</h5>
 								</div>
 								<div class="col-8">
 									<div class="rating float-right">';
-							if ($ergebnisEtab[$i][5] >= 1)			echo '
+							if ($foundEtab[$i][5] >= 1)			echo '
 										<i class="fas fa-star"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($ergebnisEtab[$i][5] >= 1.75)		echo '
+							if ($foundEtab[$i][5] >= 1.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($ergebnisEtab[$i][5] >= 1.25)	echo '
+							elseif ($foundEtab[$i][5] >= 1.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($ergebnisEtab[$i][5] >= 2.75)		echo '
+							if ($foundEtab[$i][5] >= 2.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($ergebnisEtab[$i][5] >= 2.25)	echo '
+							elseif ($foundEtab[$i][5] >= 2.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($ergebnisEtab[$i][5] >= 3.75)		echo '
+							if ($foundEtab[$i][5] >= 3.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($ergebnisEtab[$i][5] >= 3.25)	echo '
+							elseif ($foundEtab[$i][5] >= 3.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($ergebnisEtab[$i][5] >= 4.75)		echo '
+							if ($foundEtab[$i][5] >= 4.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($ergebnisEtab[$i][5] >= 4.25)	echo '
+							elseif ($foundEtab[$i][5] >= 4.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
@@ -218,65 +151,65 @@ if (isset($_GET['search'])) {
 							<hr>
 							<div class="row">
 								<div class="col-12">
-									<a href="./etablissement_details.php?etab_id=' . $ergebnisEtab[$i][0] . '" class="btn btn-primary btn-block">Details</a>
+									<a href="./etablissement_details.php?etab_id=' . $foundEtab[$i][0] . '" class="btn btn-primary btn-block">Details</a>
 								</div>
 							</div>							
 						</div>
 					</div>';
 						}
-						for ($i = 0; $i < $cockCount; $i++) {
+						for ($i = 0; $i < count($foundCock); $i++) {
 							echo '
 					<div class="card ml-4 mr-4 mt-4 mb-4" style="width: 19rem;">';
-							if ($ergebnisCock[$i][3] == null)
+							if ($foundCock[$i][3] == null)
 								echo '
 						<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 							else
 								echo '
-						<img src="../php/get_img.php?cock_id=' . $ergebnisCock[$i][0] . '" class="card-img-top">';
+						<img src="../php/get_img.php?cock_id=' . $foundCock[$i][0] . '" class="card-img-top">';
 							echo '
 						<div class="card-body">
 							<div class="row">
 								<div class="col-12">
-									<h5 class="card-title">' . $ergebnisCock[$i][1] . '</h5>
+									<h5 class="card-title">' . $foundCock[$i][1] . '</h5>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-12">
-									<p class="card-text">' . $ergebnisCock[$i][2] . '</p>
+									<p class="card-text">' . $foundCock[$i][2] . '</p>
 								</div>
 							</div>
 							<hr>
 							<div class="row">							
 								<div class="col-4">
-									<h5 class="rating-num float-left">' . number_format($ergebnisCock[$i][4], 1) . '</h5>
+									<h5 class="rating-num float-left">' . number_format($foundCock[$i][4], 1) . '</h5>
 								</div>
 								<div class="col-8">
 									<div class="rating float-right">';
-							if ($ergebnisCock[$i][4] >= 1)			echo '
+							if ($foundCock[$i][4] >= 1)			echo '
 										<i class="fas fa-star"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($ergebnisCock[$i][4] >= 1.75)		echo '
+							if ($foundCock[$i][4] >= 1.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($ergebnisCock[$i][4] >= 1.25)	echo '
+							elseif ($foundCock[$i][4] >= 1.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($ergebnisCock[$i][4] >= 2.75)		echo '
+							if ($foundCock[$i][4] >= 2.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($ergebnisCock[$i][4] >= 2.25)	echo '
+							elseif ($foundCock[$i][4] >= 2.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($ergebnisCock[$i][4] >= 3.75)		echo '
+							if ($foundCock[$i][4] >= 3.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($ergebnisCock[$i][4] >= 3.25)	echo '
+							elseif ($foundCock[$i][4] >= 3.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($ergebnisCock[$i][4] >= 4.75)		echo '
+							if ($foundCock[$i][4] >= 4.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($ergebnisCock[$i][4] >= 4.25)	echo '
+							elseif ($foundCock[$i][4] >= 4.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
@@ -287,14 +220,14 @@ if (isset($_GET['search'])) {
 							<hr>
 							<div class="row">
 								<div class="col-12">
-									<a href="./cocktail_details.php?cock_id=' . $ergebnisCock[$i][0] . '" class="btn btn-primary btn-block">Details</a>
+									<a href="./cocktail_details.php?cock_id=' . $foundCock[$i][0] . '" class="btn btn-primary btn-block">Details</a>
 								</div>
 							</div>
 						</div>
 					</div>';
 						}
 					} else {
-						echo 'Keine Ergebnisse.';
+						echo '<div class="ml-4">Keine Ergebnisse.</div>';
 					}
 					?>
 

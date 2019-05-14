@@ -63,7 +63,7 @@ $etaCount = count($etabFetch);
 	<main role="main">
 		<div class="mt-5 ml-5 mr-5">
 			<div class="card card-body">
-				<h2 class="ml-4">Etablissements</h2>
+				<h2 class="ml-2">Etablissements</h2>
 				<hr>
 				<div class="row">
 					<?php

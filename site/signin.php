@@ -4,8 +4,6 @@ $activeHead = "user";
 //TODO: Angemeldet unten Seite anders aufbauen
 if (!$angemeldet) {
 
-    include('../php/db/_openConnection.php');
-
     $message = "";
     $error = false;
     $success = false;

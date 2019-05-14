@@ -319,7 +319,7 @@ $notPossibleEtaIds = $statement->fetchAll();
 						if ($angemeldet) {
 							if ($bew_success == false) {
 								echo '
-								<form class="mr-5 ml-5 mt-2" action="?cock_id=' . $_GET['cock_id'] . '&bew_abgeben=1" method="post">
+								<form class="mr-2 ml-2 mt-2" action="?cock_id=' . $_GET['cock_id'] . '&bew_abgeben=1" method="post">
 									<div class="form-group">
 										<label for="eta">Wo getrunken?</label>
 										<!--<input type="text" class="form-control" id="bew_etab" placeholder="Etablissement ausw&auml;hlen" name="eta">-->

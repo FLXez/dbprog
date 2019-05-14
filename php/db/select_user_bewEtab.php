@@ -1,4 +1,5 @@
 <?php
+$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $statement = $pdo->prepare(
     "SELECT bew_etab.timestamp as ts
            ,etab.name as name
@@ -14,4 +15,5 @@ $user_bewEtab = $statement->fetchAll();
 for ($i = 0; $i < count($user_bewEtab); $i++) {
     $user_bewEtab[$i]["ts"] = date("d.m.Y");
 }
+$pdo = NULL;
 ?>

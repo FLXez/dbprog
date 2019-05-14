@@ -32,9 +32,9 @@ $_SESSION['source'] = "Location: ../site/about_motivation.php";
         <main role="main">
             <div class="mt-5 ml-5 mr-5">
                 <div class="card card-body">
-                    <h2 class="ml-4">Motivation</h2>
+                    <h2 class="ml-2">Motivation</h2>
                     <hr>
-                    <div class="ml-5 mr-5 mt-2">
+                    <div class="ml-2 mr-2 mt-2">
                         Die Motivation für diese Website besteht natürlich aus Ambitionen, Erfolgswille, Inspiration und auf gar keinen Fall Zwang der Hochschule Weserbergland.<br>
                         Wir machen das "vollkommen freiwillig" und haben "nicht" die Angst, dass das hinter unserem Rücken verkauft wird.<br>
                         Wir unterstützen natürlich KEINE Drohbriefe an die Hochschule Weserbergland, Am Stockhof 2, 31785 Hameln.<br>

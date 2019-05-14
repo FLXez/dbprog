@@ -32,9 +32,9 @@ $_SESSION['source'] = "Location: ../site/about_impressum.php";
         <main role="main">
             <div class="mt-5 ml-5 mr-5">
                 <div class="card card-body">
-                    <h2 class="ml-4">Impressum</h2>
+                    <h2 class="ml-2">Impressum</h2>
                     <hr>
-                    <div class="mr-5 ml-5 mt-2">
+                    <div class="mr-2 ml-2 mt-2">
                         Ich habe Legit 0 AHNUNG was hier rein muss. <br><br>
                         Zitat Marlon LMA - "Das kannst du generieren lassen."<br>
                         <div style="text-align: center;">

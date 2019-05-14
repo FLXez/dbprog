@@ -1,4 +1,5 @@
 <?php
+$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 if (isset($userid)) {
        $statement = $pdo->prepare(
               "SELECT passwort as passwort
@@ -16,3 +17,4 @@ if (isset($userid)) {
        $result = $statement->execute(array('username' => $username));
 }
 $userPrivate = $statement->fetch();
+$pdo = NULL;

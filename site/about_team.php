@@ -32,9 +32,9 @@ $_SESSION['source'] = "Location: ../site/about_team.php";
         <main role="main">
             <div class="mt-5 ml-5 mr-5">
                 <div class="card card-body">
-                    <h2 class="ml-4">Das Team</h2>
+                    <h2 class="ml-2">Das Team</h2>
                     <hr>
-                    <div class="ml-5 mr-5 mt-2">
+                    <div class="ml-2 mr-2 mt-2">
                         <div>
                             Das Team hat kein Bock auf diese Seite. Mach sie dir doch selber.<br>
                             <br>

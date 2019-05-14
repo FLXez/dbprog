@@ -5,7 +5,6 @@ $_SESSION['source'] = "Location: ../site/profil_main.php";
 
 if ($angemeldet) {
     $userid = $_SESSION['userid'];
-    include('../php/db/_openConnection.php');
 
     if (isset($_GET['update_userInfo'])) {
         include('../php/db/update_userInfo.php');

@@ -59,7 +59,7 @@ $cockCount = count($cockFetch);
 	<main role="main">
 		<div class="mt-5 ml-5 mr-5">
 			<div class="card card-body">
-				<h2 class="ml-4">Alle Cocktails</h2>
+				<h2 class="ml-2">Alle Cocktails</h2>
 				<hr>
 				<div class="row">
 					<?php

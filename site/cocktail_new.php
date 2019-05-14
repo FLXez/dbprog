@@ -120,9 +120,9 @@ if ($angemeldet) {
 				}
 				echo '
 			<div class="card card-body">
-				<h2 class="ml-4">Neuer Cocktail</h2>
+				<h2 class="ml-2">Neuer Cocktail</h2>
 				<hr>
-				<div class="mr-5 ml-5 mt-2">
+				<div class="mr-2 ml-2 mt-2">
 					<form action="?newCock=1" method="post" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="nameCock">Name</label>
