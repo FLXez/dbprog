@@ -101,10 +101,10 @@ if ($angemeldet) {
         include('../php/db/update_adminstatus.php');
         if($result){
             $success = true;
-            $message= "Adminstatus wurde aktualisiert.";
+            $message= "Modstatus wurde aktualisiert.";
         }else{
             $error = true;
-            $message= "Es ist ein Fehler beim aktualisieren des Adminstatuses aufgetreten.";
+            $message= "Es ist ein Fehler beim aktualisieren des Modstatuses aufgetreten.";
         }
     }
     //Einlesen der ggf. updateten Userdaten
