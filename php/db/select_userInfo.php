@@ -9,6 +9,7 @@ $statement = $pdo->prepare(
               ,beruf as beruf
               ,created_at as ts
               ,img as img
+              ,admin as admin
         FROM user 
         WHERE id = :userid");
 $result = $statement->execute(array('userid' => $userid));

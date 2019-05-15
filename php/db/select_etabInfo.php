@@ -5,7 +5,8 @@ $statement = $pdo->prepare(
 			e.name as name,
 			e.anschrift as anschrift,
 			e.ort as ort,
-			e.img as img
+			e.img as img,
+			e.verifiziert as verifiziert
 	 FROM etab e
 	 WHERE e.id = :etab_id");
 $result = $statement->execute(array('etab_id' => $etabid));

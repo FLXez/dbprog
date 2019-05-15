@@ -4,9 +4,21 @@ $activeHead = "etablissement";
 $_SESSION['source'] = "Location: ../site/etablissement_details.php?etab_id=" . $_GET['etab_id'];
 
 $etabid = $_GET['etab_id'];
+$userid = $_SESSION['userid'];
+
+include('../php/db/select_userInfo.php');
+
+if(isset($_GET['verifiziert'])){
+	$verifizierung = $_GET['verifiziert'];
+	include('../php/db/update_verifiziertEtab.php');
+	if($result){
+		$message ="Erfolgreich verifiziert!";
+	}else{
+		$message ="Verifizierung fehlgeschlagen.";
+	}	
+}
 
 include('../php/db/select_etabInfo.php');
-
 $bew = false;
 $bew_success = false;
 
@@ -14,7 +26,6 @@ if (isset($_GET['bew_abgeben']) && $angemeldet) {
 	$bew = true;
 	$bew_wert = $_POST['wert'];
 	$bew_kommentar = $_POST['kommentar'];
-	$userid = $_SESSION['userid'];
 
 	include('../php/db/check_bewEtab.php');
 
@@ -34,6 +45,8 @@ if (isset($_GET['bew_abgeben']) && $angemeldet) {
 		}
 	}
 }
+
+
 
 include('../php/db/select_etab_bew.php');
 //cocktailkarte
@@ -91,6 +104,22 @@ include('../php/db/select_cocktailkarte.php');
 							</div>
 							<div>
 								<p class="card-text"> <?php echo $etabInfo["ort"] . '<br>' . $etabInfo["anschrift"]; ?> </p>
+							</div>
+							<div>
+								<?php
+								if($etabInfo["verifiziert"]==0 && $userInfo["admin"]==1){
+									
+									echo '
+									<form action="?etab_id=' . $_GET['etab_id'] . '&verifiziert=1" method="POST">
+									<button type="submit" class="btn btn-primary mt-2">Verifizieren</button>
+									</form>';
+								}elseif($etabInfo["verifiziert"]==1 && $userInfo["admin"]==1){
+									echo '
+									<form action="?etab_id=' . $_GET['etab_id'] . '&verifiziert=0" method="POST">
+									<button type="submit" class="btn btn-primary mt-2">Verifizierung aufheben</button>
+									</form>';
+								}
+								?>
 							</div>
 						</div>
 					</div>
