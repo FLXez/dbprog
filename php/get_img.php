@@ -1,5 +1,5 @@
 <?php
-include('./db/_openConnection.php');
+$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 
 if (isset($_GET['etab_id'])) {
     $result = $pdo->prepare("SELECT img FROM etab where id = :etab_id");
@@ -18,4 +18,5 @@ elseif (isset($_GET['cock_id']))
 		echo $imgFetch[0];
 	}
 }
+$pdo = NULL;
 ?>

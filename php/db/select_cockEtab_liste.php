@@ -1,9 +1,9 @@
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $statement = $pdo->prepare(
-    "SELECT e.id as id
-		   ,e.name as name
-		   ,e.ort as ort
+    "SELECT e.id as eid
+		   ,e.name as ename
+		   ,e.ort as eort
 	 FROM etab e
 	 JOIN cock_etab ce 
         ON e.id = ce.etab_id

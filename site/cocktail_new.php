@@ -4,31 +4,19 @@ $activeHead = "cocktail";
 $_SESSION['source'] = "Location: ../site/cocktail_new.php";
 
 if ($angemeldet) {
-	include('../php/db/_openConnection.php');
-
-	$insertError = false;
-	$notNewError = false;
-	$doubleError = false;
-
-	$angelegt = false;
+	$error = false;
+	$info = false;
+	$success = false;
 	$message = "";
 
-	$statement = $pdo->prepare("SELECT id,
-											name,
-											ort
-									FROM etab ");
-	$etabResult = $statement->execute();
-	$allEtabsPos = $statement->fetchAll();
-
-
-
+	include('../php/db/select_allEtab.php');
 
 	if (isset($_GET['newCock'])) {
 
-		$nameCock = $_POST['nameCock'];
-		$preisCock = $_POST['preisCock'];
-		$etab_zuordn = $_POST['etab'];
-		$beschreibungCock = $_POST['beschreibungCock'];
+		$cockName = $_POST['cockName'];
+		$cockDesc = $_POST['cockDesc'];
+		$etabid = $_POST['etab'];
+		$preis = $_POST['preis'];
 
 		$file_name = $_FILES['file']['name'];
 		$file_type = $_FILES['file']['type'];
@@ -37,47 +25,35 @@ if ($angemeldet) {
 
 		if ($file_name) {
 			$handle = fopen($file_tem_loc, 'r');
-			$content = fread($handle, $file_size);
+			$image = fread($handle, $file_size);
 		} else {
-			$content = "";
+			$image = "";
 		}
 
-		$statement = $pdo->prepare("Select id From cock WHERE name = :name AND beschreibung = :beschreibung");
-		$result = $statement->execute(array('name' => $nameCock, 'beschreibung' => $beschreibungCock));
-		$notNewError = $statement->fetch();
+		include('../php/db/check_cock.php');
 
-
-		if ($notNewError == false) {
-			$statement = $pdo->prepare("INSERT INTO cock(name, beschreibung, img) VALUES (:name, :beschreibung, :img)");
-			$result = $statement->execute(array('name' => $nameCock, 'beschreibung' => $beschreibungCock, 'img' => $content));
-			$insertError = $statement->fetch();
-
-
-			$statement = $pdo->prepare("SELECT id FROM cock where name = :name");
-			$result = $statement->execute(array('name' => $nameCock));
-			$idNewCock = $statement->fetch();
-
-
-
-			$statement = $pdo->prepare("INSERT INTO cock_etab(etab_id, cock_id, preis) VALUES (:etab, :cocktail, :preis)");
-			$result = $statement->execute(array('etab' => $etab_zuordn, 'cocktail' => $idNewCock[0], 'preis' => $preisCock));
-			$insertError2 = $statement->fetch();
-
-			if ($insertError == false) {
-				$angelegt = true;
-				$message = "Erfolgreich angelegt!";
-			} else {
-				$message = "Ein technsicher Fehler ist aufgetreten.";
-			}
+		if (!$cock_vorhanden) {
+			include('../php/db/insert_cock.php');
+			include('../php/db/select_cock_id.php');
+			$message = 'Cocktail erfolgreich hinzugef&uuml;gt. <a class="" href="cocktail_details.php?cock_id=' . $select_cock_id[0]  . '">(zum Cocktail)</a><br>';			
 		} else {
-			$message = 'Dieser Cocktail ist bereits vorhanden. <a class="" href="cocktail_details.php?cock_id=' . $notNewError[0]  . '"> Zum Cocktail </a>';
+			include('../php/db/select_cock_id.php');
+			$info = true;
+			$message = 'Dieser Cocktail ist bereits vorhanden. <a class="" href="cocktail_details.php?cock_id=' . $select_cock_id[0]  . '">(zum Cocktail)</a><br>';
+		}
+
+		$cockid = $select_cock_id[0];
+		include('../php/db/insert_cockEtab.php');
+
+		if ($result) {
+			$success = true;
+			$message .= "Cocktail erfolgreich einem Etablissement zugeordnet!";
+		} else {
+			$error = true;
+			$message .= "Ein technsicher Fehler ist aufgetreten.";
 		}
 	}
 }
-
-
-
-
 ?>
 <!doctype html>
 <html lang="de">
@@ -109,11 +85,11 @@ if ($angemeldet) {
 		<div class="mt-5 ml-5 mr-5">
 			<?php
 			if ($angemeldet) {
-				if ($notNewError or $insertError) {
+				if ($error) {
 					echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';
 					echo $message;
 					echo '</div>';
-				} elseif ($angelegt) {
+				} elseif ($success or $info) {
 					echo '<div class="alert alert-info col-auto ct-text-center mb-4" role="alert">';
 					echo $message;
 					echo '</div>';
@@ -125,8 +101,8 @@ if ($angemeldet) {
 				<div class="mr-2 ml-2 mt-2">
 					<form action="?newCock=1" method="post" enctype="multipart/form-data">
 						<div class="form-group">
-							<label for="nameCock">Name</label>
-							<input type="text" maxlength="50" class="form-control" id="nameCock" name="nameCock"  placeholder="Cocktail">
+							<label for="cockName">Name</label>
+							<input type="text" maxlength="50" class="form-control" id="cockName" name="cockName"  placeholder="Cocktail">
 						</div>
 
 						<div class="form-group">
@@ -135,21 +111,21 @@ if ($angemeldet) {
 						</div>
 
 						<div class="form-group">
-							<label for="beschreibungCock">Beschreibung</label>
-							<input type="text" maxlength="50" class="form-control" id="beschreibungCock" name="beschreibungCock"  placeholder="Beschreibung">
+							<label for="cockDesc">Beschreibung</label>
+							<input type="text" maxlength="50" class="form-control" id="cockDesc" name="cockDesc"  placeholder="Beschreibung">
 						</div>
 
 						<div class="form-group">
-							<label for="preisCock">Preis</label>
-							<input type="text" maxlength="50" class="form-control" id="preisCock" name="preisCock"  placeholder="Preis">
+							<label for="preis">Preis</label>
+							<input type="text" maxlength="50" class="form-control" id="preis" name="preis"  placeholder="Preis">
 						</div>
 
 						<div class="form-group">
 							<label for="etab"> Etablissement Zuordnen</label>
 							<!--<input type="text" class="form-control" id="etab" placeholder="Nothing" name="wert">-->
 							<select class="custom-select" name="etab" id="etab">';
-				for ($i = 0; $i < count($allEtabsPos); $i++) {
-					echo '<option value="' . $allEtabsPos[$i][0] . '">' . $allEtabsPos[$i][1] . ', ' . $allEtabsPos[$i][2] . '</option>';
+				for ($i = 0; $i < count($allEtab); $i++) {
+					echo '<option value="' . $allEtab[$i][0] . '">' . $allEtab[$i][1] . ', ' . $allEtab[$i][2] . '</option>';
 				}
 				echo '</select>
 						</div>

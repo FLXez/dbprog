@@ -5,20 +5,16 @@ $_SESSION['source'] = "Location: ../site/etablissement_new.php";
 
 
 if ($angemeldet) {
-	include('../php/db/_openConnection.php');
-	$insertError = false;
-	$notNewError = false;
-	$angelegt = false;
+	$error = false;
+	$info = false;
+	$success = false;
 	$message = "";
-
-
-
 
 	if (isset($_GET['newEtab'])) {
 
-		$nameEtab = $_POST['nameEtab'];
+		$name = $_POST['nameEtab'];
 		$strasse = $_POST['strasseEtab'];
-		$plzStadt = $_POST['plzStadtEtab'];
+		$stadt = $_POST['plzStadtEtab'];
 
 
 		$file_name = $_FILES['file']['name'];
@@ -28,28 +24,24 @@ if ($angemeldet) {
 
 		if ($file_name) {
 			$handle = fopen($file_tem_loc, 'r');
-			$content = fread($handle, $file_size);
+			$image = fread($handle, $file_size);
 		} else {
-			$content = "";
+			$image = "";
 		}
 
-		$statement = $pdo->prepare("Select * From etablissement WHERE name = :name AND anschrift =:anschrift");
-		$result = $statement->execute(array('name' => $nameEtab, 'anschrift' => $strasse));
-		$notNewError = $statement->fetch();
-
-		if ($notNewError == false) {
-			$statement = $pdo->prepare("INSERT INTO etab(name, ort, anschrift, img) VALUES (:name, :ort, :anschrift, :img)");
-			$result = $statement->execute(array('name' => $nameEtab, 'ort' => $plzStadt, 'anschrift' => $strasse, 'img' => $content));
-			$insertError = $statement->fetch();
-
-			if ($insertError == false) {
+		include('../php/db/check_etab.php');
+		if (!$etab_vorhanden) {
+			include('../php/db/insert_etab.php');
+			if ($result) {
 				$message = "Erfolgreich angelegt!";
-				$angelegt = true;
+				$success = true;
 			} else {
 				$message = "Ein technsicher Fehler ist aufgetreten.";
+				$error = true;
 			}
 		} else {
 			$message = "Dieses Etablissement ist bereits vorhanden.";
+			$info = true;
 		}
 	}
 }
@@ -87,11 +79,11 @@ if ($angemeldet) {
 		<div class="mt-5 ml-5 mr-5">
 			<?php
 			if ($angemeldet) {
-				if ($notNewError or $insertError) {
+				if ($error) {
 					echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';
 					echo $message;
 					echo '</div>';
-				} elseif ($angelegt) {
+				} elseif ($success or $info) {
 					echo '<div class="alert alert-info col-auto ct-text-center mb-4" role="alert">';
 					echo $message;
 					echo '</div>';

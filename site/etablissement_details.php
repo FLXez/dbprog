@@ -1,87 +1,43 @@
 ﻿<?php
 include('../php/sessioncheck.php');
 $activeHead = "etablissement";
-// Musste nach unten geschoben werden = $_SESSION['source']= "Location: ../site/etablissement_details.php?etab_id=" . $etabFetch[0];
+$_SESSION['source'] = "Location: ../site/etablissement_details.php?etab_id=" . $_GET['etab_id'];
 
-include('../php/db/_openConnection.php');
+$etabid = $_GET['etab_id'];
+
+include('../php/db/select_etabInfo.php');
+
 $bew = false;
 $bew_success = false;
-if (isset($_GET['bewertung_abgeben']) && $angemeldet) {
+
+if (isset($_GET['bew_abgeben']) && $angemeldet) {
 	$bew = true;
 	$bew_wert = $_POST['wert'];
 	$bew_kommentar = $_POST['kommentar'];
+	$userid = $_SESSION['userid'];
 
-	$statement = $pdo->prepare("
-						SELECT * 
-						FROM bew_etab
-						WHERE user_id=:user_id 
-						  AND etab_id=:etab_id ");
-	$result = $statement->execute(array('user_id' => $_SESSION['userid'], 'etab_id' => $_GET['etab_id']));
-	$bew_vorhanden = $statement->fetch();
+	include('../php/db/check_bewEtab.php');
 
-	if ($bew_vorhanden == true) {
-		$statement = $pdo->prepare("
-							UPDATE bew_etab
-							SET wert=:wert, 
-								text=:kommentar 
-							WHERE user_id=:user_id 
-							  AND etab_id=:etab_id 
-							  ");
-		$result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $_SESSION['userid'], 'etab_id' => $_GET['etab_id']));
-		$bew_success = $statement->fetch();
-		$message = 'Ihre Bewertung wurde Aktualisiert!';
+	if ($bew_vorhanden) {
+		include('../php/db/update_bewEtab.php');
+		if ($result) {
+			$message = 'Ihre Bewertung wurde aktualisiert!';
+		} else {
+			$message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
+		}
 	} else {
-		$statement = $pdo->prepare("
-							INSERT 
-							INTO bew_etab (user_id, etab_id, wert, text) 
-							VALUES (:user_id, :etab_id, :wert, :kommentar)");
-		$result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $_SESSION['userid'], 'etab_id' =>  $_GET['etab_id']));
-		$bew_success = $statement->fetch();
-		$message = 'Ihre Bewertung wurde gespeichert!';
+		include('../php/db/insert_bewEtab.php');
+		if ($result) {
+			$message = 'Ihre Bewertung wurde gespeichert!';
+		} else {
+			$message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
+		}
 	}
 }
 
-
-$statement = $pdo->prepare("
-					SELECT 
-						e.id as id,
-						e.name as name,
-						e.anschrift as anschrift,
-						e.ort as ort,
-						e.img as img
-					FROM etab e
-					WHERE e.id = :etab_id");
-$result = $statement->execute(array('etab_id' => $_GET['etab_id']));
-$etabFetch = $statement->fetch();
-
-//UFF
-$_SESSION['source'] = "Location: ../site/etablissement_details.php?etab_id=" . $etabFetch[0];
-
-$statement = $pdo->prepare("
-					SELECT
-						c.id as id,
-						c.name as name,
-						ce.preis as preis
-					FROM cock_etab ce
-					JOIN cock c ON
-						c.id = ce.cock_id
-					WHERE ce.etab_id = :etab_id");
-$result = $statement->execute(array('etab_id' => $_GET['etab_id']));
-$cocketabFetch = $statement->fetchAll();
-
-$statement = $pdo->prepare("
-					SELECT
-						u.username as username,
-						u.id as userid,
-						be.text as text,
-						be.wert as wert,
-						be.timestamp as ts
-					FROM bew_etab be
-					JOIN user u ON
-						be.user_id = u.id
-					WHERE be.etab_id = :etab_id");
-$result = $statement->execute(array('etab_id' => $_GET['etab_id']));
-$bewFetch = $statement->fetchAll();
+include('../php/db/select_etab_bew.php');
+//cocktailkarte
+include('../php/db/select_cocktailkarte.php');
 ?>
 <!doctype html>
 <html lang="de">
@@ -110,8 +66,8 @@ $bewFetch = $statement->fetchAll();
 	</header>
 	<main role="main">
 		<div class="mt-5 ml-5 mr-5">
-		<?php 
-		if ($bew == true && $bew_success == false) {
+			<?php
+			if ($bew == true && $bew_success == false) {
 				echo '<div class="alert alert-info ct-text-center mb-4" role="info">';
 				echo $message;
 				echo '</div>';
@@ -121,20 +77,20 @@ $bewFetch = $statement->fetchAll();
 				<div class="row no-gutters">
 					<div class="col-md-2">
 						<?php
-						if ($etabFetch["img"] == null)
+						if ($etabInfo["img"] == null)
 							echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else
-							echo '<img src="../php/get_img.php?etab_id=' . $etabFetch["id"] . '" class="card-img-top">';
+							echo '<img src="../php/get_img.php?etab_id=' . $etabInfo["id"] . '" class="card-img-top">';
 						?>
 					</div>
 					<div class="col-md-10">
 						<div class="card-body d-flex flex-column" style="height: 230px;">
 							<div>
-								<h1 class="card-title"> <?php echo $etabFetch["name"]; ?> </h1>
+								<h1 class="card-title"> <?php echo $etabInfo["name"]; ?> </h1>
 								<hr>
 							</div>
 							<div>
-								<p class="card-text"> <?php echo $etabFetch["ort"] . '<br>' . $etabFetch["anschrift"]; ?> </p>
+								<p class="card-text"> <?php echo $etabInfo["ort"] . '<br>' . $etabInfo["anschrift"]; ?> </p>
 							</div>
 						</div>
 					</div>
@@ -165,11 +121,11 @@ $bewFetch = $statement->fetchAll();
 								</tr>
 							</thead> 
 							<tbody>';
-						for ($i = 0; $i < count($cocketabFetch); $i++) {
+						for ($i = 0; $i < count($cocktailkarte); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $cocketabFetch[$i]["id"] . '">' . $cocketabFetch[$i]["name"] . '</a></td>';
-							echo '<td>' . $cocketabFetch[$i]["preis"] . '</td>';
+							echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $cocktailkarte[$i]["id"] . '">' . $cocktailkarte[$i]["name"] . '</a></td>';
+							echo '<td>' . $cocktailkarte[$i]["preis"] . '</td>';
 							echo '</tr>';
 						}
 						echo '</tbody></table>';
@@ -188,13 +144,13 @@ $bewFetch = $statement->fetchAll();
 								</tr>
 							</thead> 
 							<tbody>';
-						for ($i = 0; $i < count($bewFetch); $i++) {
+						for ($i = 0; $i < count($etab_bew); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td><a class="" href="../site/profil_other.php?showUser=' . $bewFetch[$i]["userid"] . '">' . $bewFetch[$i]["username"] . '</a></td>';
-							echo '<td>' . $bewFetch[$i]["text"] . '</td>';
-							echo '<td>' . $bewFetch[$i]["wert"] . '</td>';
-							echo '<td>' . $bewFetch[$i]["ts"] . '</td>';
+							echo '<td><a class="" href="../site/profil_other.php?showUser=' . $etab_bew[$i]["userid"] . '">' . $etab_bew[$i]["username"] . '</a></td>';
+							echo '<td>' . $etab_bew[$i]["text"] . '</td>';
+							echo '<td>' . $etab_bew[$i]["wert"] . '</td>';
+							echo '<td>' . $etab_bew[$i]["ts"] . '</td>';
 							echo '</tr>';
 						}
 						echo '</tbody></table>';
@@ -205,7 +161,7 @@ $bewFetch = $statement->fetchAll();
 						if ($angemeldet) {
 							if ($bew_success == false) {
 								echo '
-								<form class="mr-2 ml-2 mt-2" action="?etab_id=' . $_GET['etab_id'] . '&bewertung_abgeben=1" method="post">
+								<form class="mr-2 ml-2 mt-2" action="?etab_id=' . $_GET['etab_id'] . '&bew_abgeben=1" method="post">
 									<div class="form-group">
 										<label for="wert">Wie bewerten Sie das Etablissement?</label>
 										<!--<input type="text" class="form-control" id="bew_wert" placeholder="0 Sterne" name="wert">-->

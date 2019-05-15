@@ -4,9 +4,7 @@ $activeHead = "cocktail";
 $_SESSION['source'] = "Location: ../site/cocktail_details.php?cock_id=" . $_GET['cock_id'];
 
 $cockid = $_GET['cock_id'];
-if($angemeldet) {
-	$userid = $_SESSION['userid'];
-}
+
 include('../php/db/select_cockInfo.php');
 
 $bew = false;
@@ -16,6 +14,7 @@ $message = 'Fehler';
 if (isset($_GET['etab_zuordnen'])) {
 
 	$etabid = $_POST['etab_zugeordnet'];
+	$preis = $_POST['preis_cock'];
 	include('../php/db/insert_cockEtab.php');
 
 	if ($result) {
@@ -26,6 +25,7 @@ if (isset($_GET['etab_zuordnen'])) {
 }
 
 if (isset($_GET['bew_abgeben']) && $angemeldet) {
+	$userid = $_SESSION['userid'];
 	$bew = true;
 	$bew_etab = $_POST['eta'];
 	$bew_wert = $_POST['wert'];
@@ -50,14 +50,15 @@ if (isset($_GET['bew_abgeben']) && $angemeldet) {
 	}
 }
 
-include('../php/db/select_cockEtab_bew.php');
+//Cocktailkarte
+include('../php/db/select_cocktailkarte.php');
 
 include('../php/db/select_cock_bew.php');
 
 include('../php/db/select_cockEtab_liste.php');
 
+//Funktion etab zuordnen
 include('../php/db/select_allEtab.php');
-
 include('../php/db/select_cockEtab_id.php');
 
 ?>
@@ -179,13 +180,13 @@ include('../php/db/select_cockEtab_id.php');
 							</thead> 
 							<tbody>';
 
-						for ($i = 0; $i < count($cockEtab_bew); $i++) {
+						for ($i = 0; $i < count($cocktailkarte); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td>  <a class="" href="etablissement_details.php?etab_id= ' . $cockEtab_bew[$i]["id"] . '">' . $cockEtab_bew[$i]["name"] . '</a></td>';
-							echo '<td>' . $cockEtab_bew[$i]["ort"] . '</td>';
-							echo '<td>' . $cockEtab_bew[$i]["preis"] . '</td>';
-							echo '<td>' . $cockEtab_bew[$i]["wert"] . '</td>';
+							echo '<td>  <a class="" href="etablissement_details.php?etab_id= ' . $cocktailkarte[$i]["id"] . '">' . $cocktailkarte[$i]["name"] . '</a></td>';
+							echo '<td>' . $cocktailkarte[$i]["ort"] . '</td>';
+							echo '<td>' . $cocktailkarte[$i]["preis"] . '</td>';
+							echo '<td>' . $cocktailkarte[$i]["wert"] . '</td>';
 							echo '</tr>';
 						}
 						echo '
@@ -232,7 +233,7 @@ include('../php/db/select_cockEtab_id.php');
 										<!--<input type="text" class="form-control" id="bew_etab" placeholder="Etablissement ausw&auml;hlen" name="eta">-->
 										<select class="custom-select" name="eta" id="bew_etab">';
 								for ($i = 0; $i < count($cockEtab_liste); $i++) {
-									echo '<option value="' . $cockEtab_liste[$i]["id"] . '">' . $cockEtab_liste[$i]["name"] . ', ' . $cockEtab_liste[$i]["ort"] . '</option>';
+									echo '<option value="' . $cockEtab_liste[$i]["eid"] . '">' . $cockEtab_liste[$i]["ename"] . ', ' . $cockEtab_liste[$i]["eort"] . '</option>';
 								}
 								echo	'</select>
 									</div>

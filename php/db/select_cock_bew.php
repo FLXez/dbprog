@@ -17,4 +17,7 @@ $statement = $pdo->prepare(
 	 ORDER BY e.name");
 $result = $statement->execute(array('cock_id' => $cockid));
 $cock_bew = $statement->fetchAll();
+for ($i = 0; $i < count($cock_bew); $i++) {
+    $cock_bew[$i]["ts"] = date("d.m.Y");
+}
 $pdo = NULL;
