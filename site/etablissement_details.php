@@ -102,7 +102,14 @@ include('../php/db/select_cocktailkarte.php');
 					<div class="col-md-10">
 						<div class="card-body d-flex flex-column" style="height: 230px;">
 							<div>
-								<h1 class="card-title"> <?php echo $etabInfo["name"]; ?> </h1>
+								<h1 class="card-title"> <?php echo $etabInfo["name"]; 
+								if($etabInfo["verifiziert"] == 1) {
+									echo '
+									<span class="badge badge-primary float-right">Verifiziert</span>';
+										} else {
+									echo '
+									<span class="badge badge-warning float-right">Nicht verifiziert</span>';
+									} ?> </h1>
 								<hr>
 							</div>
 							<div>
