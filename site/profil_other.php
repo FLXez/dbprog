@@ -65,7 +65,10 @@ include('../php/db/select_user_bewEtab.php');
                                 <h1 class="card-title"> <?php echo $userInfo["uname"];
                                 if($userInfo["admin"] == 1) {
                                     echo '
-                                            <span class="badge badge-primary float-right">Admin</span>';
+                                            <span class="badge badge-primary float-right">Mod</span>';
+                                }elseif($userInfo["admin"] == 2){
+                                    echo '
+                                    <span class="badge badge-primary float-right">Admin</span>';
                                 }
                                 ?> </h1>
                                 <hr>
@@ -97,16 +100,16 @@ include('../php/db/select_user_bewEtab.php');
                                     
                                     if($angemeldet){
     
-                                        if($userInfo["admin"]==1 && $isAdmin==1){
+                                        if($userInfo["admin"]==1 && $isAdmin>0){
                                             
                                             echo '
                                             <form action="?showUser=' . $userid . '&admin=0" method="POST">
-                                            <button type="submit" class="btn btn-primary mt-2">Adminrecht entziehen</button>
+                                            <button type="submit" class="btn btn-primary mt-2">Modrecht entziehen</button>
                                             </form>';
-                                        }else if($userInfo["admin"]==0 && $isAdmin==1){
+                                        }else if($userInfo["admin"]==0 && $isAdmin>0){
                                             echo '
                                             <form action="?showUser=' . $userid . '&admin=1" method="POST">
-                                            <button type="submit" class="btn btn-primary mt-2">Adminrecht zuteilen</button>
+                                            <button type="submit" class="btn btn-primary mt-2">Modrecht zuteilen</button>
                                             </form>';
                                         }
                                     }

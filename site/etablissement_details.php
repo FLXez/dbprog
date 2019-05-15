@@ -119,13 +119,13 @@ include('../php/db/select_cocktailkarte.php');
 								<?php
 								if($angemeldet){
 
-									if($etabInfo["verifiziert"]==0 && $userInfo["admin"]==1){
+									if($etabInfo["verifiziert"]==0 && $userInfo["admin"]>0){
 										
 										echo '
 										<form action="?etab_id=' . $_GET['etab_id'] . '&verifiziert=1" method="POST">
 										<button type="submit" class="btn btn-primary mt-2">Verifizieren</button>
 										</form>';
-									}elseif($etabInfo["verifiziert"]==1 && $userInfo["admin"]==1){
+									}elseif($etabInfo["verifiziert"]==1 && $userInfo["admin"]>0){
 										echo '
 										<form action="?etab_id=' . $_GET['etab_id'] . '&verifiziert=0" method="POST">
 										<button type="submit" class="btn btn-primary mt-2">Verifizierung aufheben</button>

@@ -167,7 +167,10 @@ if ($angemeldet) {
                                 <h1 class="card-title">' . $userInfo["uname"];
                                 if($userInfo["admin"] == 1) {
                                     echo '
-                                            <span class="badge badge-primary float-right">Admin</span>';
+                                            <span class="badge badge-primary float-right">Mod</span>';
+                                }elseif($userInfo["admin"]== 2){
+                                    echo '
+                                    <span class="badge badge-primary float-right">Admin</span>';
                                 }
                                 echo '</h1>
                                 <hr>
@@ -201,7 +204,7 @@ if ($angemeldet) {
                                             
                                             echo '
                                             <form action="?admin=0" method="POST">
-                                            <button type="submit" class="btn btn-primary mt-2">Zurücktreten als Admin</button>
+                                            <button type="submit" class="btn btn-primary mt-2">Zurücktreten als Mod</button>
                                             </form>';
                                         }
                                     }
