@@ -35,15 +35,15 @@ if (!$angemeldet) {
         //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
         if (!$error) {
             $newEmail = $_POST['register_email'];
-            include('../php/db/select_userEmail.php');
-            if ($userEmail) {
+            include('../php/db/check_email.php');
+            if ($email_vorhanden) {
                 $message .= "Diese E-Mail-Adresse ist bereits vergeben.<br>";
                 $error = true;
             }
 
             $newUsername = $_POST['register_username'];
-            include('../php/db/select_userUsername.php');
-            if ($userUsername) {
+            include('../php/db/check_username.php');
+            if ($username_vorhanden) {
                 $message .= "Dieser Username ist bereits vergeben.<br>";
                 $error = true;
             }

@@ -5,5 +5,5 @@ $statement = $pdo->prepare(
      FROM user 
      WHERE email = :email");
 $result = $statement->execute(array('email' => $newEmail));
-$userEmail = $statement->fetch();
+$email_vorhanden = $statement->fetch();
 $pdo = NULL;

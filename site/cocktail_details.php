@@ -1,46 +1,27 @@
 ﻿<?php
 include('../php/sessioncheck.php');
 $activeHead = "cocktail";
-// Musste nach unten geschoben werden = $_SESSION['source']= "Location: ../site/cocktail_details.php?cock_id=" . $cockFetch["id"];
+$_SESSION['source'] = "Location: ../site/cocktail_details.php?cock_id=" . $_GET['cock_id'];
 
-include('../php/db/_openConnection.php');
-
-
-$statement = $pdo->prepare(
-					"SELECT 
-						c.id as id,
-						c.name as name,
-						c.beschreibung as beschreibung,
-						c.img as img
-					FROM cock c
-					WHERE c.id = :cock_id"
-);
-$result = $statement->execute(array('cock_id' => $_GET['cock_id']));
-$cockFetch = $statement->fetch();
-
-// UFF
-$_SESSION['source'] = "Location: ../site/cocktail_details.php?cock_id=" . $cockFetch["id"];
-
+$cockid = $_GET['cock_id'];
+if($angemeldet) {
+	$userid = $_SESSION['userid'];
+}
+include('../php/db/select_cockInfo.php');
 
 $bew = false;
 $bew_success = false;
 $message = 'Fehler';
 
-if (isset($_GET['etab_zugeordnet'])) {
+if (isset($_GET['etab_zuordnen'])) {
 
-	$etab_id = $_POST['dasZugeordnete'];
+	$etabid = $_POST['etab_zugeordnet'];
+	include('../php/db/insert_cockEtab.php');
 
-	$statementinsert = $pdo->prepare(
-								"INSERT 
-								INTO cock_etab(etab_id, cock_id, preis) 
-								VALUES(:etab_id, :cock_id, :preis)");					
-	$result = $statementinsert->execute(array('etab_id' => $etab_id, 'cock_id' => $_GET['cock_id'], 'preis' => $_POST['preis_cock']));
-	$insertErr = $statementinsert->fetch();
-
-	if (!$insertErr) {
+	if ($result) {
 		$message = "Erfolgreich hinzugefügt.";
 	} else {
-		$message = "Insert Error festgestelllt.";
+		$message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
 	}
 }
 
@@ -50,109 +31,34 @@ if (isset($_GET['bew_abgeben']) && $angemeldet) {
 	$bew_wert = $_POST['wert'];
 	$bew_kommentar = $_POST['kommentar'];
 
-	$statement = $pdo->prepare("
-						SELECT * 
-						FROM bew_cock 
-						WHERE user_id=:user_id 
-						  AND etab_id=:etab_id 
-						  AND cock_id=:cock_id");
-	$result = $statement->execute(array('user_id' => $_SESSION['userid'], 'etab_id' => $bew_etab, 'cock_id' => $_GET['cock_id']));
-	$bew_vorhanden = $statement->fetch();
+	include('../php/db/check_bewCock.php');
 
-	if ($bew_vorhanden == true) {
-		$statement = $pdo->prepare("
-							UPDATE bew_cock 
-							SET wert=:wert, 
-								text=:kommentar 
-							WHERE user_id=:user_id 
-							  AND etab_id=:etab_id 
-							  AND cock_id=:cock_id");
-		$result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $_SESSION['userid'], 'etab_id' => $bew_etab, 'cock_id' => $_GET['cock_id']));
-		$bew_success = $statement->fetch();
-		$message = 'Ihre Bewertung wurde Aktualisiert!';
+	if ($bew_vorhanden) {
+		include('../php/db/update_bewCock.php');
+		if ($result) {
+			$message = 'Ihre Bewertung wurde aktualisiert!';
+		} else {
+			$message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
+		}
 	} else {
-		$statement = $pdo->prepare("
-							INSERT 
-							INTO bew_cock (user_id, etab_id, cock_id, wert, text) 
-							VALUES (:user_id, :etab_id, :cock_id, :wert, :kommentar)");
-		$result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $_SESSION['userid'], 'etab_id' => $bew_etab, 'cock_id' => $_GET['cock_id']));
-		$bew_success = $statement->fetch();
-		$message = 'Ihre Bewertung wurde gespeichert!';
+		include('../php/db/insert_bewCock.php');
+		if ($result) {
+			$message = 'Ihre Bewertung wurde gespeichert!';
+		} else {
+			$message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
+		}
 	}
 }
 
-$statement = $pdo->prepare("
-					SELECT
-						e.id as id,
-						e.name as name,
-						e.ort as ort,
-						ce.preis as preis,
-						AVG(bc.wert) as wert
-					FROM cock_etab ce
-						JOIN etab e ON
-							e.id = ce.etab_id
-						LEFT JOIN bew_cock bc ON
-							ce.cock_id = bc.cock_id AND
-							e.id = bc.etab_id
-					WHERE ce.cock_id = :cock_id
-					GROUP BY
-						e.id,
-						e.name,
-						e.ort,
-						ce.preis,
-						ce.cock_id");
-$result = $statement->execute(array('cock_id' => $_GET['cock_id']));
-$etabFetch = $statement->fetchAll();
+include('../php/db/select_cockEtab_bew.php');
 
-$statement = $pdo->prepare("
-					SELECT
-						u.username as username,
-						u.id as userid,
-						bc.text as text,
-						bc.wert as wert,
-						bc.timestamp as ts,
-						e.name as etab_name,
-						bc.etab_id as etab_id
-					FROM bew_cock bc
-						JOIN user u 
-							ON bc.user_id = u.id
-						JOIN etab e 
-							ON bc.etab_id = e.id
-					WHERE bc.cock_id = :cock_id
-					ORDER BY e.name");
-$result = $statement->execute(array('cock_id' => $_GET['cock_id']));
-$bewFetch = $statement->fetchAll();
+include('../php/db/select_cock_bew.php');
 
+include('../php/db/select_cockEtab_liste.php');
 
+include('../php/db/select_allEtab.php');
 
-$statement = $pdo->prepare("
-					SELECT 
-						e.id as id, 
-						e.name as name, 
-						e.ort as ort
-					FROM etab e
-					JOIN cock_etab ce ON
-						e.id = ce.etab_id
-					WHERE ce.cock_id = :cock_id");
-$result = $statement->execute(array('cock_id' => $_GET['cock_id']));
-$allEtaFetch = $statement->fetchAll();
-
-
-$statement = $pdo->prepare("SELECT name FROM cock WHERE id =:cockid");
-$result = $statement->execute(array('cockid' => $_GET["cock_id"]));
-$cockDaten = $statement->fetch();
-
-$statementEtabs = $pdo->prepare("SELECT id,
-												name,
-												ort
-										FROM etab");
-$etabResult = $statementEtabs->execute();
-$allEtabsPos = $statementEtabs->fetchAll();
-
-$statement = $pdo->prepare("SELECT etab_id FROM cock_etab WHERE cock_id =:cockid");
-$result = $statement->execute(array('cockid' => $_GET["cock_id"]));
-$notPossibleEtaIds = $statement->fetchAll();
-
+include('../php/db/select_cockEtab_id.php');
 
 ?>
 <!doctype html>
@@ -193,39 +99,40 @@ $notPossibleEtaIds = $statement->fetchAll();
 				<div class="row no-gutters">
 					<div class="col-md-2">
 						<?php
-						if ($cockFetch["img"] == null)
+						if ($cockInfo["img"] == null)
 							echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else
-							echo '<img src="../php/get_img.php?cock_id=' . $cockFetch["id"] . '" class="card-img-top">';
+							echo '<img src="../php/get_img.php?cock_id=' . $cockInfo["id"] . '" class="card-img-top">';
 						?>
 					</div>
 					<div class="col-md-10">
 						<div class="card-body d-flex flex-column" style="height: 230px;">
 							<div>
-								<h1 class="card-title"> <?php echo $cockFetch["name"]; ?> </h1>
+								<h1 class="card-title"> <?php echo $cockInfo["name"]; ?> </h1>
 								<hr>
 							</div>
 							<div>
-								<p class="card-text"> <?php echo $cockFetch["beschreibung"]; ?> </p>
+								<p class="card-text"> <?php echo $cockInfo["beschreibung"]; ?> </p>
 							</div>
 							<div class="mt-auto">
 								<?php echo '							 	
-								<form action="?cock_id=' . $_GET['cock_id'] . '&etab_zugeordnet=1" method="POST">
+								<form action="?cock_id=' . $_GET['cock_id'] . '&etab_zuordnen=1" method="POST">
 								<label for="etab_zugeordnet">Cocktail einem Etablissement zuordnen:</label>
 									<div class="form-row">
 										<div class="col-4">
-										<select class="custom-select" name="dasZugeordnete" id="etab_zugeordnet">';
-								for ($i = 0; $i < count($allEtabsPos); $i++) {
+										<select class="custom-select" name="etab_zugeordnet" id="etab_zugeordnet">';
+								for ($i = 0; $i < count($allEtab); $i++) {
+
 									$isValid = true;
 
-									for ($j = 0; $j < count($notPossibleEtaIds); $j++) {
-										if ($allEtabsPos[$i][0] == $notPossibleEtaIds[$j][0]) {
+									for ($j = 0; $j < count($select_cockEtab_id); $j++) {
+										if ($allEtab[$i][0] == $select_cockEtab_id[$j][0]) {
 											$isValid = false;
 										}
 									}
 
 									if ($isValid == true) {
-										echo '<option value="' . $allEtabsPos[$i][0] . '">' . $allEtabsPos[$i][1] . ', ' . $allEtabsPos[$i][2] . '</option>';
+										echo '<option value="' . $allEtab[$i][0] . '">' . $allEtab[$i][1] . ', ' . $allEtab[$i][2] . '</option>';
 									}
 								}
 								echo '
@@ -272,13 +179,13 @@ $notPossibleEtaIds = $statement->fetchAll();
 							</thead> 
 							<tbody>';
 
-						for ($i = 0; $i < count($etabFetch); $i++) {
+						for ($i = 0; $i < count($cockEtab_bew); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td>  <a class="" href="etablissement_details.php?etab_id= ' . $etabFetch[$i]["id"] . '">' . $etabFetch[$i]["name"] . '</a></td>';
-							echo '<td>' . $etabFetch[$i]["ort"] . '</td>';
-							echo '<td>' . $etabFetch[$i]["preis"] . '</td>';
-							echo '<td>' . $etabFetch[$i]["wert"] . '</td>';
+							echo '<td>  <a class="" href="etablissement_details.php?etab_id= ' . $cockEtab_bew[$i]["id"] . '">' . $cockEtab_bew[$i]["name"] . '</a></td>';
+							echo '<td>' . $cockEtab_bew[$i]["ort"] . '</td>';
+							echo '<td>' . $cockEtab_bew[$i]["preis"] . '</td>';
+							echo '<td>' . $cockEtab_bew[$i]["wert"] . '</td>';
 							echo '</tr>';
 						}
 						echo '
@@ -301,14 +208,14 @@ $notPossibleEtaIds = $statement->fetchAll();
 							</thead> 
 							<tbody>';
 
-						for ($i = 0; $i < count($bewFetch); $i++) {
+						for ($i = 0; $i < count($cock_bew); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $bewFetch[$i]["userid"] . '">' . $bewFetch[$i]["username"] . '</a></td>';
-							echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $bewFetch[$i]["etab_id"] . '">' . $bewFetch[$i]["etab_name"] . '</a></td>';
-							echo '<td>' . $bewFetch[$i]["text"] . '</td>';
-							echo '<td>' . $bewFetch[$i]["wert"] . '</td>';
-							echo '<td>' . $bewFetch[$i]["ts"] . '</td>';
+							echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userid"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
+							echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
+							echo '<td>' . $cock_bew[$i]["text"] . '</td>';
+							echo '<td>' . $cock_bew[$i]["wert"] . '</td>';
+							echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
 							echo '</tr>';
 						}
 						echo '</tbody></table>';
@@ -324,8 +231,8 @@ $notPossibleEtaIds = $statement->fetchAll();
 										<label for="eta">Wo getrunken?</label>
 										<!--<input type="text" class="form-control" id="bew_etab" placeholder="Etablissement ausw&auml;hlen" name="eta">-->
 										<select class="custom-select" name="eta" id="bew_etab">';
-								for ($i = 0; $i < count($allEtaFetch); $i++) {
-									echo '<option value="' . $allEtaFetch[$i]["id"] . '">' . $allEtaFetch[$i]["name"] . ', ' . $allEtaFetch[$i]["ort"] . '</option>';
+								for ($i = 0; $i < count($cockEtab_liste); $i++) {
+									echo '<option value="' . $cockEtab_liste[$i]["id"] . '">' . $cockEtab_liste[$i]["name"] . ', ' . $cockEtab_liste[$i]["ort"] . '</option>';
 								}
 								echo	'</select>
 									</div>

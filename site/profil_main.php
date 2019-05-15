@@ -23,8 +23,8 @@ if ($angemeldet) {
         include('../php/db/select_userPrivate.php');
         //Wird die gewünschte neue Email bereits verwendet?
         $newEmail = $_POST['u_ue_emailNew'];
-        include('../php/db/select_userEmail.php');
-        if ($userEmail == true) {
+        include('../php/db/check_email.php');
+        if ($email_vorhanden == true) {
             $error = true;
             $message = "Die E-Mail Addresse ist bereits einem User zugewiesen.";
         } elseif (password_verify($_POST['u_ue_password'], $userPrivate['passwort'])) {

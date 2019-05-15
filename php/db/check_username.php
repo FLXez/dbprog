@@ -5,5 +5,5 @@ $statement = $pdo->prepare(
      FROM user 
      WHERE username = :username");
 $result = $statement->execute(array('username' => $newUsername));
-$userUsername = $statement->fetch();
+$username_vorhanden = $statement->fetch();
 $pdo = NULL;

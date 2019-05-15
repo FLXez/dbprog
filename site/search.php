@@ -8,10 +8,12 @@ $keinErgebnis = false;
 $message = "";
 
 if (isset($_GET['search'])) {
-	$suchbegriff = "%" . $_POST['search'] . "%";
-	include('../php/db/select_search.php');
+	$filter = "%" . $_POST['search'] . "%";
+	$getEtab = true;
+	$getCock = true;
+	include('../php/db/select_card_info.php');
 
-	if (count($foundCock) == 0 && count($foundEtab) == 0) {
+	if (count($cardCock) == 0 && count($cardEtab) == 0) {
 		$keinErgebnis = true;
 		$message = "Keine Übereinstimmungen.";
 	} else {
@@ -78,23 +80,23 @@ if (isset($_GET['search'])) {
 				<div class="row">
 					<?php
 					if ($sucheBeendet && $keinErgebnis == false) {
-						for ($i = 0; $i < count($foundEtab); $i++) {
+						for ($i = 0; $i < count($cardEtab); $i++) {
 							echo '
 					<div class="card ml-4 mr-4 mt-4 mb-4" style="width: 19rem;">';
-							if ($foundEtab[$i][6] == null)
+							if ($cardEtab[$i][6] == null)
 								echo '
 					<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 							else
 								echo '
-					<img src="../php/get_img.php?etab_id=' . $foundEtab[$i][0] . '" class="card-img-top">';
+					<img src="../php/get_img.php?etab_id=' . $cardEtab[$i][0] . '" class="card-img-top">';
 							echo '
 						<div class="card-body">
 							<div class="row justify-content-between">
 								<div class="col-7">
-									<h5 class="card-title float-left">' . $foundEtab[$i][1] . '</h5>
+									<h5 class="card-title float-left">' . $cardEtab[$i][1] . '</h5>
 								</div>
 								<div class="col-5">';
-							if ($foundEtab[$i][4] == 1) {
+							if ($cardEtab[$i][4] == 1) {
 								echo '
 									<span class="badge badge-primary float-right">Verifiziert</span>';
 							} else {
@@ -106,41 +108,41 @@ if (isset($_GET['search'])) {
 							</div>
 							<div class="row">
 								<div class="col-12">	
-									<p class="card-text">' . $foundEtab[$i][2] . '<br>' . $foundEtab[$i][3] . '</p>
+									<p class="card-text">' . $cardEtab[$i][2] . '<br>' . $cardEtab[$i][3] . '</p>
 								</div>
 							</div>
 							<hr>
 							<div class="row">
 								<div class="col-4">
-									<h5 class="rating-num float-left">' . number_format($foundEtab[$i][5], 1) . '</h5>
+									<h5 class="rating-num float-left">' . number_format($cardEtab[$i][5], 1) . '</h5>
 								</div>
 								<div class="col-8">
 									<div class="rating float-right">';
-							if ($foundEtab[$i][5] >= 1)			echo '
+							if ($cardEtab[$i][5] >= 1)			echo '
 										<i class="fas fa-star"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($foundEtab[$i][5] >= 1.75)		echo '
+							if ($cardEtab[$i][5] >= 1.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($foundEtab[$i][5] >= 1.25)	echo '
+							elseif ($cardEtab[$i][5] >= 1.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($foundEtab[$i][5] >= 2.75)		echo '
+							if ($cardEtab[$i][5] >= 2.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($foundEtab[$i][5] >= 2.25)	echo '
+							elseif ($cardEtab[$i][5] >= 2.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($foundEtab[$i][5] >= 3.75)		echo '
+							if ($cardEtab[$i][5] >= 3.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($foundEtab[$i][5] >= 3.25)	echo '
+							elseif ($cardEtab[$i][5] >= 3.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($foundEtab[$i][5] >= 4.75)		echo '
+							if ($cardEtab[$i][5] >= 4.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($foundEtab[$i][5] >= 4.25)	echo '
+							elseif ($cardEtab[$i][5] >= 4.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
@@ -151,65 +153,65 @@ if (isset($_GET['search'])) {
 							<hr>
 							<div class="row">
 								<div class="col-12">
-									<a href="./etablissement_details.php?etab_id=' . $foundEtab[$i][0] . '" class="btn btn-primary btn-block">Details</a>
+									<a href="./etablissement_details.php?etab_id=' . $cardEtab[$i][0] . '" class="btn btn-primary btn-block">Details</a>
 								</div>
 							</div>							
 						</div>
 					</div>';
 						}
-						for ($i = 0; $i < count($foundCock); $i++) {
+						for ($i = 0; $i < count($cardCock); $i++) {
 							echo '
 					<div class="card ml-4 mr-4 mt-4 mb-4" style="width: 19rem;">';
-							if ($foundCock[$i][3] == null)
+							if ($cardCock[$i][3] == null)
 								echo '
 						<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 							else
 								echo '
-						<img src="../php/get_img.php?cock_id=' . $foundCock[$i][0] . '" class="card-img-top">';
+						<img src="../php/get_img.php?cock_id=' . $cardCock[$i][0] . '" class="card-img-top">';
 							echo '
 						<div class="card-body">
 							<div class="row">
 								<div class="col-12">
-									<h5 class="card-title">' . $foundCock[$i][1] . '</h5>
+									<h5 class="card-title">' . $cardCock[$i][1] . '</h5>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-12">
-									<p class="card-text">' . $foundCock[$i][2] . '</p>
+									<p class="card-text">' . $cardCock[$i][2] . '</p>
 								</div>
 							</div>
 							<hr>
 							<div class="row">							
 								<div class="col-4">
-									<h5 class="rating-num float-left">' . number_format($foundCock[$i][4], 1) . '</h5>
+									<h5 class="rating-num float-left">' . number_format($cardCock[$i][4], 1) . '</h5>
 								</div>
 								<div class="col-8">
 									<div class="rating float-right">';
-							if ($foundCock[$i][4] >= 1)			echo '
+							if ($cardCock[$i][4] >= 1)			echo '
 										<i class="fas fa-star"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($foundCock[$i][4] >= 1.75)		echo '
+							if ($cardCock[$i][4] >= 1.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($foundCock[$i][4] >= 1.25)	echo '
+							elseif ($cardCock[$i][4] >= 1.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($foundCock[$i][4] >= 2.75)		echo '
+							if ($cardCock[$i][4] >= 2.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($foundCock[$i][4] >= 2.25)	echo '
+							elseif ($cardCock[$i][4] >= 2.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($foundCock[$i][4] >= 3.75)		echo '
+							if ($cardCock[$i][4] >= 3.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($foundCock[$i][4] >= 3.25)	echo '
+							elseif ($cardCock[$i][4] >= 3.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
-							if ($foundCock[$i][4] >= 4.75)		echo '
+							if ($cardCock[$i][4] >= 4.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($foundCock[$i][4] >= 4.25)	echo '
+							elseif ($cardCock[$i][4] >= 4.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
 							else								echo '
 										<i class="far fa-star"></i>';
@@ -220,7 +222,7 @@ if (isset($_GET['search'])) {
 							<hr>
 							<div class="row">
 								<div class="col-12">
-									<a href="./cocktail_details.php?cock_id=' . $foundCock[$i][0] . '" class="btn btn-primary btn-block">Details</a>
+									<a href="./cocktail_details.php?cock_id=' . $cardCock[$i][0] . '" class="btn btn-primary btn-block">Details</a>
 								</div>
 							</div>
 						</div>

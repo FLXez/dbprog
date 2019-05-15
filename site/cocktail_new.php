@@ -13,12 +13,12 @@ if ($angemeldet) {
 	$angelegt = false;
 	$message = "";
 
-	$statementEtabs = $pdo->prepare("SELECT id,
+	$statement = $pdo->prepare("SELECT id,
 											name,
 											ort
 									FROM etab ");
-	$etabResult = $statementEtabs->execute();
-	$allEtabsPos = $statementEtabs->fetchAll();
+	$etabResult = $statement->execute();
+	$allEtabsPos = $statement->fetchAll();
 
 
 
