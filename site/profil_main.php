@@ -68,6 +68,33 @@ if ($angemeldet) {
             $message = "Das Passwort ist faslch.";
         }
     }
+
+    if(isset($_GET['update_userPic'])){
+
+        $file_name = $_FILES['file']['name'];
+		$file_type = $_FILES['file']['type'];
+		$file_size = $_FILES['file']['size'];
+        $file_tem_loc = $_FILES['file']['tmp_name'];
+        
+        if ($file_name) {
+			$handle = fopen($file_tem_loc, 'r');
+			$image = fread($handle, $file_size);
+		} else {
+			$image = "";
+        }
+
+
+        include('../php/db/update_userPic.php');
+
+        if($result){
+            $success = true;
+            $message= "Dein Bild wurde aktualisiert.";
+        }else{
+            $error = true;
+            $message= "Es ist ein Fehler beim aktualisieren des Bildes aufgetreten.";
+        }
+
+    }
     //Einlesen der ggf. updateten Userdaten
     include('../php/db/select_userInfo.php');
 }
@@ -113,12 +140,13 @@ if ($angemeldet) {
                 <div class="card mb-3" width="100%" style="max-height: 360px;">
                 <div class="row no-gutters">
                     <div class="col-md-2">';
-                //Bild aus der Datenbank ziehen, later!
-                if (true)
+                if ($userInfo["img"]){
+                    echo '<img src="../php/get_img.php?user_id=' . $userid . '" class="card-img-top">';
+                }else{
                     echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
-                else
+                    
+                }
 
-                    echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
                 echo ' 
                     </div>
                     <div class="col-md-10">
@@ -187,6 +215,16 @@ if ($angemeldet) {
                                 </div>
                             <button type="submit" class="btn btn-primary mt-2">Informationen aktualisieren</button>
                         </form>
+
+                        <hr class="ct-hr-divider-2">
+                        <form action="?update_userPic=1" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+							<label for="file">Bild aktualisieren</label>
+                            <input type="file" name="file" id="file" class="form-control-file"> 	
+                            <button type="submit" class="btn btn-primary mt-2">Aktualisieren</button>
+						</div>
+                        </form>
+
                         <hr class="ct-hr-divider-2">
                         <form action="?update_userEmail=1" method="post">
                             <div class="form-group">

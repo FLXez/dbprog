@@ -18,5 +18,12 @@ elseif (isset($_GET['cock_id']))
 		echo $imgFetch[0];
 	}
 }
+elseif (isset($_GET['user_id'])){
+	$result = $pdo->prepare("SELECT img FROM user WHERE id = :user_id");
+	if ($result->execute(array('user_id'=> $_GET['user_id']))){
+		$imgFetch = $result->fetch();
+		echo $imgFetch[0];
+	}
+}
 $pdo = NULL;
 ?>

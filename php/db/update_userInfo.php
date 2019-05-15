@@ -1,7 +1,7 @@
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $statement = $pdo->prepare(
-    "UPDATE user 
+      "UPDATE user 
      SET vorname = :vorname
         ,nachname = :nachname
         ,age = :age

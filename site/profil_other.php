@@ -40,8 +40,8 @@ include('../php/db/select_user_bewEtab.php');
                     <div class="col-md-2">
                         <?php
                         //Bild aus der Datenbank ziehen, later!
-                        if (true)
-                            echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
+                        if ($userInfo['img'])
+                            echo '<img src="../php/get_img.php?user_id=' . $userid . '" class="card-img-top">';
                         else
 
                             echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
