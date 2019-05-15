@@ -4,9 +4,12 @@ $activeHead = "etablissement";
 $_SESSION['source'] = "Location: ../site/etablissement_details.php?etab_id=" . $_GET['etab_id'];
 
 $etabid = $_GET['etab_id'];
-$userid = $_SESSION['userid'];
+if($angemeldet){
 
-include('../php/db/select_userInfo.php');
+	$userid = $_SESSION['userid'];
+	
+	include('../php/db/select_userInfo.php');
+}
 
 if(isset($_GET['verifiziert'])){
 	$verifizierung = $_GET['verifiziert'];
@@ -107,17 +110,20 @@ include('../php/db/select_cocktailkarte.php');
 							</div>
 							<div>
 								<?php
-								if($etabInfo["verifiziert"]==0 && $userInfo["admin"]==1){
-									
-									echo '
-									<form action="?etab_id=' . $_GET['etab_id'] . '&verifiziert=1" method="POST">
-									<button type="submit" class="btn btn-primary mt-2">Verifizieren</button>
-									</form>';
-								}elseif($etabInfo["verifiziert"]==1 && $userInfo["admin"]==1){
-									echo '
-									<form action="?etab_id=' . $_GET['etab_id'] . '&verifiziert=0" method="POST">
-									<button type="submit" class="btn btn-primary mt-2">Verifizierung aufheben</button>
-									</form>';
+								if($angemeldet){
+
+									if($etabInfo["verifiziert"]==0 && $userInfo["admin"]==1){
+										
+										echo '
+										<form action="?etab_id=' . $_GET['etab_id'] . '&verifiziert=1" method="POST">
+										<button type="submit" class="btn btn-primary mt-2">Verifizieren</button>
+										</form>';
+									}elseif($etabInfo["verifiziert"]==1 && $userInfo["admin"]==1){
+										echo '
+										<form action="?etab_id=' . $_GET['etab_id'] . '&verifiziert=0" method="POST">
+										<button type="submit" class="btn btn-primary mt-2">Verifizierung aufheben</button>
+										</form>';
+									}
 								}
 								?>
 							</div>
