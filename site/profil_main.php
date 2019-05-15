@@ -95,6 +95,18 @@ if ($angemeldet) {
         }
 
     }
+
+    if(isset($_GET['admin'])){
+        $admin = $_GET['admin'];
+        include('../php/db/update_adminstatus.php');
+        if($result){
+            $success = true;
+            $message= "Adminstatus wurde aktualisiert.";
+        }else{
+            $error = true;
+            $message= "Es ist ein Fehler beim aktualisieren des Adminstatuses aufgetreten.";
+        }
+    }
     //Einlesen der ggf. updateten Userdaten
     include('../php/db/select_userInfo.php');
 }
@@ -152,7 +164,12 @@ if ($angemeldet) {
                     <div class="col-md-10">
                         <div class="card-body d-flex flex-column" style="max-height: 200px;">
                             <div>
-                                <h1 class="card-title">' . $userInfo["uname"] . '</h1>
+                                <h1 class="card-title">' . $userInfo["uname"];
+                                if($userInfo["admin"] == 1) {
+                                    echo '
+                                            <span class="badge badge-primary float-right">Admin</span>';
+                                }
+                                echo '</h1>
                                 <hr>
                             </div>
                             <div class="card-text">
@@ -175,6 +192,20 @@ if ($angemeldet) {
                                     <div class="row">
                                         <div class="col-2">Mitglied seit: </div>
                                         <div class="col-10">' . $userInfo["ts"] . '</div>
+                                    </div>
+                                    <div>';
+                                    
+                                    if($angemeldet){
+    
+                                        if($userInfo["admin"]==1){
+                                            
+                                            echo '
+                                            <form action="?admin=0" method="POST">
+                                            <button type="submit" class="btn btn-primary mt-2">Zurücktreten als Admin</button>
+                                            </form>';
+                                        }
+                                    }
+                                    echo '
                                     </div>
                             </div>
                         </div>

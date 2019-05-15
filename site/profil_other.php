@@ -4,7 +4,19 @@ $activeHead = "user";
 
 $_SESSION['source'] = "Location: ../site/profil_other.php?showUser=" . $_GET["showUser"];
 
+if($angemeldet){
+    $userid = $_SESSION['userid'];
+    include('../php/db/select_userInfo.php');
+    $isAdmin = $userInfo["admin"];
+}
+
+
 $userid = $_GET["showUser"];
+
+if(isset($_GET['admin'])){
+    $admin = $_GET['admin'];
+    include('../php/db/update_adminstatus.php');
+}
 include('../php/db/select_userInfo.php');
 include('../php/db/select_user_bewCock.php');
 include('../php/db/select_user_bewEtab.php');
@@ -50,7 +62,12 @@ include('../php/db/select_user_bewEtab.php');
                     <div class="col-md-10">
                         <div class="card-body d-flex flex-column" style="max-height: 200px;">
                             <div>
-                                <h1 class="card-title"> <?php echo $userInfo["uname"]; ?> </h1>
+                                <h1 class="card-title"> <?php echo $userInfo["uname"];
+                                if($userInfo["admin"] == 1) {
+                                    echo '
+                                            <span class="badge badge-primary float-right">Admin</span>';
+                                }
+                                ?> </h1>
                                 <hr>
                             </div>
                             <div class="card-text">
@@ -75,7 +92,27 @@ include('../php/db/select_user_bewEtab.php');
                                     <div class="row">
                                         <div class="col-2">Mitglied seit: </div>
                                         <div class="col-10">' . $userInfo["ts"] . '</div>
-                                    </div>';
+                                    </div>
+                                    <div>';
+                                    
+                                    if($angemeldet){
+    
+                                        if($userInfo["admin"]==1 && $isAdmin==1){
+                                            
+                                            echo '
+                                            <form action="?showUser=' . $userid . '&admin=0" method="POST">
+                                            <button type="submit" class="btn btn-primary mt-2">Adminrecht entziehen</button>
+                                            </form>';
+                                        }else if($userInfo["admin"]==0 && $isAdmin==1){
+                                            echo '
+                                            <form action="?showUser=' . $userid . '&admin=1" method="POST">
+                                            <button type="submit" class="btn btn-primary mt-2">Adminrecht zuteilen</button>
+                                            </form>';
+                                        }
+                                    }
+                                    echo '
+                                    </div>'
+                                    ;
                                 ?>
                             </div>
                         </div>
