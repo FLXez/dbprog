@@ -100,13 +100,13 @@ include('../php/db/select_user_bewEtab.php');
                                     
                                     if($angemeldet){
     
-                                        if($userInfo["admin"]==1 && $isAdmin>0){
+                                        if($userInfo["admin"]==1 && $isAdmin>1){
                                             
                                             echo '
                                             <form action="?showUser=' . $userid . '&admin=0" method="POST">
                                             <button type="submit" class="btn btn-primary mt-2">Modrecht entziehen</button>
                                             </form>';
-                                        }else if($userInfo["admin"]==0 && $isAdmin>0){
+                                        }else if($userInfo["admin"]==0 && $isAdmin>1){
                                             echo '
                                             <form action="?showUser=' . $userid . '&admin=1" method="POST">
                                             <button type="submit" class="btn btn-primary mt-2">Modrecht zuteilen</button>
