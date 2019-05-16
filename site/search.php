@@ -70,7 +70,7 @@ if (isset($_GET['search'])) {
 				<form class="ml-2" action="?search=1" method="POST">
 					<div class="form group">
 						<input type="text" maxlength="50" class="form-control" id="search" name="search" placeholder="Was suchst du?" required>
-						<button type="submit" class="btn btn-primary mt-2">Suchen</button>
+						<button type="submit" class="btn btn-primary mt-3">Suchen</button>
 					</div>
 				</form>
 			</div>

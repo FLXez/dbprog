@@ -15,7 +15,7 @@ $_SESSION['source'] = "Location: ../site/terms.php";
     <meta name="description" content="">
     <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
     <link rel="shortcut icon" type="image/x-icon" href="../res/favicon.ico">
-    <title>Hameln E&C - TITEL</title>
+    <title>Hameln E&C - Terms</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -34,12 +34,12 @@ $_SESSION['source'] = "Location: ../site/terms.php";
     <main role="main">
         <div class="mt-5 ml-5 mr-5">
             <div class="card card-body">
-                <h2 class="ml-4">Terms</h2>
+                <h2 class="ml-2">Terms</h2>
                 <hr>
-                <div class="ml-5 mr-5 mt-2">
+                <div class="ml-2">
                    Dies das, wir filmen alles ab was sie tun, wir senden alle Daten von Steam,
                    PayPal und ihrem Browser an koreanische Unternehmen mit Sitz auf den 
-                   Philipienen und sowas. <br>
+                   Philippinen und sowas. <br>
                    Das Übliche halt!
                 </div>
             </div>
