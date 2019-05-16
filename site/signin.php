@@ -1,67 +1,6 @@
 <?php
-include('../php/sessioncheck.php');
+session_start();
 $activeHead = "user";
-//TODO: Angemeldet unten Seite anders aufbauen
-if (!$angemeldet) {
-
-    $message = "";
-    $error = false;
-    $success = false;
-
-    if (isset($_GET['login'])) {
-        $username = $_POST['login_username'];
-        //select Passwort von dem Username
-        include('../php/db/select_userPrivate.php');
-        //User existent und Passwort richtig.
-        if ($userPrivate !== false && password_verify($_POST['login_passwort'], $userPrivate['passwort'])) {
-            $_SESSION['userid'] = $userPrivate['userid'];
-            if (!$_SESSION['source']) {
-                header("Location: ../site/index.php");
-            } else {
-                header($_SESSION['source']);
-            }
-        } else {
-            $error = true;
-            $message = "Username oder/und Passwort ungültig!";
-        }
-    }
-
-    if (isset($_GET['register'])) {
-
-        if ($_POST['register_passwort'] != $_POST['register_passwort_confirm']) {
-            $message = "Die Passwörter stimmen nicht überein.<br>";
-            $error = true;
-        }
-        //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
-        if (!$error) {
-            $newEmail = $_POST['register_email'];
-            include('../php/db/check_email.php');
-            if ($email_vorhanden) {
-                $message .= "Diese E-Mail-Adresse ist bereits vergeben.<br>";
-                $error = true;
-            }
-
-            $newUsername = $_POST['register_username'];
-            include('../php/db/check_username.php');
-            if ($username_vorhanden) {
-                $message .= "Dieser Username ist bereits vergeben.<br>";
-                $error = true;
-            }
-        }
-
-        //Keine Fehler, wir können den Nutzer registrieren
-        if (!$error) {
-            include('../php/db/insert_user.php');
-            if ($result) {
-                $success = true;
-                $message = "Du wurdest erfolgreich registriert.";
-            } else {
-                $error = true;
-                $message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
-            }
-        }
-    }
-}
 ?>
 <!doctype html>
 <html lang="de">
@@ -91,15 +30,19 @@ if (!$angemeldet) {
     <main role="main">
         <div class="ml-5 mr-5 mt-5">
             <?php
-            if (!$angemeldet) {
-                if ($error) {
-                    echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';
-                    echo $message;
-                    echo '</div>';
-                } elseif ($success) {
-                    echo '<div class="alert alert-info col-auto ct-text-center mb-4" role="alert">';
-                    echo $message;
-                    echo '</div>';
+            if (!isset($_SESSION['userid'])) {
+                if (isset($_SESSION['message'])) {
+                    if (isset($_SESSION['error'])) {
+                        echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
+                        echo $_SESSION['message'];
+                        echo '</div>';
+                        $_SESSION['error'] = NULL;
+                    } else {
+                        echo '<div class="alert alert-info col-auto ct-text-center" role="alert">';
+                        echo $_SESSION['message'];
+                        echo '</div>';
+                    }
+                    $_SESSION['message'] = NULL;
                 }
                 echo '
             <div class="card card-body">
@@ -114,7 +57,7 @@ if (!$angemeldet) {
                 <hr>
                 <div class="tab-content" id="signin-tabContent">
                     <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-                        <form class="mr-5 ml-5 mt-2" action="?login=1" method="post">
+                        <form class="mr-5 ml-5 mt-2" action="../php/login.php" method="post">
                             <div class="form-group">
                                 <label for="login_username">Username</label>
                                 <input type="text" class="form-control" id="login_username" placeholder="Username" name="login_username" maxlength="25" required>                                
@@ -127,7 +70,7 @@ if (!$angemeldet) {
                         </form>
                     </div>
                     <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-                        <form class="mr-5 ml-5 mt-2" action="?register=1" method="post">
+                        <form class="mr-5 ml-5 mt-2" action="../php/register.php" method="post">
                             <div class="form-group">
                                 <label for="register_username">Username</label>
                                 <input type="text" class="form-control" id="register_username" placeholder="Username" name="register_username" maxlength="25" required>                                

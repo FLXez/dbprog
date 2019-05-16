@@ -1,113 +1,13 @@
 <?php
-include('../php/sessioncheck.php');
+session_start();
 $activeHead = "user";
-$_SESSION['source'] = "Location: ../site/profil_main.php";
+$_SESSION['source'] = "../site/profil_main.php";
 
-if ($angemeldet) {
+if (isset($_SESSION['userid'])) {
     $userid = $_SESSION['userid'];
-
-    if (isset($_GET['update_userInfo'])) {
-        include('../php/db/update_userInfo.php');
-    }
 
     include('../php/db/select_user_bewCock.php');
     include('../php/db/select_user_bewEtab.php');
-
-
-    $message = "";
-    $error = false;
-    $success = false;
-
-    if (isset($_GET['update_userEmail'])) {
-        //Passwort aus der Datenbank ziehen.
-        include('../php/db/select_userPrivate.php');
-        //Wird die gewünschte neue Email bereits verwendet?
-        $newEmail = $_POST['u_ue_emailNew'];
-        include('../php/db/check_email.php');
-        if ($email_vorhanden == true) {
-            $error = true;
-            $message = "Die E-Mail Addresse ist bereits einem User zugewiesen.";
-        } elseif (password_verify($_POST['u_ue_password'], $userPrivate['passwort'])) {
-            //gewünschte Email frei, Passwort korrekt?
-            include("../php/db/update_userEmail.php");
-            if ($result) {
-                $success = true;
-                $message = "Die Email Adresse wurde erfolgreich geändert.";
-            } else {
-                $error = true;
-                $message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
-            }
-        } else {
-            //Passwort ist falsch
-            $error = true;
-            $message = "Das Passwort ist falsch.";
-        }
-    }
-
-    if (isset($_GET['update_userPasswort'])) {
-        //Passwort aus der Datenbank ziehen.
-        include('../php/db/select_userPrivate.php');
-
-        //Eingaben für das neue Passwort übereinstimmend?
-        if ($_POST['u_up_passNew'] != $_POST['u_up_passNew_confirm']) {
-            $error = true;
-            $message .= "Die Eingaben für das neue Passwort stimmen nicht überein.<br>";
-        } elseif (password_verify($_POST['u_up_passOld'], $userPrivate['passwort'])) {
-            //Passwort updaten
-            include('../php/db/update_userPassword.php');
-            if ($result) {
-                $success = true;
-                $message = "Dein Passwort wurde erfolgreich geändert!";
-            } else {
-                $error = true;
-                $message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
-            }
-        } else {
-            //Passwort ist falsch.
-            $error = true;
-            $message = "Das Passwort ist faslch.";
-        }
-    }
-
-    if(isset($_GET['update_userPic'])){
-
-        $file_name = $_FILES['file']['name'];
-		$file_type = $_FILES['file']['type'];
-		$file_size = $_FILES['file']['size'];
-        $file_tem_loc = $_FILES['file']['tmp_name'];
-        
-        if ($file_name) {
-			$handle = fopen($file_tem_loc, 'r');
-			$image = fread($handle, $file_size);
-		} else {
-			$image = "";
-        }
-
-
-        include('../php/db/update_userPic.php');
-
-        if($result){
-            $success = true;
-            $message= "Dein Bild wurde aktualisiert.";
-        }else{
-            $error = true;
-            $message= "Es ist ein Fehler beim aktualisieren des Bildes aufgetreten.";
-        }
-
-    }
-
-    if(isset($_GET['admin'])){
-        $admin = $_GET['admin'];
-        include('../php/db/update_adminstatus.php');
-        if($result){
-            $success = true;
-            $message= "Modstatus wurde aktualisiert.";
-        }else{
-            $error = true;
-            $message= "Es ist ein Fehler beim aktualisieren des Modstatuses aufgetreten.";
-        }
-    }
-    //Einlesen der ggf. updateten Userdaten
     include('../php/db/select_userInfo.php');
 }
 ?>
@@ -138,25 +38,28 @@ if ($angemeldet) {
     <main role="main">
         <div class="mt-5 ml-5 mr-5">
             <?php
-            if ($angemeldet) {
-                if ($error) {
-                    echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
-                    echo $message;
-                    echo '</div>';
-                } elseif ($success) {
-                    echo '<div class="alert alert-info col-auto ct-text-center" role="alert">';
-                    echo $message;
-                    echo '</div>';
+            if (isset($_SESSION['userid'])) {
+                if (isset($_SESSION['message'])) {
+                    if (isset($_SESSION['error'])) {
+                        echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
+                        echo $_SESSION['message'];
+                        echo '</div>';
+                        $_SESSION['error'] = NULL;
+                    } else {
+                        echo '<div class="alert alert-info col-auto ct-text-center" role="alert">';
+                        echo $_SESSION['message'];
+                        echo '</div>';
+                    }
+                    $_SESSION['message'] = NULL;
                 }
                 echo '
                 <div class="card mb-3" width="100%" style="max-height: 360px;">
                 <div class="row no-gutters">
                     <div class="col-md-2">';
-                if ($userInfo["img"]){
+                if ($userInfo["img"]) {
                     echo '<img src="../php/get_img.php?user_id=' . $userid . '" class="card-img-top">';
-                }else{
+                } else {
                     echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
-                    
                 }
 
                 echo ' 
@@ -165,14 +68,12 @@ if ($angemeldet) {
                         <div class="card-body d-flex flex-column" style="max-height: 200px;">
                             <div>
                                 <h1 class="card-title">' . $userInfo["uname"];
-                                if($userInfo["admin"] == 1) {
-                                    echo '
-                                            <span class="badge badge-primary float-right">Mod</span>';
-                                }elseif($userInfo["admin"]== 2){
-                                    echo '
-                                    <span class="badge badge-primary float-right">Admin</span>';
-                                }
-                                echo '</h1>
+                if ($_SESSION['admin'] == 1) {
+                    echo '          <span class="badge badge-primary float-right">Mod</span>';
+                } elseif ($_SESSION['admin'] == 2) {
+                    echo '          <span class="badge badge-primary float-right">Admin</span>';
+                }
+                echo '          </h1>
                                 <hr>
                             </div>
                             <div class="card-text">
@@ -197,19 +98,15 @@ if ($angemeldet) {
                                         <div class="col-10">' . $userInfo["ts"] . '</div>
                                     </div>
                                     <div>';
-                                    
-                                    if($angemeldet){
-    
-                                        if($userInfo["admin"]==1){
-                                            
-                                            echo '
-                                            <form action="?admin=0" method="POST">
-                                            <button type="submit" class="btn btn-primary mt-2">Zurücktreten als Mod</button>
-                                            </form>';
-                                        }
-                                    }
-                                    echo '
-                                    </div>
+                if ($_SESSION['admin'] == 1) {
+                    $_SESSION['degradeSelf'] = true;
+                    echo '
+                                    <form action="../php/db/update_userMod.php" method="POST">
+                                        <button type="submit" class="btn btn-primary mt-2">Zurücktreten als Mod</button>
+                                    </form>';
+                }
+                echo '
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -230,7 +127,7 @@ if ($angemeldet) {
                 <hr>                
                 <div class="tab-content" id="profil-tabContent">
                     <div class="tab-pane fade show active" id="setting" role="tabpanel" aria-labelledby="setting-tab">
-                        <form action="?update_userInfo=1" method="post">
+                        <form action="../php/db/update_userInfo.php" method="post">
                                 <div class="form-group">
                                     <label for="u_ui_vname">Vorname</label>
                                     <input type="text" maxlength="50" class="form-control" id="u_ui_vname" name="u_ui_vname" value="' . $userInfo['vname'] . '" placeholder="Vorname">
@@ -251,16 +148,16 @@ if ($angemeldet) {
                         </form>
 
                         <hr class="ct-hr-divider-2">
-                        <form action="?update_userPic=1" method="POST" enctype="multipart/form-data">
+                        <form action="../php/db/update_userPic.php" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
-							<label for="file">Bild aktualisieren</label>
+							<label for="file"><h5>Bild aktualisieren</h5></label>
                             <input type="file" name="file" id="file" class="form-control-file"> 	
-                            <button type="submit" class="btn btn-primary mt-2">Aktualisieren</button>
+                            <button type="submit" class="btn btn-primary mt-3">Aktualisieren</button>
 						</div>
                         </form>
 
                         <hr class="ct-hr-divider-2">
-                        <form action="?update_userEmail=1" method="post">
+                        <form action="../php/db/update_userEmail.php" method="post">
                             <div class="form-group">
                                 <label for="u_ue_emailOld">Aktuelle E-Mail Addresse</label>
                                 <input type="email" class="form-control" id="u_ue_emailOld" placeholder="' . $userInfo['email'] . '" readonly>
@@ -276,7 +173,7 @@ if ($angemeldet) {
                             <button type="submit" class="btn btn-primary mt-2">E-Mail Adresse ändern</button>
                         </form>
                         <hr class="ct-hr-divider-2">
-                        <form action="?update_userPasswort=1" method="post">
+                        <form action="../php/db/update_userPassword.php" method="post">
                             <div class="form-group">
                                 <label for="u_up_passOld">Altes Passwort</label>
                                 <input type="password" class="form-control" id="u_up_passOld" placeholder="Altes Passwort" name="u_up_passOld" maxlength="20">

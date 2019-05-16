@@ -1,10 +1,10 @@
 <?php
-include('../php/sessioncheck.php');
+session_start();
 $activeHead = "etablissement";
-$_SESSION['source'] = "Location: ../site/etablissement_new.php";
+$_SESSION['source'] = "../site/etablissement_new.php";
 
 
-if ($angemeldet) {
+if (isset($_SESSION['userid'])) {
 	$error = false;
 	$info = false;
 	$success = false;
@@ -78,7 +78,7 @@ if ($angemeldet) {
 	<main role="main">
 		<div class="mt-5 ml-5 mr-5">
 			<?php
-			if ($angemeldet) {
+			if (isset($_SESSION['userid'])) {
 				if ($error) {
 					echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';
 					echo $message;

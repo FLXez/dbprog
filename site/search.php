@@ -1,7 +1,7 @@
 <?php
-include('../php/sessioncheck.php');
+session_start();
 $activeHead = "search";
-$_SESSION['source'] = "Location: ../site/search.php";
+$_SESSION['source'] = "../site/search.php";
 
 $sucheBeendet = false;
 $keinErgebnis = false;

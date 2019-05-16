@@ -1,7 +1,7 @@
 <?php
-include('../php/sessioncheck.php');
+session_start();
 $activeHead = "uberUns";
-$_SESSION['source'] = "Location: ../site/about_team.php";
+$_SESSION['source'] = "../site/about_team.php";
 ?>
 <!doctype html>
 <html lang="de">

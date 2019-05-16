@@ -1,7 +1,7 @@
 ﻿<?php
-include('../php/sessioncheck.php');
+session_start();
 $activeHead = "etablissement";
-$_SESSION['source'] = "Location: ../site/etablissement_main.php";
+$_SESSION['source'] = "../site/etablissement_main.php";
 
 $filter = "%";
 $getEtab = true;

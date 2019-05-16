@@ -1,8 +1,8 @@
 <?php
-include('../php/sessioncheck.php');
+session_start();
 $activeHead = "user";
 $signout = true;
-if ($angemeldet) {
+if (isset($_SESSION['userid'])) {
     session_destroy();
     header("refresh:5;url=../site/index.php");
 }
@@ -32,7 +32,7 @@ if ($angemeldet) {
     ?>
     <main role="main">
         <?php
-        if ($angemeldet) {
+        if (isset($_SESSION['userid'])) {
             echo
                 '
             <h2 class="ct-text-divider">Erfolgreich abgemeldet!</h2>

@@ -1,10 +1,10 @@
 ﻿<?php
-include('../php/sessioncheck.php');
+session_start();
 $activeHead = "etablissement";
-$_SESSION['source'] = "Location: ../site/etablissement_details.php?etab_id=" . $_GET['etab_id'];
+$_SESSION['source'] = "../site/etablissement_details.php?etab_id=" . $_GET['etab_id'];
 
 $etabid = $_GET['etab_id'];
-if($angemeldet){
+if(isset($_SESSION['userid'])){
 
 	$userid = $_SESSION['userid'];
 	
@@ -25,7 +25,7 @@ include('../php/db/select_etabInfo.php');
 $bew = false;
 $bew_success = false;
 
-if (isset($_GET['bew_abgeben']) && $angemeldet) {
+if (isset($_GET['bew_abgeben']) && isset($_SESSION['userid'])) {
 	$bew = true;
 	$bew_wert = $_POST['wert'];
 	$bew_kommentar = $_POST['kommentar'];
@@ -117,7 +117,7 @@ include('../php/db/select_cocktailkarte.php');
 							</div>
 							<div>
 								<?php
-								if($angemeldet){
+								if(isset($_SESSION['userid'])){
 
 									if($etabInfo["verifiziert"]==0 && $userInfo["admin"]>0){
 										
@@ -200,7 +200,7 @@ include('../php/db/select_cocktailkarte.php');
 					</div>
 					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">
 						<?php
-						if ($angemeldet) {
+						if (isset($_SESSION['userid'])) {
 							if ($bew_success == false) {
 								echo '
 								<form class="mr-2 ml-2 mt-2" action="?etab_id=' . $_GET['etab_id'] . '&bew_abgeben=1" method="post">

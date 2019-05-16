@@ -18,6 +18,6 @@ $statement = $pdo->prepare(
 $result = $statement->execute(array('cock_id' => $cockid));
 $cock_bew = $statement->fetchAll();
 for ($i = 0; $i < count($cock_bew); $i++) {
-    $cock_bew[$i]["ts"] = date("d.m.Y");
+    $cock_bew[$i]["ts"] = date("d.m.Y",strtotime($cock_bew[$i]['ts']));
 }
 $pdo = NULL;

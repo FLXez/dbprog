@@ -1,7 +1,7 @@
 ﻿<?php
-include('../php/sessioncheck.php');
+session_start();
 $activeHead = "landing";
-$_SESSION['source'] = "Location: ../site/index.php";
+$_SESSION['source'] = "../site/index.php";
 
 include('../php/get_marketing.php');
 ?>
@@ -38,7 +38,7 @@ include('../php/get_marketing.php');
                 <li data-target="#carousel" data-slide-to="0" class="active"></li>
                 <li data-target="#carousel" data-slide-to="1"></li>
                 <?php
-                if (!$angemeldet) {
+                if (!isset($_SESSION['userid'])) {
                     echo '
                 <li data-target="#carousel" data-slide-to="2"></li>';
                 }
@@ -73,7 +73,7 @@ include('../php/get_marketing.php');
                     </div>
                 </div>
                 <?php
-                if (!$angemeldet) {
+                if (!isset($_SESSION['userid'])) {
                     echo '
                 <div class="carousel-item">
                     <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">

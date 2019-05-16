@@ -1,10 +1,10 @@
 <?php
-include('../php/sessioncheck.php');
+session_start();
 //activeHead setzen.
 $activeHead = "";
 //  EYYYYYY
 //  UNTER MIR ANPASSEN!
-$_SESSION['source'] = "Location: ../site/terms.php";
+$_SESSION['source'] = "../site/footer_privacy.php";
 ?>
 <!doctype html>
 <html lang="de">
@@ -15,7 +15,7 @@ $_SESSION['source'] = "Location: ../site/terms.php";
     <meta name="description" content="">
     <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
     <link rel="shortcut icon" type="image/x-icon" href="../res/favicon.ico">
-    <title>Hameln E&C - Terms</title>
+    <title>Hameln E&C - Privacy</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -34,13 +34,11 @@ $_SESSION['source'] = "Location: ../site/terms.php";
     <main role="main">
         <div class="mt-5 ml-5 mr-5">
             <div class="card card-body">
-                <h2 class="ml-2">Terms</h2>
+                <h2 class="ml-2">Privacy</h2>
                 <hr>
                 <div class="ml-2">
-                   Dies das, wir filmen alles ab was sie tun, wir senden alle Daten von Steam,
-                   PayPal und ihrem Browser an koreanische Unternehmen mit Sitz auf den 
-                   Philippinen und sowas. <br>
-                   Das Übliche halt!
+                   ALS OB SIE WIRKLICH HIER DRAUF GEKLICKT HABEN!? <br>
+                   Was stimmt nicht mit ihnen?
                 </div>
             </div>
         </div>

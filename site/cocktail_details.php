@@ -1,7 +1,7 @@
 ﻿<?php
-include('../php/sessioncheck.php');
+session_start();
 $activeHead = "cocktail";
-$_SESSION['source'] = "Location: ../site/cocktail_details.php?cock_id=" . $_GET['cock_id'];
+$_SESSION['source'] = "../site/cocktail_details.php?cock_id=" . $_GET['cock_id'];
 
 $cockid = $_GET['cock_id'];
 
@@ -24,7 +24,7 @@ if (isset($_GET['etab_zuordnen'])) {
 	}
 }
 
-if (isset($_GET['bew_abgeben']) && $angemeldet) {
+if (isset($_GET['bew_abgeben']) && isset($_SESSION['userid'])) {
 	$userid = $_SESSION['userid'];
 	$bew = true;
 	$bew_etab = $_POST['eta'];
@@ -224,7 +224,7 @@ include('../php/db/select_cockEtab_id.php');
 					</div>
 					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">
 						<?php
-						if ($angemeldet) {
+						if (isset($_SESSION['userid'])) {
 							if ($bew_success == false) {
 								echo '
 								<form class="mr-2 ml-2 mt-2" action="?cock_id=' . $_GET['cock_id'] . '&bew_abgeben=1" method="post">

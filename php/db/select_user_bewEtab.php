@@ -1,4 +1,9 @@
 <?php
+if (isset($_SESSION['userid']) && !isset($_SESSION['showUser'])) {
+   $userid = $_SESSION['userid'];
+} elseif (isset($_SESSION['showUser'])) {
+   $userid = $_SESSION['showUser'];
+}
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $statement = $pdo->prepare(
     "SELECT bew_etab.timestamp as ts
@@ -13,7 +18,7 @@ $statement = $pdo->prepare(
 $result = $statement->execute(array('userid' => $userid));
 $user_bewEtab = $statement->fetchAll();
 for ($i = 0; $i < count($user_bewEtab); $i++) {
-    $user_bewEtab[$i]["ts"] = date("d.m.Y");
+    $user_bewEtab[$i]["ts"] = date("d.m.Y",strtotime($user_bewEtab[$i]['ts']));
 }
 $pdo = NULL;
-?>
+$_SESSION['showUser'] = NULL;

@@ -1,4 +1,9 @@
 <?php
+if (isset($_SESSION['userid']) && !isset($_SESSION['showUser'])) {
+       $userid = $_SESSION['userid'];
+} elseif (isset($_SESSION['showUser'])) {
+       $userid = $_SESSION['showUser'];
+}
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $statement = $pdo->prepare(
        "SELECT username as uname
@@ -11,9 +16,10 @@ $statement = $pdo->prepare(
               ,img as img
               ,admin as admin
         FROM user 
-        WHERE id = :userid");
+        WHERE id = :userid"
+);
 $result = $statement->execute(array('userid' => $userid));
 $userInfo = $statement->fetch();
-$userInfo["ts"] = date("d.m.Y");
+$userInfo["ts"] = date("d.m.Y", strtotime($userInfo['ts']));
 $pdo = NULL;
-?>
+$_SESSION['showUser'] = NULL;

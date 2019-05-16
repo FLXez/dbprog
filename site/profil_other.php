@@ -1,24 +1,14 @@
 <?php
-include('../php/sessioncheck.php');
+session_start();
 $activeHead = "user";
+$_SESSION['source'] = "../site/profil_other.php?showUser=" . $_GET["showUser"];
 
-$_SESSION['source'] = "Location: ../site/profil_other.php?showUser=" . $_GET["showUser"];
-
-if($angemeldet){
-    $userid = $_SESSION['userid'];
-    include('../php/db/select_userInfo.php');
-    $isAdmin = $userInfo["admin"];
-}
-
-
-$userid = $_GET["showUser"];
-
-if(isset($_GET['admin'])){
-    $admin = $_GET['admin'];
-    include('../php/db/update_adminstatus.php');
-}
+//Variable muss immer wieder neu gesetzt werden, da sie am Ende gelöscht wird um Datenverarbeitungsfehler zu vermeiden.
+$_SESSION['showUser'] = $_GET['showUser'];
 include('../php/db/select_userInfo.php');
+$_SESSION['showUser'] = $_GET['showUser'];
 include('../php/db/select_user_bewCock.php');
+$_SESSION['showUser'] = $_GET['showUser'];
 include('../php/db/select_user_bewEtab.php');
 ?>
 <!doctype html>
@@ -47,13 +37,27 @@ include('../php/db/select_user_bewEtab.php');
     </header>
     <main role="main">
         <div class="mt-5 ml-5 mr-5">
+            <?php
+            if (isset($_SESSION['message'])) {
+                if (isset($_SESSION['error'])) {
+                    echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
+                    echo $_SESSION['message'];
+                    echo '</div>';
+                    $_SESSION['error'] = NULL;
+                } else {
+                    echo '<div class="alert alert-info col-auto ct-text-center" role="alert">';
+                    echo $_SESSION['message'];
+                    echo '</div>';
+                }
+                $_SESSION['message'] = NULL;
+            }
+            ?>
             <div class="card mb-3" width="100%" style="max-height: 360px;">
                 <div class="row no-gutters">
                     <div class="col-md-2">
                         <?php
-                        //Bild aus der Datenbank ziehen, later!
                         if ($userInfo['img'])
-                            echo '<img src="../php/get_img.php?user_id=' . $userid . '" class="card-img-top">';
+                            echo '<img src="../php/get_img.php?user_id=' . $_GET['showUser'] . '" class="card-img-top">';
                         else
 
                             echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
@@ -63,14 +67,14 @@ include('../php/db/select_user_bewEtab.php');
                         <div class="card-body d-flex flex-column" style="max-height: 200px;">
                             <div>
                                 <h1 class="card-title"> <?php echo $userInfo["uname"];
-                                if($userInfo["admin"] == 1) {
-                                    echo '
+                                                        if ($userInfo["admin"] == 1) {
+                                                            echo '
                                             <span class="badge badge-primary float-right">Mod</span>';
-                                }elseif($userInfo["admin"] == 2){
-                                    echo '
+                                                        } elseif ($userInfo["admin"] == 2) {
+                                                            echo '
                                     <span class="badge badge-primary float-right">Admin</span>';
-                                }
-                                ?> </h1>
+                                                        }
+                                                        ?> </h1>
                                 <hr>
                             </div>
                             <div class="card-text">
@@ -97,25 +101,27 @@ include('../php/db/select_user_bewEtab.php');
                                         <div class="col-10">' . $userInfo["ts"] . '</div>
                                     </div>
                                     <div>';
-                                    
-                                    if($angemeldet){
-    
-                                        if($userInfo["admin"]==1 && $isAdmin>1){
-                                            
-                                            echo '
-                                            <form action="?showUser=' . $userid . '&admin=0" method="POST">
+
+                                if (isset($_SESSION['userid'])) {
+
+                                    if ($userInfo["admin"] == 1 && $_SESSION['admin'] > 1) {
+                                        $_SESSION['changeAdmin_userid'] = $_GET['showUser'];
+                                        $_SESSION['changeAdmin_pos'] = 0;
+                                        echo '
+                                            <form action="../php/db/update_userMod.php" method="POST">
                                             <button type="submit" class="btn btn-primary mt-2">Modrecht entziehen</button>
                                             </form>';
-                                        }else if($userInfo["admin"]==0 && $isAdmin>1){
-                                            echo '
-                                            <form action="?showUser=' . $userid . '&admin=1" method="POST">
+                                    } else if ($userInfo["admin"] == 0 && $_SESSION['admin'] > 1) {
+                                        $_SESSION['changeAdmin_userid'] = $_GET['showUser'];
+                                        $_SESSION['changeAdmin_pos'] = 1;
+                                        echo '
+                                            <form action="../php/db/update_userMod.php" method="POST">
                                             <button type="submit" class="btn btn-primary mt-2">Modrecht zuteilen</button>
                                             </form>';
-                                        }
                                     }
-                                    echo '
-                                    </div>'
-                                    ;
+                                }
+                                echo '
+                                    </div>';
                                 ?>
                             </div>
                         </div>

@@ -13,6 +13,6 @@ $statement = $pdo->prepare(
 $result = $statement->execute(array('etab_id' => $etabid));
 $etab_bew = $statement->fetchAll();
 for ($i = 0; $i < count($etab_bew); $i++) {
-    $etab_bew[$i]["ts"] = date("d.m.Y");
+    $etab_bew[$i]["ts"] = date("d.m.Y",strtotime($etab_bew[$i]['ts']));
 }
 $pdo = NULL;
