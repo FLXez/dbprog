@@ -23,7 +23,7 @@ echo '
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item ' . $searchActive . '">
-                    <a class="nav-link" href="../site/search.php">Suche</a>
+                    <a class="nav-link" href="../site/suche.php">Suche</a>
                 </li>
                 <li class="nav-item dropdown  ' . $etablissementActive . '">
                     <a class="nav-link dropdown-toggle" href="" id="etablissementDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Etablissements</a>

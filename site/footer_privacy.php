@@ -1,9 +1,8 @@
 <?php
 session_start();
-//activeHead setzen.
+
 $activeHead = "";
-//  EYYYYYY
-//  UNTER MIR ANPASSEN!
+
 $_SESSION['source'] = "../site/footer_privacy.php";
 ?>
 <!doctype html>

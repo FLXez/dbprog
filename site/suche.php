@@ -1,28 +1,54 @@
 <?php
 session_start();
 $activeHead = "search";
-$_SESSION['source'] = "../site/search.php";
+$_SESSION['source'] = "../site/suche.php";
 
-$sucheBeendet = false;
-$keinErgebnis = false;
-$message = "";
+if (isset($_GET['for'])) {
+	$filter = '%' . $_GET['for'] . '%';
 
-if (isset($_GET['search'])) {
-	$filter = "%" . $_POST['search'] . "%";
-	$getEtab = true;
-	$getCock = true;
+	if (isset($_GET['cock'])) {
+		$getCock = true;
+	} else {
+		$getCock = false;
+	}
+
+	if (isset($_GET['etab'])) {
+		$getEtab = true;
+	} else {
+		$getEtab = false;
+	}
+
 	include('../php/db/select_card_info.php');
 
-	if (count($cardCock) == 0 && count($cardEtab) == 0) {
-		$keinErgebnis = true;
-		$message = "Keine Übereinstimmungen.";
-	} else {
-		$message = "Suchergebnisse werden unten angezeigt!";
+	if ($getCock && $getEtab) {
+		if (count($cardCock) == 0 && count($cardEtab) == 0) {
+			$done = true;
+			$error = true;
+			$message = "Keine Treffer.";
+		} else {
+			$done = true;
+			$message = "Suchergebnisse werden unten angezeigt!";
+		}
+	} elseif ($getCock) {
+		if (count($cardCock) == 0) {
+			$done = true;
+			$error = true;
+			$message = "Keine Treffer.";
+		} else {
+			$done = true;
+			$message = "Suchergebnisse werden unten angezeigt!";
+		}
+	} elseif ($getEtab) {
+		if (count($cardEtab) == 0) {
+			$done = true;
+			$error = true;
+			$message = "Keine Treffer.";
+		} else {
+			$done = true;
+			$message = "Suchergebnisse werden unten angezeigt!";
+		}
 	}
-	$sucheBeendet = true;
 }
-
-
 
 ?>
 <!doctype html>
@@ -53,25 +79,52 @@ if (isset($_GET['search'])) {
 	<main role="main">
 		<div class="mt-5 ml-5 mr-5">
 			<?php
-
-			if ($keinErgebnis) {
-				echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';
-				echo $message;
-				echo '</div>';
-			} elseif ($sucheBeendet) {
-				echo '<div class="alert alert-info col-auto ct-text-center mb-4" role="alert">';
-				echo $message;
-				echo '</div>';
+			if (isset($message)) {
+				if (isset($error)) {
+					echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
+					echo $message;
+					echo '</div>';
+				} else {
+					echo '<div class="alert alert-info col-auto ct-text-center" role="alert">';
+					echo $message;
+					echo '</div>';
+				}
 			}
 			?>
 			<div class="card card-body">
 				<h2 class="ml-2">Suche</h2>
 				<hr>
-				<form class="ml-2" action="?search=1" method="POST">
-					<div class="form group">
-						<input type="text" maxlength="50" class="form-control" id="search" name="search" placeholder="Was suchst du?" required>
-						<button type="submit" class="btn btn-primary mt-3">Suchen</button>
+				<form class="ml-2" action="?for=<?php echo $_GET['for'] ?>" method="GET">
+					<h5>Suchergebnisse filtern:</h5>
+					<div class="form-check form-check-inline mb-3">
+						<input class="form-check-input" type="checkbox" id="cock" name="cock[]" value="true" <?php if (isset($getCock)) {
+																													if ($getCock) {
+																														echo 'checked';
+																													} else {
+																														echo '';
+																													}
+																												} else {
+																													echo 'checked';
+																												} ?>>
+						<label class="form-check-label" for="cock">Cocktails anzeigen</label>
 					</div>
+					<div class="form-check form-check-inline mb-3">
+						<input class="form-check-input" type="checkbox" id="etab" name="etab[]" value="true" <?php if (isset($getEtab)) {
+																													if ($getEtab) {
+																														echo 'checked';
+																													} else {
+																														echo '';
+																													}
+																												} else {
+																													echo 'checked';
+																												} ?>>
+						<label class="form-check-label" for="etab">Etablissements anzeigen</label>
+					</div>
+					<input type="text" maxlength="50" size="50" class="form-control" id="search" name="for" placeholder="Was suchst du?" value="<?php if (isset($_GET['for'])) {
+																																					echo $_GET['for'];
+																																				} ?>" required>
+					<button type="submit" class="btn btn-primary mt-3">Suchen</button>
+
 				</form>
 			</div>
 			<div class="card card-body mt-3">
@@ -79,31 +132,32 @@ if (isset($_GET['search'])) {
 				<hr>
 				<div class="row">
 					<?php
-					if ($sucheBeendet && $keinErgebnis == false) {
-						for ($i = 0; $i < count($cardEtab); $i++) {
-							echo '
+					if (isset($done) && !isset($error)) {
+						if ($getEtab) {
+							for ($i = 0; $i < count($cardEtab); $i++) {
+								echo '
 					<div class="card ml-4 mr-4 mt-4 mb-4" style="width: 19rem;">';
-							if ($cardEtab[$i][6] == null)
-								echo '
+								if ($cardEtab[$i][6] == null)
+									echo '
 					<img src="../res/placeholder_no_image.svg" class="card-img-top">';
-							else
-								echo '
+								else
+									echo '
 					<img src="../php/get_img.php?etab_id=' . $cardEtab[$i][0] . '" class="card-img-top">';
-							echo '
+								echo '
 						<div class="card-body">
 							<div class="row justify-content-between">
 								<div class="col-7">
 									<h5 class="card-title float-left">' . $cardEtab[$i][1] . '</h5>
 								</div>
 								<div class="col-5">';
-							if ($cardEtab[$i][4] == 1) {
-								echo '
+								if ($cardEtab[$i][4] == 1) {
+									echo '
 									<span class="badge badge-primary float-right">Verifiziert</span>';
-							} else {
-								echo '
+								} else {
+									echo '
 									<span class="badge badge-warning float-right">Nicht verifiziert</span>';
-							}
-							echo '
+								}
+								echo '
 								</div>
 							</div>
 							<div class="row">
@@ -118,35 +172,35 @@ if (isset($_GET['search'])) {
 								</div>
 								<div class="col-8">
 									<div class="rating float-right">';
-							if ($cardEtab[$i][5] >= 1)			echo '
+								if ($cardEtab[$i][5] >= 1)			echo '
 										<i class="fas fa-star"></i>';
-							else								echo '
+								else								echo '
 										<i class="far fa-star"></i>';
-							if ($cardEtab[$i][5] >= 1.75)		echo '
+								if ($cardEtab[$i][5] >= 1.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($cardEtab[$i][5] >= 1.25)	echo '
+								elseif ($cardEtab[$i][5] >= 1.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
-							else								echo '
+								else								echo '
 										<i class="far fa-star"></i>';
-							if ($cardEtab[$i][5] >= 2.75)		echo '
+								if ($cardEtab[$i][5] >= 2.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($cardEtab[$i][5] >= 2.25)	echo '
+								elseif ($cardEtab[$i][5] >= 2.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
-							else								echo '
+								else								echo '
 										<i class="far fa-star"></i>';
-							if ($cardEtab[$i][5] >= 3.75)		echo '
+								if ($cardEtab[$i][5] >= 3.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($cardEtab[$i][5] >= 3.25)	echo '
+								elseif ($cardEtab[$i][5] >= 3.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
-							else								echo '
+								else								echo '
 										<i class="far fa-star"></i>';
-							if ($cardEtab[$i][5] >= 4.75)		echo '
+								if ($cardEtab[$i][5] >= 4.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($cardEtab[$i][5] >= 4.25)	echo '
+								elseif ($cardEtab[$i][5] >= 4.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
-							else								echo '
+								else								echo '
 										<i class="far fa-star"></i>';
-							echo '
+								echo '
 									</div>
 								</div>
 							</div>
@@ -158,17 +212,19 @@ if (isset($_GET['search'])) {
 							</div>							
 						</div>
 					</div>';
+							}
 						}
-						for ($i = 0; $i < count($cardCock); $i++) {
-							echo '
+						if ($getCock) {
+							for ($i = 0; $i < count($cardCock); $i++) {
+								echo '
 					<div class="card ml-4 mr-4 mt-4 mb-4" style="width: 19rem;">';
-							if ($cardCock[$i][3] == null)
-								echo '
+								if ($cardCock[$i][3] == null)
+									echo '
 						<img src="../res/placeholder_no_image.svg" class="card-img-top">';
-							else
-								echo '
+								else
+									echo '
 						<img src="../php/get_img.php?cock_id=' . $cardCock[$i][0] . '" class="card-img-top">';
-							echo '
+								echo '
 						<div class="card-body">
 							<div class="row">
 								<div class="col-12">
@@ -187,35 +243,35 @@ if (isset($_GET['search'])) {
 								</div>
 								<div class="col-8">
 									<div class="rating float-right">';
-							if ($cardCock[$i][4] >= 1)			echo '
+								if ($cardCock[$i][4] >= 1)			echo '
 										<i class="fas fa-star"></i>';
-							else								echo '
+								else								echo '
 										<i class="far fa-star"></i>';
-							if ($cardCock[$i][4] >= 1.75)		echo '
+								if ($cardCock[$i][4] >= 1.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($cardCock[$i][4] >= 1.25)	echo '
+								elseif ($cardCock[$i][4] >= 1.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
-							else								echo '
+								else								echo '
 										<i class="far fa-star"></i>';
-							if ($cardCock[$i][4] >= 2.75)		echo '
+								if ($cardCock[$i][4] >= 2.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($cardCock[$i][4] >= 2.25)	echo '
+								elseif ($cardCock[$i][4] >= 2.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
-							else								echo '
+								else								echo '
 										<i class="far fa-star"></i>';
-							if ($cardCock[$i][4] >= 3.75)		echo '
+								if ($cardCock[$i][4] >= 3.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($cardCock[$i][4] >= 3.25)	echo '
+								elseif ($cardCock[$i][4] >= 3.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
-							else								echo '
+								else								echo '
 										<i class="far fa-star"></i>';
-							if ($cardCock[$i][4] >= 4.75)		echo '
+								if ($cardCock[$i][4] >= 4.75)		echo '
 										<i class="fas fa-star"></i>';
-							elseif ($cardCock[$i][4] >= 4.25)	echo '
+								elseif ($cardCock[$i][4] >= 4.25)	echo '
 										<i class="fas fa-star-half-alt"></i>';
-							else								echo '
+								else								echo '
 										<i class="far fa-star"></i>';
-							echo '
+								echo '
 									</div>
 								</div>
 							</div>
@@ -227,6 +283,7 @@ if (isset($_GET['search'])) {
 							</div>
 						</div>
 					</div>';
+							}
 						}
 					} else {
 						echo '<div class="ml-4">Keine Ergebnisse.</div>';
