@@ -4,21 +4,11 @@ $activeHead = "etablissement";
 $_SESSION['source'] = "../site/etablissement_details.php?etab_id=" . $_GET['etab_id'];
 
 $etabid = $_GET['etab_id'];
-if(isset($_SESSION['userid'])){
+if (isset($_SESSION['userid'])) {
 
 	$userid = $_SESSION['userid'];
-	
-	include('../php/db/select_userInfo.php');
-}
 
-if(isset($_GET['verifiziert'])){
-	$verifizierung = $_GET['verifiziert'];
-	include('../php/db/update_verifiziertEtab.php');
-	if($result){
-		$message ="Erfolgreich verifiziert!";
-	}else{
-		$message ="Verifizierung fehlgeschlagen.";
-	}	
+	include('../php/db/select_userInfo.php');
 }
 
 include('../php/db/select_etabInfo.php');
@@ -49,11 +39,14 @@ if (isset($_GET['bew_abgeben']) && isset($_SESSION['userid'])) {
 	}
 }
 
-
-
 include('../php/db/select_etab_bew.php');
 //cocktailkarte
 include('../php/db/select_cocktailkarte.php');
+
+//falls verifiziert wird, vars schon mal festlegen
+$_SESSION['verify'] = $etabInfo["verifiziert"];
+$_SESSION['etabid'] = $etabid;
+
 ?>
 <!doctype html>
 <html lang="de">
@@ -102,14 +95,14 @@ include('../php/db/select_cocktailkarte.php');
 					<div class="col-md-10">
 						<div class="card-body d-flex flex-column" style="height: 230px;">
 							<div>
-								<h1 class="card-title"> <?php echo $etabInfo["name"]; 
-								if($etabInfo["verifiziert"] == 1) {
-									echo '
+								<h1 class="card-title"> <?php echo $etabInfo["name"];
+														if ($etabInfo["verifiziert"] == 1) {
+															echo '
 									<span class="badge badge-primary float-right">Verifiziert</span>';
-										} else {
-									echo '
+														} else {
+															echo '
 									<span class="badge badge-warning float-right">Nicht verifiziert</span>';
-									} ?> </h1>
+														} ?> </h1>
 								<hr>
 							</div>
 							<div>
@@ -117,17 +110,17 @@ include('../php/db/select_cocktailkarte.php');
 							</div>
 							<div>
 								<?php
-								if(isset($_SESSION['userid'])){
+								if (isset($_SESSION['userid'])) {
 
-									if($etabInfo["verifiziert"]==0 && $userInfo["admin"]>0){
-										
+									if ($etabInfo["verifiziert"] == 0 && $userInfo["admin"] > 0) {
+
 										echo '
-										<form action="?etab_id=' . $_GET['etab_id'] . '&verifiziert=1" method="POST">
+										<form action="../php/db/update_etabVerify.php" method="POST">
 										<button type="submit" class="btn btn-primary mt-2">Verifizieren</button>
 										</form>';
-									}elseif($etabInfo["verifiziert"]==1 && $userInfo["admin"]>0){
+									} elseif ($etabInfo["verifiziert"] == 1 && $userInfo["admin"] > 0) {
 										echo '
-										<form action="?etab_id=' . $_GET['etab_id'] . '&verifiziert=0" method="POST">
+										<form action="../php/db/update_etabVerify.php" method="POST">
 										<button type="submit" class="btn btn-primary mt-2">Verifizierung aufheben</button>
 										</form>';
 									}
