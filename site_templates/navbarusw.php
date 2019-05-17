@@ -1,5 +1,5 @@
 <?php
-include('../../php/sessioncheck.php');
+session_start();
 //activeHead setzen.
 $activeHead = "";
 //  EYYYYYY
