@@ -66,15 +66,33 @@ include('../php/db/select_user_bewEtab.php');
                     <div class="col-md-10">
                         <div class="card-body d-flex flex-column" style="max-height: 200px;">
                             <div>
-                                <h1 class="card-title"> <?php echo $userInfo["uname"];
-                                                        if ($userInfo["admin"] == 1) {
-                                                            echo '
-                                            <span class="badge badge-primary float-right">Mod</span>';
-                                                        } elseif ($userInfo["admin"] == 2) {
-                                                            echo '
-                                    <span class="badge badge-primary float-right">Admin</span>';
-                                                        }
-                                                        ?> </h1>
+                                <h1 class="card-title">
+                                    <?php echo $userInfo["uname"];
+                                    echo '                                    
+                                        <div class="row float-right mr-1">';
+                                    if ($userInfo["admin"] == 2) {
+                                        echo '<span class="badge badge-danger">Admin</span>';
+                                    } elseif ($userInfo["admin"] == 1) {
+                                        if ($_SESSION['admin'] > 1) {
+                                            $_SESSION['changeAdmin_userid'] = $_GET['showUser'];
+                                            echo '
+                                            <a href="../php/user_unmod.php" class="badge badge-primary">Moderator</a>';
+                                        } else {
+                                            echo '<span class="badge badge-primary">Moderator</span>';
+                                        }
+                                    } elseif ($userInfo["admin"] == 0) {
+                                        if ($_SESSION['admin'] > 1) {
+                                            $_SESSION['changeAdmin_userid'] = $_GET['showUser'];
+                                            echo '
+                                            <a href="../php/user_mod.php" class="badge badge-primary">User</a>';
+                                        } else {
+                                            echo '<span class="badge badge-primary">User</span>';
+                                        }
+                                    }
+                                    echo '
+                                        </div>';
+                                    ?>
+                                </h1>
                                 <hr>
                             </div>
                             <div class="card-text">
@@ -99,28 +117,6 @@ include('../php/db/select_user_bewEtab.php');
                                     <div class="row">
                                         <div class="col-2">Mitglied seit: </div>
                                         <div class="col-10">' . $userInfo["ts"] . '</div>
-                                    </div>
-                                    <div>';
-
-                                if (isset($_SESSION['userid'])) {
-
-                                    if ($userInfo["admin"] == 1 && $_SESSION['admin'] > 1) {
-                                        $_SESSION['changeAdmin_userid'] = $_GET['showUser'];
-                                        $_SESSION['changeAdmin_pos'] = 0;
-                                        echo '
-                                            <form action="../php/db/update_userMod.php" method="POST">
-                                            <button type="submit" class="btn btn-primary mt-2">Modrecht entziehen</button>
-                                            </form>';
-                                    } else if ($userInfo["admin"] == 0 && $_SESSION['admin'] > 1) {
-                                        $_SESSION['changeAdmin_userid'] = $_GET['showUser'];
-                                        $_SESSION['changeAdmin_pos'] = 1;
-                                        echo '
-                                            <form action="../php/db/update_userMod.php" method="POST">
-                                            <button type="submit" class="btn btn-primary mt-2">Modrecht zuteilen</button>
-                                            </form>';
-                                    }
-                                }
-                                echo '
                                     </div>';
                                 ?>
                             </div>

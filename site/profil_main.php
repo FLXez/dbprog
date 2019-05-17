@@ -99,9 +99,8 @@ if (isset($_SESSION['userid'])) {
                                     </div>
                                     <div>';
                 if ($_SESSION['admin'] == 1) {
-                    $_SESSION['degradeSelf'] = true;
                     echo '
-                                    <form action="../php/db/update_userMod.php" method="POST">
+                                    <form action="../php/user_unmod_self.php" method="POST">
                                         <button type="submit" class="btn btn-primary mt-2">Zurücktreten als Mod</button>
                                     </form>';
                 }
