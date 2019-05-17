@@ -110,6 +110,11 @@ include('../php/db/select_card_info.php');
 									</div>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-12">
+									<h5 class="float-right">'.$cardEtab[$i]["anz"].' Bewertung(en)</h5>
+								</div>
+							</div>	
 							<hr>
 							<div class="row">
 								<div class="col-12">

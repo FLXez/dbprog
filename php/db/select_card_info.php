@@ -8,6 +8,7 @@ if ($getEtab) {
            ,e.anschrift as anschrift
            ,e.verifiziert as verifiziert
            ,AVG(sub_be.wert) as avgwert
+           ,count(sub_be.wert) as anz
            ,e.img as img
      FROM etab e
      LEFT JOIN 
@@ -33,6 +34,7 @@ if ($getCock) {
            ,c.beschreibung as beschreibung
            ,c.img as img
            ,AVG(sub_bc.wert) as avgwert
+           ,count(sub_bc.wert) as anz
      FROM cock c
      LEFT JOIN 
         (SELECT bc.cock_id
