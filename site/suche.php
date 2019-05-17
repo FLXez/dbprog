@@ -49,7 +49,6 @@ if (isset($_GET['for'])) {
 		}
 	}
 }
-
 ?>
 <!doctype html>
 <html lang="de">

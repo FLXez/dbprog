@@ -1,5 +1,6 @@
 <?php
 session_start();
+$source = $_SESSION['source'];
 session_destroy();
 
-header("Location:../site/index.php");
+header("Location: " . $source);
