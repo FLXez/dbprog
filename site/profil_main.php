@@ -71,7 +71,7 @@ if (isset($_SESSION['userid'])) {
                 if ($_SESSION['admin'] == 1) {
                     echo '          <span class="badge badge-primary float-right">Mod</span>';
                 } elseif ($_SESSION['admin'] == 2) {
-                    echo '          <span class="badge badge-primary float-right">Admin</span>';
+                    echo '          <span class="badge badge-danger float-right">Admin</span>';
                 }
                 echo '          </h1>
                                 <hr>

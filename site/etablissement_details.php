@@ -81,6 +81,19 @@ $_SESSION['etabid'] = $etabid;
 				echo $message;
 				echo '</div>';
 			}
+			if (isset($_SESSION['message'])) {
+				if (isset($_SESSION['error'])) {
+					echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
+					echo $_SESSION['message'];
+					echo '</div>';
+					$_SESSION['error'] = NULL;
+				} else {
+					echo '<div class="alert alert-info col-auto ct-text-center" role="alert">';
+					echo $_SESSION['message'];
+					echo '</div>';
+				}
+				$_SESSION['message'] = NULL;
+			}
 			?>
 			<div class="card mb-3" width="100%" style="max-height: 360px;">
 				<div class="row no-gutters">

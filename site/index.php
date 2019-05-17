@@ -52,9 +52,9 @@ include('../php/get_marketing.php');
                     </svg>
                     <div class="container">
                         <div class="carousel-caption text-left">
-                            <h1>Beste Cocktails in 2019</h1>
-                            <p>Ihr habt gewählt! Die besten Cocktails des Jahres in einer Übersicht.</p>
-                            <p><a class="btn btn-lg btn-primary" href="#" role="button">Weiterlesen</a></p>
+                            <h1>Probiert doch unsere neue Suchfunktion!</h1>
+                            <p>Wir haben viele Mails bekommen, dass ihr sowas braucht, hier ist sie!</p>
+                            <p><a class="btn btn-lg btn-primary" href="../site/suche.php" role="button">Zur Suche</a></p>
                         </div>
                     </div>
                 </div>
@@ -66,9 +66,8 @@ include('../php/get_marketing.php');
                     <div class="container">
                         <div class="carousel-caption">
                             <h1>Wo schmecken die Cocktails am besten?</h1>
-                            <p>Wir haben eine Liste der besten Etablissements zusammengestellt und wollen Euch diese
-                                natürlich nicht vorenthalten!</p>
-                            <p><a class="btn btn-lg btn-primary" href="#" role="button">Zur Liste</a></p>
+                            <p>Hier kommt ihr zur Übersicht aller Etablissements!</p>
+                            <p><a class="btn btn-lg btn-primary" href="../site/etablissement_main.php" role="button">Zur Liste</a></p>
                         </div>
                     </div>
                 </div>
@@ -82,10 +81,10 @@ include('../php/get_marketing.php');
                     </svg>
                     <div class="container">
                         <div class="carousel-caption text-right">
-                            <h1>Du möchtest auch bewerten? FlExIbLeLaBeLs</h1>
+                            <h1>Du möchtest auch bewerten können? FlExIbLeLaBeLs</h1>
                             <p>Dann erstelle Dir noch heute deinen kostenlosen Account und bewerte Cocktails und
                                 Etablissements!</p>
-                            <p><a class="btn btn-lg btn-primary" href="#" role="button">Registrieren</a></p>
+                            <p><a class="btn btn-lg btn-primary" href="../site/signin.php" role="button">Registrieren</a></p>
                         </div>
                     </div>
                 </div>';
