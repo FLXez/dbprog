@@ -8,8 +8,8 @@ if ($getEtab) {
            ,e.anschrift as anschrift
            ,e.verifiziert as verifiziert
            ,AVG(sub_be.wert) as avgwert
-           ,count(sub_be.wert) as anz
            ,e.img as img
+           ,count(sub_be.wert) as anz
      FROM etab e
      LEFT JOIN 
         (SELECT be.etab_id
