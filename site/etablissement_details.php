@@ -96,6 +96,36 @@ $_SESSION['etabid'] = $etabid;
 			}
 			?>
 			<div class="card mb-3" width="100%" style="max-height: 360px;">
+
+				<?php
+				if (isset($_SESSION['userid']) && $userInfo['admin'] > 0) {
+					if ($userInfo['admin'] == 2) {
+						$rolle = "Admin";
+					} elseif ($userInfo['admin'] == 1) {
+						$rolle = "Mod";
+					}
+					echo '
+					<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+					<a class="navbar-brand" href="#">' . $rolle . ' : '. $userInfo['uname'].'</a>
+							<div class="navbar-nav">		
+									<form class="form-inline" action="../php/db/update_etabVerify.php">
+									<button class="btn btn-primary mt-2" type="submit"> Verifizierung ändern</button>
+									</form>';
+									if($userInfo['admin']==2){
+										echo'
+										<form class="form-inline" action="">
+										<button class="btn btn-primary mt-2" type="submit"> Etablissement löschen</button>
+										</form>';
+									}
+									echo '
+							</div>
+					</nav>';
+				}
+
+				?>
+
+
 				<div class="row no-gutters">
 					<div class="col-md-2">
 						<?php
@@ -115,30 +145,12 @@ $_SESSION['etabid'] = $etabid;
 														} else {
 															echo '
 									<span class="badge badge-warning float-right">Nicht verifiziert</span>';
-														} ?> </h1>
+														} ?>
+								</h1>
 								<hr>
 							</div>
 							<div>
 								<p class="card-text"> <?php echo $etabInfo["ort"] . '<br>' . $etabInfo["anschrift"]; ?> </p>
-							</div>
-							<div>
-								<?php
-								if (isset($_SESSION['userid'])) {
-
-									if ($etabInfo["verifiziert"] == 0 && $userInfo["admin"] > 0) {
-
-										echo '
-										<form action="../php/db/update_etabVerify.php" method="POST">
-										<button type="submit" class="btn btn-primary mt-2">Verifizieren</button>
-										</form>';
-									} elseif ($etabInfo["verifiziert"] == 1 && $userInfo["admin"] > 0) {
-										echo '
-										<form action="../php/db/update_etabVerify.php" method="POST">
-										<button type="submit" class="btn btn-primary mt-2">Verifizierung aufheben</button>
-										</form>';
-									}
-								}
-								?>
 							</div>
 						</div>
 					</div>

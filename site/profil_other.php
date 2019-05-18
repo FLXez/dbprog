@@ -3,6 +3,13 @@ session_start();
 $activeHead = "user";
 $_SESSION['source'] = "../site/profil_other.php?showUser=" . $_GET["showUser"];
 
+if(isset($_SESSION['userid'])){
+
+    include('../php/db/select_userInfo.php');
+    $visitorAdminStatus = $userInfo['admin'];
+    $visitorUserName = $userInfo['uname'];
+}
+
 //Variable muss immer wieder neu gesetzt werden, da sie am Ende gelöscht wird um Datenverarbeitungsfehler zu vermeiden.
 $_SESSION['showUser'] = $_GET['showUser'];
 include('../php/db/select_userInfo.php');
@@ -53,6 +60,45 @@ include('../php/db/select_user_bewEtab.php');
             }
             ?>
             <div class="card mb-3" width="100%" style="max-height: 360px;">
+
+                <?php
+                if (isset($_SESSION['userid']) && $visitorAdminStatus > 0) {
+                    if ($visitorAdminStatus == 2) {
+                        $rolle = "Admin";
+                    } elseif ($visitorAdminStatus == 1) {
+                        $rolle = "Mod";
+                    }
+                    echo '
+					<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+					<a class="navbar-brand" href="#">' . $rolle . ' : '. $visitorUserName.'</a>
+                            <div class="navbar-nav">
+                            ';
+
+                    if ($visitorAdminStatus == 2) {
+                        $_SESSION['changeAdmin_userid'] = $_GET['showUser'];
+                        if ($userInfo['admin'] == 1) {
+                            echo '
+                                        <form class="form-inline" action="../php/user_unmod.php">';
+                        } elseif ($userInfo['admin'] == 0) {
+                            echo '
+                                                <form class="form-inline" action="../php/user_mod.php">';
+                        }
+                        echo '
+                                        <button class="btn btn-primary mt-2" type="submit"> Rechte ändern</button>
+                                        </form>
+                                            <form class="form-inline" action="">
+                                            <button class="btn btn-primary mt-2" type="submit"> User löschen</button>
+                                            </form>';
+                    }
+                    echo '
+							</div>
+					</nav>';
+                }
+
+                ?>
+
+
                 <div class="row no-gutters">
                     <div class="col-md-2">
                         <?php

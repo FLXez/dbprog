@@ -14,6 +14,7 @@ if ($result) {
     $_SESSION['message'] = "Es ist ein Fehler beim Aktualisieren des Modstatusses aufgetreten.";
 }
 $pdo = NULL;
+$_SESSION['admin'] = 0;
 $_SESSION['changeAdmin_userid'] = NULL;
 $_SESSION['changeAdmin_pos'] = NULL;
 $_SESSION['degradeSelf'] = NULL;
