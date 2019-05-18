@@ -77,6 +77,7 @@ include('../php/db/select_user_bewEtab.php');
 
                     if ($visitorAdminStatus == 2) {
                         $_SESSION['changeAdmin_userid'] = $_GET['showUser'];
+                        if($userInfo['admin']<2){
                         if ($userInfo['admin'] == 1) {
                             echo '
                                         <form class="form-inline" action="../php/user_unmod.php">';
@@ -86,8 +87,11 @@ include('../php/db/select_user_bewEtab.php');
                         }
                         echo '
                                         <button class="btn btn-primary mt-2 mr-2" type="submit"> Rechte ändern</button>
-                                        </form>
-                                            ';
+                                        </form> 
+                                            <form class="form-inline" action="../php/db/update_userLoeschen.php">
+                                            <button class="btn btn-primary mt-2 mr-2 disabled" type="submit"> User löschen</button>
+                                            </form>';
+                                        }
                     }
                     echo '
 							</div>
