@@ -115,7 +115,7 @@ CREATE TABLE `cock` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL,
-  `img` blob NOT NULL
+  `img` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
