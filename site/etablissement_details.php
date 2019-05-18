@@ -110,12 +110,12 @@ $_SESSION['etabid'] = $etabid;
 					<a class="navbar-brand" href="#">' . $rolle . ' : '. $userInfo['uname'].'</a>
 							<div class="navbar-nav">		
 									<form class="form-inline" action="../php/db/update_etabVerify.php">
-									<button class="btn btn-primary mt-2" type="submit"> Verifizierung ändern</button>
+									<button class="btn btn-primary mt-2 mr-2" type="submit"> Verifizierung ändern</button>
 									</form>';
 									if($userInfo['admin']==2){
 										echo'
 										<form class="form-inline" action="">
-										<button class="btn btn-primary mt-2" type="submit"> Etablissement löschen</button>
+										<button class="btn btn-primary mt-2 mr-2" type="submit"> Etablissement löschen</button>
 										</form>';
 									}
 									echo '

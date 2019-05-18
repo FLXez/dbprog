@@ -72,7 +72,7 @@ if (isset($_SESSION['userid'])) {
                             if($userInfo['admin']==1){
                                 echo'
                                 <form class="form-inline" action="../php/user_unmod_self.php">
-                                <button class="btn btn-primary mt-2" type="submit"> Rechte ändern</button>
+                                <button class="btn btn-primary mt-2 mr-2" type="submit"> Rechte ändern</button>
                                 </form>';
                             }
                             echo'

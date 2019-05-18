@@ -85,10 +85,10 @@ include('../php/db/select_user_bewEtab.php');
                                                 <form class="form-inline" action="../php/user_mod.php">';
                         }
                         echo '
-                                        <button class="btn btn-primary mt-2" type="submit"> Rechte ändern</button>
+                                        <button class="btn btn-primary mt-2 mr-2" type="submit"> Rechte ändern</button>
                                         </form>
                                             <form class="form-inline" action="">
-                                            <button class="btn btn-primary mt-2" type="submit"> User löschen</button>
+                                            <button class="btn btn-primary mt-2 mr-2" type="submit"> User löschen</button>
                                             </form>';
                     }
                     echo '
