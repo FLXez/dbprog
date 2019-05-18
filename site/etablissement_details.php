@@ -95,9 +95,9 @@ $_SESSION['etabid'] = $etabId;
 				$_SESSION['message'] = NULL;
 			}
 			?>
-			<div class="card mb-3" width="100%" style="max-height: 360px;">
 
-				<?php
+			<div class="card mb-3" width="100%" style="max-height: 360px;">			
+			<?php
 				if (isset($_SESSION['userId']) && $userInfo['admin'] > 0) {
 					if ($userInfo['admin'] == 2) {
 						$rolle = "Admin";
@@ -105,19 +105,26 @@ $_SESSION['etabid'] = $etabId;
 						$rolle = "Mod";
 					}
 					echo '
-					<nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-					<a class="navbar-brand" href="#">' . $rolle . ' : '. $userInfo['uname'].'</a>
-							<div class="navbar-nav">		
-									<form class="form-inline" action="../php/db/update_etabVerify.php">
-									<button class="btn btn-primary mt-2 mr-2" type="submit"> Verifizierung ändern</button>
-									</form>
-							</div>
-					</nav>';
-				}
+					<div class="accordion" id="accordionExample">
+  <div class="card border">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+		' . $rolle . ' : '. $userInfo['uname'].'
+        </button>
+      </h2>
+	</div>
+	<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+	  <form class="form-inline" action="../php/db/update_etabVerify.php">
+	  <button class="btn btn-primary mt-2 mr-2" type="submit"> Verifizierung ändern</button>
+	  </form>
+      </div>
+    </div>
+  </div>
+  </div>';		}
 
 				?>
-
 
 				<div class="row no-gutters">
 					<div class="col-md-2">
@@ -128,7 +135,9 @@ $_SESSION['etabid'] = $etabId;
 							echo '<img src="../php/get_img.php?etab_id=' . $etabInfo["id"] . '" class="card-img-top">';
 						?>
 					</div>
+					
 					<div class="col-md-10">
+
 						<div class="card-body d-flex flex-column" style="height: 230px;">
 							<div>
 								<h1 class="card-title"> <?php echo $etabInfo["name"];

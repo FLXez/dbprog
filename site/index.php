@@ -81,7 +81,7 @@ include('../php/get_marketing.php');
                     </svg>
                     <div class="container">
                         <div class="carousel-caption text-right">
-                            <h1>Du möchtest auch bewerten können? FlExIbLeLaBeLs</h1>
+                            <h1>Du möchtest auch bewerten können?</h1>
                             <p>Dann erstelle Dir noch heute deinen kostenlosen Account und bewerte Cocktails und
                                 Etablissements!</p>
                             <p><a class="btn btn-lg btn-primary" href="../site/signin.php" role="button">Registrieren</a></p>
