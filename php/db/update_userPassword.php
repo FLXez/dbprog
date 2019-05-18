@@ -16,9 +16,9 @@ if ($_POST['u_up_passNew'] != $_POST['u_up_passNew_confirm']) {
       "UPDATE user 
         SET passwort = :passwort
            ,updated_at = CURRENT_TIMESTAMP 
-        WHERE id = :userid"
+        WHERE id = :userId"
    );
-   $result = $statement->execute(array('passwort' => $passHash, 'userid' => $_SESSION['userid']));
+   $result = $statement->execute(array('passwort' => $passHash, 'userId' => $_SESSION['userId']));
    $pdo = NULL;
 
    if ($result) {

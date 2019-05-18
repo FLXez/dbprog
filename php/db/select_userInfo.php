@@ -1,8 +1,8 @@
 <?php
-if (isset($_SESSION['userid']) && !isset($_SESSION['showUser'])) {
-       $userid = $_SESSION['userid'];
+if (isset($_SESSION['userId']) && !isset($_SESSION['showUser'])) {
+       $userId = $_SESSION['userId'];
 } elseif (isset($_SESSION['showUser'])) {
-       $userid = $_SESSION['showUser'];
+       $userId = $_SESSION['showUser'];
 }
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
 $statement = $pdo->prepare(
@@ -16,9 +16,9 @@ $statement = $pdo->prepare(
               ,img as img
               ,admin as admin
         FROM user 
-        WHERE id = :userid"
+        WHERE id = :userId"
 );
-$result = $statement->execute(array('userid' => $userid));
+$result = $statement->execute(array('userId' => $userId));
 $userInfo = $statement->fetch();
 $userInfo["ts"] = date("d.m.Y", strtotime($userInfo['ts']));
 $pdo = NULL;

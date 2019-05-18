@@ -37,9 +37,11 @@ if ($getCock) {
            ,count(sub_bc.wert) as anz
      FROM cock c
      LEFT JOIN 
-        (SELECT bc.cock_id
+        (SELECT ce.cock_id
                ,CAST(bc.wert AS INTEGER) AS wert
-         FROM bew_cock bc ) sub_bc
+         FROM bew_cock bc
+		 JOIN cock_etab ce 
+			ON bc.cock_etab_id = ce.id) sub_bc
         ON c.id = sub_bc.cock_id
      WHERE name LIKE :name
      GROUP BY c.id

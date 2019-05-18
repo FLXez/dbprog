@@ -9,6 +9,6 @@ $statement = $pdo->prepare(
     FROM cock c
     WHERE c.id = :cock_id"
 );
-$result = $statement->execute(array('cock_id' => $cockid));
+$result = $statement->execute(array('cock_id' => $cockId));
 $cockInfo = $statement->fetch();
 $pdo = NULL;

@@ -18,8 +18,8 @@ session_start();
         "UPDATE user   
          SET img = :img, 
              updated_at = CURRENT_TIMESTAMP  
-         WHERE id = :userid");
-    $result = $statement->execute(array('img'=> $image, 'userid' => $_SESSION['userid']));
+         WHERE id = :userId");
+    $result = $statement->execute(array('img'=> $image, 'userId' => $_SESSION['userId']));
     $pdo = NULL;
 
     if($result){

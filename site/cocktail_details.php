@@ -3,7 +3,7 @@ session_start();
 $activeHead = "cocktail";
 $_SESSION['source'] = "../site/cocktail_details.php?cock_id=" . $_GET['cock_id'];
 
-$cockid = $_GET['cock_id'];
+$cockId = $_GET['cock_id'];
 
 include('../php/db/select_cockInfo.php');
 
@@ -13,7 +13,7 @@ $message = 'Fehler';
 
 if (isset($_GET['etab_zuordnen'])) {
 
-	$etabid = $_POST['etab_zugeordnet'];
+	$etabId = $_POST['etab_zugeordnet'];
 	$preis = $_POST['preis_cock'];
 	include('../php/db/insert_cockEtab.php');
 
@@ -24,16 +24,17 @@ if (isset($_GET['etab_zuordnen'])) {
 	}
 }
 
-if (isset($_GET['bew_abgeben']) && isset($_SESSION['userid'])) {
-	$userid = $_SESSION['userid'];
+if (isset($_GET['bew_abgeben']) && isset($_SESSION['userId'])) {
+	$userId = $_SESSION['userId'];
 	$bew = true;
-	$bew_etab = $_POST['eta'];
+	$etabId = $_POST['eta'];
 	$bew_wert = $_POST['wert'];
 	$bew_kommentar = $_POST['kommentar'];
 
 	include('../php/db/check_bewCock.php');
 
 	if ($bew_vorhanden) {
+		include('../php/db/select_cock_etab_id.php');
 		include('../php/db/update_bewCock.php');
 		if ($result) {
 			$message = 'Ihre Bewertung wurde aktualisiert!';
@@ -41,6 +42,7 @@ if (isset($_GET['bew_abgeben']) && isset($_SESSION['userid'])) {
 			$message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
 		}
 	} else {
+		include('../php/db/select_cock_etab_id.php');
 		include('../php/db/insert_bewCock.php');
 		if ($result) {
 			$message = 'Ihre Bewertung wurde gespeichert!';
@@ -212,7 +214,7 @@ include('../php/db/select_cockEtab_id.php');
 						for ($i = 0; $i < count($cock_bew); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userid"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
+							echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
 							echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
 							echo '<td>' . $cock_bew[$i]["text"] . '</td>';
 							echo '<td>' . $cock_bew[$i]["wert"] . '</td>';
@@ -224,7 +226,7 @@ include('../php/db/select_cockEtab_id.php');
 					</div>
 					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">
 						<?php
-						if (isset($_SESSION['userid'])) {
+						if (isset($_SESSION['userId'])) {
 							if ($bew_success == false) {
 								echo '
 								<form class="mr-2 ml-2 mt-2" action="?cock_id=' . $_GET['cock_id'] . '&bew_abgeben=1" method="post">

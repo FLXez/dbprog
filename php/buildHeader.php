@@ -50,7 +50,7 @@ echo '
                     </div>
 				</li>
             </ul>';
-if (isset($_SESSION['userid'])) {
+if (isset($_SESSION['userId'])) {
     echo '<a href="../site/profil_main.php" class="profil-nav mr-3"><i class="far fa-user"></i> Profil</a>';
     echo '<a href="../php/logout.php" class="profil-nav"><i class="fas fa-lock"></i> Abmelden</a>';
 } else {

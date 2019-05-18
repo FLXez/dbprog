@@ -5,7 +5,7 @@ $username = $_POST['login_username'];
 include('db/select_userPrivate.php');
 //User existent und Passwort richtig.
 if ($userPrivate !== false && password_verify($_POST['login_passwort'], $userPrivate['passwort'])) {
-    $_SESSION['userid'] = $userPrivate['userid'];
+    $_SESSION['userId'] = $userPrivate['userId'];
     $_SESSION['admin'] = $userPrivate['admin'];
     if (isset($_SESSION['source'])) {
         header("Location:" . $_SESSION['source']);

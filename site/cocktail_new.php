@@ -3,7 +3,7 @@ session_start();
 $activeHead = "cocktail";
 $_SESSION['source'] = "../site/cocktail_new.php";
 
-if (isset($_SESSION['userid'])) {
+if (isset($_SESSION['userId'])) {
 	$error = false;
 	$info = false;
 	$success = false;
@@ -15,7 +15,7 @@ if (isset($_SESSION['userid'])) {
 
 		$cockName = $_POST['cockName'];
 		$cockDesc = $_POST['cockDesc'];
-		$etabid = $_POST['etab'];
+		$etabId = $_POST['etab'];
 		$preis = $_POST['preis'];
 
 		$file_name = $_FILES['file']['name'];
@@ -42,7 +42,7 @@ if (isset($_SESSION['userid'])) {
 			$message = 'Dieser Cocktail ist bereits vorhanden. <a class="" href="cocktail_details.php?cock_id=' . $select_cock_id[0]  . '">(zum Cocktail)</a><br>';
 		}
 
-		$cockid = $select_cock_id[0];
+		$cockId = $select_cock_id[0];
 		include('../php/db/insert_cockEtab.php');
 
 		if ($result) {
@@ -84,7 +84,7 @@ if (isset($_SESSION['userid'])) {
 	<main role="main">
 		<div class="mt-5 ml-5 mr-5">
 			<?php
-			if (isset($_SESSION['userid'])) {
+			if (isset($_SESSION['userId'])) {
 				if ($error) {
 					echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';
 					echo $message;

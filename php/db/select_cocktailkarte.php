@@ -1,6 +1,6 @@
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
-if(isset($cockid)){
+if(isset($cockId)){
 	$statement = $pdo->prepare(
 		"SELECT e.id as id
 			   ,e.name as name
@@ -11,15 +11,14 @@ if(isset($cockid)){
 			JOIN etab e 
 				ON e.id = ce.etab_id
 			LEFT JOIN bew_cock bc 
-				ON ce.cock_id = bc.cock_id 
-				AND e.id = bc.etab_id
+				ON ce.id = bc.cock_etab_id 
 		 WHERE ce.cock_id = :cock_id
 		 GROUP BY e.id
 				 ,e.name
 				 ,e.ort
 				 ,ce.preis
 				 ,ce.cock_id");
-	$result = $statement->execute(array('cock_id' => $cockid));
+	$result = $statement->execute(array('cock_id' => $cockId));
 } else {
 	$statement = $pdo->prepare(
 		"SELECT c.id as id,
@@ -29,7 +28,7 @@ if(isset($cockid)){
 		 	JOIN cock c 
 			 	ON c.id = ce.cock_id
 		 WHERE ce.etab_id = :etab_id");
-$result = $statement->execute(array('etab_id' => $etabid));
+$result = $statement->execute(array('etab_id' => $etabId));
 }
 $cocktailkarte = $statement->fetchAll();
 $pdo = NULL;

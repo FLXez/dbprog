@@ -9,6 +9,6 @@ $statement = $pdo->prepare(
 			e.verifiziert as verifiziert
 	 FROM etab e
 	 WHERE e.id = :etab_id");
-$result = $statement->execute(array('etab_id' => $etabid));
+$result = $statement->execute(array('etab_id' => $etabId));
 $etabInfo = $statement->fetch();
 $pdo = NULL;

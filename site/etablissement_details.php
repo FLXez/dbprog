@@ -3,10 +3,10 @@ session_start();
 $activeHead = "etablissement";
 $_SESSION['source'] = "../site/etablissement_details.php?etab_id=" . $_GET['etab_id'];
 
-$etabid = $_GET['etab_id'];
-if (isset($_SESSION['userid'])) {
+$etabId = $_GET['etab_id'];
+if (isset($_SESSION['userId'])) {
 
-	$userid = $_SESSION['userid'];
+	$userId = $_SESSION['userId'];
 
 	include('../php/db/select_userInfo.php');
 }
@@ -15,7 +15,7 @@ include('../php/db/select_etabInfo.php');
 $bew = false;
 $bew_success = false;
 
-if (isset($_GET['bew_abgeben']) && isset($_SESSION['userid'])) {
+if (isset($_GET['bew_abgeben']) && isset($_SESSION['userId'])) {
 	$bew = true;
 	$bew_wert = $_POST['wert'];
 	$bew_kommentar = $_POST['kommentar'];
@@ -45,7 +45,7 @@ include('../php/db/select_cocktailkarte.php');
 
 //falls verifiziert wird, vars schon mal festlegen
 $_SESSION['verify'] = $etabInfo["verifiziert"];
-$_SESSION['etabid'] = $etabid;
+$_SESSION['etabid'] = $etabId;
 
 ?>
 <!doctype html>
@@ -123,7 +123,7 @@ $_SESSION['etabid'] = $etabid;
 							</div>
 							<div>
 								<?php
-								if (isset($_SESSION['userid'])) {
+								if (isset($_SESSION['userId'])) {
 
 									if ($etabInfo["verifiziert"] == 0 && $userInfo["admin"] > 0) {
 
@@ -195,7 +195,7 @@ $_SESSION['etabid'] = $etabid;
 						for ($i = 0; $i < count($etab_bew); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td><a class="" href="../site/profil_other.php?showUser=' . $etab_bew[$i]["userid"] . '">' . $etab_bew[$i]["username"] . '</a></td>';
+							echo '<td><a class="" href="../site/profil_other.php?showUser=' . $etab_bew[$i]["userId"] . '">' . $etab_bew[$i]["username"] . '</a></td>';
 							echo '<td>' . $etab_bew[$i]["text"] . '</td>';
 							echo '<td>' . $etab_bew[$i]["wert"] . '</td>';
 							echo '<td>' . $etab_bew[$i]["ts"] . '</td>';
@@ -206,7 +206,7 @@ $_SESSION['etabid'] = $etabid;
 					</div>
 					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">
 						<?php
-						if (isset($_SESSION['userid'])) {
+						if (isset($_SESSION['userId'])) {
 							if ($bew_success == false) {
 								echo '
 								<form class="mr-2 ml-2 mt-2" action="?etab_id=' . $_GET['etab_id'] . '&bew_abgeben=1" method="post">

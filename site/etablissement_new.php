@@ -4,7 +4,7 @@ $activeHead = "etablissement";
 $_SESSION['source'] = "../site/etablissement_new.php";
 
 
-if (isset($_SESSION['userid'])) {
+if (isset($_SESSION['userId'])) {
 	$error = false;
 	$info = false;
 	$success = false;
@@ -78,7 +78,7 @@ if (isset($_SESSION['userid'])) {
 	<main role="main">
 		<div class="mt-5 ml-5 mr-5">
 			<?php
-			if (isset($_SESSION['userid'])) {
+			if (isset($_SESSION['userId'])) {
 				if ($error) {
 					echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';
 					echo $message;

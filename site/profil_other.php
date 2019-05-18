@@ -75,7 +75,7 @@ include('../php/db/select_user_bewEtab.php');
                                     } elseif ($userInfo["admin"] == 1) {
                                         if (isset($_SESSION['admin'])) {
                                             if ($_SESSION['admin'] > 1) {
-                                                $_SESSION['changeAdmin_userid'] = $_GET['showUser'];
+                                                $_SESSION['changeAdmin_userId'] = $_GET['showUser'];
                                                 echo '
                                             <a href="../php/user_unmod.php" class="badge badge-primary">Moderator</a>';
                                             }
@@ -85,7 +85,7 @@ include('../php/db/select_user_bewEtab.php');
                                     } elseif ($userInfo["admin"] == 0) {
                                         if (isset($_SESSION['admin'])) {
                                             if ($_SESSION['admin'] > 1) {
-                                                $_SESSION['changeAdmin_userid'] = $_GET['showUser'];
+                                                $_SESSION['changeAdmin_userId'] = $_GET['showUser'];
                                                 echo '
                                             <a href="../php/user_mod.php" class="badge badge-primary">User</a>';
                                             }

@@ -3,8 +3,8 @@ session_start();
 $activeHead = "user";
 $_SESSION['source'] = "../site/profil_main.php";
 
-if (isset($_SESSION['userid'])) {
-    $userid = $_SESSION['userid'];
+if (isset($_SESSION['userId'])) {
+    $userId = $_SESSION['userId'];
 
     include('../php/db/select_user_bewCock.php');
     include('../php/db/select_user_bewEtab.php');
@@ -38,7 +38,7 @@ if (isset($_SESSION['userid'])) {
     <main role="main">
         <div class="mt-5 ml-5 mr-5">
             <?php
-            if (isset($_SESSION['userid'])) {
+            if (isset($_SESSION['userId'])) {
                 if (isset($_SESSION['message'])) {
                     if (isset($_SESSION['error'])) {
                         echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
@@ -57,7 +57,7 @@ if (isset($_SESSION['userid'])) {
                 <div class="row no-gutters">
                     <div class="col-md-2">';
                 if ($userInfo["img"]) {
-                    echo '<img src="../php/get_img.php?user_id=' . $userid . '" class="card-img-top">';
+                    echo '<img src="../php/get_img.php?user_id=' . $userId . '" class="card-img-top">';
                 } else {
                     echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
                 }

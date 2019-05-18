@@ -18,9 +18,9 @@ if ($email_vorhanden) {
       "UPDATE user 
      SET email = :email 
         ,updated_at = CURRENT_TIMESTAMP 
-     WHERE id = :userid"
+     WHERE id = :userId"
    );
-   $result = $statement->execute(array('email' => $_POST['u_ue_emailNew'], 'userid' => $_SESSION['userid']));
+   $result = $statement->execute(array('email' => $_POST['u_ue_emailNew'], 'userId' => $_SESSION['userId']));
    $pdo = NULL;
 
    if ($result) {

@@ -5,5 +5,5 @@ $statement = $pdo->prepare(
         SET admin = :admin   
      WHERE id= :user_id"
 );
-$result = $statement->execute(array('admin' => $changeAdmin, 'user_id' => $userid));
+$result = $statement->execute(array('admin' => $changeAdmin, 'user_id' => $userId));
 $pdo = NULL;

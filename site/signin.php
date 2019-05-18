@@ -30,7 +30,7 @@ $activeHead = "user";
     <main role="main">
         <div class="ml-5 mr-5 mt-5">
             <?php
-            if (!isset($_SESSION['userid'])) {
+            if (!isset($_SESSION['userId'])) {
                 if (isset($_SESSION['message'])) {
                     if (isset($_SESSION['error'])) {
                         echo '<div class="alert alert-danger col-auto ct-text-center" role="alert">';
