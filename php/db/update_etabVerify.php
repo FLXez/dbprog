@@ -15,7 +15,7 @@ if ($_SESSION['admin'] >= 1) {
     $result = $statement->execute(array('verifiziert' => $verify, 'etab_id' => $_SESSION['etabid']));
     $pdo = NULL;
     if ($result) {
-        $_SESSION['message'] = "Erfolgreich verifiziert!";
+        $_SESSION['message'] = "Erfolgreich geändert!";
     } else {
         $_SESSION['message'] = "Verifizierung fehlgeschlagen.";
         $_SESSION['error'] = true;

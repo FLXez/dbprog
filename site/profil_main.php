@@ -53,7 +53,35 @@ if (isset($_SESSION['userId'])) {
                     $_SESSION['message'] = NULL;
                 }
                 echo '
-                <div class="card mb-3" width="100%" style="max-height: 360px;">
+                <div class="card mb-3" width="100%" style="max-height: 360px;">';
+
+
+                
+                if (isset($_SESSION['userid']) && $userInfo['admin'] > 0) {
+                    if ($userInfo['admin'] == 2) {
+                        $rolle = "Admin";
+                    } elseif ($userInfo['admin'] == 1) {
+                        $rolle = "Mod";
+                    }
+                    echo '
+					<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+					<a class="navbar-brand" href="#">' . $rolle . ' : '. $userInfo['uname'].'</a>
+                            <div class="navbar-nav">
+                            '; 
+                            if($userInfo['admin']==1){
+                                echo'
+                                <form class="form-inline" action="../php/user_unmod_self.php">
+                                <button class="btn btn-primary mt-2 mr-2" type="submit"> Rechte ändern</button>
+                                </form>';
+                            }
+                            echo'
+							</div>
+					</nav>';
+                }
+
+                
+                echo'
                 <div class="row no-gutters">
                     <div class="col-md-2">';
                 if ($userInfo["img"]) {
@@ -97,15 +125,6 @@ if (isset($_SESSION['userId'])) {
                                         <div class="col-2">Mitglied seit: </div>
                                         <div class="col-10">' . $userInfo["ts"] . '</div>
                                     </div>
-                                    <div>';
-                if ($_SESSION['admin'] == 1) {
-                    echo '
-                                    <form action="../php/user_unmod_self.php" method="POST">
-                                        <button type="submit" class="btn btn-primary mt-2">Zurücktreten als Mod</button>
-                                    </form>';
-                }
-                echo '
-                                </div>
                             </div>
                         </div>
                     </div>
