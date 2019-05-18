@@ -3,7 +3,7 @@ session_start();
 $activeHead = "user";
 $_SESSION['source'] = "../site/profil_other.php?showUser=" . $_GET["showUser"];
 
-if (isset($_SESSION['userid'])) {
+if (isset($_SESSION['userId'])) {
 
     include('../php/db/select_userInfo.php');
     $visitorAdminStatus = $userInfo['admin'];
@@ -65,7 +65,7 @@ include('../php/db/select_user_bewEtab.php');
             <div class="card mb-3" width="100%" style="max-height: 360px;">
 
                 <?php
-                if (isset($_SESSION['userid']) && $visitorAdminStatus > 0) {
+                if (isset($_SESSION['userId']) && $visitorAdminStatus > 0) {
                     if ($visitorAdminStatus == 2) {
                         $rolle = "Admin";
                     } elseif ($visitorAdminStatus == 1) {

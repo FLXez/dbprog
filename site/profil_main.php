@@ -57,7 +57,7 @@ if (isset($_SESSION['userId'])) {
 
 
                 
-                if (isset($_SESSION['userid']) && $userInfo['admin'] > 0) {
+                if (isset($_SESSION['userId']) && $userInfo['admin'] > 0) {
                     if ($userInfo['admin'] == 2) {
                         $rolle = "Admin";
                     } elseif ($userInfo['admin'] == 1) {
