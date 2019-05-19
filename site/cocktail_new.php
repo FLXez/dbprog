@@ -35,7 +35,7 @@ if (isset($_SESSION['userId'])) {
 		if (!$cock_vorhanden) {
 			include('../php/db/insert_cock.php');
 			include('../php/db/select_cock_id.php');
-			$message = 'Cocktail erfolgreich hinzugef&uuml;gt. <a class="" href="cocktail_details.php?cock_id=' . $select_cock_id[0]  . '">(zum Cocktail)</a><br>';			
+			$message = 'Cocktail erfolgreich hinzugef&uuml;gt. <a class="" href="cocktail_details.php?cock_id=' . $select_cock_id[0]  . '">(zum Cocktail)</a><br>';
 		} else {
 			include('../php/db/select_cock_id.php');
 			$info = true;
@@ -94,50 +94,53 @@ if (isset($_SESSION['userId'])) {
 					echo $message;
 					echo '</div>';
 				}
-				echo '
-			<div class="card card-body">
-				<h2 class="ml-2">Neuer Cocktail</h2>
-				<hr>
-				<div class="mr-2 ml-2 mt-2">
-					<form action="?newCock=1" method="post" enctype="multipart/form-data">
-						<div class="form-group">
-							<label for="cockName">Name</label>
-							<input type="text" maxlength="50" class="form-control" id="cockName" name="cockName"  placeholder="Cocktail">
-						</div>
+				?>
+				<div class="card card-body">
+					<h2 class="ml-2">Neuer Cocktail</h2>
+					<hr>
+					<div class="mr-2 ml-2 mt-2">
+						<form action="?newCock=1" method="post" enctype="multipart/form-data">
+							<div class="form-group">
+								<label for="cockName">Name</label>
+								<input type="text" maxlength="50" class="form-control" id="cockName" name="cockName" placeholder="Cocktail">
+							</div>
 
-						<div class="form-group">
-							<label for="image">Bild</label>
-							<input type="file" name="file" id="image" class="form-control-file"> 	
-						</div>
+							<div class="form-group">
+								<label for="image">Bild</label>
+								<input type="file" name="file" id="image" class="form-control-file">
+							</div>
 
-						<div class="form-group">
-							<label for="cockDesc">Beschreibung</label>
-							<input type="text" maxlength="50" class="form-control" id="cockDesc" name="cockDesc"  placeholder="Beschreibung">
-						</div>
+							<div class="form-group">
+								<label for="cockDesc">Beschreibung</label>
+								<input type="text" maxlength="50" class="form-control" id="cockDesc" name="cockDesc" placeholder="Beschreibung">
+							</div>
 
-						<div class="form-group">
-							<label for="preis">Preis</label>
-							<input type="text" maxlength="50" class="form-control" id="preis" name="preis"  placeholder="Preis">
-						</div>
+							<div class="form-group">
+								<label for="preis">Preis</label>
+								<input type="text" maxlength="50" class="form-control" id="preis" name="preis" placeholder="Preis">
+							</div>
 
-						<div class="form-group">
-							<label for="etab"> Etablissement Zuordnen</label>
-							<!--<input type="text" class="form-control" id="etab" placeholder="Nothing" name="wert">-->
-							<select class="custom-select" name="etab" id="etab">';
-				for ($i = 0; $i < count($allEtab); $i++) {
-					echo '<option value="' . $allEtab[$i][0] . '">' . $allEtab[$i][1] . ', ' . $allEtab[$i][2] . '</option>';
-				}
-				echo '</select>
-						</div>
-
-						<button type="submit" class="btn btn-primary">Erstellen</button>
-					</form>
+							<div class="form-group">
+								<label for="etab"> Etablissement Zuordnen</label>
+								<!--<input type="text" class="form-control" id="etab" placeholder="Nothing" name="wert">-->
+								<select class="custom-select" name="etab" id="etab">';
+									<?php
+									for ($i = 0; $i < count($allEtab); $i++) {
+										echo '
+										<option value="' . $allEtab[$i][0] . '">' . $allEtab[$i][1] . ', ' . $allEtab[$i][2] . '</option>';
+									}
+									?>
+								</select>
+							</div>
+							<button type="submit" class="btn btn-primary">Erstellen</button>
+						</form>
+					</div>
 				</div>
-			</div>';
-			} else {
-				echo '<div class="card card-body"><h2 class="ct-text-center">Bitte zuerst <a class="" href="signin.php">Anmelden</a>.</h2></div>';
-			}
-			?>
+			<?php
+		} else {
+			echo '<div class="card card-body"><h2 class="ct-text-center">Bitte zuerst <a class="" href="signin.php">Anmelden</a>.</h2></div>';
+		}
+		?>
 		</div>
 	</main>
 	<hr class="ct-hr-divider ml-5 mr-5">

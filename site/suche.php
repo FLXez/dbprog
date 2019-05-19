@@ -126,29 +126,36 @@ if (isset($_GET['for'])) {
 					<button type="submit" class="btn btn-primary mt-3">Suchen</button>
 				</form>
 			</div>
+			<?php
+			if (isset($done) && !isset($error)) {
+				if ($getEtab) {
+					echo '
 			<div class="card card-body mt-3">
-				<h2 class="ml-2">Ergebnisse</h2>
+				<h2 class="ml-2">Gefundene Etablissements:</h2>
 				<hr>
-				<div class="row">
-					<?php
-					if (isset($done) && !isset($error)) {
-						if ($getEtab) {
-							for ($i = 0; $i < count($cardEtab); $i++) {
-								buildCard_etab($cardEtab[$i][0], $cardEtab[$i][1], $cardEtab[$i][2], $cardEtab[$i][3], $cardEtab[$i][4], $cardEtab[$i][5], $cardEtab[$i][6], $cardEtab[$i][7]);
-							}
-						}
-						if ($getCock) {
-							for ($i = 0; $i < count($cardCock); $i++) {
-								buildCard_cock($cardCock[$i][0], $cardCock[$i][1], $cardCock[$i][2], $cardCock[$i][3], $cardCock[$i][4], $cardCock[$i][5]);
-							}
-						}
-					} else {
-						echo '<div class="ml-4">Keine Ergebnisse.</div>';
+				<div class="row">';
+					for ($i = 0; $i < count($cardEtab); $i++) {
+						buildCard_etab($cardEtab[$i][0], $cardEtab[$i][1], $cardEtab[$i][2], $cardEtab[$i][3], $cardEtab[$i][4], $cardEtab[$i][5], $cardEtab[$i][6], $cardEtab[$i][7]);
 					}
-					?>
-
+					echo '
 				</div>
-			</div>
+			</div>';
+				}
+				if ($getCock) {
+					echo '
+			<div class="card card-body mt-3">
+				<h2 class="ml-2">Gefundene Cocktails:</h2>
+				<hr>
+				<div class="row">';
+					for ($i = 0; $i < count($cardCock); $i++) {
+						buildCard_cock($cardCock[$i][0], $cardCock[$i][1], $cardCock[$i][2], $cardCock[$i][3], $cardCock[$i][4], $cardCock[$i][5]);
+					}
+					echo '
+				</div>
+			</div>';
+				}
+			}
+			?>
 		</div>
 	</main>
 	<hr class="ct-hr-divider ml-5 mr-5">
