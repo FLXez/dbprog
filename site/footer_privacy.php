@@ -3,7 +3,7 @@ session_start();
 
 $activeHead = "";
 
-$_SESSION['source'] = "../site/footer_privacy.php";
+$_SESSION['source'] = $_SERVER['REQUEST_URI'];
 ?>
 <!doctype html>
 <html lang="de">

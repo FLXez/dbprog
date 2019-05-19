@@ -1,7 +1,7 @@
 <?php
 session_start();
 $activeHead = "etablissement";
-$_SESSION['source'] = "../site/etablissement_new.php";
+$_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
 
 if (isset($_SESSION['userId'])) {

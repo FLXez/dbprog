@@ -1,7 +1,7 @@
 ﻿<?php
 session_start();
 $activeHead = "landing";
-$_SESSION['source'] = "../site/index.php";
+$_SESSION['source'] = $_SERVER['REQUEST_URI'];
 include('../php/buildMarketing.php');
 include('../php/get_marketing.php');
 ?>

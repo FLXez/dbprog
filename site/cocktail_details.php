@@ -1,7 +1,7 @@
 ﻿<?php
 session_start();
 $activeHead = "cocktail";
-$_SESSION['source'] = "../site/cocktail_details.php?cock_id=" . $_GET['cock_id'];
+$_SESSION['source'] = $_SERVER['REQUEST_URI'];
 include('../php/buildCard.php');
 
 $cockId = $_GET['cock_id'];

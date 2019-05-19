@@ -1,7 +1,7 @@
 ﻿<?php
 session_start();
 $activeHead = "etablissement";
-$_SESSION['source'] = "../site/etablissement_details.php?etab_id=" . $_GET['etab_id'];
+$_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
 $etabId = $_GET['etab_id'];
 if (isset($_SESSION['userId'])) {

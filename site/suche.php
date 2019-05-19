@@ -1,7 +1,7 @@
 <?php
 session_start();
 $activeHead = "search";
-$_SESSION['source'] = "../site/suche.php";
+$_SESSION['source'] = $_SERVER['REQUEST_URI'];
 include('../php/buildCard.php');
 
 if (isset($_GET['for'])) {

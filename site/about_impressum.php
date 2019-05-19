@@ -1,7 +1,7 @@
 <?php
 session_start();
 $activeHead = "uberUns";
-$_SESSION['source'] = "../site/about_impressum.php";
+$_SESSION['source'] = $_SERVER['REQUEST_URI'];
 ?>
 <!doctype html>
 <html lang="de">

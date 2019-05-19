@@ -4,7 +4,7 @@ session_start();
 $activeHead = "";
 //  EYYYYYY
 //  UNTER MIR ANPASSEN!
-$_SESSION['source'] = "../site/DIEneuePHP.php";
+$_SESSION['source'] = $_SERVER['REQUEST_URI'];
 ?>
 <!doctype html>
 <html lang="de">

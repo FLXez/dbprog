@@ -1,7 +1,7 @@
 <?php
 session_start();
 $activeHead = "user";
-$_SESSION['source'] = "../site/profil_other.php?showUser=" . $_GET["showUser"];
+$_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
 if (isset($_SESSION['userId'])) {
 

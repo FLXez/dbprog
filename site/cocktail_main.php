@@ -1,7 +1,7 @@
 ﻿<?php
 session_start();
 $activeHead = "cocktail";
-$_SESSION['source'] = "../site/cocktail_main.php";
+$_SESSION['source'] = $_SERVER['REQUEST_URI'];
 include('../php/buildCard.php');
 
 $filter = "%";

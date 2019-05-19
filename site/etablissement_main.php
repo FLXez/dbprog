@@ -1,7 +1,7 @@
 ﻿<?php
 session_start();
 $activeHead = "etablissement";
-$_SESSION['source'] = "../site/etablissement_main.php";
+$_SESSION['source'] = $_SERVER['REQUEST_URI'];
 include('../php/buildCard.php');
 
 $filter = "%";

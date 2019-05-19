@@ -1,7 +1,7 @@
 <?php
 session_start();
 $activeHead = "user";
-$_SESSION['source'] = "../site/profil_main.php";
+$_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
 if (isset($_SESSION['userId'])) {
     $userId = $_SESSION['userId'];

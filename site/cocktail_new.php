@@ -1,7 +1,7 @@
 <?php
 session_start();
 $activeHead = "cocktail";
-$_SESSION['source'] = "../site/cocktail_new.php";
+$_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
 if (isset($_SESSION['userId'])) {
 	$error = false;
