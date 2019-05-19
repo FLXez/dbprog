@@ -2,6 +2,7 @@
 session_start();
 $activeHead = "cocktail";
 $_SESSION['source'] = "../site/cocktail_main.php";
+include('../php/buildCard.php');
 
 $filter = "%";
 $getEtab = false;
