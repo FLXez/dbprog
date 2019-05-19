@@ -2,7 +2,6 @@
 session_start();
 $activeHead = "cocktail";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
-include('../php/buildCard.php');
 
 $cockId = $_GET['cock_id'];
 if (isset($_SESSION['userId'])) {
