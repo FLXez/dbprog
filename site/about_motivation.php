@@ -37,7 +37,7 @@ $_SESSION['source'] = $_SERVER['REQUEST_URI'];
                     <div class="ml-2 mr-2 mt-2">
                         Die Motivation für diese Website besteht natürlich aus Ambitionen, Erfolgswille, Inspiration und auf gar keinen Fall Zwang der Hochschule Weserbergland.<br>
                         Wir machen das "vollkommen freiwillig" und haben "nicht" die Angst, dass das hinter unserem Rücken verkauft wird.<br>
-                        Wir unterstützen natürlich KEINE Drohbriefe an die Hochschule Weserbergland, Am Stockhof 2, 31785 Hameln.<br>
+                        Wir unterstützen natürlich KEINE Drohbriefe an die Hochschule Weserbergland, Am Stockhof 2, 31785 The Best.<br>
                         Ob wir für Drohbriefe sind, hängt ganz davon ab, wie sehr unsere Note beeinflusst würde, wenn wir es wären?<br>
                         <br>
                         Dies ist keine Zwangsarbeit, und sie finden selbstverständlich keine Botschaften in den Seiten, die auf Misshandlungen schließen lassen.<br>

@@ -14,7 +14,7 @@ $_SESSION['source'] = $_SERVER['REQUEST_URI'];
     <meta name="description" content="">
     <meta name="author" content="Felix Pause, Cedrick Bargel, Philipp Potraz">
     <link rel="shortcut icon" type="image/x-icon" href="../res/favicon.ico">
-    <title>Hameln E&C - Terms</title>
+    <title>The Best E&C - Terms</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">

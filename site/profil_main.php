@@ -41,46 +41,15 @@ if (isset($_SESSION['userId'])) {
             if (isset($_SESSION['userId'])) {
                 include('../php/alertMessage.php');
                 echo '
-                <div class="card mb-3" width="100%" style="max-height: 360px;">';
-                
-				if (isset($_SESSION['userId']) && $userInfo['admin'] > 0) {
-					if ($userInfo['admin'] == 2) {
-						$rolle = "Admin";
-					} elseif ($userInfo['admin'] == 1) {
-						$rolle = "Mod";
-					}
-					echo '
-					<div class="accordion" id="accordionExample">
-  <div class="card border">
-    <div class="card-header" id="headingOne">
-      <h2 class="mb-0">
-        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-		' . $rolle . ' : '. $userInfo['uname'].'
-        </button>
-      </h2>
-	</div>
-	<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-      <div class="card-body">';
-      if($userInfo['admin']==1){
-        echo'
-        <form class="form-inline" action="../php/userUnmod_self.php">
-        <button class="btn btn-primary mt-2 mr-2" type="submit"> Rechte ändern</button>
-        </form>';
-    } else {
-        echo 'Kein Inhalt anzeigbar.';
-    } echo'
-      </div>
-    </div>
-  </div>
-  </div>';		}
-                
-                echo'
+            <div class="card mb-3" width="100%" style="max-height: 360px;">
                 <div class="row no-gutters">
                     <div class="col-md-2">';
                 if ($userInfo["img"]) {
-                    echo '<img src="../php/db/get_img.php?user_id=' . $userId . '" class="card-img-top">';
+                    echo '
+                        <img src="../php/db/get_img.php?user_id=' . $userId . '" class="card-img-top">';
                 } else {
-                    echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
+                    echo '
+                        <img src="../res/placeholder_no_image.svg" class="card-img-top">';
                 }
 
                 echo ' 
@@ -90,46 +59,80 @@ if (isset($_SESSION['userId'])) {
                             <div>
                                 <h1 class="card-title">' . $userInfo["uname"];
                 if ($_SESSION['admin'] == 1) {
-                    echo '          <span class="badge badge-primary float-right">Mod</span>';
+                    echo '
+                                <span class="badge badge-primary float-right">Mod</span>';
                 } elseif ($_SESSION['admin'] == 2) {
-                    echo '          <span class="badge badge-danger float-right">Admin</span>';
+                    echo '
+                                <span class="badge badge-danger float-right">Admin</span>';
                 }
-                echo '          </h1>
+                echo '
+                                </h1>
                                 <hr>
                             </div>
                             <div class="card-text">
-                                    <div class="row">
-                                        <div class="col-2">Vorname: </div>
-                                        <div class="col-10">' . $userInfo["vname"] . '</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-2">Nachname: </div>
-                                        <div class="col-10">' . $userInfo["nname"] . '</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-2">Alter: </div>
-                                        <div class="col-10">' . $userInfo["age"] . '</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-2">Beruf: </div>
-                                        <div class="col-10">' . $userInfo["beruf"] . '</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-2">Mitglied seit: </div>
-                                        <div class="col-10">' . $userInfo["ts"] . '</div>
-                                    </div>
+                                <div class="row">
+                                    <div class="col-2">Vorname: </div>
+                                    <div class="col-10">' . $userInfo["vname"] . '</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">Nachname: </div>
+                                    <div class="col-10">' . $userInfo["nname"] . '</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">Alter: </div>
+                                    <div class="col-10">' . $userInfo["age"] . '</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">Beruf: </div>
+                                    <div class="col-10">' . $userInfo["beruf"] . '</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">Mitglied seit: </div>
+                                    <div class="col-10">' . $userInfo["ts"] . '</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+             </div>';
+                if (isset($_SESSION['userId']) && $userInfo['admin'] > 0) {
+                    if ($userInfo['admin'] == 2) {
+                        $rolle = "Admin";
+                    } elseif ($userInfo['admin'] == 1) {
+                        $rolle = "Mod";
+                    }
+                    echo '
+            <div class="accordion mb-3" id="accordionExample">
+                <div class="card border rounded">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">' . $rolle . ' : ' . $userInfo['uname'] . '</button>
+                        </h2>
+                    </div>
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">';
+                    if ($userInfo['admin'] == 1) {
+                        echo '
+                            <form class="form-inline" action="../php/userUnmod_self.php">
+                                <button class="btn btn-primary mt-2 mr-2" type="submit"> Rechte ändern</button>
+                            </form>';
+                    } else {
+                        echo 'Kein Inhalt anzeigbar.';
+                    }
+                    echo '
+                        </div>
+                    </div>
+                </div>
+            </div>';
+                }
+                echo '
             <div class="card card-body">
-                <ul class="nav nav-pills flex-column flex-sm-row" id="profil-tab" role="tablist">
+            <ul class="nav nav-pills flex-column flex-sm-row" id="profil-tab" role="tablist">
                     <li class="flex-sm-fill text-sm-center nav-item">
-                        <a class="nav-link active" id="setting-tab" data-toggle="pill" href="#setting" role="tab" aria-controls="setting" aria-selected="true">Informationen und Einstellungen</a>
+                    <a class="nav-link active" id="setting-tab" data-toggle="pill" href="#setting" role="tab" aria-controls="setting" aria-selected="true">Informationen und Einstellungen</a>
                     </li>
                     <li class="flex-sm-fill text-sm-center nav-item">
-                        <a class="nav-link" id="bewCock-tab" data-toggle="pill" href="#bewCock" role="tab" aria-controls="bewCock" aria-selected="false">Bewertete Cocktails</a>
+                    <a class="nav-link" id="bewCock-tab" data-toggle="pill" href="#bewCock" role="tab" aria-controls="bewCock" aria-selected="false">Bewertete Cocktails</a>
                     </li>
                     <li class="flex-sm-fill text-sm-center nav-item">
                         <a class="nav-link" id="bewEtab-tab" data-toggle="pill" href="#bewEtab" role="tab" aria-controls="bewEtab" aria-selected="false">Bewertete Etablissements</a>

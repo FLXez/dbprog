@@ -105,33 +105,6 @@ include('../php/db/select_cockEtab_id.php');
 			}
 			?>
 			<div class="card mb-3" width="100%" style="max-height: 360px;">
-			<?php
-				if (isset($_SESSION['userId']) && $userInfo['admin'] > 0) {
-					if ($userInfo['admin'] == 2) {
-						$rolle = "Admin";
-					} elseif ($userInfo['admin'] == 1) {
-						$rolle = "Mod";
-					}
-					echo '
-					<div class="accordion" id="accordionExample">
-  <div class="card border">
-    <div class="card-header" id="headingOne">
-      <h2 class="mb-0">
-        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-		' . $rolle . ' : '. $userInfo['uname'].'
-        </button>
-      </h2>
-	</div>
-	<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-      <div class="card-body">
-        Hier dann so krams zum bearbeiten so tools diesen so
-      </div>
-    </div>
-  </div>
-  </div>';
-				}
-
-				?>
 				<div class="row no-gutters">
 					<div class="col-md-2">
 						<?php
@@ -142,7 +115,7 @@ include('../php/db/select_cockEtab_id.php');
 						?>
 					</div>
 					<div class="col-md-10">
-						<div class="card-body d-flex flex-column" style="height: 230px;">
+						<div class="card-body d-flex flex-column" style="max-height: 200px;">
 							<div>
 								<h1 class="card-title"> <?php echo $cockInfo["name"]; ?> </h1>
 								<hr>
@@ -187,6 +160,33 @@ include('../php/db/select_cockEtab_id.php');
 					</div>
 				</div>
 			</div>
+			<?php
+				if (isset($_SESSION['userId']) && $userInfo['admin'] > 0) {
+					if ($userInfo['admin'] == 2) {
+						$rolle = "Admin";
+					} elseif ($userInfo['admin'] == 1) {
+						$rolle = "Mod";
+					}
+					echo '
+					<div class="accordion mb-3" id="accordionExample">
+  <div class="card border rounded">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+		' . $rolle . ' : '. $userInfo['uname'].'
+        </button>
+      </h2>
+	</div>
+	<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+        Hier dann so krams zum bearbeiten so tools diesen so
+      </div>
+    </div>
+  </div>
+  </div>';
+				}
+
+				?>
 			<div class="card card-body">
 				<ul class="nav nav-pills flex-column flex-sm-row" id="cockDetail-tab" role="tablist">
 					<li class="flex-sm-fill text-sm-center nav-item">
