@@ -139,7 +139,7 @@ include('../php/db/select_cockEtab_id.php');
 						if ($cockInfo["img"] == null)
 							echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else
-							echo '<img src="../php/get_img.php?cock_id=' . $cockInfo["id"] . '" class="card-img-top">';
+							echo '<img src="../php/db/get_img.php?cock_id=' . $cockInfo["id"] . '" class="card-img-top">';
 						?>
 					</div>
 					<div class="col-md-10">

@@ -81,7 +81,7 @@ $_SESSION['etabid'] = $etabId;
 				echo $message;
 				echo '</div>';
 			}
-			include('../php/alert_message.php');
+			include('../php/alertMessage.php');
 			?>
 
 			<div class="card mb-3" width="100%" style="max-height: 360px;">			
@@ -120,7 +120,7 @@ $_SESSION['etabid'] = $etabId;
 						if ($etabInfo["img"] == null)
 							echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else
-							echo '<img src="../php/get_img.php?etab_id=' . $etabInfo["id"] . '" class="card-img-top">';
+							echo '<img src="../php/db/get_img.php?etab_id=' . $etabInfo["id"] . '" class="card-img-top">';
 						?>
 					</div>
 					

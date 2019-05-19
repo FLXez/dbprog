@@ -39,7 +39,7 @@ if (isset($_SESSION['userId'])) {
         <div class="mt-5 ml-5 mr-5">
             <?php
             if (isset($_SESSION['userId'])) {
-                include('../php/alert_message.php');
+                include('../php/alertMessage.php');
                 echo '
                 <div class="card mb-3" width="100%" style="max-height: 360px;">';
                 
@@ -63,7 +63,7 @@ if (isset($_SESSION['userId'])) {
       <div class="card-body">';
       if($userInfo['admin']==1){
         echo'
-        <form class="form-inline" action="../php/user_unmod_self.php">
+        <form class="form-inline" action="../php/userUnmod_self.php">
         <button class="btn btn-primary mt-2 mr-2" type="submit"> Rechte ändern</button>
         </form>';
     } else {
@@ -78,7 +78,7 @@ if (isset($_SESSION['userId'])) {
                 <div class="row no-gutters">
                     <div class="col-md-2">';
                 if ($userInfo["img"]) {
-                    echo '<img src="../php/get_img.php?user_id=' . $userId . '" class="card-img-top">';
+                    echo '<img src="../php/db/get_img.php?user_id=' . $userId . '" class="card-img-top">';
                 } else {
                     echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
                 }

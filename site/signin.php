@@ -31,7 +31,7 @@ $activeHead = "user";
         <div class="ml-5 mr-5 mt-5">
             <?php
             if (!isset($_SESSION['userId'])) {
-                include('../php/alert_message.php');
+                include('../php/alertMessage.php');
                 ?>
                 <div class="card card-body">
                     <ul class="nav nav-pills flex-column flex-sm-row" id="signin-tab" role="tablist">

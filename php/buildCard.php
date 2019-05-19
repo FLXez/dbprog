@@ -8,7 +8,7 @@ function buildCard_etab($id, $name, $ort, $anschrift, $verifiziert, $avgwert, $i
         <img src="../res/placeholder_no_image.svg" class="card-img-top">';
     } else {
         echo '
-        <img src="../php/get_img.php?etab_id=' . $id . '" class="card-img-top">';
+        <img src="../php/db/get_img.php?etab_id=' . $id . '" class="card-img-top">';
     }
     echo '
         <div class="card-body">
@@ -107,7 +107,7 @@ function buildCard_cock($id, $name, $beschreibung, $img, $avgwert, $anz)
         <img src="../res/placeholder_no_image.svg" class="card-img-top">';
     } else {
         echo '
-        <img src="../php/get_img.php?cock_id=' . $id . '" class="card-img-top">';
+        <img src="../php/db/get_img.php?cock_id=' . $id . '" class="card-img-top">';
     }
     echo '
         <div class="card-body">

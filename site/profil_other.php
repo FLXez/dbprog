@@ -45,7 +45,7 @@ include('../php/db/select_user_bewEtab.php');
     <main role="main">
         <div class="mt-5 ml-5 mr-5">
             <?php
-            include('../php/alert_message.php');
+            include('../php/alertMessage.php');
             ?>
             <div class="card mb-3" width="100%" style="max-height: 360px;">
                 <?php
@@ -72,10 +72,10 @@ include('../php/db/select_user_bewEtab.php');
                         if ($userInfo['admin'] < 2) {
                             if ($userInfo['admin'] == 1) {
                                 echo '
-                                    <form class="form-inline" action="../php/user_unmod.php">';
+                                    <form class="form-inline" action="../php/userUnmod.php">';
                             } elseif ($userInfo['admin'] == 0) {
                                 echo '
-                                    <form class="form-inline" action="../php/user_mod.php">';
+                                    <form class="form-inline" action="../php/userMod.php">';
                             }
                             echo '
                                         <button class="btn btn-primary mt-2 mr-2" type="submit"> Rechte ändern</button>
@@ -96,7 +96,7 @@ include('../php/db/select_user_bewEtab.php');
                     <div class="col-md-2">
                         <?php
                         if ($userInfo['img'])
-                            echo '<img src="../php/get_img.php?user_id=' . $_GET['showUser'] . '" class="card-img-top">';
+                            echo '<img src="../php/db/get_img.php?user_id=' . $_GET['showUser'] . '" class="card-img-top">';
                         else
 
                             echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
@@ -116,7 +116,7 @@ include('../php/db/select_user_bewEtab.php');
                                             if ($_SESSION['admin'] > 1) {
                                                 $_SESSION['changeAdmin_userId'] = $_GET['showUser'];
                                                 echo '
-                                            <a href="../php/user_unmod.php" class="badge badge-primary">Moderator</a>';
+                                            <a href="../php/userUnmod.php" class="badge badge-primary">Moderator</a>';
                                             }
                                         } else {
                                             echo '<span class="badge badge-primary">Moderator</span>';
@@ -126,7 +126,7 @@ include('../php/db/select_user_bewEtab.php');
                                             if ($_SESSION['admin'] > 1) {
                                                 $_SESSION['changeAdmin_userId'] = $_GET['showUser'];
                                                 echo '
-                                            <a href="../php/user_mod.php" class="badge badge-primary">User</a>';
+                                            <a href="../php/userMod.php" class="badge badge-primary">User</a>';
                                             }
                                         } else {
                                             echo '<span class="badge badge-primary">User</span>';

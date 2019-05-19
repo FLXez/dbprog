@@ -3,7 +3,7 @@ session_start();
 $activeHead = "landing";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
 include('../php/buildMarketing.php');
-include('../php/get_marketing.php');
+include('../php/db/get_marketing.php');
 ?>
 <!doctype html>
 <html lang="de">
