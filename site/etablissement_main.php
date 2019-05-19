@@ -2,6 +2,7 @@
 session_start();
 $activeHead = "etablissement";
 $_SESSION['source'] = "../site/etablissement_main.php";
+include('../php/buildCard.php');
 
 $filter = "%";
 $getEtab = true;
@@ -41,88 +42,7 @@ include('../php/db/select_card_info.php');
 				<div class="row">
 					<?php
 					for ($i = 0; $i < count($cardEtab); $i++) {
-						echo '
-					<div class="card ml-4 mr-4 mt-4 mb-4" style="width: 19rem;">';
-						if ($cardEtab[$i]["img"] == null)
-							echo '
-						<img src="../res/placeholder_no_image.svg" class="card-img-top">';
-						else
-							echo '
-						<img src="../php/get_img.php?etab_id=' . $cardEtab[$i]["id"] . '" class="card-img-top">';
-						echo '
-						<div class="card-body">
-							<div class="row justify-content-between">
-								<div class="col-7">
-									<h5 class="card-title float-left">' . $cardEtab[$i]["name"] . '</h5>
-								</div>
-								<div class="col-5">';
-						if ($cardEtab[$i]["verifiziert"] == 1) {
-							echo '
-									<span class="badge badge-primary float-right">Verifiziert</span>';
-						} else {
-							echo '
-									<span class="badge badge-warning float-right">Nicht verifiziert</span>';
-						}
-						echo '
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-12">	
-									<p class="card-text">' . $cardEtab[$i]["ort"] . '<br>' . $cardEtab[$i]["anschrift"] . '</p>
-								</div>
-							</div>
-							<hr>
-							<div class="row">
-								<div class="col-4">
-									<h5 class="rating-num float-left">' . number_format($cardEtab[$i]["avgwert"], 1) . '</h5>
-								</div>
-								<div class="col-8">
-									<div class="rating float-right">';
-						if ($cardEtab[$i]["avgwert"] >= 1)			echo '
-										<i class="fas fa-star"></i>';
-						else										echo '
-										<i class="far fa-star"></i>';
-						if ($cardEtab[$i]["avgwert"] >= 1.75)		echo '
-										<i class="fas fa-star"></i>';
-						elseif ($cardEtab[$i]["avgwert"] >= 1.25)	echo '
-										<i class="fas fa-star-half-alt"></i>';
-						else										echo '
-										<i class="far fa-star"></i>';
-						if ($cardEtab[$i]["avgwert"] >= 2.75)		echo '
-										<i class="fas fa-star"></i>';
-						elseif ($cardEtab[$i]["avgwert"] >= 2.25)	echo '
-										<i class="fas fa-star-half-alt"></i>';
-						else										echo '
-										<i class="far fa-star"></i>';
-						if ($cardEtab[$i]["avgwert"] >= 3.75)		echo '
-										<i class="fas fa-star"></i>';
-						elseif ($cardEtab[$i]["avgwert"] >= 3.25)	echo '
-										<i class="fas fa-star-half-alt"></i>';
-						else										echo '
-										<i class="far fa-star"></i>';
-						if ($cardEtab[$i]["avgwert"] >= 4.75)		echo '
-										<i class="fas fa-star"></i>';
-						elseif ($cardEtab[$i]["avgwert"] >= 4.25)	echo '
-										<i class="fas fa-star-half-alt"></i>';
-						else										echo '
-										<i class="far fa-star"></i>';
-						echo '
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-12">
-									<h5 class="float-right">'.$cardEtab[$i]["anz"].' Bewertung(en)</h5>
-								</div>
-							</div>	
-							<hr>
-							<div class="row">
-								<div class="col-12">
-									<a href="../site/etablissement_details.php?etab_id=' . $cardEtab[$i]["id"] . '" class="btn btn-primary btn-block">Details</a>
-								</div>
-							</div>							
-						</div>
-					</div>';
+						buildCard_etab($cardEtab[$i][0], $cardEtab[$i][1], $cardEtab[$i][2], $cardEtab[$i][3], $cardEtab[$i][4], $cardEtab[$i][5], $cardEtab[$i][6], $cardEtab[$i][7]);
 					}
 					?>
 				</div>

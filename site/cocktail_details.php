@@ -2,6 +2,7 @@
 session_start();
 $activeHead = "cocktail";
 $_SESSION['source'] = "../site/cocktail_details.php?cock_id=" . $_GET['cock_id'];
+include('../php/buildCard.php');
 
 $cockId = $_GET['cock_id'];
 if (isset($_SESSION['userId'])) {
