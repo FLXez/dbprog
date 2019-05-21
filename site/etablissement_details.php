@@ -89,14 +89,14 @@ $_SESSION['etabid'] = $etabId;
 					$rolle = "Mod";
 				}
 				echo '
-			<div class="accordion mb-3" id="accordionExample">
+			<div class="accordion mb-3" id="adminTools">
 				<div class="card border rounded">
 					<div class="card-header" id="headingOne">
 						<h2 class="mb-0">
 							<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">' . $rolle . ' : ' . $_SESSION['uname'] . '</button>
 						</h2>
 					</div>
-					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#adminTools">
 						<div class="card-body">
 							<form class="form-inline" action="../php/db/update_etabVerify.php">
 								<button class="btn btn-primary mt-2 mr-2" type="submit"> Verifizierung ändern</button>

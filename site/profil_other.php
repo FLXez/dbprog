@@ -48,50 +48,6 @@ include('../php/db/select_user_bewEtab.php');
             include('../php/alertMessage.php');
             ?>
             <div class="card mb-3" width="100%" style="max-height: 360px;">
-                <?php
-                if (isset($_SESSION['userId']) && $visitorAdminStatus > 0) {
-                    if ($visitorAdminStatus == 2) {
-                        $rolle = "Admin";
-                    } elseif ($visitorAdminStatus == 1) {
-                        $rolle = "Mod";
-                    }
-                    echo '
-					<div class="accordion" id="accordionExample">
-                        <div class="card border">
-                            <div class="card-header" id="headingOne">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-		                                '  . $rolle . ' : ' . $visitorUserName . '
-                                    </button>
-                                </h2>
-	                        </div>
-	                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                <div class="card-body">';
-                    if ($visitorAdminStatus == 2) {
-                        $_SESSION['changeAdmin_userid'] = $_GET['showUser'];
-                        if ($userInfo['admin'] < 2) {
-                            if ($userInfo['admin'] == 1) {
-                                echo '
-                                    <form class="form-inline" action="../php/userUnmod.php">';
-                            } elseif ($userInfo['admin'] == 0) {
-                                echo '
-                                    <form class="form-inline" action="../php/userMod.php">';
-                            }
-                            echo '
-                                        <button class="btn btn-primary mt-2 mr-2" type="submit"> Rechte ändern</button>
-                                    </form> 
-                                    <form class="form-inline" action="../php/db/update_userLoeschen.php">
-                                        <button class="btn btn-primary mt-2 mr-2 disabled" type="submit"> User löschen</button>
-                                    </form>';
-                        }
-                    }
-                    echo '
-                                </div>
-                            </div>
-                        </div>
-                    </div>';
-                }
-                ?>
                 <div class="row no-gutters">
                     <div class="col-md-2">
                         <?php
@@ -167,6 +123,50 @@ include('../php/db/select_user_bewEtab.php');
                     </div>
                 </div>
             </div>
+            <?php
+                if (isset($_SESSION['userId']) && $visitorAdminStatus > 0) {
+                    if ($visitorAdminStatus == 2) {
+                        $rolle = "Admin";
+                    } elseif ($visitorAdminStatus == 1) {
+                        $rolle = "Mod";
+                    }
+                    echo '
+					<div class="accordion mb-3" id="adminTools">
+                        <div class="card border">
+                            <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+		                                '  . $rolle . ' : ' . $visitorUserName . '
+                                    </button>
+                                </h2>
+	                        </div>
+	                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#adminTools">
+                                <div class="card-body">';
+                    if ($visitorAdminStatus == 2) {
+                        $_SESSION['changeAdmin_userid'] = $_GET['showUser'];
+                        if ($userInfo['admin'] < 2) {
+                            if ($userInfo['admin'] == 1) {
+                                echo '
+                                    <form class="form-inline" action="../php/userUnmod.php">';
+                            } elseif ($userInfo['admin'] == 0) {
+                                echo '
+                                    <form class="form-inline" action="../php/userMod.php">';
+                            }
+                            echo '
+                                        <button class="btn btn-primary mt-2 mr-2" type="submit"> Rechte ändern</button>
+                                    </form> 
+                                    <form class="form-inline" action="../php/db/update_userLoeschen.php">
+                                        <button class="btn btn-primary mt-2 mr-2 disabled" type="submit"> User löschen</button>
+                                    </form>';
+                        }
+                    }
+                    echo '
+                                </div>
+                            </div>
+                        </div>
+                    </div>';
+                }
+                ?>
             <div class="card card-body">
                 <ul class="nav nav-pills flex-column flex-sm-row" id="bewEtabCock-tab" role="tablist">
                     <li class="flex-sm-fill text-sm-center nav-item">

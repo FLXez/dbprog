@@ -35,7 +35,6 @@ if (isset($_SESSION['userId'])) {
             include('../php/db/insert_bewCock.php');
         }
     }
-
     if ($result) {
         $_SESSION['message'] = "Bewertung erfolgreich abgegeben!";
     } else {

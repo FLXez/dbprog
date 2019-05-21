@@ -113,14 +113,14 @@ include('../php/db/select_cockEtab_id.php');
 					$rolle = "Mod";
 				}
 				echo '
-				<div class="accordion mb-3" id="accordionExample">
+				<div class="accordion mb-3" id="adminTools">
   					<div class="card border rounded">
     					<div class="card-header" id="headingOne">
       						<h2 class="mb-0">
         						<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">' . $rolle . ' : ' . $_SESSION['uname'] . '</button>
       						</h2>
 						</div>
-					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#adminTools">
     		  			<div class="card-body">
         					Hier dann so krams zum bearbeiten so tools diesen so
       					</div>
