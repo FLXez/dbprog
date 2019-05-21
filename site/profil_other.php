@@ -4,10 +4,9 @@ $activeHead = "user";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
 if (isset($_SESSION['userId'])) {
-
-    include('../php/db/select_userInfo.php');
-    $visitorAdminStatus = $userInfo['admin'];
-    $visitorUserName = $userInfo['uname'];
+    if($_SESSION['userId'] == $_GET['showUser']){
+        header("Location: profil_main.php");
+    }
 }
 
 //Variable muss immer wieder neu gesetzt werden, da sie am Ende gelöscht wird um Datenverarbeitungsfehler zu vermeiden.
@@ -124,10 +123,10 @@ include('../php/db/select_user_bewEtab.php');
                 </div>
             </div>
             <?php
-                if (isset($_SESSION['userId']) && $visitorAdminStatus > 0) {
-                    if ($visitorAdminStatus == 2) {
+                if (isset($_SESSION['userId']) && $_SESSION['admin'] > 0) {
+                    if ($_SESSION['admin'] == 2) {
                         $rolle = "Admin";
-                    } elseif ($visitorAdminStatus == 1) {
+                    } elseif ($_SESSION['admin'] == 1) {
                         $rolle = "Mod";
                     }
                     echo '
@@ -136,13 +135,13 @@ include('../php/db/select_user_bewEtab.php');
                             <div class="card-header" id="headingOne">
                                 <h2 class="mb-0">
                                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-		                                '  . $rolle . ' : ' . $visitorUserName . '
+		                                '  . $rolle . ' : ' . $_SESSION['uname'] . '
                                     </button>
                                 </h2>
 	                        </div>
 	                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#adminTools">
                                 <div class="card-body">';
-                    if ($visitorAdminStatus == 2) {
+                    if ($_SESSION['admin'] == 2) {
                         $_SESSION['changeAdmin_userid'] = $_GET['showUser'];
                         if ($userInfo['admin'] < 2) {
                             if ($userInfo['admin'] == 1) {
@@ -183,24 +182,33 @@ include('../php/db/select_user_bewEtab.php');
 						<table class="table">
 							<thead>
 								<tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Zeitpunkt</th>
-                                    <th scope="col">Etablissement</th>
-                                    <th scope="col">Cocktail</th>
-                                    <th scope="col">Text</th>
-                                    <th scope="col">Bewertung</th>
+                                    <th scope="col" style="width: 5.00%"></th>
+                                    <th scope="col" style="width: 10.00%">Zeitpunkt</th>
+                                    <th scope="col" style="width: 10.00%">Etablissement</th>
+                                    <th scope="col" style="width: 10.00%">Cocktail</th>
+                                    <th scope="col" style="width: 5.00%">Bewertung</th>
+                                    <th scope="col" style="width: 60.00%">Text</th>
 								</tr>
 							</thead> 
 							<tbody>';
                         for ($i = 0; $i < count($user_bewCock); $i++) {
                             echo '<tr>';
-                            echo '<th scope="row">' . ($i + 1);
-                            '</th>';
+							if (isset($_SESSION['userId'])) {
+                                if ($_SESSION['admin'] == 2 && $userInfo['admin'] > 2) {
+									echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $user_bewCock[$i]["bew_id"] . '&bew=cock"><i class="fas fa-trash"></i></a></td>';
+								} elseif ($_SESSION['admin'] == 1) {
+									echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
+								} else {
+									echo '<td></td>';
+								}
+							} else {
+								echo '<td></td>';
+							}
                             echo '<td>' . $user_bewCock[$i]["ts"] . '</td>';
                             echo '<td> <a class="" href="etablissement_details.php?etab_id= ' . $user_bewCock[$i]["etabid"] . '">' . $user_bewCock[$i]["etabname"] . '</a></td>';
                             echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $user_bewCock[$i]["cockid"] . '">' . $user_bewCock[$i]["cockname"] . '</a></td>';
-                            echo '<td>' . $user_bewCock[$i]["text"] . '</td>';
                             echo '<td>' . $user_bewCock[$i]["wert"] . '</td>';
+                            echo '<td>' . $user_bewCock[$i]["text"] . '</td>';
                             echo '</tr>';
                         }
                         echo '</tbody></table>';
@@ -211,22 +219,31 @@ include('../php/db/select_user_bewEtab.php');
 						<table class="table">
 							<thead>
 								<tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Zeitpunkt</th>
-                                    <th scope="col">Etablissement</th>
-                                    <th scope="col">Text</th>
-                                    <th scope="col">Bewertung</th>
+                                    <th scope="col" style="width: 5.00%"></th>
+                                    <th scope="col" style="width: 10.00%">Zeitpunkt</th>
+                                    <th scope="col" style="width: 10.00%">Etablissement</th>
+                                    <th scope="col" style="width: 5.00%">Bewertung</th>
+                                    <th scope="col" style="width: 70.00%">Text</th>
 								</tr>
 							</thead> 
 							<tbody>';
                         for ($i = 0; $i < count($user_bewEtab); $i++) {
                             echo '<tr>';
-                            echo '<th scope="row">' . ($i + 1);
-                            '</th>';
+							if (isset($_SESSION['userId'])) {
+								if ($_SESSION['admin'] == 2 && $userInfo['admin'] > 2) {
+									echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $user_bewEtab[$i]["bew_id"] . '&bew=etab"><i class="fas fa-trash"></i></a></td>';
+								} elseif ($_SESSION['admin'] == 1) {
+									echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
+								} else {
+									echo '<td></td>';
+								}
+							} else {
+								echo '<td></td>';
+							}
                             echo '<td>' . $user_bewEtab[$i]["ts"] . '</td>';
                             echo '<td> <a class="" href="etablissement_details.php?etab_id= ' . $user_bewEtab[$i]["id"] . '">' . $user_bewEtab[$i]["name"] . '</a></td>';
-                            echo '<td>' . $user_bewEtab[$i]["text"] . '</td>';
                             echo '<td>' . $user_bewEtab[$i]["wert"] . '</td>';
+                            echo '<td>' . $user_bewEtab[$i]["text"] . '</td>';
                             echo '</tr>';
                         }
                         echo '</tbody></table>';

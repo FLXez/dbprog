@@ -145,114 +145,45 @@ $_SESSION['etabid'] = $etabId;
 					</div>
 					<div class="tab-pane fade" id="bewertungen" role="tabpanel" aria-labelledby="bewertungen-tab">
 						<?php
-						if (isset($_SESSION['userId'])) {
-							if ($_SESSION['admin'] == 2) {
-								echo '
-								<table class="table">
-									<thead>
-										<tr>
-											<th scope="col"></th>
-											<th scope="col">Zeitpunkt</th>
-											<th scope="col">Nutzername</th>
-											<th scope="col">Wert</th>
-											<th scope="col">Bewertung</th>
-										</tr>
-									</thead> 
-									<tbody>';
-								for ($i = 0; $i < count($etab_bew); $i++) {
-									echo '<tr>';
+						echo '
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col" style="width: 5.00%"></th>
+									<th scope="col" style="width: 10.00%">Zeitpunkt</th>
+									<th scope="col" style="width: 10.00%">Nutzername</th>
+									<th scope="col" style="width: 5.00%">Wert</th>
+									<th scope="col" style="width: 70.00%">Bewertung</th>
+								</tr>
+							</thead> 
+							<tbody>';
+						for ($i = 0; $i < count($etab_bew); $i++) {
+							echo '<tr>';
+							if (isset($_SESSION['userId'])) {
+								if ($_SESSION['admin'] == 2 or $etab_bew[$i]['userId'] == $_SESSION['userId']) {
 									echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $etab_bew[$i]["bew_id"] . '&bew=etab"><i class="fas fa-trash"></i></a></td>';
-									echo '<td>' . $etab_bew[$i]["ts"] . '</td>';
-									echo '<td><a href="../site/profil_other.php?showUser=' . $etab_bew[$i]["userId"] . '">' . $etab_bew[$i]["username"] . '</a></td>';
-									echo '<td>' . $etab_bew[$i]["wert"] . '</td>';
-									echo '<td>' . $etab_bew[$i]["text"] . '</td>';
-									echo '</tr>';
+								} elseif ($_SESSION['admin'] == 1) {
+									echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
+								} else {
+									echo '<td></td>';
 								}
-								echo '</tbody></table>';
-							} elseif ($_SESSION['admin'] == 1) {
-								echo '
-								<table class="table">
-									<thead>
-										<tr>
-											<th scope="col"></th>
-											<th scope="col">Zeitpunkt</th>
-											<th scope="col">Nutzername</th>
-											<th scope="col">Wert</th>
-											<th scope="col">Bewertung</th>
-										</tr>
-									</thead> 
-									<tbody>';
-								for ($i = 0; $i < count($etab_bew); $i++) {
-									echo '<tr>';
-									if ($etab_bew[$i]['userId'] == $_SESSION['userId']) {
-										echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $etab_bew[$i]["bew_id"] . '&bew=etab&userId=' . $_SESSION['userId'] . '"><i class="fas fa-trash"></i></a></td>';
-									} else {
-										echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
-									}
-									echo '<td>' . $etab_bew[$i]["ts"] . '</td>';
-									echo '<td><a href="../site/profil_other.php?showUser=' . $etab_bew[$i]["userId"] . '">' . $etab_bew[$i]["username"] . '</a></td>';
-									echo '<td>' . $etab_bew[$i]["wert"] . '</td>';
-									echo '<td>' . $etab_bew[$i]["text"] . '</td>';
-									echo '</tr>';
-								}
-								echo '</tbody></table>';
 							} else {
-								echo '
-								<table class="table">
-									<thead>
-										<tr>
-											<th scope="col"></th>
-											<th scope="col">Zeitpunkt</th>
-											<th scope="col">Nutzername</th>
-											<th scope="col">Wert</th>
-											<th scope="col">Bewertung</th>
-										</tr>
-									</thead> 
-									<tbody>';
-								for ($i = 0; $i < count($etab_bew); $i++) {
-									echo '<tr>';
-									if ($etab_bew[$i]['userId'] == $_SESSION['userId']) {
-										echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $etab_bew[$i]["bew_id"] . '&bew=etab&userId=' . $_SESSION['userId'] . '"><i class="fas fa-trash"></i></a></td>';
-									} else {
-										echo '<td></td>';
-									}
-									echo '<td>' . $etab_bew[$i]["ts"] . '</td>';
-									echo '<td><a href="../site/profil_other.php?showUser=' . $etab_bew[$i]["userId"] . '">' . $etab_bew[$i]["username"] . '</a></td>';
-									echo '<td>' . $etab_bew[$i]["wert"] . '</td>';
-									echo '<td>' . $etab_bew[$i]["text"] . '</td>';
-									echo '</tr>';
-								}
-								echo '</tbody></table>';
+								echo '<td></td>';
 							}
-						} else {
-							echo '
-							<table class="table">
-								<thead>
-									<tr>
-										<th scope="col">Zeitpunkt</th>
-										<th scope="col">Nutzername</th>
-										<th scope="col">Wert</th>
-										<th scope="col">Bewertung</th>
-									</tr>
-								</thead> 
-								<tbody>';
-							for ($i = 0; $i < count($etab_bew); $i++) {
-								echo '<tr>';
-								echo '<td>' . $etab_bew[$i]["ts"] . '</td>';
-								echo '<td><a href="../site/profil_other.php?showUser=' . $etab_bew[$i]["userId"] . '">' . $etab_bew[$i]["username"] . '</a></td>';
-								echo '<td>' . $etab_bew[$i]["wert"] . '</td>';
-								echo '<td>' . $etab_bew[$i]["text"] . '</td>';
-								echo '</tr>';
-							}
-							echo '</tbody></table>';
+							echo '<td>' . $etab_bew[$i]["ts"] . '</td>';
+							echo '<td><a href="../site/profil_other.php?showUser=' . $etab_bew[$i]["userId"] . '">' . $etab_bew[$i]["username"] . '</a></td>';
+							echo '<td>' . $etab_bew[$i]["wert"] . '</td>';
+							echo '<td>' . $etab_bew[$i]["text"] . '</td>';
+							echo '</tr>';
 						}
+						echo '</tbody></table>';
 						?>
 					</div>
 					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">
 						<?php
 						if (isset($_SESSION['userId'])) {
-								echo '
-								<form class="mr-2 ml-2 mt-2" action="../php/bewertung_make.php?etab_id=' . $_GET['etab_id'] . '&user_id='.$_SESSION['userId'].'" method="post">
+							echo '
+								<form class="mr-2 ml-2 mt-2" action="../php/bewertung_make.php?etab_id=' . $_GET['etab_id'] . '&user_id=' . $_SESSION['userId'] . '" method="post">
 									<div class="form-group">
 										<label for="wert">Wie bewerten Sie das Etablissement?</label>
 										<!--<input type="text" class="form-control" id="bew_wert" placeholder="0 Sterne" name="wert">-->
@@ -271,7 +202,7 @@ $_SESSION['etabid'] = $etabId;
 									<button type="submit" class="btn btn-primary mt-2">Bewertung abschicken!</button>
 								</form>';
 						} else {
-							echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="" href="signin.php">Anmelden</a>.</h2>';
+							echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a href="signin.php">Anmelden</a>.</h2>';
 						}
 						?>
 					</div>

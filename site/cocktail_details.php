@@ -70,11 +70,11 @@ include('../php/db/select_cockEtab_id.php');
 							</div>
 							<div class="mt-auto">
 								<?php echo '							 	
-								<form action="?cock_id=' . $_GET['cock_id'] . '&etab_zuordnen=1" method="POST">
-								<label for="etab_zugeordnet">Cocktail einem Etablissement zuordnen:</label>
+								<form action="../php/cock_zu_etab.php?cock_id=' . $_GET['cock_id'] . '" method="POST">
+								<label for="zu_etab">Cocktail einem Etablissement zuordnen:</label>
 									<div class="form-row">
 										<div class="col-4">
-										<select class="custom-select" name="etab_zugeordnet" id="etab_zugeordnet">';
+										<select class="custom-select" name="zu_etab" id="zu_etab">';
 								for ($i = 0; $i < count($allEtab); $i++) {
 
 									$isValid = true;
@@ -93,7 +93,7 @@ include('../php/db/select_cockEtab_id.php');
 										</select>
 										</div>
 										<div class="col-4">
-										<input type="text" maxlength="10" class="form-control" name="preis_cock" id="preis_cock" placeholder="Preis" required>
+										<input type="text" maxlength="10" class="form-control" name="preis" id="preis" placeholder="Preis" required>
 										</div>
 										<div class="col-auto">
 											<button type="submit" class="btn btn-primary">Hinzuf&uuml;gen</button>
@@ -148,11 +148,11 @@ include('../php/db/select_cockEtab_id.php');
 						<table class="table">
 							<thead>
 								<tr>
-									<th scope="col">#</th>
-									<th scope="col">Etablissement</th>
-									<th scope="col">Ort</th>
-									<th scope="col">Preis</th>
-									<th scope="col">Durchschnittsbewertung</th>
+									<th scope="col" style="width: 5.00%">#</th>
+									<th scope="col" style="width: 5.00%">Durchschnittsbewertung</th>
+									<th scope="col" style="width: 20.00%">Etablissement</th>
+									<th scope="col" style="width: 10.00%">Ort</th>
+									<th scope="col" style="width: 50.00%">Preis</th>
 								</tr>
 							</thead> 
 							<tbody>';
@@ -160,10 +160,10 @@ include('../php/db/select_cockEtab_id.php');
 						for ($i = 0; $i < count($cocktailkarte); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
+							echo '<td>' . $cocktailkarte[$i]["wert"] . '</td>';
 							echo '<td>  <a class="" href="etablissement_details.php?etab_id= ' . $cocktailkarte[$i]["id"] . '">' . $cocktailkarte[$i]["name"] . '</a></td>';
 							echo '<td>' . $cocktailkarte[$i]["ort"] . '</td>';
-							echo '<td>' . $cocktailkarte[$i]["preis"] . '</td>';
-							echo '<td>' . $cocktailkarte[$i]["wert"] . '</td>';
+							echo '<td>' . $cocktailkarte[$i]["preis"] . ' €</td>';
 							echo '</tr>';
 						}
 						echo '
@@ -173,117 +173,40 @@ include('../php/db/select_cockEtab_id.php');
 					</div>
 					<div class="tab-pane fade" id="bewertungen" role="tabpanel" aria-labelledby="bewertungen-tab">
 						<?php
-						if (isset($_SESSION['userId'])) {
-							if ($_SESSION['admin'] == 2) {
-								echo '
-								<table class="table">
-									<thead>
-										<tr>
-											<th scope="col"></th>
-											<th scope="col">Zeitpunkt</th>
-											<th scope="col">Nutzername</th>
-											<th scope="col">Etablissement</th>
-											<th scope="col">Wert</th>
-											<th scope="col">Bewertung</th>
-										</tr>
-									</thead> 
-									<tbody>';
-								for ($i = 0; $i < count($cock_bew); $i++) {
-									echo '<tr>';
-									echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $cock_bew[$i]["bew_id"] . '&bew=cock"><i class="fas fa-trash"></i></a></td>';
-									echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
-									echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
-									echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
-									echo '<td>' . $cock_bew[$i]["wert"] . '</td>';
-									echo '<td>' . $cock_bew[$i]["text"] . '</td>';
-									echo '</tr>';
-								}
-								echo '</tbody></table>';
-							} elseif ($_SESSION['admin'] == 1) {
-								echo '
-								<table class="table">
-									<thead>
-										<tr>
-											<th scope="col"></th>
-											<th scope="col">Zeitpunkt</th>
-											<th scope="col">Nutzername</th>
-											<th scope="col">Etablissement</th>
-											<th scope="col">Wert</th>
-											<th scope="col">Bewertung</th>
-										</tr>
-									</thead> 
-									<tbody>';
-								for ($i = 0; $i < count($cock_bew); $i++) {
-									echo '<tr>';
-									if ($cock_bew[$i]['userId'] == $_SESSION['userId']) {
-										echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $cock_bew[$i]["bew_id"] . '&bew=cock&userId=' . $_SESSION['userId'] . '"><i class="fas fa-trash"></i></a></td>';
-									} else {
-										echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></td>';
-									}
-									echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
-									echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
-									echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
-									echo '<td>' . $cock_bew[$i]["wert"] . '</td>';
-									echo '<td>' . $cock_bew[$i]["text"] . '</td>';
-									echo '</tr>';
-								}
-								echo '</tbody></table>';
-							} else {
-								echo '
-								<table class="table">
-									<thead>
-										<tr>
-											<th scope="col"></th>
-											<th scope="col">Zeitpunkt</th>
-											<th scope="col">Nutzername</th>
-											<th scope="col">Etablissement</th>
-											<th scope="col">Wert</th>
-											<th scope="col">Bewertung</th>
-										</tr>
-									</thead> 
-									<tbody>';
-								for ($i = 0; $i < count($cock_bew); $i++) {
-									echo '<tr>';
-									if ($cock_bew[$i]['userId'] == $_SESSION['userId']) {
-										echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $cock_bew[$i]["bew_id"] . '&bew=cock&userId=' . $_SESSION['userId'] . '"><i class="fas fa-trash"></i></a></td>';
-									} else {
-										echo '<td></td>';
-									}
-									echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
-									echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
-									echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
-									echo '<td>' . $cock_bew[$i]["wert"] . '</td>';
-									echo '<td>' . $cock_bew[$i]["text"] . '</td>';
-									echo '</tr>';
-								}
-								echo '</tbody></table>';
-							}
-						} else {
-							echo '
+						echo '
 							<table class="table">
 								<thead>
 									<tr>
-										<th scope="col"></th>
-										<th scope="col">Zeitpunkt</th>
-										<th scope="col">Nutzername</th>
-										<th scope="col">Etablissement</th>
-										<th scope="col">Wert</th>
-										<th scope="col">Bewertung</th>
+										<th scope="col" style="width: 5.00%"></th>
+										<th scope="col" style="width: 10.00%">Zeitpunkt</th>
+										<th scope="col" style="width: 10.00%">Nutzername</th>
+										<th scope="col" style="width: 10.00%">Etablissement</th>
+										<th scope="col" style="width: 5.00%">Wert</th>
+										<th scope="col" style="width: 60.00%">Bewertung</th>
 									</tr>
 								</thead> 
 								<tbody>';
-
-							for ($i = 0; $i < count($cock_bew); $i++) {
-								echo '<tr>';
-								echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
-								echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
-								echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
-								echo '<td>' . $cock_bew[$i]["wert"] . '</td>';
-								echo '<td>' . $cock_bew[$i]["text"] . '</td>';
-								echo '</tr>';
+						for ($i = 0; $i < count($cock_bew); $i++) {
+							echo '<tr>';
+							if (isset($_SESSION['userId'])) {
+								if ($_SESSION['admin'] == 2 or $etab_bew[$i]['userId'] == $_SESSION['userId']) {
+									echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $cock_bew[$i]["bew_id"] . '&bew=cock"><i class="fas fa-trash"></i></a></td>';
+								} elseif ($_SESSION['admin'] == 1) {
+									echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
+								} else {
+									echo '<td></td>';
+								}
+							} else {
+								echo '<td></td>';
 							}
-							echo '</tbody></table>';
+							echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
+							echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
+							echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
+							echo '<td>' . $cock_bew[$i]["wert"] . '</td>';
+							echo '<td>' . $cock_bew[$i]["text"] . '</td>';
+							echo '</tr>';
 						}
+						echo '</tbody></table>';
 						?>
 					</div>
 					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">
