@@ -8,6 +8,7 @@ $statement = $pdo->prepare(
 	       ,bc.timestamp as ts
 		   ,e.name as etab_name
 		   ,ce.etab_id as etab_id
+		   ,bc.id as bew_id
 	 FROM bew_cock bc
 	    JOIN user u 
 		    ON bc.user_id = u.id

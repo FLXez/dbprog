@@ -32,7 +32,7 @@ function buildCard_etab($id, $name, $ort, $anschrift, $verifiziert, $avgwert, $i
 					<p class="card-text">' . $ort . '<br>' . $anschrift . '</p>
 				</div>
 			</div>
-			<hr>
+            <hr>
 			<div class="row">
 				<div class="col-4">
 					<h5 class="rating-num float-left">' . number_format($avgwert, 1) . '</h5>
@@ -93,7 +93,7 @@ function buildCard_etab($id, $name, $ort, $anschrift, $verifiziert, $avgwert, $i
 					<a href="./etablissement_details.php?etab_id=' . $id . '" class="btn btn-primary btn-block">Details</a>
 				</div>
 			</div>							
-		</div>
+        </div>
     </div>';
 };
 

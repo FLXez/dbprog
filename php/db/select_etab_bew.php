@@ -5,7 +5,8 @@ $statement = $pdo->prepare(
 			u.id as userId,
 			be.text as text,
 			be.wert as wert,
-			be.timestamp as ts
+			be.timestamp as ts,
+			be.id as bew_id
 	 FROM bew_etab be
 	    JOIN user u 
             ON be.user_id = u.id

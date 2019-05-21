@@ -181,28 +181,98 @@ $_SESSION['etabid'] = $etabId;
 						?>
 					</div>
 					<div class="tab-pane fade" id="bewertungen" role="tabpanel" aria-labelledby="bewertungen-tab">
-						<?php echo '
-						<table class="table">
-							<thead>
-								<tr>
-									<th scope="col">#</th>
-									<th scope="col">Nutzername</th>
-									<th scope="col">Bewertung</th>
-									<th scope="col">Wert</th>
-									<th scope="col">Zeitpunkt</th>
-								</tr>
-							</thead> 
-							<tbody>';
-						for ($i = 0; $i < count($etab_bew); $i++) {
-							echo '<tr>';
-							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td><a class="" href="../site/profil_other.php?showUser=' . $etab_bew[$i]["userId"] . '">' . $etab_bew[$i]["username"] . '</a></td>';
-							echo '<td>' . $etab_bew[$i]["text"] . '</td>';
-							echo '<td>' . $etab_bew[$i]["wert"] . '</td>';
-							echo '<td>' . $etab_bew[$i]["ts"] . '</td>';
-							echo '</tr>';
+						<?php
+						if (isset($_SESSION['userId'])) {
+							if ($_SESSION['admin'] == 2) {
+								echo '
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col"></th>
+											<th scope="col">Zeitpunkt</th>
+											<th scope="col">Nutzername</th>
+											<th scope="col">Wert</th>
+											<th scope="col">Bewertung</th>
+										</tr>
+									</thead> 
+									<tbody>';
+								for ($i = 0; $i < count($etab_bew); $i++) {								
+									echo '<tr>';
+									echo '<th scope="col"><a href="../php/del_bew.php?bew_id='.$etab_bew[$i]["bew_id"].'&bew=etab"><i class="fas fa-trash"></i></a></th>';
+									echo '<td>' . $etab_bew[$i]["ts"] . '</td>';
+									echo '<td><a href="../site/profil_other.php?showUser=' . $etab_bew[$i]["userId"] . '">' . $etab_bew[$i]["username"] . '</a></td>';
+									echo '<td>' . $etab_bew[$i]["wert"] . '</td>';
+									echo '<td>' . $etab_bew[$i]["text"] . '</td>';
+									echo '</tr>';
+								}
+								echo '</tbody></table>';
+							} elseif ($_SESSION['admin'] == 1) {
+								echo '
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col"></th>
+											<th scope="col">Zeitpunkt</th>
+											<th scope="col">Nutzername</th>
+											<th scope="col">Wert</th>
+											<th scope="col">Bewertung</th>
+										</tr>
+									</thead> 
+									<tbody>';
+								for ($i = 0; $i < count($etab_bew); $i++) {
+									echo '<tr>';
+									echo '<th scope="col"><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
+									echo '<td>' . $etab_bew[$i]["ts"] . '</td>';
+									echo '<td><a href="../site/profil_other.php?showUser=' . $etab_bew[$i]["userId"] . '">' . $etab_bew[$i]["username"] . '</a></td>';
+									echo '<td>' . $etab_bew[$i]["wert"] . '</td>';
+									echo '<td>' . $etab_bew[$i]["text"] . '</td>';
+									echo '</tr>';
+								}
+								echo '</tbody></table>';
+							} else {
+								echo '
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col">Zeitpunkt</th>
+											<th scope="col">Nutzername</th>
+											<th scope="col">Wert</th>
+											<th scope="col">Bewertung</th>
+										</tr>
+									</thead> 
+									<tbody>';
+								for ($i = 0; $i < count($etab_bew); $i++) {
+									echo '<tr>';
+									echo '<td>' . $etab_bew[$i]["ts"] . '</td>';
+									echo '<td><a href="../site/profil_other.php?showUser=' . $etab_bew[$i]["userId"] . '">' . $etab_bew[$i]["username"] . '</a></td>';
+									echo '<td>' . $etab_bew[$i]["wert"] . '</td>';
+									echo '<td>' . $etab_bew[$i]["text"] . '</td>';
+									echo '</tr>';
+								}
+								echo '</tbody></table>';
+							}
+						} else {
+							echo '
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">Zeitpunkt</th>
+										<th scope="col">Nutzername</th>
+										<th scope="col">Wert</th>
+										<th scope="col">Bewertung</th>
+									</tr>
+								</thead> 
+								<tbody>';
+							for ($i = 0; $i < count($etab_bew); $i++) {
+								echo '<tr>';
+								echo '<td>' . $etab_bew[$i]["ts"] . '</td>';
+								echo '<td><a href="../site/profil_other.php?showUser=' . $etab_bew[$i]["userId"] . '">' . $etab_bew[$i]["username"] . '</a></td>';
+								echo '<td>' . $etab_bew[$i]["wert"] . '</td>';
+								echo '<td>' . $etab_bew[$i]["text"] . '</td>';
+								echo '</tr>';
+							}
+							echo '</tbody></table>';
 						}
-						echo '</tbody></table>';
 						?>
 					</div>
 					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">

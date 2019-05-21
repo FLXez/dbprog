@@ -161,32 +161,29 @@ include('../php/db/select_cockEtab_id.php');
 				</div>
 			</div>
 			<?php
-				if (isset($_SESSION['userId']) && $userInfo['admin'] > 0) {
-					if ($userInfo['admin'] == 2) {
-						$rolle = "Admin";
-					} elseif ($userInfo['admin'] == 1) {
-						$rolle = "Mod";
-					}
-					echo '
-					<div class="accordion mb-3" id="accordionExample">
-  <div class="card border rounded">
-    <div class="card-header" id="headingOne">
-      <h2 class="mb-0">
-        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-		' . $rolle . ' : '. $userInfo['uname'].'
-        </button>
-      </h2>
-	</div>
-	<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-      <div class="card-body">
-        Hier dann so krams zum bearbeiten so tools diesen so
-      </div>
-    </div>
-  </div>
-  </div>';
+			if (isset($_SESSION['userId']) && $userInfo['admin'] > 0) {
+				if ($userInfo['admin'] == 2) {
+					$rolle = "Admin";
+				} elseif ($userInfo['admin'] == 1) {
+					$rolle = "Mod";
 				}
-
-				?>
+				echo '
+				<div class="accordion mb-3" id="accordionExample">
+  					<div class="card border rounded">
+    					<div class="card-header" id="headingOne">
+      						<h2 class="mb-0">
+        						<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">' . $rolle . ' : ' . $userInfo['uname'] . '</button>
+      						</h2>
+						</div>
+					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+    		  			<div class="card-body">
+        					Hier dann so krams zum bearbeiten so tools diesen so
+      					</div>
+    				</div>
+		  		</div>
+  			</div>';
+			}
+			?>
 			<div class="card card-body">
 				<ul class="nav nav-pills flex-column flex-sm-row" id="cockDetail-tab" role="tablist">
 					<li class="flex-sm-fill text-sm-center nav-item">
@@ -230,31 +227,107 @@ include('../php/db/select_cockEtab_id.php');
 						?>
 					</div>
 					<div class="tab-pane fade" id="bewertungen" role="tabpanel" aria-labelledby="bewertungen-tab">
-						<?php echo '
-						<table class="table">
-							<thead>
-								<tr>
-									<th scope="col">#</th>
-									<th scope="col">Nutzername</th>
-									<th scope="col">Etablissement</th>
-									<th scope="col">Bewertung</th>
-									<th scope="col">Wert</th>
-									<th scope="col">Zeitpunkt</th>
-								</tr>
-							</thead> 
-							<tbody>';
-
-						for ($i = 0; $i < count($cock_bew); $i++) {
-							echo '<tr>';
-							echo '<th scope="row">' . ($i + 1) . '</th>';
-							echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
-							echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
-							echo '<td>' . $cock_bew[$i]["text"] . '</td>';
-							echo '<td>' . $cock_bew[$i]["wert"] . '</td>';
-							echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
-							echo '</tr>';
+					<?php
+						if (isset($_SESSION['userId'])) {
+							if ($_SESSION['admin'] == 2) {
+								echo '
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col"></th>
+											<th scope="col">Zeitpunkt</th>
+											<th scope="col">Nutzername</th>
+											<th scope="col">Etablissement</th>
+											<th scope="col">Wert</th>
+											<th scope="col">Bewertung</th>
+										</tr>
+									</thead> 
+									<tbody>';
+								for ($i = 0; $i < count($cock_bew); $i++) {								
+									echo '<tr>';
+									echo '<th scope="col"><a href="../php/del_bew.php?bew_id='.$cock_bew[$i]["bew_id"].'&bew=cock"><i class="fas fa-trash"></i></a></th>';
+									echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
+									echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
+									echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
+									echo '<td>' . $cock_bew[$i]["wert"] . '</td>';
+									echo '<td>' . $cock_bew[$i]["text"] . '</td>';
+									echo '</tr>';
+								}
+								echo '</tbody></table>';
+							} elseif ($_SESSION['admin'] == 1) {
+								echo '
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col"></th>
+											<th scope="col">Zeitpunkt</th>
+											<th scope="col">Nutzername</th>
+											<th scope="col">Etablissement</th>
+											<th scope="col">Wert</th>
+											<th scope="col">Bewertung</th>
+										</tr>
+									</thead> 
+									<tbody>';
+								for ($i = 0; $i < count($cock_bew); $i++) {
+									echo '<tr>';
+									echo '<th scope="col"><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
+									echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
+									echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
+									echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
+									echo '<td>' . $cock_bew[$i]["wert"] . '</td>';
+									echo '<td>' . $cock_bew[$i]["text"] . '</td>';
+									echo '</tr>';
+								}
+								echo '</tbody></table>';
+							} else {
+								echo '
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col">Zeitpunkt</th>
+											<th scope="col">Nutzername</th>
+											<th scope="col">Etablissement</th>
+											<th scope="col">Wert</th>
+											<th scope="col">Bewertung</th>
+										</tr>
+									</thead> 
+									<tbody>';
+								for ($i = 0; $i < count($cock_bew); $i++) {
+									echo '<tr>';
+									echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
+									echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
+									echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
+									echo '<td>' . $cock_bew[$i]["wert"] . '</td>';
+									echo '<td>' . $cock_bew[$i]["text"] . '</td>';
+									echo '</tr>';
+								}
+								echo '</tbody></table>';
+							}
+						} else {
+							echo '
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">Zeitpunkt</th>
+										<th scope="col">Nutzername</th>
+										<th scope="col">Etablissement</th>
+										<th scope="col">Wert</th>
+										<th scope="col">Bewertung</th>
+									</tr>
+								</thead> 
+								<tbody>';
+	
+							for ($i = 0; $i < count($cock_bew); $i++) {
+								echo '<tr>';
+								echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
+								echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
+								echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
+								echo '<td>' . $cock_bew[$i]["wert"] . '</td>';
+								echo '<td>' . $cock_bew[$i]["text"] . '</td>';
+								echo '</tr>';
+							}
+							echo '</tbody></table>';
 						}
-						echo '</tbody></table>';
 						?>
 					</div>
 					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">
