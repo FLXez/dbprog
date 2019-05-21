@@ -207,7 +207,7 @@ if (isset($_SESSION['userId'])) {
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
+                                    <th scope="col"></th>
                                     <th scope="col">Zeitpunkt</th>
                                     <th scope="col">Etablissement</th>
                                     <th scope="col">Cocktail</th>
@@ -218,7 +218,7 @@ if (isset($_SESSION['userId'])) {
                             <tbody>';
                 for ($i = 0; $i < count($user_bewCock); $i++) {
                     echo '      <tr>';
-                    echo '          <th scope="row">' . ($i + 1) . '</th>';
+                    echo '          <td><a href="../php/del_bew.php?bew_id='.$user_bewCock[$i]["bew_id"].'&bew=cock&userId='.$_SESSION['userId'].'"><i class="fas fa-trash"></i></a></td>';
                     echo '          <td>' . $user_bewCock[$i]["ts"] . '</td>';
                     echo '          <td> <a class="" href="etablissement_details.php?etab_id= ' . $user_bewCock[$i]["etabid"] . '">' . $user_bewCock[$i]["etabname"] . '</a></td>';
                     echo '          <td> <a class="" href="cocktail_details.php?cock_id= ' . $user_bewCock[$i]["cockid"] . '">' . $user_bewCock[$i]["cockname"] . '</a></td>';
@@ -233,7 +233,7 @@ if (isset($_SESSION['userId'])) {
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
+                                    <th scope="col"></th>
                                     <th scope="col">Zeitpunkt</th>
                                     <th scope="col">Etablissement</th>
                                     <th scope="col">Text</th>
@@ -243,7 +243,7 @@ if (isset($_SESSION['userId'])) {
                             <tbody>';
                 for ($i = 0; $i < count($user_bewEtab); $i++) {
                     echo '      <tr>';
-                    echo '          <th scope="row">' . ($i + 1) . '</th>';
+                    echo '          <td><a href="../php/del_bew.php?bew_id='.$user_bewEtab[$i]["bew_id"].'&bew=etab"><i class="fas fa-trash"></i></a></td>';
                     echo '          <td>' . $user_bewEtab[$i]["ts"] . '</td>';
                     echo '          <td> <a class="" href="etablissement_details.php?etab_id= ' . $user_bewEtab[$i]["id"] . '">' . $user_bewEtab[$i]["name"] . '</a></td>';
                     echo '          <td>' . $user_bewEtab[$i]["text"] . '</td>';

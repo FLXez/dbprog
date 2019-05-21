@@ -11,6 +11,7 @@ $statement = $pdo->prepare(
            ,etab.id as id
            ,bew_etab.text as text
            ,bew_etab.wert as wert
+           ,bew_etab.id as bew_id
      FROM bew_etab 
         JOIN etab 
         ON bew_etab.etab_id = etab.id 

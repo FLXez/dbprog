@@ -103,6 +103,7 @@ include('../php/db/select_cockEtab_id.php');
 				echo $message;
 				echo '</div>';
 			}
+			include('../php/alertMessage.php');
 			?>
 			<div class="card mb-3" width="100%" style="max-height: 360px;">
 				<div class="row no-gutters">
@@ -245,7 +246,7 @@ include('../php/db/select_cockEtab_id.php');
 									<tbody>';
 								for ($i = 0; $i < count($cock_bew); $i++) {								
 									echo '<tr>';
-									echo '<th scope="col"><a href="../php/del_bew.php?bew_id='.$cock_bew[$i]["bew_id"].'&bew=cock"><i class="fas fa-trash"></i></a></th>';
+									echo '<td><a href="../php/del_bew.php?bew_id='.$cock_bew[$i]["bew_id"].'&bew=cock"><i class="fas fa-trash"></i></a></td>';
 									echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
 									echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
 									echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
@@ -270,7 +271,11 @@ include('../php/db/select_cockEtab_id.php');
 									<tbody>';
 								for ($i = 0; $i < count($cock_bew); $i++) {
 									echo '<tr>';
-									echo '<th scope="col"><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
+									if ($cock_bew[$i]['userId'] == $_SESSION['userId']) {
+										echo '<td><a href="../php/del_bew.php?bew_id=' . $cock_bew[$i]["bew_id"] . '&bew=cock&userId=' . $_SESSION['userId'] . '"><i class="fas fa-trash"></i></a></td>';
+									} else {
+										echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></td>';
+									}
 									echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
 									echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
 									echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
@@ -284,6 +289,7 @@ include('../php/db/select_cockEtab_id.php');
 								<table class="table">
 									<thead>
 										<tr>
+											<th scope="col"></th>
 											<th scope="col">Zeitpunkt</th>
 											<th scope="col">Nutzername</th>
 											<th scope="col">Etablissement</th>
@@ -294,6 +300,11 @@ include('../php/db/select_cockEtab_id.php');
 									<tbody>';
 								for ($i = 0; $i < count($cock_bew); $i++) {
 									echo '<tr>';
+									if ($cock_bew[$i]['userId'] == $_SESSION['userId']) {
+										echo '<td><a href="../php/del_bew.php?bew_id=' . $cock_bew[$i]["bew_id"] . '&bew=cock&userId=' . $_SESSION['userId'] . '"><i class="fas fa-trash"></i></a></td>';
+									} else {
+										echo '<td></td>';
+									}
 									echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
 									echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
 									echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
@@ -308,6 +319,7 @@ include('../php/db/select_cockEtab_id.php');
 							<table class="table">
 								<thead>
 									<tr>
+										<th scope="col"></th>
 										<th scope="col">Zeitpunkt</th>
 										<th scope="col">Nutzername</th>
 										<th scope="col">Etablissement</th>

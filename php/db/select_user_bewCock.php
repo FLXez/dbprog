@@ -13,6 +13,7 @@ $statement = $pdo->prepare(
            ,cock.id as cockid
            ,bew_cock.text as text
            ,bew_cock.wert as wert 
+           ,bew_cock.id as bew_id
      FROM bew_cock 
 		JOIN cock_etab ce
 			ON bew_cock.cock_etab_id = ce.id
