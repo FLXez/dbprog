@@ -4,59 +4,8 @@ $activeHead = "cocktail";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
 $cockId = $_GET['cock_id'];
-if (isset($_SESSION['userId'])) {
-
-	$userId = $_SESSION['userId'];
-
-	include('../php/db/select_userInfo.php');
-}
 
 include('../php/db/select_cockInfo.php');
-
-$bew = false;
-$bew_success = false;
-$message = 'Fehler';
-
-if (isset($_GET['etab_zuordnen'])) {
-
-	$etabId = $_POST['etab_zugeordnet'];
-	$preis = $_POST['preis_cock'];
-	include('../php/db/insert_cockEtab.php');
-
-	if ($result) {
-		$message = "Erfolgreich hinzugefügt.";
-	} else {
-		$message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
-	}
-}
-
-if (isset($_GET['bew_abgeben']) && isset($_SESSION['userId'])) {
-	$userId = $_SESSION['userId'];
-	$bew = true;
-	$etabId = $_POST['eta'];
-	$bew_wert = $_POST['wert'];
-	$bew_kommentar = $_POST['kommentar'];
-
-	include('../php/db/check_bewCock.php');
-
-	if ($bew_vorhanden) {
-		include('../php/db/select_cock_etab_id.php');
-		include('../php/db/update_bewCock.php');
-		if ($result) {
-			$message = 'Ihre Bewertung wurde aktualisiert!';
-		} else {
-			$message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
-		}
-	} else {
-		include('../php/db/select_cock_etab_id.php');
-		include('../php/db/insert_bewCock.php');
-		if ($result) {
-			$message = 'Ihre Bewertung wurde gespeichert!';
-		} else {
-			$message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
-		}
-	}
-}
 
 //Cocktailkarte
 include('../php/db/select_cocktailkarte.php');
@@ -98,11 +47,6 @@ include('../php/db/select_cockEtab_id.php');
 	<main role="main">
 		<div class="mt-5 ml-5 mr-5">
 			<?php
-			if ($bew == true && $bew_success == false) {
-				echo '<div class="alert alert-info ct-text-center mb-4" role="info">';
-				echo $message;
-				echo '</div>';
-			}
 			include('../php/alertMessage.php');
 			?>
 			<div class="card mb-3" width="100%" style="max-height: 360px;">
@@ -162,10 +106,10 @@ include('../php/db/select_cockEtab_id.php');
 				</div>
 			</div>
 			<?php
-			if (isset($_SESSION['userId']) && $userInfo['admin'] > 0) {
-				if ($userInfo['admin'] == 2) {
+			if (isset($_SESSION['userId']) && $_SESSION['admin'] > 0) {
+				if ($_SESSION['admin'] == 2) {
 					$rolle = "Admin";
-				} elseif ($userInfo['admin'] == 1) {
+				} elseif ($_SESSION['admin'] == 1) {
 					$rolle = "Mod";
 				}
 				echo '
@@ -173,7 +117,7 @@ include('../php/db/select_cockEtab_id.php');
   					<div class="card border rounded">
     					<div class="card-header" id="headingOne">
       						<h2 class="mb-0">
-        						<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">' . $rolle . ' : ' . $userInfo['uname'] . '</button>
+        						<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">' . $rolle . ' : ' . $_SESSION['uname'] . '</button>
       						</h2>
 						</div>
 					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
@@ -228,7 +172,7 @@ include('../php/db/select_cockEtab_id.php');
 						?>
 					</div>
 					<div class="tab-pane fade" id="bewertungen" role="tabpanel" aria-labelledby="bewertungen-tab">
-					<?php
+						<?php
 						if (isset($_SESSION['userId'])) {
 							if ($_SESSION['admin'] == 2) {
 								echo '
@@ -244,9 +188,9 @@ include('../php/db/select_cockEtab_id.php');
 										</tr>
 									</thead> 
 									<tbody>';
-								for ($i = 0; $i < count($cock_bew); $i++) {								
+								for ($i = 0; $i < count($cock_bew); $i++) {
 									echo '<tr>';
-									echo '<td><a href="../php/del_bew.php?bew_id='.$cock_bew[$i]["bew_id"].'&bew=cock"><i class="fas fa-trash"></i></a></td>';
+									echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $cock_bew[$i]["bew_id"] . '&bew=cock"><i class="fas fa-trash"></i></a></td>';
 									echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
 									echo '<td> <a class="" href="../site/profil_other.php?showUser=' . $cock_bew[$i]["userId"] . '">' . $cock_bew[$i]["username"] . '</a></td>';
 									echo '<td> <a class="" href="../site/etablissement_details.php?etab_id= ' . $cock_bew[$i]["etab_id"] . '">' . $cock_bew[$i]["etab_name"] . '</a></td>';
@@ -272,7 +216,7 @@ include('../php/db/select_cockEtab_id.php');
 								for ($i = 0; $i < count($cock_bew); $i++) {
 									echo '<tr>';
 									if ($cock_bew[$i]['userId'] == $_SESSION['userId']) {
-										echo '<td><a href="../php/del_bew.php?bew_id=' . $cock_bew[$i]["bew_id"] . '&bew=cock&userId=' . $_SESSION['userId'] . '"><i class="fas fa-trash"></i></a></td>';
+										echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $cock_bew[$i]["bew_id"] . '&bew=cock&userId=' . $_SESSION['userId'] . '"><i class="fas fa-trash"></i></a></td>';
 									} else {
 										echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></td>';
 									}
@@ -301,7 +245,7 @@ include('../php/db/select_cockEtab_id.php');
 								for ($i = 0; $i < count($cock_bew); $i++) {
 									echo '<tr>';
 									if ($cock_bew[$i]['userId'] == $_SESSION['userId']) {
-										echo '<td><a href="../php/del_bew.php?bew_id=' . $cock_bew[$i]["bew_id"] . '&bew=cock&userId=' . $_SESSION['userId'] . '"><i class="fas fa-trash"></i></a></td>';
+										echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $cock_bew[$i]["bew_id"] . '&bew=cock&userId=' . $_SESSION['userId'] . '"><i class="fas fa-trash"></i></a></td>';
 									} else {
 										echo '<td></td>';
 									}
@@ -328,7 +272,7 @@ include('../php/db/select_cockEtab_id.php');
 									</tr>
 								</thead> 
 								<tbody>';
-	
+
 							for ($i = 0; $i < count($cock_bew); $i++) {
 								echo '<tr>';
 								echo '<td>' . $cock_bew[$i]["ts"] . '</td>';
@@ -345,17 +289,16 @@ include('../php/db/select_cockEtab_id.php');
 					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">
 						<?php
 						if (isset($_SESSION['userId'])) {
-							if ($bew_success == false) {
-								echo '
-								<form class="mr-2 ml-2 mt-2" action="?cock_id=' . $_GET['cock_id'] . '&bew_abgeben=1" method="post">
+							echo '
+								<form class="mr-2 ml-2 mt-2" action="../php/bewertung_make.php?cock_id=' . $_GET['cock_id'] . '&user_id=' . $_SESSION['userId'] . '" method="post">
 									<div class="form-group">
 										<label for="eta">Wo getrunken?</label>
 										<!--<input type="text" class="form-control" id="bew_etab" placeholder="Etablissement ausw&auml;hlen" name="eta">-->
 										<select class="custom-select" name="eta" id="bew_etab">';
-								for ($i = 0; $i < count($cockEtab_liste); $i++) {
-									echo '<option value="' . $cockEtab_liste[$i]["eid"] . '">' . $cockEtab_liste[$i]["ename"] . ', ' . $cockEtab_liste[$i]["eort"] . '</option>';
-								}
-								echo	'</select>
+							for ($i = 0; $i < count($cockEtab_liste); $i++) {
+								echo '<option value="' . $cockEtab_liste[$i]["eid"] . '">' . $cockEtab_liste[$i]["ename"] . ', ' . $cockEtab_liste[$i]["eort"] . '</option>';
+							}
+							echo	'</select>
 									</div>
 									<div class="form-group">
 										<label for="wert">Wie war er?</label>
@@ -374,9 +317,6 @@ include('../php/db/select_cockEtab_id.php');
 									</div>
 									<button type="submit" class="btn btn-primary mt-2">Bewertung abschicken!</button>
 								</form>';
-							} else {
-								echo '<h2 class="ml-4 ct-text-center">Bewertung erfolgreich abgegeben!</h2>';
-							}
 						} else {
 							echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="" href="signin.php">Anmelden</a>.</h2>';
 						}

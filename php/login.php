@@ -7,6 +7,7 @@ include('db/select_userPrivate.php');
 if ($userPrivate !== false && password_verify($_POST['login_passwort'], $userPrivate['passwort'])) {
     $_SESSION['userId'] = $userPrivate['userId'];
     $_SESSION['admin'] = $userPrivate['admin'];
+    $_SESSION['uname'] = $username;
     if (isset($_SESSION['source'])) {
         header("Location:" . $_SESSION['source']);
     } else {

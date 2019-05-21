@@ -4,40 +4,8 @@ $activeHead = "etablissement";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
 $etabId = $_GET['etab_id'];
-if (isset($_SESSION['userId'])) {
-
-	$userId = $_SESSION['userId'];
-
-	include('../php/db/select_userInfo.php');
-}
 
 include('../php/db/select_etabInfo.php');
-$bew = false;
-$bew_success = false;
-
-if (isset($_GET['bew_abgeben']) && isset($_SESSION['userId'])) {
-	$bew = true;
-	$bew_wert = $_POST['wert'];
-	$bew_kommentar = $_POST['kommentar'];
-
-	include('../php/db/check_bewEtab.php');
-
-	if ($bew_vorhanden) {
-		include('../php/db/update_bewEtab.php');
-		if ($result) {
-			$message = 'Ihre Bewertung wurde aktualisiert!';
-		} else {
-			$message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
-		}
-	} else {
-		include('../php/db/insert_bewEtab.php');
-		if ($result) {
-			$message = 'Ihre Bewertung wurde gespeichert!';
-		} else {
-			$message = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
-		}
-	}
-}
 
 include('../php/db/select_etab_bew.php');
 //cocktailkarte
@@ -76,11 +44,6 @@ $_SESSION['etabid'] = $etabId;
 	<main role="main">
 		<div class="mt-5 ml-5 mr-5">
 			<?php
-			if ($bew == true && $bew_success == false) {
-				echo '<div class="alert alert-info ct-text-center mb-4" role="info">';
-				echo $message;
-				echo '</div>';
-			}
 			include('../php/alertMessage.php');
 			?>
 
@@ -119,10 +82,10 @@ $_SESSION['etabid'] = $etabId;
 				</div>
 			</div>
 			<?php
-			if (isset($_SESSION['userId']) && $userInfo['admin'] > 0) {
-				if ($userInfo['admin'] == 2) {
+			if (isset($_SESSION['userId']) && $_SESSION['admin'] > 0) {
+				if ($_SESSION['admin'] == 2) {
 					$rolle = "Admin";
-				} elseif ($userInfo['admin'] == 1) {
+				} elseif ($_SESSION['admin'] == 1) {
 					$rolle = "Mod";
 				}
 				echo '
@@ -130,7 +93,7 @@ $_SESSION['etabid'] = $etabId;
 				<div class="card border rounded">
 					<div class="card-header" id="headingOne">
 						<h2 class="mb-0">
-							<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">' . $rolle . ' : ' . $userInfo['uname'] . '</button>
+							<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">' . $rolle . ' : ' . $_SESSION['uname'] . '</button>
 						</h2>
 					</div>
 					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
@@ -198,7 +161,7 @@ $_SESSION['etabid'] = $etabId;
 									<tbody>';
 								for ($i = 0; $i < count($etab_bew); $i++) {
 									echo '<tr>';
-									echo '<td><a href="../php/del_bew.php?bew_id=' . $etab_bew[$i]["bew_id"] . '&bew=etab"><i class="fas fa-trash"></i></a></td>';
+									echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $etab_bew[$i]["bew_id"] . '&bew=etab"><i class="fas fa-trash"></i></a></td>';
 									echo '<td>' . $etab_bew[$i]["ts"] . '</td>';
 									echo '<td><a href="../site/profil_other.php?showUser=' . $etab_bew[$i]["userId"] . '">' . $etab_bew[$i]["username"] . '</a></td>';
 									echo '<td>' . $etab_bew[$i]["wert"] . '</td>';
@@ -222,7 +185,7 @@ $_SESSION['etabid'] = $etabId;
 								for ($i = 0; $i < count($etab_bew); $i++) {
 									echo '<tr>';
 									if ($etab_bew[$i]['userId'] == $_SESSION['userId']) {
-										echo '<td><a href="../php/del_bew.php?bew_id=' . $etab_bew[$i]["bew_id"] . '&bew=etab&userId=' . $_SESSION['userId'] . '"><i class="fas fa-trash"></i></a></td>';
+										echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $etab_bew[$i]["bew_id"] . '&bew=etab&userId=' . $_SESSION['userId'] . '"><i class="fas fa-trash"></i></a></td>';
 									} else {
 										echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
 									}
@@ -249,7 +212,7 @@ $_SESSION['etabid'] = $etabId;
 								for ($i = 0; $i < count($etab_bew); $i++) {
 									echo '<tr>';
 									if ($etab_bew[$i]['userId'] == $_SESSION['userId']) {
-										echo '<td><a href="../php/del_bew.php?bew_id=' . $etab_bew[$i]["bew_id"] . '&bew=etab&userId=' . $_SESSION['userId'] . '"><i class="fas fa-trash"></i></a></td>';
+										echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $etab_bew[$i]["bew_id"] . '&bew=etab&userId=' . $_SESSION['userId'] . '"><i class="fas fa-trash"></i></a></td>';
 									} else {
 										echo '<td></td>';
 									}
@@ -288,9 +251,8 @@ $_SESSION['etabid'] = $etabId;
 					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">
 						<?php
 						if (isset($_SESSION['userId'])) {
-							if ($bew_success == false) {
 								echo '
-								<form class="mr-2 ml-2 mt-2" action="?etab_id=' . $_GET['etab_id'] . '&bew_abgeben=1" method="post">
+								<form class="mr-2 ml-2 mt-2" action="../php/bewertung_make.php?etab_id=' . $_GET['etab_id'] . '&user_id='.$_SESSION['userId'].'" method="post">
 									<div class="form-group">
 										<label for="wert">Wie bewerten Sie das Etablissement?</label>
 										<!--<input type="text" class="form-control" id="bew_wert" placeholder="0 Sterne" name="wert">-->
@@ -308,9 +270,6 @@ $_SESSION['etabid'] = $etabId;
 									</div>
 									<button type="submit" class="btn btn-primary mt-2">Bewertung abschicken!</button>
 								</form>';
-							} else {
-								echo '<h2 class="ml-4 ct-text-center">Bewertung erfolgreich abgegeben!</h2>';
-							}
 						} else {
 							echo '<h2 class="ml-4 ct-text-center">Bitte zuerst <a class="" href="signin.php">Anmelden</a>.</h2>';
 						}
