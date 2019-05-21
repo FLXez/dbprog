@@ -35,11 +35,5 @@ if (isset($_SESSION['userId'])) {
             include('../php/db/insert_bewCock.php');
         }
     }
-    if ($result) {
-        $_SESSION['message'] = "Bewertung erfolgreich abgegeben!";
-    } else {
-        $_SESSION['error'] = true;
-        $_SESSION['message'] = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
-    }
 }
 header("Location: " . $_SESSION['source']);

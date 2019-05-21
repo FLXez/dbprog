@@ -4,17 +4,14 @@ $activeHead = "user";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
 if (isset($_SESSION['userId'])) {
-    if($_SESSION['userId'] == $_GET['showUser']){
+    if ($_SESSION['userId'] == $_GET['showUser']) {
         header("Location: profil_main.php");
     }
 }
 
-//Variable muss immer wieder neu gesetzt werden, da sie am Ende gelöscht wird um Datenverarbeitungsfehler zu vermeiden.
-$_SESSION['showUser'] = $_GET['showUser'];
+$userId = $_GET['showUser'];
 include('../php/db/select_userInfo.php');
-$_SESSION['showUser'] = $_GET['showUser'];
 include('../php/db/select_user_bewCock.php');
-$_SESSION['showUser'] = $_GET['showUser'];
 include('../php/db/select_user_bewEtab.php');
 ?>
 <!doctype html>
@@ -64,28 +61,12 @@ include('../php/db/select_user_bewEtab.php');
                                     <?php echo $userInfo["uname"];
                                     echo '                                    
                                         <div class="row float-right mr-1">';
-                                    if ($userInfo["admin"] == 2) {
+                                    if ($userInfo["rang"] == 2) {
                                         echo '<span class="badge badge-danger">Admin</span>';
-                                    } elseif ($userInfo["admin"] == 1) {
-                                        if (isset($_SESSION['admin'])) {
-                                            if ($_SESSION['admin'] > 1) {
-                                                $_SESSION['changeAdmin_userId'] = $_GET['showUser'];
-                                                echo '
-                                            <a href="../php/userUnmod.php" class="badge badge-primary">Moderator</a>';
-                                            }
-                                        } else {
-                                            echo '<span class="badge badge-primary">Moderator</span>';
-                                        }
-                                    } elseif ($userInfo["admin"] == 0) {
-                                        if (isset($_SESSION['admin'])) {
-                                            if ($_SESSION['admin'] > 1) {
-                                                $_SESSION['changeAdmin_userId'] = $_GET['showUser'];
-                                                echo '
-                                            <a href="../php/userMod.php" class="badge badge-primary">User</a>';
-                                            }
-                                        } else {
-                                            echo '<span class="badge badge-primary">User</span>';
-                                        }
+                                    } elseif ($userInfo["rang"] == 1) {
+                                        echo '<span class="badge badge-primary">Moderator</span>';
+                                    } elseif ($userInfo["rang"] == 0) {
+                                        echo '<span class="badge badge-primary">User</span>';
                                     }
                                     echo '
                                         </div>';
@@ -94,78 +75,70 @@ include('../php/db/select_user_bewEtab.php');
                                 <hr>
                             </div>
                             <div class="card-text">
-                                <?php
-                                echo '
-                                    <div class="row">
-                                        <div class="col-2">Vorname: </div>
-                                        <div class="col-10">' . $userInfo["vname"] . '</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-2">Nachname: </div>
-                                        <div class="col-10">' . $userInfo["nname"] . '</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-2">Alter: </div>
-                                        <div class="col-10">' . $userInfo["age"] . '</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-2">Beruf: </div>
-                                        <div class="col-10">' . $userInfo["beruf"] . '</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-2">Mitglied seit: </div>
-                                        <div class="col-10">' . $userInfo["ts"] . '</div>
-                                    </div>';
-                                ?>
+                                <div class="row">
+                                    <div class="col-2">Vorname: </div>
+                                    <div class="col-10"><?php echo $userInfo['vname'] ?></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">Nachname: </div>
+                                    <div class="col-10"><?php echo $userInfo['nname'] ?></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">Alter: </div>
+                                    <div class="col-10"><?php echo $userInfo['age'] ?></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">Beruf: </div>
+                                    <div class="col-10"><?php echo $userInfo['beruf'] ?></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">Mitglied seit: </div>
+                                    <div class="col-10"><?php echo $userInfo['ts'] ?></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <?php
-                if (isset($_SESSION['userId']) && $_SESSION['admin'] > 0) {
-                    if ($_SESSION['admin'] == 2) {
-                        $rolle = "Admin";
-                    } elseif ($_SESSION['admin'] == 1) {
-                        $rolle = "Mod";
-                    }
-                    echo '
-					<div class="accordion mb-3" id="adminTools">
+            if (isset($_SESSION['userId']) && $_SESSION['rang'] >= 1) {
+                if ($_SESSION['rang'] == 2) {
+                    $rolle = "Admin";
+                } elseif ($_SESSION['rang'] == 1) {
+                    $rolle = "Moderator";
+                }
+                echo '
+					<div class="accordion mb-3" id="rankTools">
                         <div class="card border">
                             <div class="card-header" id="headingOne">
                                 <h2 class="mb-0">
-                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-		                                '  . $rolle . ' : ' . $_SESSION['uname'] . '
-                                    </button>
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">'  . $rolle . ' : ' . $_SESSION['uname'] . '</button>
                                 </h2>
 	                        </div>
-	                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#adminTools">
+	                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#rankTools">
                                 <div class="card-body">';
-                    if ($_SESSION['admin'] == 2) {
-                        $_SESSION['changeAdmin_userid'] = $_GET['showUser'];
-                        if ($userInfo['admin'] < 2) {
-                            if ($userInfo['admin'] == 1) {
-                                echo '
-                                    <form class="form-inline" action="../php/userUnmod.php">';
-                            } elseif ($userInfo['admin'] == 0) {
-                                echo '
-                                    <form class="form-inline" action="../php/userMod.php">';
-                            }
-                            echo '
-                                        <button class="btn btn-primary mt-2 mr-2" type="submit"> Rechte ändern</button>
+                if ($_SESSION['rang'] == 2) {
+                    if ($userInfo['rang'] == 1) {
+                        echo '
+                                    <form class="form-inline" action="../php/user_changeRang.php?userId=' . $_GET['showUser'] . '&newRang=0" method="post">';
+                    } elseif ($userInfo['rang'] == 0) {
+                        echo '
+                                    <form class="form-inline" action="../php/user_changeRang.php?userId=' . $_GET['showUser'] . '&newRang=1" method="post">';
+                    }
+                    echo '
+                                        <button class="btn btn-primary mt-2 mr-2" type="submit">Rechte ändern</button>
                                     </form> 
                                     <form class="form-inline" action="../php/db/update_userLoeschen.php">
                                         <button class="btn btn-primary mt-2 mr-2 disabled" type="submit"> User löschen</button>
                                     </form>';
-                        }
-                    }
-                    echo '
+                }
+                echo '
                                 </div>
                             </div>
                         </div>
                     </div>';
-                }
-                ?>
+            }
+            ?>
             <div class="card card-body">
                 <ul class="nav nav-pills flex-column flex-sm-row" id="bewEtabCock-tab" role="tablist">
                     <li class="flex-sm-fill text-sm-center nav-item">
@@ -193,17 +166,17 @@ include('../php/db/select_user_bewEtab.php');
 							<tbody>';
                         for ($i = 0; $i < count($user_bewCock); $i++) {
                             echo '<tr>';
-							if (isset($_SESSION['userId'])) {
-                                if ($_SESSION['admin'] == 2 && $userInfo['admin'] > 2) {
-									echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $user_bewCock[$i]["bew_id"] . '&bew=cock"><i class="fas fa-trash"></i></a></td>';
-								} elseif ($_SESSION['admin'] == 1) {
-									echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
-								} else {
-									echo '<td></td>';
-								}
-							} else {
-								echo '<td></td>';
-							}
+                            if (isset($_SESSION['userId'])) {
+                                if ($_SESSION['rang'] == 2 && $userInfo['rang'] > 2) {
+                                    echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $user_bewCock[$i]["bew_id"] . '&bew=cock"><i class="fas fa-trash"></i></a></td>';
+                                } elseif ($_SESSION['rang'] == 1) {
+                                    echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
+                                } else {
+                                    echo '<td></td>';
+                                }
+                            } else {
+                                echo '<td></td>';
+                            }
                             echo '<td>' . $user_bewCock[$i]["ts"] . '</td>';
                             echo '<td> <a class="" href="etablissement_details.php?etab_id= ' . $user_bewCock[$i]["etabid"] . '">' . $user_bewCock[$i]["etabname"] . '</a></td>';
                             echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $user_bewCock[$i]["cockid"] . '">' . $user_bewCock[$i]["cockname"] . '</a></td>';
@@ -229,17 +202,17 @@ include('../php/db/select_user_bewEtab.php');
 							<tbody>';
                         for ($i = 0; $i < count($user_bewEtab); $i++) {
                             echo '<tr>';
-							if (isset($_SESSION['userId'])) {
-								if ($_SESSION['admin'] == 2 && $userInfo['admin'] > 2) {
-									echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $user_bewEtab[$i]["bew_id"] . '&bew=etab"><i class="fas fa-trash"></i></a></td>';
-								} elseif ($_SESSION['admin'] == 1) {
-									echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
-								} else {
-									echo '<td></td>';
-								}
-							} else {
-								echo '<td></td>';
-							}
+                            if (isset($_SESSION['userId'])) {
+                                if ($_SESSION['rang'] == 2 && $userInfo['rang'] > 2) {
+                                    echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $user_bewEtab[$i]["bew_id"] . '&bew=etab"><i class="fas fa-trash"></i></a></td>';
+                                } elseif ($_SESSION['rang'] == 1) {
+                                    echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
+                                } else {
+                                    echo '<td></td>';
+                                }
+                            } else {
+                                echo '<td></td>';
+                            }
                             echo '<td>' . $user_bewEtab[$i]["ts"] . '</td>';
                             echo '<td> <a class="" href="etablissement_details.php?etab_id= ' . $user_bewEtab[$i]["id"] . '">' . $user_bewEtab[$i]["name"] . '</a></td>';
                             echo '<td>' . $user_bewEtab[$i]["wert"] . '</td>';

@@ -58,10 +58,10 @@ if (isset($_SESSION['userId'])) {
                         <div class="card-body d-flex flex-column" style="max-height: 200px;">
                             <div>
                                 <h1 class="card-title">' . $userInfo["uname"];
-                if ($_SESSION['admin'] == 1) {
+                if ($_SESSION['rang'] == 1) {
                     echo '
-                                <span class="badge badge-primary float-right">Mod</span>';
-                } elseif ($_SESSION['admin'] == 2) {
+                                <span class="badge badge-primary float-right">Moderator</span>';
+                } elseif ($_SESSION['rang'] == 2) {
                     echo '
                                 <span class="badge badge-danger float-right">Admin</span>';
                 }
@@ -95,11 +95,11 @@ if (isset($_SESSION['userId'])) {
                     </div>
                 </div>
              </div>';
-                if (isset($_SESSION['userId']) && $userInfo['admin'] > 0) {
-                    if ($userInfo['admin'] == 2) {
+                if (isset($_SESSION['userId']) && $_SESSION['rang'] > 0) {
+                    if ($_SESSION['rang'] == 2) {
                         $rolle = "Admin";
-                    } elseif ($userInfo['admin'] == 1) {
-                        $rolle = "Mod";
+                    } elseif ($_SESSION['rang'] == 1) {
+                        $rolle = "Moderator";
                     }
                     echo '
             <div class="accordion mb-3" id="accordionExample">
@@ -111,9 +111,9 @@ if (isset($_SESSION['userId'])) {
                     </div>
                     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                         <div class="card-body">';
-                    if ($userInfo['admin'] == 1) {
+                    if ($userInfo['rang'] == 1) {
                         echo '
-                            <form class="form-inline" action="../php/userUnmod_self.php">
+                            <form class="form-inline" action="../php/user_changeRang.php" method="post">
                                 <button class="btn btn-primary mt-2 mr-2" type="submit"> Rechte ändern</button>
                             </form>';
                     } else {

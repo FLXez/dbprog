@@ -15,7 +15,7 @@ if (isset($userId)) {
        $statement = $pdo->prepare(
               "SELECT passwort as passwort,
                       id as userId,
-                      admin as admin
+                      rang as rang
                FROM user 
                WHERE username = :username"
        );

@@ -84,6 +84,7 @@ if (isset($_SESSION['userId'])) {
 	<main role="main">
 		<div class="mt-5 ml-5 mr-5">
 			<?php
+			include('../php/alertMessage.php');
 			if (isset($_SESSION['userId'])) {
 				if ($error) {
 					echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';

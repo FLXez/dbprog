@@ -106,21 +106,21 @@ include('../php/db/select_cockEtab_id.php');
 				</div>
 			</div>
 			<?php
-			if (isset($_SESSION['userId']) && $_SESSION['admin'] > 0) {
-				if ($_SESSION['admin'] == 2) {
+			if (isset($_SESSION['userId']) && $_SESSION['rang'] > 0) {
+				if ($_SESSION['rang'] == 2) {
 					$rolle = "Admin";
-				} elseif ($_SESSION['admin'] == 1) {
-					$rolle = "Mod";
+				} elseif ($_SESSION['rang'] == 1) {
+					$rolle = "Moderator";
 				}
 				echo '
-				<div class="accordion mb-3" id="adminTools">
+				<div class="accordion mb-3" id="rankTools">
   					<div class="card border rounded">
     					<div class="card-header" id="headingOne">
       						<h2 class="mb-0">
         						<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">' . $rolle . ' : ' . $_SESSION['uname'] . '</button>
       						</h2>
 						</div>
-					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#adminTools">
+					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#rankTools">
     		  			<div class="card-body">
         					Hier dann so krams zum bearbeiten so tools diesen so
       					</div>
@@ -189,9 +189,9 @@ include('../php/db/select_cockEtab_id.php');
 						for ($i = 0; $i < count($cock_bew); $i++) {
 							echo '<tr>';
 							if (isset($_SESSION['userId'])) {
-								if ($_SESSION['admin'] == 2 or $etab_bew[$i]['userId'] == $_SESSION['userId']) {
+								if ($_SESSION['rang'] == 2 or $etab_bew[$i]['userId'] == $_SESSION['userId']) {
 									echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $cock_bew[$i]["bew_id"] . '&bew=cock"><i class="fas fa-trash"></i></a></td>';
-								} elseif ($_SESSION['admin'] == 1) {
+								} elseif ($_SESSION['rang'] == 1) {
 									echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
 								} else {
 									echo '<td></td>';

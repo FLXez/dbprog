@@ -6,3 +6,9 @@ $statement = $pdo->prepare(
      VALUES (:user_id, :etab_id, :wert, :kommentar)");
 $result = $statement->execute(array('wert' => $bew_wert, 'kommentar' => $bew_kommentar, 'user_id' => $userId, 'etab_id' =>  $etabId));
 $pdo = NULL;
+if ($result) {
+    $_SESSION['message'] = "Erfolgreich bewertet!";
+ } else {
+    $_SESSION['error'] = true;
+    $_SESSION['message'] = "Es ist ein Fehler aufgetreten.";
+ }
