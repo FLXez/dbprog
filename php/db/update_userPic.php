@@ -30,4 +30,4 @@ if ($result) {
     $_SESSION['message'] = "Es ist ein Fehler beim aktualisieren des Bildes aufgetreten.";
 }
 
-header("Location: ../" . $_SESSION['source']);
+header("Location: " . $_SESSION['source']);

@@ -17,4 +17,4 @@ if ($result) {
    $_SESSION['error'] = true;
    $_SESSION['message'] = "Es ist ein Fehler aufgetreten.";
 }
-header("Location: ../".$_SESSION['source']);
+header("Location: ".$_SESSION['source']);

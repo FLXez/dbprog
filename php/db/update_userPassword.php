@@ -33,4 +33,4 @@ if ($_POST['u_up_passNew'] != $_POST['u_up_passNew_confirm']) {
    $_SESSION['message'] = "Das Passwort ist faslch.";
 }
 
-header("Location: ../" . $_SESSION['source']);
+header("Location: " . $_SESSION['source']);

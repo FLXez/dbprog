@@ -189,7 +189,7 @@ include('../php/db/select_cockEtab_id.php');
 						for ($i = 0; $i < count($cock_bew); $i++) {
 							echo '<tr>';
 							if (isset($_SESSION['userId'])) {
-								if ($_SESSION['rang'] == 2 or $etab_bew[$i]['userId'] == $_SESSION['userId']) {
+								if ($_SESSION['rang'] == 2 or $cock_bew[$i]['userId'] == $_SESSION['userId']) {
 									echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $cock_bew[$i]["bew_id"] . '&bew=cock"><i class="fas fa-trash"></i></a></td>';
 								} elseif ($_SESSION['rang'] == 1) {
 									echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';

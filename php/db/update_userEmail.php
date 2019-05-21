@@ -34,4 +34,4 @@ if ($email_vorhanden) {
    $_SESSION['error'] = true;
    $_SESSION['message'] = "Das Passwort ist falsch.";
 }
-header("Location: ../" . $_SESSION['source']);
+header("Location: " . $_SESSION['source']);

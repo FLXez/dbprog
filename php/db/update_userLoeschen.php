@@ -23,4 +23,4 @@ if ($result) {
     $_SESSION['message'] = "Es ist ein Fehler beim Löschen des Users aufgetreten.";
 }
 
-header("Location: ../" . $_SESSION['source']);
+header("Location: " . $_SESSION['source']);
