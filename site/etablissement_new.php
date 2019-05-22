@@ -3,51 +3,6 @@ session_start();
 $activeHead = "etablissement";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
-
-if (isset($_SESSION['userId'])) {
-	$error = false;
-	$info = false;
-	$success = false;
-	$message = "";
-
-	if (isset($_GET['newEtab'])) {
-
-		$name = $_POST['nameEtab'];
-		$strasse = $_POST['strasseEtab'];
-		$stadt = $_POST['plzStadtEtab'];
-
-
-		$file_name = $_FILES['file']['name'];
-		$file_type = $_FILES['file']['type'];
-		$file_size = $_FILES['file']['size'];
-		$file_tem_loc = $_FILES['file']['tmp_name'];
-
-		if ($file_name) {
-			$handle = fopen($file_tem_loc, 'r');
-			$image = fread($handle, $file_size);
-		} else {
-			$image = "";
-		}
-
-		include('../php/db/check_etab.php');
-		if (!$etab_vorhanden) {
-			include('../php/db/insert_etab.php');
-			if ($result) {
-				$message = "Erfolgreich angelegt!";
-				$success = true;
-			} else {
-				$message = "Ein technsicher Fehler ist aufgetreten.";
-				$error = true;
-			}
-		} else {
-			$message = "Dieses Etablissement ist bereits vorhanden.";
-			$info = true;
-		}
-	}
-}
-
-
-
 ?>
 <!doctype html>
 <html lang="de">
@@ -80,20 +35,12 @@ if (isset($_SESSION['userId'])) {
 			<?php
 			include('../php/alertMessage.php');
 			if (isset($_SESSION['userId'])) {
-				if ($error) {
-					echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';
-					echo $message;
-					echo '</div>';
-				} elseif ($success or $info) {
-					echo '<div class="alert alert-info col-auto ct-text-center mb-4" role="alert">';
-					echo $message;
-					echo '</div>';
-				} ?>
+				?>
 				<div class="card card-body">
 					<h2 class="ml-2">Neues Etablissement</h2>
 					<hr>
 					<div class="mr-2 ml-2 mt-2">
-						<form action="?newEtab=1" method="POST" enctype="multipart/form-data">
+						<form action="../php/etab_make.php" method="POST" enctype="multipart/form-data">
 							<div class="form-group">
 								<label for="nameEtab">Name</label>
 								<input type="text" maxlength="50" class="form-control" id="nameEtab" name="nameEtab" placeholder="Etablissement" required>

@@ -4,55 +4,7 @@ $activeHead = "cocktail";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
 if (isset($_SESSION['userId'])) {
-	$error = false;
-	$info = false;
-	$success = false;
-	$message = "";
-
 	include('../php/db/select_allEtab.php');
-
-	if (isset($_GET['newCock'])) {
-
-		$cockName = $_POST['cockName'];
-		$cockDesc = $_POST['cockDesc'];
-		$etabId = $_POST['etab'];
-		$preis = $_POST['preis'];
-
-		$file_name = $_FILES['file']['name'];
-		$file_type = $_FILES['file']['type'];
-		$file_size = $_FILES['file']['size'];
-		$file_tem_loc = $_FILES['file']['tmp_name'];
-
-		if ($file_name) {
-			$handle = fopen($file_tem_loc, 'r');
-			$image = fread($handle, $file_size);
-		} else {
-			$image = "";
-		}
-
-		include('../php/db/check_cock.php');
-
-		if (!$cock_vorhanden) {
-			include('../php/db/insert_cock.php');
-			include('../php/db/select_cock_id.php');
-			$message = 'Cocktail erfolgreich hinzugef&uuml;gt. <a class="" href="cocktail_details.php?cock_id=' . $select_cock_id[0]  . '">(zum Cocktail)</a><br>';
-		} else {
-			include('../php/db/select_cock_id.php');
-			$info = true;
-			$message = 'Dieser Cocktail ist bereits vorhanden. <a class="" href="cocktail_details.php?cock_id=' . $select_cock_id[0]  . '">(zum Cocktail)</a><br>';
-		}
-
-		$cockId = $select_cock_id[0];
-		include('../php/db/insert_cockEtab.php');
-
-		if ($result) {
-			$success = true;
-			$message .= "Cocktail erfolgreich einem Etablissement zugeordnet!";
-		} else {
-			$error = true;
-			$message .= "Ein technsicher Fehler ist aufgetreten.";
-		}
-	}
 }
 ?>
 <!doctype html>
@@ -86,21 +38,12 @@ if (isset($_SESSION['userId'])) {
 			<?php
 			include('../php/alertMessage.php');
 			if (isset($_SESSION['userId'])) {
-				if ($error) {
-					echo '<div class="alert alert-danger ct-text-center mb-4" role="alert">';
-					echo $message;
-					echo '</div>';
-				} elseif ($success or $info) {
-					echo '<div class="alert alert-info col-auto ct-text-center mb-4" role="alert">';
-					echo $message;
-					echo '</div>';
-				}
 				?>
 				<div class="card card-body">
 					<h2 class="ml-2">Neuer Cocktail</h2>
 					<hr>
 					<div class="mr-2 ml-2 mt-2">
-						<form action="?newCock=1" method="post" enctype="multipart/form-data">
+						<form action="../php/cock_make.php" method="post" enctype="multipart/form-data">
 							<div class="form-group">
 								<label for="cockName">Name</label>
 								<input type="text" maxlength="50" class="form-control" id="cockName" name="cockName" placeholder="Cocktail">
