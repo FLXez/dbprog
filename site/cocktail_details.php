@@ -192,7 +192,7 @@ include('../php/db/select_cockEtab_id.php');
 								if ($_SESSION['rang'] == 2 or $cock_bew[$i]['userId'] == $_SESSION['userId']) {
 									echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $cock_bew[$i]["bew_id"] . '&bew=cock"><i class="fas fa-trash"></i></a></td>';
 								} elseif ($_SESSION['rang'] == 1) {
-									echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
+									echo '<td><a href="../php/melden.php?meldungArt=cock_bew&cockId=' . $_GET['cock_id'] . '&userId=' . $cock_bew[$i]["userId"] . '"><i class="fas fa-exclamation-triangle"></i></a></th>';
 								} else {
 									echo '<td></td>';
 								}

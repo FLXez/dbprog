@@ -170,7 +170,7 @@ include('../php/db/select_user_bewEtab.php');
                                 if ($_SESSION['rang'] == 2 && $userInfo['rang'] > 2) {
                                     echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $user_bewCock[$i]["bew_id"] . '&bew=cock"><i class="fas fa-trash"></i></a></td>';
                                 } elseif ($_SESSION['rang'] == 1) {
-                                    echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
+                                    echo '<td><a href="../php/melden.php?meldungArt=cock_bew&cockId=' . $user_bewCock[$i]["cockid"] . '&userId=' . $_GET['showUser'] . '"><i class="fas fa-exclamation-triangle"></i></a></th>';
                                 } else {
                                     echo '<td></td>';
                                 }
@@ -206,7 +206,7 @@ include('../php/db/select_user_bewEtab.php');
                                 if ($_SESSION['rang'] == 2 && $userInfo['rang'] > 2) {
                                     echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $user_bewEtab[$i]["bew_id"] . '&bew=etab"><i class="fas fa-trash"></i></a></td>';
                                 } elseif ($_SESSION['rang'] == 1) {
-                                    echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
+                                    echo '<td><a href="../php/melden.php?meldungArt=etab_bew&etabId=' . $user_bewEtab[$i]["id"] . '&userId=' . $_GET['showUser'] . '"><i class="fas fa-exclamation-triangle"></i></a></th>';
                                 } else {
                                     echo '<td></td>';
                                 }

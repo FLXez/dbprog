@@ -92,13 +92,13 @@ include('../php/db/select_cocktailkarte.php');
 					</div>
 					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#rankTools">
 						<div class="card-body">';
-					if ($etabInfo["verifiziert"] == 1) {
-						echo '
+				if ($etabInfo["verifiziert"] == 1) {
+					echo '
 											<form class="form-inline" action="../php/etab_changeVerify.php?etabId=' . $_GET['etab_id'] . '&newVerify=0" method="post">';
-					} elseif ($etabInfo["verifiziert"] == 0) {
-						echo '
+				} elseif ($etabInfo["verifiziert"] == 0) {
+					echo '
 											<form class="form-inline" action="../php/etab_changeVerify.php?etabId=' . $_GET['etab_id'] . '&newVerify=1" method="post">';
-					}
+				}
 				echo '
 								<button class="btn btn-primary mt-2 mr-2" type="submit"> Verifizierung ändern</button>
 							</form>
@@ -164,7 +164,7 @@ include('../php/db/select_cocktailkarte.php');
 								if ($_SESSION['rang'] == 2 or $etab_bew[$i]['userId'] == $_SESSION['userId']) {
 									echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $etab_bew[$i]["bew_id"] . '&bew=etab"><i class="fas fa-trash"></i></a></td>';
 								} elseif ($_SESSION['rang'] == 1) {
-									echo '<td><a href=""><i class="fas fa-exclamation-triangle"></i></a></th>';
+									echo '<td><a href="../php/melden.php?meldungArt=etab_bew&etabId=' . $_GET['etab_id'] . '&userId=' . $etab_bew[$i]["userId"] . '"><i class="fas fa-exclamation-triangle"></i></a></th>';
 								} else {
 									echo '<td></td>';
 								}
