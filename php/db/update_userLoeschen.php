@@ -1,6 +1,6 @@
 <?php
 session_start();
-if($_SESSION['rang']==2){
+if ($_SESSION['rang'] == 2) {
     $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
     $statement = $pdo->prepare("UPDATE user SET username = :username,
                                                 vorname = null,
@@ -13,7 +13,7 @@ if($_SESSION['rang']==2){
                                                 updated_at = CURRENT_TIMESTAMP,
                                                 rang = :rang 
                                                 WHERE id = :userid");
-    $result = $statement->execute(array('username' => "User gelöscht", 'passwort'=> "NaN",'email'=>"deleted@deleted.de", 'img'=>"",'rang'=>-1, 'userid'=> $userId));
+    $result = $statement->execute(array('username' => "User gelöscht", 'passwort' => "NaN", 'email' => "deleted@deleted.de", 'img' => "", 'rang' => -1, 'userid' => $userId));
 }
 
 if ($result) {

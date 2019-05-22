@@ -121,9 +121,13 @@ include('../php/db/select_cockEtab_id.php');
       						</h2>
 						</div>
 					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#rankTools">
-    		  			<div class="card-body">
-        					Hier dann so krams zum bearbeiten so tools diesen so
-      					</div>
+    		  			<div class="card-body">';
+				if ($_SESSION['rang'] == 2) {
+					echo ' <a href="" class="btn btn-primary" role="button">Cocktails löschen</a>';
+				} elseif ($_SESSION['rang'] == 1) {
+					echo ' <a href="../php/melden.php?meldungArt=cock&cockId=' . $_GET['cock_id'] . '" class="btn btn-primary" role="button">Cocktail melden</a>';
+				}
+				echo '	</div>
     				</div>
 		  		</div>
   			</div>';

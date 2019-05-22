@@ -93,15 +93,16 @@ include('../php/db/select_cocktailkarte.php');
 					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#rankTools">
 						<div class="card-body">';
 				if ($etabInfo["verifiziert"] == 1) {
-					echo '
-											<form class="form-inline" action="../php/etab_changeVerify.php?etabId=' . $_GET['etab_id'] . '&newVerify=0" method="post">';
+					echo '	<a href="../php/etab_changeVerify.php?etabId=' . $_GET['etab_id'] . '&newVerify=0" class="btn btn-primary" role="button">Verifizierung ändern</a>';
 				} elseif ($etabInfo["verifiziert"] == 0) {
-					echo '
-											<form class="form-inline" action="../php/etab_changeVerify.php?etabId=' . $_GET['etab_id'] . '&newVerify=1" method="post">';
+					echo '	<a href="../php/etab_changeVerify.php?etabId=' . $_GET['etab_id'] . '&newVerify=1" class="btn btn-primary" role="button">Verifizierung ändern</a>';
+				}
+				if ($_SESSION['rang'] == 2){
+					echo ' <a href="" class="btn btn-primary" role="button">Etablissement löschen</a>';
+				} elseif ($_SESSION['rang'] == 1) {
+					echo ' <a href="../php/melden.php?meldungArt=etab&etabId=' . $_GET['etab_id'] . '" class="btn btn-primary" role="button">Etablissement melden</a>';
 				}
 				echo '
-								<button class="btn btn-primary mt-2 mr-2" type="submit"> Verifizierung ändern</button>
-							</form>
 						</div>
 					</div>
 				</div>

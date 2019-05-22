@@ -119,21 +119,15 @@ include('../php/db/select_user_bewEtab.php');
                                 <div class="card-body">';
                 if ($_SESSION['rang'] == 2) {
                     if ($userInfo['rang'] == 1) {
-                        echo '
-                                    <form class="form-inline" action="../php/user_changeRang.php?userId=' . $_GET['showUser'] . '&newRang=0" method="post">';
+                        echo '      <a href="../php/user_changeRang.php?userId=' . $_GET['showUser'] . '&newRang=0" class="btn btn-primary" role="button">Rechte ändern</a>';
                     } elseif ($userInfo['rang'] == 0) {
-                        echo '
-                                    <form class="form-inline" action="../php/user_changeRang.php?userId=' . $_GET['showUser'] . '&newRang=1" method="post">';
+                        echo '      <a href="../php/user_changeRang.php?userId=' . $_GET['showUser'] . '&newRang=1" class="btn btn-primary" role="button">Rechte ändern</a>';
                     }
-                    echo '
-                                        <button class="btn btn-primary mt-2 mr-2" type="submit">Rechte ändern</button>
-                                    </form> 
-                                    <form class="form-inline" action="../php/db/update_userLoeschen.php">
-                                        <button class="btn btn-primary mt-2 mr-2 disabled" type="submit"> User löschen</button>
-                                    </form>';
+                    echo '          <a href="" class="btn btn-primary" role="button">User Löschen</a>';
+                } elseif ($_SESSION['rang'] == 1) {
+                    echo '          <a href="../php/melden.php?meldungArt=user&userId=' . $_GET['showUser'] . '" class="btn btn-primary" role="button">Nutzer melden</a>';
                 }
-                echo '
-                                </div>
+                echo '          </div>
                             </div>
                         </div>
                     </div>';
