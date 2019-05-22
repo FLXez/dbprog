@@ -207,12 +207,12 @@ if (isset($_SESSION['userId'])) {
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">Zeitpunkt</th>
-                                    <th scope="col">Etablissement</th>
-                                    <th scope="col">Cocktail</th>
-                                    <th scope="col">Text</th>
-                                    <th scope="col">Bewertung</th>
+                                    <th scope="col" style="width: 5.00%"></th>
+                                    <th scope="col" style="width: 10.00%">Zeitpunkt</th>
+                                    <th scope="col" style="width: 10.00%">Etablissement</th>
+                                    <th scope="col" style="width: 10.00%">Cocktail</th>
+                                    <th scope="col" style="width: 5.00%">Bewertung</th>
+                                    <th scope="col" style="width: 60.00%">Text</th>
                                 </tr>
                             </thead> 
                             <tbody>';
@@ -222,8 +222,8 @@ if (isset($_SESSION['userId'])) {
                     echo '          <td>' . $user_bewCock[$i]["ts"] . '</td>';
                     echo '          <td> <a class="" href="etablissement_details.php?etab_id= ' . $user_bewCock[$i]["etabid"] . '">' . $user_bewCock[$i]["etabname"] . '</a></td>';
                     echo '          <td> <a class="" href="cocktail_details.php?cock_id= ' . $user_bewCock[$i]["cockid"] . '">' . $user_bewCock[$i]["cockname"] . '</a></td>';
-                    echo '          <td>' . $user_bewCock[$i]["text"] . '</td>';
                     echo '          <td>' . $user_bewCock[$i]["wert"] . '</td>';
+                    echo '          <td>' . $user_bewCock[$i]["text"] . '</td>';
                     echo '      </tr>';
                 }
                 echo '      </tbody>
@@ -233,11 +233,11 @@ if (isset($_SESSION['userId'])) {
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">Zeitpunkt</th>
-                                    <th scope="col">Etablissement</th>
-                                    <th scope="col">Text</th>
-                                    <th scope="col">Bewertung</th>
+                                    <th scope="col" style="width: 5.00%"></th>
+                                    <th scope="col" style="width: 10.00%">Zeitpunkt</th>
+                                    <th scope="col" style="width: 10.00%">Etablissement</th>
+                                    <th scope="col" style="width: 5.00%">Bewertung</th>
+                                    <th scope="col" style="width: 70.00%">Text</th>
                                 </tr>
                             </thead> 
                             <tbody>';
@@ -246,8 +246,8 @@ if (isset($_SESSION['userId'])) {
                     echo '          <td><a href="../php/bewertung_delete.php?bew_id=' . $user_bewEtab[$i]["bew_id"] . '&bew=etab"><i class="fas fa-trash"></i></a></td>';
                     echo '          <td>' . $user_bewEtab[$i]["ts"] . '</td>';
                     echo '          <td> <a class="" href="etablissement_details.php?etab_id= ' . $user_bewEtab[$i]["id"] . '">' . $user_bewEtab[$i]["name"] . '</a></td>';
-                    echo '          <td>' . $user_bewEtab[$i]["text"] . '</td>';
                     echo '          <td>' . $user_bewEtab[$i]["wert"] . '</td>';
+                    echo '          <td>' . $user_bewEtab[$i]["text"] . '</td>';
                     echo '      </tr>';
                 }
                 echo '      </tbody>
