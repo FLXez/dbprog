@@ -21,11 +21,13 @@ if (isset($_SESSION['userId'])) {
     include('db/check_etab.php');
     if (!$etab_vorhanden) {
         include('db/insert_etab.php');
-        $etabName = $name;
-        include('db/select_etab_id.php');
-        if ($result) {
-            $etabId = $select_etab_id['id'];
-        }
+    } else {
+        $_SESSION['message'] = "Etablissement ist bereits vorhanden!";
+    }
+    $etabName = $name;
+    include('db/select_etab_id.php');
+    if ($result) {
+        $etabId = $select_etab_id['id'];
     }
 }
 if (isset($etabId)) {

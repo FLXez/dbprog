@@ -19,17 +19,22 @@ if (isset($_SESSION['userId'])) {
         $image = "";
     }
 
-    include('../php/db/check_cock.php');
+    include('db/check_cock.php');
 
     if (!$cock_vorhanden) {
-        include('../php/db/insert_cock.php');
+        include('db/insert_cock.php');
     }
 
-    include('../php/db/select_cock_id.php');
+    include('db/select_cock_id.php');
     if ($result) {
         $cockId = $select_cock_id['id'];
     }
-    include('../php/db/insert_cockEtab.php');
+    include('db/check_cock_etab.php');
+    if (!$cock_etab_vorhanden) {
+        include('db/insert_cockEtab.php');
+    } else {
+        $_SESSION['message'] = "Cocktail ist in dem Etablissement bereits vorhanden!";
+    }
 }
 if (isset($cockId)) {
     header("Location: ../site/cocktail_details.php?cock_id=" . $cockId);
