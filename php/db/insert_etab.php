@@ -5,7 +5,7 @@ $statement = $pdo->prepare(
      INTO etab(name, ort, anschrift, img) 
      VALUES (:name, :ort, :anschrift, :img)"
 );
-$result = $statement->execute(array('name' => $name, 'ort' => $stadt, 'anschrift' => $strasse, 'img' => $image));
+$result = $statement->execute(array('name' => $name, 'ort' => $ort, 'anschrift' => $anschrift, 'img' => $image));
 $pdo = NULL;
 if ($result) {
     $_SESSION['message'] = "Erfolgreich hinzugefügt!";

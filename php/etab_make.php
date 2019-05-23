@@ -2,8 +2,8 @@
 session_start();
 if (isset($_SESSION['userId'])) {
     $name = $_POST['nameEtab'];
-    $strasse = $_POST['strasseEtab'];
-    $stadt = $_POST['plzStadtEtab'];
+    $anschrift = $_POST['anschriftEtab'];
+    $ort = $_POST['ortEtab'];
 
 
     $file_name = $_FILES['file']['name'];

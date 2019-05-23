@@ -6,6 +6,6 @@ $statement = $pdo->prepare(
      WHERE name = :name 
        AND anschrift =:anschrift
        AND ort =:ort");
-$result = $statement->execute(array('name' => $name, 'anschrift' => $strasse, 'ort' => $stadt));
+$result = $statement->execute(array('name' => $name, 'anschrift' => $anschrift, 'ort' => $ort));
 $etab_vorhanden = $statement->fetch();
 $pdo = NULL;

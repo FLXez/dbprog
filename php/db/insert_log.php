@@ -9,9 +9,3 @@ $statement = $pdo->prepare(
 );
 $result = $statement->execute(array('mod_id' => $modId, 'aktion' => $aktion, 'etab_id' => $etabId, 'cock_id' => $cockId));
 $pdo = NULL;
-if ($result) {
-    $_SESSION['message'] = "Meldung abgegeben.";
-} else {
-    $_SESSION['error'] = true;
-    $_SESSION['message'] = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
-}

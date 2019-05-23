@@ -92,12 +92,48 @@ include('../php/db/select_cocktailkarte.php');
 					</div>
 					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#rankTools">
 						<div class="card-body">';
+				echo '
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editEtab">Etablissement ändern</button>							
+							<div class="modal fade" id="editEtab" tabindex="-1" role="dialog" aria-labelledby="editEtabTitle" aria-hidden="true">
+						  		<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+	    							<div class="modal-content">
+    	  								<div class="modal-header">
+									        <h5 class="modal-title" id="editEtabTitle">Etablissement ändern</h5>
+        									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      									</div>
+										<form action="../php/etab_edit.php?etab_id=' . $_GET['etab_id'] . '" method="POST" enctype="multipart/form-data">
+      										<div class="modal-body">
+											  	<div class="form-group">
+													<label for="etab-name" class="col-form-label">Etablissement Name:</label>
+													<input type="text" class="form-control" id="etab-name" name="etab_name" value=' . $etabInfo["name"] . '>
+												</div>
+												<div class="form-group">
+													<label for="etab-ort" class="col-form-label">Etablissement Ort:</label>
+													<input type="text" class="form-control" id="etab-ort" name="etab_ort" value=' . $etabInfo["ort"] . '>
+												</div>
+												<div class="form-group">
+													<label for="etab-anschrift" class="col-form-label">Etablissement Anschrift:</label>
+													<input type="text" class="form-control" id="etab-anschrift" name="etab_anschrift" value=' . $etabInfo["anschrift"] . '>
+												</div>
+												<div class="form-group">
+													<label for="img">Bild</label>
+													<input type="file" name="file" id="img" class="form-control-file">
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+												<button type="submit" class="btn btn-primary">Änderungen speichern</button>
+										  	</div>
+										</form>
+    								</div>
+  								</div>
+							</div>';
 				if ($etabInfo["verifiziert"] == 1) {
 					echo '	<a href="../php/etab_changeVerify.php?etabId=' . $_GET['etab_id'] . '&newVerify=0" class="btn btn-primary" role="button">Verifizierung ändern</a>';
 				} elseif ($etabInfo["verifiziert"] == 0) {
 					echo '	<a href="../php/etab_changeVerify.php?etabId=' . $_GET['etab_id'] . '&newVerify=1" class="btn btn-primary" role="button">Verifizierung ändern</a>';
 				}
-				if ($_SESSION['rang'] == 2){
+				if ($_SESSION['rang'] == 2) {
 					echo ' <a href="" class="btn btn-primary" role="button">Etablissement löschen</a>';
 				} elseif ($_SESSION['rang'] == 1) {
 					echo ' <a href="../php/melden.php?meldungArt=etab&etabId=' . $_GET['etab_id'] . '" class="btn btn-primary" role="button">Etablissement melden</a>';

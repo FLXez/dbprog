@@ -51,8 +51,8 @@ $_SESSION['source'] = $_SERVER['REQUEST_URI'];
 							</div>
 							<div class="form-group">
 								<label for="adresseEtab">Adresse</label>
-								<input type="text" maxlength="50" class="form-control mb-2" id="strasseEtab" name="strasseEtab" placeholder="Stra&szlig;e" required>
-								<input type="text" maxlength="50" class="form-control" id="plzStadtEtab" name="plzStadtEtab" placeholder="Postleitzahl Stadt" required>
+								<input type="text" maxlength="50" class="form-control mb-2" id="anschriftEtab" name="anschriftEtab" placeholder="Stra&szlig;e" required>
+								<input type="text" maxlength="50" class="form-control" id="ortEtab" name="ortEtab" placeholder="Postleitzahl Stadt" required>
 							</div>
 							<button type="submit" class="btn btn-primary">Erstellen</button>
 						</form>
