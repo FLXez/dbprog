@@ -93,12 +93,12 @@ include('../php/db/select_cocktailkarte.php');
 					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#rankTools">
 						<div class="card-body">';
 				echo '
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editEtab">Etablissement ändern</button>							
-							<div class="modal fade" id="editEtab" tabindex="-1" role="dialog" aria-labelledby="editEtabTitle" aria-hidden="true">
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#etabEdit">Etablissement ändern</button>							
+							<div class="modal fade" id="etabEdit" tabindex="-1" role="dialog" aria-labelledby="etabEditTitle" aria-hidden="true">
 						  		<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
 	    							<div class="modal-content">
     	  								<div class="modal-header">
-									        <h5 class="modal-title" id="editEtabTitle">Etablissement ändern</h5>
+									        <h5 class="modal-title" id="etabEditTitle">Etablissement ändern</h5>
         									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       									</div>
 										<form action="../php/etab_edit.php?etab_id=' . $_GET['etab_id'] . '" method="POST" enctype="multipart/form-data">

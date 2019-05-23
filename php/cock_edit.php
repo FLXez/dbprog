@@ -2,16 +2,15 @@
 session_start();
 if (isset($_SESSION['userId'])) {
     if ($_SESSION['rang'] >= 1) {
+  
+        $beschreibung = $_POST['cock_beschreibung'];
+        $name = $_POST['cock_name'];
+        $cockId = $_GET['cock_id'];
 
-        $ort = $_POST['etab_ort'];
-        $anschrift = $_POST['etab_anschrift'];
-        $name = $_POST['etab_name'];
-        $etabId = $_GET['etab_id'];
+        include('db/select_cockInfo.php');
 
-        include('db/select_etabInfo.php');
-
-        include('db/check_etab.php');
-        if (!$etab_vorhanden) {
+        include('db/check_cock.php');
+        if (!$cock_vorhanden) {
 
             $file_name = $_FILES['file']['name'];
             $file_type = $_FILES['file']['type'];
@@ -22,13 +21,13 @@ if (isset($_SESSION['userId'])) {
                 $handle = fopen($file_tem_loc, 'r');
                 $img = fread($handle, $file_size);
             } else {
-                $img = $etabInfo['img'];
+                $img = $cockInfo['img'];
             }
 
-            include('db/update_etab.php');
+            include('db/update_cock.php');
 
             $modId = $_SESSION['userId'];
-            $aktion = "etab_edit";
+            $aktion = "cock_edit";
             include('db/insert_log.php');
         }
     }

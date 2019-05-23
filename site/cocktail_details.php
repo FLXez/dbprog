@@ -121,7 +121,39 @@ include('../php/db/select_cockEtab_id.php');
       						</h2>
 						</div>
 					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#rankTools">
-    		  			<div class="card-body">';
+						<div class="card-body">';
+				echo '
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cockEdit">Cocktail ändern</button>							
+								<div class="modal fade" id="cockEdit" tabindex="-1" role="dialog" aria-labelledby="cockEditTitle" aria-hidden="true">
+						  			<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+	    								<div class="modal-content">
+    	  									<div class="modal-header">
+									        	<h5 class="modal-title" id="cockEditTitle">Cocktial ändern</h5>
+        										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      										</div>	
+											<form action="../php/cock_edit.php?cock_id=' . $_GET['cock_id'] . '" method="POST" enctype="multipart/form-data">
+	      										<div class="modal-body">
+												  	<div class="form-group">
+														<label for="cock-name" class="col-form-label">Cocktail Name:</label>
+														<input type="text" class="form-control" id="cock-name" name="cock_name" value=' . $cockInfo["name"] . '>
+													</div>
+													<div class="form-group">
+														<label for="cock-beschreibung" class="col-form-label">Cocktail Beschreibung:</label>
+														<input type="text" class="form-control" id="cock-beschreibung" name="cock_beschreibung" value=' . $cockInfo["beschreibung"] . '>
+													</div>
+													<div class="form-group">
+														<label for="img">Bild</label>
+														<input type="file" name="file" id="img" class="form-control-file">
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+													<button type="submit" class="btn btn-primary">Änderungen speichern</button>
+											  	</div>
+											</form>
+    									</div>
+  									</div>
+								</div>';
 				if ($_SESSION['rang'] == 2) {
 					echo ' <a href="" class="btn btn-primary" role="button">Cocktails löschen</a>';
 				} elseif ($_SESSION['rang'] == 1) {
