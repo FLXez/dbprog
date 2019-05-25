@@ -121,7 +121,7 @@ include('../php/db/select_cocktailkarte.php');
 												</div>
 											</div>
 											<div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Schlie&szlig;en</button>
 												<button type="submit" class="btn btn-primary">Änderungen speichern</button>
 										  	</div>
 										</form>
@@ -165,17 +165,19 @@ include('../php/db/select_cocktailkarte.php');
 						<table class="table">
 							<thead>
 								<tr>
-									<th scope="col">#</th>
-									<th scope="col">Cocktail</th>
-									<th scope="col">Preis</th>
+									<th scope="col" style="width: 5.00%">#</th>
+									<th scope="col" style="width: 5.00%">Durchschnittsbewertung</th>
+									<th scope="col" style="width: 20.00%">Cocktail</th>
+									<th scope="col" style="width: 70	.00%">Preis</th>
 								</tr>
 							</thead> 
 							<tbody>';
 						for ($i = 0; $i < count($cocktailkarte); $i++) {
 							echo '<tr>';
 							echo '<th scope="row">' . ($i + 1) . '</th>';
+							echo '<td>' . $cocktailkarte[$i]["wert"] . '</td>';
 							echo '<td> <a class="" href="cocktail_details.php?cock_id= ' . $cocktailkarte[$i]["id"] . '">' . $cocktailkarte[$i]["name"] . '</a></td>';
-							echo '<td>' . $cocktailkarte[$i]["preis"] . '</td>';
+							echo '<td>' . $cocktailkarte[$i]["preis"] . '€</td>';
 							echo '</tr>';
 						}
 						echo '</tbody></table>';

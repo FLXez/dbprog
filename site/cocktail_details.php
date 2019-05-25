@@ -147,7 +147,7 @@ include('../php/db/select_cockEtab_id.php');
 													</div>
 												</div>
 												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+													<button type="button" class="btn btn-secondary" data-dismiss="modal">Schlie&szlig;en</button>
 													<button type="submit" class="btn btn-primary">Änderungen speichern</button>
 											  	</div>
 											</form>

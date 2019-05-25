@@ -51,7 +51,9 @@ echo '
 				</li>
             </ul>';
 if (isset($_SESSION['userId'])) {
-    if($_SESSION['rang'] == 2){
+    if ($_SESSION['rang'] == 2) {
+        include('../php/db/select_meldung_count.php');
+        echo '<a href="../site/profil_meldung.php" class="profil-nav mr-3"><span class="badge badge-light">' . $meldungCount[0] . '</span></button> Meldungen</a>';
         echo '<a href="../site/profil_log.php" class="profil-nav mr-3"><i class="far fa-file-alt"></i> Log</a>';
     }
     echo '<a href="../site/profil_main.php" class="profil-nav mr-3"><i class="far fa-user"></i> Profil</a>';
