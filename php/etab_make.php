@@ -21,6 +21,9 @@ if (isset($_SESSION['userId'])) {
     include('db/check_etab.php');
     if (!$etab_vorhanden) {
         include('db/insert_etab.php');
+        $modId = $_SESSION['userId'];
+        $aktion = "etab_new";
+        include('db/insert_log.php');
     } else {
         $_SESSION['message'] = "Etablissement ist bereits vorhanden!";
     }

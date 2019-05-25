@@ -23,6 +23,9 @@ if (isset($_SESSION['userId'])) {
 
     if (!$cock_vorhanden) {
         include('db/insert_cock.php');
+        $modId = $_SESSION['userId'];
+        $aktion = "cock_new";
+        include('db/insert_log.php');
     }
 
     include('db/select_cock_id.php');
@@ -32,6 +35,9 @@ if (isset($_SESSION['userId'])) {
     include('db/check_cock_etab.php');
     if (!$cock_etab_vorhanden) {
         include('db/insert_cockEtab.php');
+        $modId = $_SESSION['userId'];
+        $aktion = "cock_etab_new";
+        include('db/insert_log.php');
     } else {
         $_SESSION['message'] = "Cocktail ist in dem Etablissement bereits vorhanden!";
     }

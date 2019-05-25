@@ -8,5 +8,8 @@ if(isset($_SESSION['userId'])){
     $preis = $_POST['preis'];
 
     include('db/insert_cockEtab.php');
+    $modId = $_SESSION['userId'];
+    $aktion = "cock_etab_new";
+    include('db/insert_log.php');
 }
 header("Location: " . $_SESSION['source']);
