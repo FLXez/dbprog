@@ -155,7 +155,25 @@ include('../php/db/select_cockEtab_id.php');
   									</div>
 								</div>';
 				if ($_SESSION['rang'] == 2) {
-					echo ' <a href="" class="btn btn-primary" role="button">Cocktails löschen</a>';
+					echo '                    
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cockDelete">Cocktail löschen</button>
+								<div class="modal fade" id="cockDelete" tabindex="-1" role="dialog" aria-labelledby="cockDeleteLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="cockDeleteLabel">Cocktail löschen?</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+											</div>
+											<div class="modal-body">
+												Cocktail wirklich löschen?
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Schlie&szlig;en</button>
+												<a href="../php/cock_delete.php?cockId=' . $_GET['cock_id'] . '" class="btn btn-primary" role="button">L&ouml;schen</a>
+											</div>
+										</div>
+									</div>
+								</div>';
 				} elseif ($_SESSION['rang'] == 1) {
 					echo ' <a href="../php/melden.php?meldungArt=cock&cockId=' . $_GET['cock_id'] . '" class="btn btn-primary" role="button">Cocktail melden</a>';
 				}

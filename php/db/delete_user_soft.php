@@ -1,8 +1,6 @@
 <?php
-session_start();
-if ($_SESSION['rang'] == 2) {
-    $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
-    $statement = $pdo->prepare("UPDATE user SET username = :username,
+$pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
+$statement = $pdo->prepare("UPDATE user SET username = :username,
                                                 vorname = null,
                                                 nachname = null,
                                                 passwort = :passwort,
@@ -13,14 +11,11 @@ if ($_SESSION['rang'] == 2) {
                                                 updated_at = CURRENT_TIMESTAMP,
                                                 rang = :rang 
                                                 WHERE id = :userid");
-    $result = $statement->execute(array('username' => "User gelöscht", 'passwort' => "NaN", 'email' => "deleted@deleted.de", 'img' => "", 'rang' => -1, 'userid' => $userId));
-}
+$result = $statement->execute(array('username' => "User gelöscht", 'passwort' => "NaN", 'email' => "deleted", 'img' => "", 'rang' => -1, 'userid' => $userId));
 
 if ($result) {
-    $_SESSION['message'] = "Erfolgreich gelöscht!";
+    $_SESSION['message'] = "User erfolgreich gelöscht!";
 } else {
     $_SESSION['error'] = true;
     $_SESSION['message'] = "Es ist ein Fehler beim Löschen des Users aufgetreten.";
 }
-
-header("Location: " . $_SESSION['source']);

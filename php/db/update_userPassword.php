@@ -10,7 +10,7 @@ if ($_POST['u_up_passNew'] != $_POST['u_up_passNew_confirm']) {
    $_SESSION['message'] = "Die Eingaben für das neue Passwort stimmen nicht überein.<br>";
 } elseif (password_verify($_POST['u_up_passOld'], $userPrivate['passwort'])) {
    //Passwort updaten
-   $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+   $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
    $passHash = password_hash($_POST['u_up_passNew'], PASSWORD_DEFAULT);
    $statement = $pdo->prepare(
       "UPDATE user 

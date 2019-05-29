@@ -36,6 +36,9 @@ include('../php/db/select_card_info.php');
 	</header>
 	<main role="main">
 		<div class="mt-5 ml-5 mr-5">
+			<?php
+			include('../php/alertMessage.php');
+			?>
 			<div class="card card-body">
 				<h2 class="ml-2">Etablissements</h2>
 				<hr>

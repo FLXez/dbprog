@@ -1,5 +1,5 @@
 <?php
-$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+$pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(
        "SELECT m.id as m_id,
 	           m.timestamp as m_ts,

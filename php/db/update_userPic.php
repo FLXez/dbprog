@@ -13,7 +13,7 @@ if ($file_name) {
     $image = "";
 }
 
-$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+$pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(
     "UPDATE user   
          SET img = :img, 

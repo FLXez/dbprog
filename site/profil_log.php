@@ -53,9 +53,9 @@ include('../php/db/select_log.php');
 							<tr>
 								<th scope="col" style="width: 10.00%">Zeitpunkt</th>
                                 <th scope="col" style="width: 10.00%">Aktion</th>
-                                <th scope="col" style="width: 24.00%">Moderator</th>
-								<th scope="col" style="width: 28.00%">Etablissement Name</th>
-                                <th scope="col" style="width: 28.00%">Cocktail Name</th>
+                                <th scope="col" style="width: 22.00%">Moderator</th>
+								<th scope="col" style="width: 24.00%">Etablissement Name</th>
+                                <th scope="col" style="width: 24.00%">Cocktail Name</th>
 							</tr>
 						</thead> 
 					    <tbody>';

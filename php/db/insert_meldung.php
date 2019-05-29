@@ -1,6 +1,6 @@
 <?php
 
-$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+$pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(
     "INSERT INTO meldung 
             (cock_id, etab_id, melder_id, meldung_art, status, user_id)

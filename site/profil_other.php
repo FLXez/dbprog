@@ -116,7 +116,29 @@ include('../php/db/select_user_bewEtab.php');
                     } elseif ($userInfo['rang'] == 0) {
                         echo '      <a href="../php/user_changeRang.php?userId=' . $_GET['showUser'] . '&newRang=1" class="btn btn-primary" role="button">Rechte ändern</a>';
                     }
-                    echo '          <a href="" class="btn btn-primary" role="button">User Löschen</a>';
+                    if ($userInfo['rang'] <= 1) {
+                        echo '                    
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userDelete">User löschen</button>
+                                    <div class="modal fade" id="userDelete" tabindex="-1" role="dialog" aria-labelledby="userDeleteLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="userDeleteLabel">User löschen?</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    "Soft-Delete": Bewertungen bleiben erhalten. <br>
+                                                    "Hard-Delete": Auch abgegebene Bewertungen werden gelöscht.
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Schlie&szlig;en</button>
+                                                    <a href="../php/user_delete.php?soft=1&userId=' . $_GET['showUser'] . '" class="btn btn-primary" role="button">Soft-Delete</a>
+                                                    <a href="../php/user_delete.php?soft=0&userId=' . $_GET['showUser'] . '" class="btn btn-primary" role="button">Hard-Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>';
+                    }
                 } elseif ($_SESSION['rang'] == 1) {
                     echo '          <a href="../php/melden.php?meldungArt=user&userId=' . $_GET['showUser'] . '" class="btn btn-primary" role="button">Nutzer melden</a>';
                 }

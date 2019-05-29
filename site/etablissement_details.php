@@ -46,27 +46,25 @@ include('../php/db/select_cocktailkarte.php');
 					<div class="card col-md-2">
 						<?php
 						if ($etabInfo["img"] == null)
-						echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
+							echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else
-						echo '
+							echo '
 						<img src="../php/db/get_img.php?etab_id=' . $etabInfo["id"] . '" class="card-img-top">';
+
+						if ($etabInfo["verifiziert"] == 1) {
+							echo '<span class="badge badge-primary rounded-0">Verifiziert</span>';
+						} else {
+							echo '<span class="badge badge-warning rounded-0">Nicht verifiziert</span>';
+						}
+
 						?>
-						<span class="badge badge-primary rounded-0">Verifiziert</span>
 					</div>
 
 					<div class="col-md-10">
 
 						<div class="card-body d-flex flex-column" style="max-height: 200px;">
 							<div>
-								<h1 class="card-title"> <?php echo $etabInfo["name"];
-														if ($etabInfo["verifiziert"] == 1) {
-															echo '
-															<span class="badge badge-primary float-right">Verifiziert</span>';
-														} else {
-															echo '
-															<span class="badge badge-warning float-right">Nicht verifiziert</span>';
-														} ?>
-								</h1>
+								<h1 class="card-title"> <?php echo $etabInfo["name"]; ?></h1>
 								<hr>
 							</div>
 							<div>
@@ -135,7 +133,25 @@ include('../php/db/select_cocktailkarte.php');
 					echo '	<a href="../php/etab_changeVerify.php?etabId=' . $_GET['etab_id'] . '&newVerify=1" class="btn btn-primary" role="button">Verifizierung ändern</a>';
 				}
 				if ($_SESSION['rang'] == 2) {
-					echo ' <a href="" class="btn btn-primary" role="button">Etablissement löschen</a>';
+					echo '                    
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#etabDelete">Etablissement löschen</button>
+							<div class="modal fade" id="etabDelete" tabindex="-1" role="dialog" aria-labelledby="etabDeleteLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="etabDeleteLabel">Etablissement löschen?</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										</div>
+										<div class="modal-body">
+											Etablissement wirklich löschen?
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Schlie&szlig;en</button>
+											<a href="../php/etab_delete.php?etabId=' . $_GET['etab_id'] . '" class="btn btn-primary" role="button">L&ouml;schen</a>
+										</div>
+									</div>
+								</div>
+							</div>';
 				} elseif ($_SESSION['rang'] == 1) {
 					echo ' <a href="../php/melden.php?meldungArt=etab&etabId=' . $_GET['etab_id'] . '" class="btn btn-primary" role="button">Etablissement melden</a>';
 				}

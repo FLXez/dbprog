@@ -3,7 +3,7 @@ session_start();
 if(isset($_SESSION['userId'])){
        $userId = $_SESSION['userId'];
 }
-$pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+$pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 if (isset($userId)) {
        $statement = $pdo->prepare(
               "SELECT passwort as passwort

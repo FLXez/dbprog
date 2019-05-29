@@ -13,7 +13,7 @@ if ($email_vorhanden) {
 
    //gewünschte Email frei, Passwort korrekt?
 } elseif (password_verify($_POST['u_ue_password'], $userPrivate['passwort'])) {
-   $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+   $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
    $statement = $pdo->prepare(
       "UPDATE user 
      SET email = :email 

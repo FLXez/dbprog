@@ -1,7 +1,7 @@
 <?php
 function check_meld_user($userId)
 {
-    $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+    $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
     $statement = $pdo->prepare(
         "SELECT '1'
          FROM meldung
@@ -18,7 +18,7 @@ function check_meld_user($userId)
 
 function check_meld_etab($etabId)
 {
-    $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+    $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
     $statement = $pdo->prepare(
         "SELECT '1'
          FROM meldung
@@ -35,7 +35,7 @@ function check_meld_etab($etabId)
 
 function check_meld_etabBew($etabId, $userId)
 {
-    $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+    $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
     $statement = $pdo->prepare(
         "SELECT '1'
          FROM meldung
@@ -54,7 +54,7 @@ function check_meld_etabBew($etabId, $userId)
 
 function check_meld_cock($cockId)
 {
-    $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+    $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
     $statement = $pdo->prepare(
         "SELECT '1'
          FROM meldung
@@ -71,7 +71,7 @@ function check_meld_cock($cockId)
 
 function check_meld_cockBew($cockId, $userId)
 {
-    $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+    $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
     $statement = $pdo->prepare(
         "SELECT '1'
          FROM meldung

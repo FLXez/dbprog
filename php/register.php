@@ -21,7 +21,7 @@ if ($username_vorhanden) {
 
 //Keine Fehler, wir können den Nutzer registrieren
 if (!isset($_SESSION['error'])) {
-    $pdo = new PDO('mysql:host=localhost;dbname=dbprog', 'root', '');
+    $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
     $passHash = password_hash($_POST['register_passwort'], PASSWORD_DEFAULT);
     $statement = $pdo->prepare(
         "INSERT INTO user (email, passwort, username) 
