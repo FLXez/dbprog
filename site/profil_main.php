@@ -43,7 +43,7 @@ if (isset($_SESSION['userId'])) {
                 echo '
             <div class="card mb-3" width="100%" style="max-height: 360px;">
                 <div class="row no-gutters">
-                    <div class="col-md-2">';
+                    <div class="card col-md-2">';
                 if ($userInfo["img"]) {
                     echo '
                         <img src="../php/db/get_img.php?user_id=' . $userId . '" class="card-img-top">';
@@ -52,21 +52,19 @@ if (isset($_SESSION['userId'])) {
                         <img src="../res/placeholder_no_image.svg" class="card-img-top">';
                 }
 
+                if ($_SESSION['rang'] == 1) {
+                    echo '
+                                <span class="badge badge-primary rounded-0">Moderator</span>';
+                } elseif ($_SESSION['rang'] == 2) {
+                    echo '
+                                <span class="badge badge-danger rounded-0">Admin</span>';
+                }
                 echo ' 
                     </div>
                     <div class="col-md-10">
                         <div class="card-body d-flex flex-column" style="max-height: 200px;">
                             <div>
-                                <h1 class="card-title">' . $userInfo["uname"];
-                if ($_SESSION['rang'] == 1) {
-                    echo '
-                                <span class="badge badge-primary float-right">Moderator</span>';
-                } elseif ($_SESSION['rang'] == 2) {
-                    echo '
-                                <span class="badge badge-danger float-right">Admin</span>';
-                }
-                echo '
-                                </h1>
+                                <h1 class="card-title">' . $userInfo["uname"] . '</h1>
                                 <hr>
                             </div>
                             <div class="card-text">

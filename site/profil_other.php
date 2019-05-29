@@ -45,33 +45,26 @@ include('../php/db/select_user_bewEtab.php');
             ?>
             <div class="card mb-3" width="100%" style="max-height: 360px;">
                 <div class="row no-gutters">
-                    <div class="col-md-2">
+                    <div class="card col-md-2">
                         <?php
-                        if ($userInfo['img'])
+                        if ($userInfo['img']) {
                             echo '<img src="../php/db/get_img.php?user_id=' . $_GET['showUser'] . '" class="card-img-top">';
-                        else
-
+                        } else {
                             echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
+                        }
+                        if ($userInfo["rang"] == 2) {
+                            echo '<span class="badge badge-danger rounded-0">Admin</span>';
+                        } elseif ($userInfo["rang"] == 1) {
+                            echo '<span class="badge badge-primary rounded-0">Moderator</span>';
+                        } elseif ($userInfo["rang"] == 0) {
+                            echo '<span class="badge badge-primary rounded-0">User</span>';
+                        }
                         ?>
                     </div>
                     <div class="col-md-10">
                         <div class="card-body d-flex flex-column" style="max-height: 200px;">
                             <div>
-                                <h1 class="card-title">
-                                    <?php echo $userInfo["uname"];
-                                    echo '                                    
-                                        <div class="row float-right mr-1">';
-                                    if ($userInfo["rang"] == 2) {
-                                        echo '<span class="badge badge-danger">Admin</span>';
-                                    } elseif ($userInfo["rang"] == 1) {
-                                        echo '<span class="badge badge-primary">Moderator</span>';
-                                    } elseif ($userInfo["rang"] == 0) {
-                                        echo '<span class="badge badge-primary">User</span>';
-                                    }
-                                    echo '
-                                        </div>';
-                                    ?>
-                                </h1>
+                                <h1 class="card-title"><?php echo $userInfo["uname"]; ?></h1>
                                 <hr>
                             </div>
                             <div class="card-text">

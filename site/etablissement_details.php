@@ -42,15 +42,16 @@ include('../php/db/select_cocktailkarte.php');
 			include('../php/alertMessage.php');
 			?>
 			<div class="card mb-3" width="100%" style="max-height: 360px;">
-
 				<div class="row no-gutters">
-					<div class="col-md-2">
+					<div class="card col-md-2">
 						<?php
 						if ($etabInfo["img"] == null)
-							echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
+						echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else
-							echo '<img src="../php/db/get_img.php?etab_id=' . $etabInfo["id"] . '" class="card-img-top">';
+						echo '
+						<img src="../php/db/get_img.php?etab_id=' . $etabInfo["id"] . '" class="card-img-top">';
 						?>
+						<span class="badge badge-primary rounded-0">Verifiziert</span>
 					</div>
 
 					<div class="col-md-10">

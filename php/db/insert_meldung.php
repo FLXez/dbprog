@@ -15,3 +15,4 @@ if ($result) {
     $_SESSION['error'] = true;
     $_SESSION['message'] = "Es ist ein Fehler aufgetreten, bitte versuche es später erneut.";
 }
+ 
