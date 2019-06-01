@@ -1,3 +1,4 @@
+<!-- Diese HTML Seite beinhaltet lediglich Informationen zu den AGBs und keine Funktionalitäten -->
 <?php
 session_start();
 

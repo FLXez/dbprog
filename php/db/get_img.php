@@ -1,3 +1,4 @@
+<!-- Mit diesen SQL Statements werden die Bilder aus der Datenbank geladen -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 

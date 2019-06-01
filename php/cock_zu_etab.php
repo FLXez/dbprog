@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript händelt die Zuweisung von Cocktails zu Etablissements -->
 <?php
 session_start();
 if(isset($_SESSION['userId'])){

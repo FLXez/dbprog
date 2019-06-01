@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement liefert die Informationen eines Etablissements -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

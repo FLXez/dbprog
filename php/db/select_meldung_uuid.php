@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement liefert die User-ID, die einer Meldung zugeordnet ist -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

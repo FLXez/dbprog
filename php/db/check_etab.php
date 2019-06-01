@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement überprüft, ob ein Etablissement bereits vorhanden ist -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement liefert eine Liste von Log-Meldungen -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

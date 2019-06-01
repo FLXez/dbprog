@@ -1,14 +1,17 @@
+<!-- Diese HTML Seite beinhaltet die Sicht auf ein fremdes Profil -->
 <?php
 session_start();
 $activeHead = "user";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
+// Wenn die aufgerufene Seite die vom eigenen Profil ist, weiterleitung auf Profil-Hauptseite
 if (isset($_SESSION['userId'])) {
     if ($_SESSION['userId'] == $_GET['showUser']) {
         header("Location: profil_main.php");
     }
 }
 
+// Die Öffentlichen Daten des angezeigten Users werden aus der Datenbank geladen
 $userId = $_GET['showUser'];
 include('../php/db/select_userInfo.php');
 include('../php/db/select_user_bewCock.php');
@@ -47,11 +50,13 @@ include('../php/db/select_user_bewEtab.php');
                 <div class="row no-gutters">
                     <div class="card col-md-2">
                         <?php
+						// An dieser Stelle wird das Profilbild eingebunden, wenn es vorhanden ist
                         if ($userInfo['img']) {
                             echo '<img src="../php/db/get_img.php?user_id=' . $_GET['showUser'] . '" class="card-img-top">';
                         } else {
                             echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
                         }
+						// An dieser Stelle wird das Badge des User-Rangs angezeigt
                         if ($userInfo["rang"] == 2) {
                             echo '<span class="badge badge-danger rounded-0">Admin</span>';
                         } elseif ($userInfo["rang"] == 1) {
@@ -61,6 +66,7 @@ include('../php/db/select_user_bewEtab.php');
                         }
                         ?>
                     </div>
+					<!-- An dieser Stelle werden die User-Informationen dargestellt -->
                     <div class="col-md-10">
                         <div class="card-body d-flex flex-column" style="max-height: 200px;">
                             <div>
@@ -94,6 +100,7 @@ include('../php/db/select_user_bewEtab.php');
                 </div>
             </div>
             <?php
+			// Wenn der angemeldete User Admin oder Mod ist, wird hier der zusätzliche Admin-Bereich aufgebaut
             if (isset($_SESSION['userId']) && $_SESSION['rang'] >= 1) {
                 if ($_SESSION['rang'] == 2) {
                     $rolle = "Admin";
@@ -110,12 +117,17 @@ include('../php/db/select_user_bewEtab.php');
 	                        </div>
 	                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#rankTools">
                                 <div class="card-body">';
+				// Admins können den Rang eines Users zum Mod ändern oder andersrum
                 if ($_SESSION['rang'] == 2) {
                     if ($userInfo['rang'] == 1) {
                         echo '      <a href="../php/user_changeRang.php?userId=' . $_GET['showUser'] . '&newRang=0" class="btn btn-primary" role="button">Rechte ändern</a>';
                     } elseif ($userInfo['rang'] == 0) {
                         echo '      <a href="../php/user_changeRang.php?userId=' . $_GET['showUser'] . '&newRang=1" class="btn btn-primary" role="button">Rechte ändern</a>';
                     }
+					// Wenn der angesehene User nur User oder Mod ist (Also kein Admin), kann der User gelöscht werden
+					// Auswahl zwischen Hard- und Soft-Delete. Hard-Delete löscht den User Kaskadierend, also auch sämtliche Bewertungen
+					// Soft-Delete löscht den Nutzer nur scheinbar, in Wahrheit wird der Nutzer nur in "Nutzer gelöscht" umbenannt
+					// So sind Bewertungen weiterhin verfügbar
                     if ($userInfo['rang'] <= 1) {
                         echo '                    
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userDelete">User löschen</button>
@@ -139,6 +151,7 @@ include('../php/db/select_user_bewEtab.php');
                                         </div>
                                     </div>';
                     }
+				// Moderatoren können User melden
                 } elseif ($_SESSION['rang'] == 1) {
                     echo '          <a href="../php/melden.php?meldungArt=user&userId=' . $_GET['showUser'] . '" class="btn btn-primary" role="button">Nutzer melden</a>';
                 }
@@ -160,7 +173,9 @@ include('../php/db/select_user_bewEtab.php');
                 <hr>
                 <div class="tab-content" id="bewEtabCock-tabContent">
                     <div class="tab-pane fade show active" id="bewCock" role="tabpanel" aria-labelledby="bewCock-tab">
-                        <?php echo '
+                        <?php 
+						// An dieser Stelle wird die Tabelle der abgegebenen Bewertungen von Cocktails aufgebaut
+						echo '
 						<table class="table">
 							<thead>
 								<tr>
@@ -175,6 +190,7 @@ include('../php/db/select_user_bewEtab.php');
 							<tbody>';
                         for ($i = 0; $i < count($user_bewCock); $i++) {
                             echo '<tr>';
+							// Admins können Bewertungen direkt löschen, Mods nur melden
                             if (isset($_SESSION['userId'])) {
                                 if ($_SESSION['rang'] == 2) {
                                     echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $user_bewCock[$i]["bew_id"] . '&bew=cock"><i class="fas fa-trash"></i></a></td>';
@@ -197,7 +213,9 @@ include('../php/db/select_user_bewEtab.php');
                         ?>
                     </div>
                     <div class="tab-pane fade" id="bewEtab" role="tabpanel" aria-labelledby="bewEtab-tab">
-                        <?php echo '
+                        <?php 
+						// An dieser Stelle wird die Tabelle zur Anzeige von allen Etablissement-Bewertungen aufgebaut
+						echo '
 						<table class="table">
 							<thead>
 								<tr>
@@ -211,6 +229,7 @@ include('../php/db/select_user_bewEtab.php');
 							<tbody>';
                         for ($i = 0; $i < count($user_bewEtab); $i++) {
                             echo '<tr>';
+							// Admins können Bewertungen direkt löschen, Mods nur melden
                             if (isset($_SESSION['userId'])) {
                                 if ($_SESSION['rang'] == 2) {
                                     echo '<td><a href="../php/bewertung_delete.php?bew_id=' . $user_bewEtab[$i]["bew_id"] . '&bew=etab"><i class="fas fa-trash"></i></a></td>';

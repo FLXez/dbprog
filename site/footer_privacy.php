@@ -1,3 +1,4 @@
+<!-- Diese HTML Seite beinhaltet lediglich die Informationen zum Datenschultz und keine Informationen -->
 <?php
 session_start();
 

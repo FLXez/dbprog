@@ -1,9 +1,9 @@
+<!-- Dieses PHP Subscript baut den Header auf -->
 <?php
 $searchActive = "";
 $cocktailActive = "";
 $etablissementActive = "";
 $uberUnsActive = "";
-//baut den Header auf.
 if ($activeHead == "search") {
     $searchActive = "active";
 } elseif ($activeHead == "etablissement") {

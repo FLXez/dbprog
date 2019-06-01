@@ -1,3 +1,4 @@
+<!-- Mit diesem SQL Statement werden die User-Infos bearbeitet -->
 <?php
 session_start();
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');

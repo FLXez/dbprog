@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript stellt abhängig der Session Variable 'error' eine Fehler- oder Info-Meldung dar -->
 <?php
 if (isset($_SESSION['message'])) {
     if (isset($_SESSION['error'])) {

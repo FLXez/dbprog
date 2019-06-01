@@ -1,3 +1,6 @@
+<!-- Dieses SQL Statement gibt eine Liste von IDs zurück. 
+Wenn Cocktails gefordert sind, werden alle IDs von Etablissements zurückgegeben, in denen der Cocktail angeboten wird. 
+Andersrum analog. -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 if (isset($cockId)) {

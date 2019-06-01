@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement gibt die Anzahl der unbearbeiteten Meldungen aus -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

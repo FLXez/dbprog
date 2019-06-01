@@ -1,3 +1,4 @@
+<!-- Mit diesem SQL Statement wird die Mail-Adresse eines Users bearbeitet -->
 <?php
 session_start();
 

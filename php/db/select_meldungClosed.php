@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement liefert eine Liste aller geschlossenen Meldungen -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

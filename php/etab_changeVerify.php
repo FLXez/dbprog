@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript händelt das Verifizieren von Etablissements -->
 <?php
 session_start();
 if (isset($_SESSION['userId'])) {

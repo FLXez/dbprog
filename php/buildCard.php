@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript stellt Funktionen Bereit, um das HTML der Karten für die Etablissements und Cocktails zusammenzustellen -->
 <?php
 function buildCard_etab($id, $name, $ort, $anschrift, $verifiziert, $avgwert, $img, $anz)
 {

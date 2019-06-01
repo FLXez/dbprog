@@ -1,3 +1,4 @@
+<!-- Mit diesem SQL Statement werden User Soft gelöscht (Also im Endeffekt nur Umbenannt, um die Bewertungen zu erhalten) -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare("UPDATE user SET username = :username,

@@ -1,3 +1,4 @@
+<!-- Mit diesem SQL Statement werden User Hart gelöscht (Kaskadieren, also auch alle Bewertungen) -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

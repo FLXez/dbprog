@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript stellt eine Funktion bereit, um das HTML für die Marketing-Karten der Hauptseite zusammenzustellen -->
 <?php
 
 function buildMarketing($etab_id, $etab_name, $etab_img, $bew_id, $bew_name, $bew_text)

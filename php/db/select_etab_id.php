@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement liefert die ID eines Etablissements zurück -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

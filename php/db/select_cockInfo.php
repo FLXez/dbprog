@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement gibt die Informationen eines bestimmten Cocktails zurück -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

@@ -1,3 +1,4 @@
+<!-- Diese HTML Seite dient dem Hinzufügen neuer Etablissements -->
 <?php
 session_start();
 $activeHead = "etablissement";

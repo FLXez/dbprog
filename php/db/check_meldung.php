@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript stellt Funktionen bereit, die in der Datenbank überprüfen, ob bereits Meldungen vorhanden sind -->
 <?php
 function check_meld_user($userId)
 {

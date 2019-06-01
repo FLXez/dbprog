@@ -1,3 +1,4 @@
+<!-- Diese HTML Seite beinhaltet lediglich die Team-Informationen und keine Funktionalitäten -->
 <?php
 session_start();
 $activeHead = "uberUns";

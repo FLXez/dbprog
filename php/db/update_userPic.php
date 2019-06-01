@@ -1,3 +1,4 @@
+<!-- Mit diesem SQL Statement wird das Bild eines Users bearbeitet -->
 <?php
 session_start();
 

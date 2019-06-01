@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement liefert die Privaten Informationen (Email, Passwort) eines Users -->
 <?php
 session_start();
 if(isset($_SESSION['userId'])){

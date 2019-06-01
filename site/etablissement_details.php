@@ -1,14 +1,15 @@
-﻿<?php
+﻿<!-- Diese HTML Seite stellt die Detailansicht eines Etablissements dar -->
+<?php
 session_start();
 $activeHead = "etablissement";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
+// Die Etablissement-ID wird übergeben
 $etabId = $_GET['etab_id'];
 
+// Die Informationen für das Etablissement werden aus der Datenbank geladen
 include('../php/db/select_etabInfo.php');
-
 include('../php/db/select_etab_bew.php');
-//cocktailkarte
 include('../php/db/select_cocktailkarte.php');
 ?>
 <!doctype html>
@@ -45,12 +46,14 @@ include('../php/db/select_cocktailkarte.php');
 				<div class="row no-gutters">
 					<div class="card col-md-2">
 						<?php
+						// An dieser Stelle wird das Bild des Etablissements eingebunden, wenn es existiert
 						if ($etabInfo["img"] == null)
 							echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else
 							echo '
 						<img src="../php/db/get_img.php?etab_id=' . $etabInfo["id"] . '" class="card-img-top">';
 
+						// Hier wird das Badge erstellt, ob ein Etablissement verifiziert ist oder nicht
 						if ($etabInfo["verifiziert"] == 1) {
 							echo '<span class="badge badge-primary rounded-0">Verifiziert</span>';
 						} else {
@@ -75,6 +78,7 @@ include('../php/db/select_cocktailkarte.php');
 				</div>
 			</div>
 			<?php
+			// An dieser Stelle werden die Buttons eingefügt, auf die man nur als Admin und/oder Mod Zugriff hat
 			if (isset($_SESSION['userId']) && $_SESSION['rang'] > 0) {
 				if ($_SESSION['rang'] == 2) {
 					$rolle = "Admin";
@@ -176,6 +180,7 @@ include('../php/db/select_cocktailkarte.php');
 					</li>
 				</ul>
 				<hr>
+				<!-- An dieser Stelle wird eine Tabelle mit den Informationen zu Cocktails erstellt -->
 				<div class="tab-content" id="etabDetail-tabContent">
 					<div class="tab-pane fade show active" id="cocktailKarte" role="tabpanel" aria-labelledby="cocktailKarte-tab">
 						<?php echo '
@@ -200,6 +205,7 @@ include('../php/db/select_cocktailkarte.php');
 						echo '</tbody></table>';
 						?>
 					</div>
+					<!-- An dieser Stelle wird eine Tabelle mit allen Bewertungen des Etablissements erstellt -->
 					<div class="tab-pane fade" id="bewertungen" role="tabpanel" aria-labelledby="bewertungen-tab">
 						<?php
 						echo '
@@ -236,6 +242,7 @@ include('../php/db/select_cocktailkarte.php');
 						echo '</tbody></table>';
 						?>
 					</div>
+					<!-- An dieser Stelle wird der Bereich zum Bewerten von Etablissements erstellt -->
 					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">
 						<?php
 						if (isset($_SESSION['userId'])) {

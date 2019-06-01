@@ -1,4 +1,5 @@
-﻿<?php
+﻿<!-- Diese HTML Seite stellt die Übersichtsseite der Etablissements dar -->
+<?php
 session_start();
 $activeHead = "etablissement";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
@@ -7,6 +8,8 @@ include('../php/buildCard.php');
 $filter = "%";
 $getEtab = true;
 $getCock = false;
+
+// Hier werden alle Etablissement-Daten aus der Datenbank geladen
 include('../php/db/select_card_info.php');
 ?>
 <!doctype html>
@@ -44,6 +47,7 @@ include('../php/db/select_card_info.php');
 				<hr>
 				<div class="row">
 					<?php
+					// An dieser Stelle werden die Etablissement-Cards mithilfe einer eingebundenen PHP Funktion erstellt
 					for ($i = 0; $i < count($cardEtab); $i++) {
 						buildCard_etab($cardEtab[$i][0], $cardEtab[$i][1], $cardEtab[$i][2], $cardEtab[$i][3], $cardEtab[$i][4], $cardEtab[$i][5], $cardEtab[$i][6], $cardEtab[$i][7]);
 					}

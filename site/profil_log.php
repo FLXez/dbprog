@@ -1,8 +1,10 @@
+<!-- Diese HTML Seite beinhaltet die Anzeige von Logdaten (Nur sichtbar für Admins) -->
 <?php
 session_start();
 $activeHead = "user";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
+// Wenn kein Admin, weiterleitung auf Hauptseite des Profils
 if (isset($_SESSION['userId'])) {
     if ($_SESSION['rang'] < 2) {
         header("Location: profil_main.php");
@@ -47,6 +49,7 @@ include('../php/db/select_log.php');
                 <hr>
                 <div class="ml-2">
                     <?php
+					// An dieser Stelle wird die Tabelle erstellt, in der die Logdaten angezeigt werden
                     echo '
 					<table class="table">
 						<thead>

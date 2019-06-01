@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript händelt das Bearbeiten von Etablissements -->
 <?php
 session_start();
 if (isset($_SESSION['userId'])) {

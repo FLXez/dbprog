@@ -1,3 +1,4 @@
+<!-- Diese HTML Seite dient der Erstellgung neuer Cocktails -->
 <?php
 session_start();
 $activeHead = "cocktail";

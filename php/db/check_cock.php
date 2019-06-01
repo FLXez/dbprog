@@ -1,3 +1,4 @@
+<!-- Durch dieses SQL Statement wird überprüft, ob ein Cocktail mit diesem Namen und dieser Beschreibung bereits vorhanden ist -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

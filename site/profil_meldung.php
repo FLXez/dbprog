@@ -1,8 +1,10 @@
+<!-- Diese HTML Seite dient der Darstellung von Meldungen für Admins -->
 <?php
 session_start();
 $activeHead = "user";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
+// Wenn kein Admin, dann Weiterleitung auf Profil-Hauptseite
 if (isset($_SESSION['userId'])) {
     if ($_SESSION['rang'] < 2) {
         header("Location: profil_main.php");
@@ -11,6 +13,7 @@ if (isset($_SESSION['userId'])) {
     header("Location: profil_main.php");
 }
 
+// Offene und Geschlossene Meldungen werden aus der Datenbank geladen
 include('../php/db/select_meldungOpen.php');
 include('../php/db/select_meldungClosed.php');
 ?>
@@ -54,6 +57,7 @@ include('../php/db/select_meldungClosed.php');
                 </ul>
                 <hr>
                 <div class="tab-content" id="meldung-tabContent">
+					<!-- In diesem Bereich wird die Tabelle der offenen Meldungen zusammengestellt -->
                     <div class="tab-pane fade show active" id="meldOpen" role="tabpanel" aria-labelledby="meldOpen-tab">
                         <?php
                         echo '
@@ -86,6 +90,7 @@ include('../php/db/select_meldungClosed.php');
                         echo '</tbody></table>';
                         ?>
                     </div>
+					<!-- In diesem Bereich wird die Tabelle der geschlossenen Meldungen zusammengestellt -->
                     <div class="tab-pane fade" id="meldClosed" role="tabpanel" aria-labelledby="meldClosed-tab">
                     <?php
                         echo '

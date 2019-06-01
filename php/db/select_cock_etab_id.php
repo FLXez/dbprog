@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement gibt die ID der Verknüpfung von Cocktail und Etablissement zurück -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

@@ -1,3 +1,4 @@
+<!-- Diese HTML Seite beinhaltet die Profil-Hauptseite -->
 <?php
 session_start();
 $activeHead = "user";
@@ -6,6 +7,7 @@ $_SESSION['source'] = $_SERVER['REQUEST_URI'];
 if (isset($_SESSION['userId'])) {
     $userId = $_SESSION['userId'];
 
+	// Alle abgegebenen Bewertungen sowie Profildaten werden aus der Datenbank geladen
     include('../php/db/select_user_bewCock.php');
     include('../php/db/select_user_bewEtab.php');
     include('../php/db/select_userInfo.php');
@@ -44,6 +46,7 @@ if (isset($_SESSION['userId'])) {
             <div class="card mb-3" width="100%" style="max-height: 360px;">
                 <div class="row no-gutters">
                     <div class="card col-md-2">';
+				// An dieser Stelle wird das Profilbild eingebunden, wenn es existiert
                 if ($userInfo["img"]) {
                     echo '
                         <img src="../php/db/get_img.php?user_id=' . $userId . '" class="card-img-top">';
@@ -52,6 +55,7 @@ if (isset($_SESSION['userId'])) {
                         <img src="../res/placeholder_no_image.svg" class="card-img-top">';
                 }
 
+				// Wenn ein Rang > User besteht, werden hier Badges erstellt die den Rang anzeigen
                 if ($_SESSION['rang'] == 1) {
                     echo '
                                 <span class="badge badge-primary rounded-0">Moderator</span>';
@@ -59,6 +63,7 @@ if (isset($_SESSION['userId'])) {
                     echo '
                                 <span class="badge badge-danger rounded-0">Admin</span>';
                 }
+				// An dieser Stelle wird der Bereich für die Userinformationen erstellt
                 echo ' 
                     </div>
                     <div class="col-md-10">
@@ -99,6 +104,7 @@ if (isset($_SESSION['userId'])) {
                     } elseif ($_SESSION['rang'] == 1) {
                         $rolle = "Moderator";
                     }
+					// An dieser Stelle wird der Admin-Bereich erstellt, in dem Zusätzliche Funktionen vorhanden sind
                     echo '
             <div class="accordion mb-3" id="accordionExample">
                 <div class="card border rounded">
@@ -137,6 +143,7 @@ if (isset($_SESSION['userId'])) {
                     </li>
                 </ul>
                 <hr>                
+				<!-- An dieser Stelle wird der Bereich für die Profil-Daten erstellt -->
                 <div class="tab-content" id="profil-tabContent">
                     <div class="tab-pane fade show active" id="setting" role="tabpanel" aria-labelledby="setting-tab">
                         <form action="../php/db/update_userInfo.php" method="post">
@@ -201,6 +208,7 @@ if (isset($_SESSION['userId'])) {
                             <button type="submit" class="btn btn-primary mt-2">Passwort ändern</button>
                         </form>
                     </div>
+					<!-- An dieser Stelle wird der Bereich für alle Cocktail-Bewertungen des Users angezeigt -->
                     <div class="tab-pane fade" id="bewCock" role="tabpanel" aria-labelledby="bewCock-tab">
                         <table class="table">
                             <thead>
@@ -227,6 +235,7 @@ if (isset($_SESSION['userId'])) {
                 echo '      </tbody>
                         </table>
                     </div>
+					<!-- An dieser Stelle wird der Bereich für alle Etablissement-Bewertungen eines Users erstellt -->
                     <div class="tab-pane fade" id="bewEtab" role="tabpanel" aria-labelledby="bewEtab-tab">                    
                         <table class="table">
                             <thead>

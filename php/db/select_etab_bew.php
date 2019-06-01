@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement gibt eine Liste der Bewertungen eines Etablissements zurück -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

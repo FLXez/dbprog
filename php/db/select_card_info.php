@@ -1,3 +1,4 @@
+<!-- Diese SQL Statements stellen die Informationen für die Karten bereit -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 if ($getEtab) {

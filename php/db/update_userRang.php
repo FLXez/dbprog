@@ -1,3 +1,4 @@
+<!-- Mit diesem SQL Statement wird der Rang eines Users bearbeitet (0=User, 1=Mod, 2=Admin) -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

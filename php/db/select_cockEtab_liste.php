@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement gibt eine Liste von allen Etablissements zurück, in denen ein bestimmter Cocktail im Angebot ist -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

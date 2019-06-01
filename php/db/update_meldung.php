@@ -1,3 +1,4 @@
+<!-- Mit diesem SQL Statement wird der Status einer Meldung bearbeitet -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

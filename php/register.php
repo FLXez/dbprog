@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript stellt den Prozess der Registrierung dar -->
 <?php
 session_start();
 

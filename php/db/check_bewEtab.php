@@ -1,3 +1,4 @@
+<!-- Durch dieses SQL Statement wird überprüft, ob der User bereits eine Bewertung zu diesem Etablissement abgegeben hat -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

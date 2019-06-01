@@ -1,3 +1,4 @@
+<!-- Mit diesem SQL Statement werden Meldungen in die Datenbank geschrieben -->
 <?php
 
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');

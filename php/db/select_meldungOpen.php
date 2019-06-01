@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement liefert eine Liste aller offenen Meldungen -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

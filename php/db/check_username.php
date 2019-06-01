@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement überprüft, ob ein Username bereits vergeben ist -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

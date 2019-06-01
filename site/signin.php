@@ -1,3 +1,4 @@
+<!-- Diese HTML Seite beinhaltet die Login-Seite -->
 <?php
 session_start();
 $activeHead = "user";

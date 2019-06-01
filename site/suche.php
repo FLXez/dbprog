@@ -1,3 +1,4 @@
+<!-- Diese HTML Seite beinhaltet Die Suchfunktion -->
 <?php
 session_start();
 $activeHead = "search";

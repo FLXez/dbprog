@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript händelt die Änderung des Ranges eines Users -->
 <?php
 session_start();
 

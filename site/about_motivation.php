@@ -1,3 +1,4 @@
+<!-- Diese HTML Seite beinhaltet lediglich Motivations-Informationen und keine Funktionalitäten -->
 <?php
 session_start();
 $activeHead = "uberUns";

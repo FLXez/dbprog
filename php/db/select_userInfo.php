@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement liefert alle Informationen, die einen User betreffen -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

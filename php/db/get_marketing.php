@@ -1,3 +1,4 @@
+<!-- Mit diesem SQL Statement werden die Daten für die Marketing-Karten auf der Hauptseite geladen -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

@@ -1,3 +1,4 @@
+<!-- In diesem PHP Subscript wird das Löschen von Meldungen behandelt -->
 <?php
 session_start();
 if (isset($_SESSION['userId'])) {

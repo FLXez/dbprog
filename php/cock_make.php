@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript händelt die Erstellung eines neuen Cocktails -->
 <?php
 session_start();
 if (isset($_SESSION['userId'])) {

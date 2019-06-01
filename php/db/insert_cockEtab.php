@@ -1,3 +1,4 @@
+<!-- Mit diesem SQL Statement wird die Beziehung von Etablissement und Cocktail in der Datenbank gespeichert -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

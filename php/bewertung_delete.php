@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript bindet Buttons für das Löschen von Bewertungen ein, sofern der User Admin ist, oder die Bewertung selbst erstellt hat -->
 <?php
 session_start();
 if (isset($_SESSION['userId'])) {

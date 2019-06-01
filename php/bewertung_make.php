@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript stellt die Funktionen bereit, um Bewertungen abzugeben -->
 <?php
 session_start();
 if (isset($_SESSION['userId'])) {
@@ -11,28 +12,28 @@ if (isset($_SESSION['userId'])) {
         $bew_kommentar = $_POST['kommentar'];
 
         if ($bew_vorhanden) {
-            include('../php/db/update_bewEtab.php');
+            include('db/update_bewEtab.php');
         } else {
-            include('../php/db/insert_bewEtab.php');
+            include('db/insert_bewEtab.php');
         }
     } elseif (isset($_GET['cock_id'])) {
         $etabId = $_POST['eta'];
         $cockId = $_GET['cock_id'];
         $userId = $_SESSION['userId'];
 
-        include('../php/db/check_bewCock.php');
+        include('db/check_bewCock.php');
 
         $bew_wert = $_POST['wert'];
         $bew_kommentar = $_POST['kommentar'];
 
         if ($bew_vorhanden) {
-            include('../php/db/select_cock_etab_id.php');
+            include('db/select_cock_etab_id.php');
             $cockEtabId = $select_cock_etab_id['ce_id'];
-            include('../php/db/update_bewCock.php');
+            include('db/update_bewCock.php');
         } else {
-            include('../php/db/select_cock_etab_id.php');
+            include('db/select_cock_etab_id.php');
             $cockEtabId = $select_cock_etab_id['ce_id'];
-            include('../php/db/insert_bewCock.php');
+            include('db/insert_bewCock.php');
         }
     }
 }

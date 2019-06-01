@@ -1,3 +1,6 @@
+<!-- Dieses SQL Statement gibt je nachdem, ob eine Cocktail oder Etablissement ID übergeben wird, eine andere Liste zurück.
+Bei Cocktails eine Liste mit den Informationen zu den Etablissements, die ihn im Angebot haben mitsamt einer Durchschnittsbewertung
+Bei Etablissements analog -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 if(isset($cockId)){

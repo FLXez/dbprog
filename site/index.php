@@ -1,7 +1,10 @@
-﻿<?php
+﻿<!-- Diese HTML Seite stellt die Hauptseite dar -->
+<?php
 session_start();
 $activeHead = "landing";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
+
+// Die Marketingdaten werden aus der Datenbank geladen
 include('../php/buildMarketing.php');
 include('../php/db/get_marketing.php');
 ?>
@@ -33,6 +36,7 @@ include('../php/db/get_marketing.php');
         ?>
     </header>
     <main role="main">
+		<!-- In diesem Bereich wird das Karussel, was oben auf der Hauptseite angezeigt wird, erstellt -->
         <div id="carousel" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#carousel" data-slide-to="0" class="active"></li>
@@ -100,6 +104,7 @@ include('../php/db/get_marketing.php');
                 <span class="sr-only">Weiter</span>
             </a>
         </div>
+		<!-- Dieser Bereich beinhaltet die Marketing-Kacheln -->
         <div class="container marketing">
             <h3 class="mt-2 mb-5 ct-text-center">Empfehlungen der User</h3>
             <div class="row">

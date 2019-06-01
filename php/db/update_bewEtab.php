@@ -1,3 +1,4 @@
+<!-- Mit diesem SQL Statement wird eine bestehende Etablissement-Bewertung aktualisiert -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

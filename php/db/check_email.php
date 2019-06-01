@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement überprüft, ob eine Mailadresse bereits vergeben ist -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

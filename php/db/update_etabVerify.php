@@ -1,3 +1,4 @@
+<!-- Mit diesem SQL Statement wird ein Etablissement verifiziert oder unverifiziert -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

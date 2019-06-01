@@ -1,3 +1,4 @@
+<!-- Dieses SQL Statement liefert die Informationen der Cocktailbewertungen -->
 <?php
 $pdo = new PDO('mysql:host=localhost;dbname=tbec', 'root', '');
 $statement = $pdo->prepare(

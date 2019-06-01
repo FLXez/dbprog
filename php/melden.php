@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript bietet die Funktionalitäten der Meldefunktion --> 
 <?php
 session_start();
 include('db/check_meldung.php');

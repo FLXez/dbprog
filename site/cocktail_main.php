@@ -1,4 +1,5 @@
-﻿<?php
+﻿<!-- Diese HTML Seite beinhaltet die Hauptseite der Cocktails -->
+<?php
 session_start();
 $activeHead = "cocktail";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
@@ -44,6 +45,7 @@ include('../php/db/select_card_info.php');
 				<hr>
 				<div class="row">
 					<?php
+					// An dieser Stelle werden mithilfe einer eingebundenen PHP Funktion alle Cocktail-Cards erstellt
 					for ($i = 0; $i < count($cardCock); $i++) {
 						buildCard_cock($cardCock[$i][0], $cardCock[$i][1], $cardCock[$i][2], $cardCock[$i][3], $cardCock[$i][4], $cardCock[$i][5]);
 					}

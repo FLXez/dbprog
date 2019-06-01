@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript händelt das Löschen von Usern -->
 <?php
 session_start();
 if (isset($_SESSION['userId'])) {

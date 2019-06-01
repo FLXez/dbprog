@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript händelt den Login-Vorgang -->
 <?php
 session_start();
 $username = $_POST['login_username'];

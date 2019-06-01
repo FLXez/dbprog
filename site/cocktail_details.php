@@ -1,20 +1,19 @@
-﻿<?php
+﻿<!-- Diese HTML Seite beinhaltet die Detailansicht eines Cocktails -->
+<?php
 session_start();
 $activeHead = "cocktail";
 $_SESSION['source'] = $_SERVER['REQUEST_URI'];
 
+// Die Cocktail-ID wird übergeben
 $cockId = $_GET['cock_id'];
 
+// Die Informationen des Cocktails werden aus der Datenbank geladen
 include('../php/db/select_cockInfo.php');
-
-//Cocktailkarte
 include('../php/db/select_cocktailkarte.php');
-
 include('../php/db/select_cock_bew.php');
-
 include('../php/db/select_cockEtab_liste.php');
 
-//Funktion etab zuordnen
+// Funktion etab zuordnen
 include('../php/db/select_allEtab.php');
 include('../php/db/select_cockEtab_id.php');
 
@@ -53,12 +52,14 @@ include('../php/db/select_cockEtab_id.php');
 				<div class="row no-gutters">
 					<div class="col-md-2">
 						<?php
+						// Hier wird das Bild eines Cocktails eingebunden
 						if ($cockInfo["img"] == null)
 							echo '<img src="../res/placeholder_no_image.svg" class="card-img-top">';
 						else
 							echo '<img src="../php/db/get_img.php?cock_id=' . $cockInfo["id"] . '" class="card-img-top">';
 						?>
 					</div>
+					<!-- An dieser Stelle beginnt der Bereich, Cocktails einem Etablissement zuzuweisen -->
 					<div class="col-md-10">
 						<div class="card-body d-flex flex-column" style="max-height: 200px;">
 							<div>
@@ -69,7 +70,8 @@ include('../php/db/select_cockEtab_id.php');
 								<p class="card-text"> <?php echo $cockInfo["beschreibung"]; ?> </p>
 							</div>
 							<div class="mt-auto">
-								<?php echo '							 	
+								<?php
+								echo '							 	
 								<form action="../php/cock_zu_etab.php?cock_id=' . $_GET['cock_id'] . '" method="POST">
 								<label for="zu_etab">Cocktail einem Etablissement zuordnen:</label>
 									<div class="form-row">
@@ -106,6 +108,7 @@ include('../php/db/select_cockEtab_id.php');
 				</div>
 			</div>
 			<?php
+			// An dieser Stelle werden die Funktionen eingebaut, wofür man einen Rang benötigt (Löschen, zum Beispiel)
 			if (isset($_SESSION['userId']) && $_SESSION['rang'] > 0) {
 				if ($_SESSION['rang'] == 2) {
 					$rolle = "Admin";
@@ -196,6 +199,7 @@ include('../php/db/select_cockEtab_id.php');
 					</li>
 				</ul>
 				<hr>
+				<!-- An dieser Stelle wird eine Tabelle erstellt, die die Informationen der Etablissements enthält -->
 				<div class="tab-content" id="cockDetail-tabContent">
 					<div class="tab-pane fade show active" id="cocktailKarte" role="tabpanel" aria-labelledby="cocktailKarte-tab">
 						<?php echo '
@@ -225,6 +229,7 @@ include('../php/db/select_cockEtab_id.php');
 						</table>';
 						?>
 					</div>
+					<!-- An dieser Stelle wird der Bereich erstellt, der die Bewertungen des Cocktails beinhaltet -->
 					<div class="tab-pane fade" id="bewertungen" role="tabpanel" aria-labelledby="bewertungen-tab">
 						<?php
 						echo '
@@ -263,6 +268,7 @@ include('../php/db/select_cockEtab_id.php');
 						echo '</tbody></table>';
 						?>
 					</div>
+					<!-- An dieser Stelle wird der Bereich erstellt, wo ein User neue Bewertungen hinzufügen kann -->
 					<div class="tab-pane fade" id="bewerten" role="tabpanel" aria-labelledby="bewerten-tab">
 						<?php
 						if (isset($_SESSION['userId'])) {

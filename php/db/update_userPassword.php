@@ -1,3 +1,4 @@
+<!-- Mit diesem SQL Statement wird das Passwort eines Users bearbeitet -->
 <?php
 session_start();
 

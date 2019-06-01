@@ -1,3 +1,4 @@
+<!-- Dieses PHP Subscript kümmert sich um die Suchfunktion -->
 <?php
 $filter = "%" . $_POST['search'] . "%";
 
